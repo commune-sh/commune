@@ -3,9 +3,17 @@
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
+        <title>%sveltekit.env.PUBLIC_META_TITLE%</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		%sveltekit.head%
 	</head>
+    <style>
+        @font-face {
+            font-family: 'Inter';
+            font-display: swap;
+            src: url('/fonts/Inter-VariableFont_slnt,wght.ttf') format('truetype');
+        }
+    </style>
 	<body data-sveltekit-preload-data="hover">
 		<div style="display: contents">%sveltekit.body%</div>
 	</body>
