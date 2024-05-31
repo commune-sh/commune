@@ -1,10 +1,7 @@
 <script>
-import '/static/css/tachyons.min.css'
-import '/static/css/base.css'
+import '../../app.css'
 </script>
 
-oh ok then
-<strong>hello</strong>
 
 <style>
 </style>

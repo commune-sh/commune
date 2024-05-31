@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --background: hsla(0, 0%, 0%, 0.95);;
+    --text-primary: #e1e1e1;
+}
+
+:root.light {
+    --background: white;
+    --text-primary: black;
+}
+
+
+@font-face {
+    font-family: 'Twemoji';
+    src: url('/fonts/TwemojiMozilla-colr.4d2d834.woff2');
+}
+
+html {
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: none;
+    font-size: 62.5%;
+    height: -webkit-fill-available;
+    width: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family: "Inter", "Twemoji", "Apple Color Emoji", "Segoe UI Emoji", "Arial", "Helvetica", sans-serif, "STIXGeneral", "Noto Color Emoji";
+    font-weight: normal;
+    font-size: 1.6rem;
+    line-height: 1;
+    margin: 0;
+    padding: 0;
+    color: var(--text-primary);
+    background-color: var(--background);
+    overflow: hidden;
+    height: 100%;
+    height: -webkit-fill-available;
+    width: 100%;
+    overscroll-behavior: none;
+}
+
