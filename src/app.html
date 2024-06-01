@@ -7,6 +7,25 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		%sveltekit.head%
         <link rel="preload" href="/fonts/Inter-VariableFont_slnt,wght.ttf" as="font" type="font/ttf" crossorigin="">
+        <script>
+            const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            let stored = localStorage.getItem(`theme`)
+            let def = `%sveltekit.env.PUBLIC_DEFAULT_THEME%`
+            if(def != `dark`) {
+                def = `light`
+            }
+            if(!stored) {
+                let theme = prefersDarkMode ? `dark` : def
+                console.log(theme)
+                document.getElementsByTagName(`html`)[0].setAttribute(`class`,
+                    theme)
+                localStorage.setItem(`theme`, theme)
+            } else {
+                document.getElementsByTagName(`html`)[0].setAttribute(`class`,
+                    stored)
+            }
+        </script>
 	</head>
     <style>
         @font-face {
