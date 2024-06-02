@@ -8,6 +8,10 @@ export default {
         'secondary': 'var(--secondary)',
         'accent': 'var(--accent)',
         'background': 'var(--background)',
+        'switcher': 'var(--switcher)',
+        'sidebar': 'var(--sidebar)',
+        'view': 'var(--view)',
+        'logo': 'var(--logo)',
         'shade': {
           1: 'var(--shade-1)',
           2: 'var(--shade-2)',

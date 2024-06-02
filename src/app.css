@@ -16,24 +16,34 @@
     --shade-10: hsla(0, 0%, 25%, 1);
     --text-primary: #e1e1e1;
     --primary: red;
+    --switcher: hsla(0, 0%, 7%, 1);
+    --sidebar: hsla(0, 0%, 9%, 1);
+    --view: hsla(0, 0%, 11%, 1);
+
+    --logo: hsla(0, 0%, 13%, 1);
 }
 
 :root.light {
     --background: white;
 
-    --shade-1: hsla(0, 0%, 98%, 1);
-    --shade-2: hsla(0, 0%, 95%, 1);
-    --shade-3: hsla(0, 0%, 92%, 1);
-    --shade-4: hsla(0, 0%, 89%, 1);
-    --shade-5: hsla(0, 0%, 86%, 1);
-    --shade-6: hsla(0, 0%, 83%, 1);
-    --shade-7: hsla(0, 0%, 80%, 1);
-    --shade-8: hsla(0, 0%, 77%, 1);
-    --shade-9: hsla(0, 0%, 74%, 1);
-    --shade-10: hsla(0, 0%, 71%, 1);
+    --shade-1: hsla(0, 0%, 71%, 1);
+    --shade-2: hsla(0, 0%, 74%, 1);
+    --shade-3: hsla(0, 0%, 77%, 1);
+    --shade-4: hsla(0, 0%, 80%, 1);
+    --shade-5: hsla(0, 0%, 83%, 1);
+    --shade-6: hsla(0, 0%, 86%, 1);
+    --shade-7: hsla(0, 0%, 89%, 1);
+    --shade-8: hsla(0, 0%, 92%, 1);
+    --shade-9: hsla(0, 0%, 95%, 1);
+    --shade-10: hsla(0, 0%, 98%, 1);
 
     --text-primary: black;
     --primary: blue;
+    --switcher: hsla(0, 0%, 92%, 1);
+    --sidebar: hsla(0, 0%, 97%, 1);
+    --view: hsla(0, 0%, 100%, 1);
+
+    --logo: hsla(0, 0%, 13%, 1);
 }
 
 :root.black {
