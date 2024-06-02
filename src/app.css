@@ -3,14 +3,45 @@
 @tailwind utilities;
 
 :root.dark {
-    --background: hsla(0, 0%, 0%, 0.95);;
+    --background: hsla(0, 0%, 5%, 1);;
+    --shade-1: hsla(0, 0%, 7%, 1);
+    --shade-2: hsla(0, 0%, 9%, 1);
+    --shade-3: hsla(0, 0%, 11%, 1);
+    --shade-4: hsla(0, 0%, 13%, 1);
+    --shade-5: hsla(0, 0%, 15%, 1);
+    --shade-6: hsla(0, 0%, 17%, 1);
+    --shade-7: hsla(0, 0%, 19%, 1);
+    --shade-8: hsla(0, 0%, 21%, 1);
+    --shade-9: hsla(0, 0%, 23%, 1);
+    --shade-10: hsla(0, 0%, 25%, 1);
     --text-primary: #e1e1e1;
+    --primary: red;
 }
 
 :root.light {
     --background: white;
+
+    --shade-1: hsla(0, 0%, 98%, 1);
+    --shade-2: hsla(0, 0%, 95%, 1);
+    --shade-3: hsla(0, 0%, 92%, 1);
+    --shade-4: hsla(0, 0%, 89%, 1);
+    --shade-5: hsla(0, 0%, 86%, 1);
+    --shade-6: hsla(0, 0%, 83%, 1);
+    --shade-7: hsla(0, 0%, 80%, 1);
+    --shade-8: hsla(0, 0%, 77%, 1);
+    --shade-9: hsla(0, 0%, 74%, 1);
+    --shade-10: hsla(0, 0%, 71%, 1);
+
     --text-primary: black;
+    --primary: blue;
 }
+
+:root.black {
+    --background: white;
+    --text-primary: black;
+    --primary: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+}
+
 
 
 @font-face {
