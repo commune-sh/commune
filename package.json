@@ -24,6 +24,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@neodrag/svelte": "^2.0.6",
 		"matrix-js-sdk": "^32.4.0"
 	}
 }
