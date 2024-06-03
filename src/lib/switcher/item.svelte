@@ -3,13 +3,15 @@ import { draggable } from '@neodrag/svelte';
 import { goto } from '$app/navigation';
 import { page } from '$app/stores';
 
-let { space, start, dragged, over, moved, end } = $props();
+let { space, start, dragged, over, dragged_over, end } = $props();
 
 let active = $derived($page.params?.space === space?.alias)
 
 const initial = $derived(space.name.charAt(0).toUpperCase())
 
 let item;
+let clientY = $state(0);
+let mid = $state(0);
 
 // is this space being dragged?
 let dragging = $state(false);
@@ -21,7 +23,7 @@ function drag(e) {
 // dropped
 function drop(e) {
     e.preventDefault();
-    console.log(`space ${dragged.id} dropped over space ${moved.id}`)
+    console.log(`space ${dragged.id} dropped over space ${dragged_over.id}`)
     clientY = 0;
 }
 
@@ -42,19 +44,37 @@ function dragover(e) {
     e.preventDefault();
     over(space);
     clientY = e.clientY;
-    console.log("is this a prev item?", dragged.id, space.id)
+    //console.log("is this a prev item?", dragged.id, space.id)
+    /*
+    if(is_prev) {
+        console.log("prev item")
+    }
+    if(is_next) {
+        console.log("next item")
+    }
+    */
+    if(clientY > mid) {
+        console.log("dragging over bottom half")
+    }
+    if(clientY < mid) {
+        console.log("dragging over top half")
+    }
 }
+
+let mark_top = $derived(clientY < mid);
+let mark_bottom = $derived(clientY > mid);
+
+let is_prev = $derived(dragged?.id == space?.id - 1);
+let is_next = $derived(dragged?.id == space?.id + 1);
 
 
 // dropzone state
-let dropzone = $derived(moved?.id == space?.id && dragged?.id != space?.id);
+let dropzone = $derived(dragged_over?.id == space?.id)
 
-let clientY = $state(0);
 
 // top zone
 let top = $derived(clientY < 108);
 
-let mid = $state(0);
 
 $effect(() => {
     mid = item.getBoundingClientRect().top + item.getBoundingClientRect().height / 2;
@@ -70,7 +90,9 @@ function goToSpace() {
 <div bind:this={item} onclick={goToSpace}
     class="grid relative place-items-center mb-[10px]">
     <div class:dragging={dragging} 
-        class="space bg-shade-5 w-[46px] h-[46px] grid
+        class:bg-shade-7={active}
+        class:active={active}
+        class="space bg-shade-4 w-[46px] h-[46px] grid
         hover:rounded-[14px]
         transition-transform duration-200
         place-items-center cursor-pointer hover:bg-shade-7"
@@ -87,13 +109,18 @@ function goToSpace() {
         </div>
     </div>
 
-    {#if dropzone && !top}
-        <div class="absolute border-2 border-red bottom-[-6px] left-0 right-0
-            mx-[6px] rounded-[3px]">
-        </div>
-    {/if}
-    {#if dropzone && top}
-        <div class="absolute border-2 border-red top-[-2px] left-0 right-0
+    <div class="tick opacity-0 absolute left-[0px] w-[5px] top-[12px] bottom-[12px]
+        bg-shade-9 rounded-[4px] duration-100"
+        class:opacity-100={active && !dragging}
+    >
+    </div>
+
+    {#if dropzone}
+        <div 
+            class:bottom-[-6px]={mark_bottom}
+            class:top-[-2px]={mark_top}
+            class="absolute h-[3px] bg-primary bottom-[-4px] left-[3px]
+            right-[3px]
             mx-[6px] rounded-[3px]">
         </div>
     {/if}
@@ -105,6 +132,14 @@ function goToSpace() {
     transform: translate(0, 0);
 }
 
+.space:hover + .tick {
+    opacity: 0.5;
+} 
+
+.active:hover + .tick {
+    opacity: 1;
+} 
+
 .dragging {
     opacity: 0.2;
     pointer-events: none;
@@ -114,7 +149,12 @@ function goToSpace() {
     opacity: 0;
 }
 
+.dragging .tick {
+    opacity: 0;
+}
+
 .dragover {
     border-bottom: 2px solid red;
 }
+
 </style>

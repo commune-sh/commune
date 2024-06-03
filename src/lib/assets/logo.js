@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+export const logo = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
@@ -49,7 +49,7 @@
       <path
          d="M 100.9204,128.8976 V 112.23097 H 67.587154 V 95.564349 H 100.9204 v 16.666621 h 16.66663 V 128.8976 Z M 67.587154,178.89747 V 162.23085 H 50.92053 v -49.99988 h 16.666624 v 49.99988 H 100.9204 v 16.66662 z M 100.9204,162.23085 v -16.66663 h 16.66663 v 16.66663 z"
          id="text1"
-         style="font-size:133.333px;font-family:Silkscreen;-inkscape-font-specification:Silkscreen;white-space:pre;fill:var(--logo-shadow);fill-opacity:0.483059;stroke-width:1.51959"
+         style="font-size:133.333px;font-family:Silkscreen;-inkscape-font-specification:Silkscreen;white-space:pre;fill:var(--logo-fill);fill-opacity:0.483059;stroke-width:1.51959"
          transform="matrix(0.80836547,0,0,0.80836547,-8.4328513,-60.932729)"
          aria-label="C" />
       <path
@@ -60,3 +60,4 @@
     </g>
   </g>
 </svg>
+`

@@ -27,6 +27,8 @@ import Toggle from '$lib/theme/toggle.svelte'
     </div>
 
     <Toggle />
+
+    <input type="text" class="input" placeholder="input" />
 </div>
 
 <style>

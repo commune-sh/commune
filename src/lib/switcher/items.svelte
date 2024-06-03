@@ -20,16 +20,16 @@ function move(id) {
 }
 
 // item being dragged over
-let moved = $state(null);
+let dragged_over = $state(null);
 
 // item started to move
 function over(item) {
-    moved = item;
+    dragged_over = item;
 }
 
 // kill move state
 function end() {
-    moved = null;
+    dragged_over = null;
 }
 
 let dragged = $state(null);
@@ -42,7 +42,7 @@ function start(item) {
 
 <div class="h-100">
     {#each items as space(space.id)}
-        <Item {space} {moved} {dragged}
+        <Item {space} {dragged_over} {dragged}
         move={move} 
         over={over} 
         start={start} 

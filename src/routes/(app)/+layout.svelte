@@ -12,7 +12,9 @@ import Sidebar from '$lib/sidebar/sidebar.svelte'
 <div class="grid grid-cols-[72px_232px_1fr] min-h-screen">
     <Switcher />
     <Sidebar />
-    <slot></slot>
+    <div class="bg-view">
+        <slot></slot>
+    </div>
 </div>
 
 <style>
