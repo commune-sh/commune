@@ -1,13 +1,22 @@
 <script>
-import { draggable } from '@neodrag/svelte';
+import { isInViewport } from '$lib/utils/ui';
 import { goto } from '$app/navigation';
 import { page } from '$app/stores';
+import { createInitials } from '$lib/utils/string';
 
-let { space, start, dragged, over, dragged_over, end, hovered } = $props();
+let { space, 
+    start, 
+    dragged, 
+    over, 
+    dragged_over, 
+    end, 
+    hovered,
+    hover
+} = $props();
 
 let active = $derived($page.params?.space === space?.alias)
 
-const initial = $derived(space.name.charAt(0).toUpperCase())
+const initial = $derived(createInitials(space?.name))
 
 let item;
 let clientY = $state(0);
@@ -79,8 +88,19 @@ let dropzone = $derived(
 let top = $derived(clientY < 108);
 
 
+async function moveIntoView() {
+    const in_viewport = await isInViewport(item)
+    if(!in_viewport) {
+        item.scrollIntoView()
+    }
+}
+
 $effect(() => {
     mid = item.getBoundingClientRect().top + item.getBoundingClientRect().height / 2;
+
+    if(active && item) {
+        moveIntoView()
+    }
 })
 
 function goToSpace() {
@@ -93,6 +113,7 @@ function goToSpace() {
 <div bind:this={item} onclick={goToSpace}
     class="grid relative place-items-center mb-[10px]">
     <div class:dragging={dragging} 
+        onmouseover={hover}
         class:bg-shade-7={active}
         class:active={active || hovered}
         class="space bg-shade-4 w-[46px] h-[46px] grid
@@ -101,6 +122,10 @@ function goToSpace() {
         place-items-center cursor-pointer hover:bg-shade-7 opacity-30 hover:opacity-100" 
         class:rounded-[14px]={active}
         class:rounded-[50%]={!active}
+        class:text-[14px]={initial.length > 2}
+        class:text-[12px]={initial.length > 4}
+        class:text-[10px]={initial.length > 5}
+        class:text-[9px]={initial.length > 6}
         draggable="true"
         ondrag={drag}
         ondragend={dragend}
@@ -120,9 +145,9 @@ function goToSpace() {
 
     {#if dropzone}
         <div 
-            class:bottom-[-7px]={mark_bottom}
+            class:bottom-[-6px]={mark_bottom}
             class:top-[-6px]={mark_top}
-            class="absolute h-[3px] bg-primary left-[3px]
+            class="absolute h-[2px] bg-primary left-[3px]
             right-[3px]
             mx-[6px] rounded-[6px]">
         </div>

@@ -7,7 +7,7 @@ $effect(() => {
 </script>
 
 
-space
+room
 
 <style>
 </style>
