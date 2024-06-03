@@ -3,7 +3,7 @@ import { draggable } from '@neodrag/svelte';
 import { goto } from '$app/navigation';
 import { page } from '$app/stores';
 
-let { space, start, dragged, over, dragged_over, end } = $props();
+let { space, start, dragged, over, dragged_over, end, hovered } = $props();
 
 let active = $derived($page.params?.space === space?.alias)
 
@@ -61,7 +61,7 @@ function dragover(e) {
     }
 }
 
-let mark_top = $derived(clientY < mid);
+let mark_top = $derived(clientY <= mid);
 let mark_bottom = $derived(clientY > mid);
 
 let is_prev = $derived(dragged?.id == space?.id - 1);
@@ -69,7 +69,10 @@ let is_next = $derived(dragged?.id == space?.id + 1);
 
 
 // dropzone state
-let dropzone = $derived(dragged_over?.id == space?.id)
+//let dropzone = $derived(dragged_over?.id == space?.id)
+let dropzone = $derived(
+    dragged_over?.id == space?.id
+)
 
 
 // top zone
@@ -91,11 +94,11 @@ function goToSpace() {
     class="grid relative place-items-center mb-[10px]">
     <div class:dragging={dragging} 
         class:bg-shade-7={active}
-        class:active={active}
+        class:active={active || hovered}
         class="space bg-shade-4 w-[46px] h-[46px] grid
         hover:rounded-[14px]
         transition-transform duration-200
-        place-items-center cursor-pointer hover:bg-shade-7"
+        place-items-center cursor-pointer hover:bg-shade-7 opacity-30 hover:opacity-100" 
         class:rounded-[14px]={active}
         class:rounded-[50%]={!active}
         draggable="true"
@@ -109,19 +112,19 @@ function goToSpace() {
         </div>
     </div>
 
-    <div class="tick opacity-0 absolute left-[0px] w-[5px] top-[12px] bottom-[12px]
-        bg-shade-9 rounded-[4px] duration-100"
+    <div class="tick opacity-0 absolute left-[0px] w-[5px] top-[14px] bottom-[14px]
+        bg-primary rounded-[4px] duration-100"
         class:opacity-100={active && !dragging}
     >
     </div>
 
     {#if dropzone}
         <div 
-            class:bottom-[-6px]={mark_bottom}
-            class:top-[-2px]={mark_top}
-            class="absolute h-[3px] bg-primary bottom-[-4px] left-[3px]
+            class:bottom-[-7px]={mark_bottom}
+            class:top-[-6px]={mark_top}
+            class="absolute h-[3px] bg-primary left-[3px]
             right-[3px]
-            mx-[6px] rounded-[3px]">
+            mx-[6px] rounded-[6px]">
         </div>
     {/if}
 
@@ -135,6 +138,10 @@ function goToSpace() {
 .space:hover + .tick {
     opacity: 0.5;
 } 
+
+.active {
+    opacity: 1;
+}
 
 .active:hover + .tick {
     opacity: 1;

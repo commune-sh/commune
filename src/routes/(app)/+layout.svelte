@@ -9,7 +9,7 @@ import Sidebar from '$lib/sidebar/sidebar.svelte'
     <title>{PUBLIC_META_TITLE}</title>
 </svelte:head>
 
-<div class="grid grid-cols-[72px_232px_1fr] min-h-screen">
+<div class="grid grid-cols-[72px_232px_1fr] h-screen">
     <Switcher />
     <Sidebar />
     <div class="bg-view">
