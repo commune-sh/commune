@@ -2,12 +2,12 @@
 import Item from './item.svelte'
 
 let items = $state([
-    { id: 0, name: 'Programming' },
-    { id: 1, name: 'Music' },
-    { id: 2, name: 'Books' },
-    { id: 3, name: 'News' },
-    { id: 4, name: 'Videos' },
-    { id: 5, name: 'Wiki' },
+    { id: 0, name: 'Programming', alias: 'programming' },
+    { id: 1, name: 'Music', alias: 'music'},
+    { id: 2, name: 'Books', alias: 'books'},
+    { id: 3, name: 'News', alias: 'news'},
+    { id: 4, name: 'Videos', alias: 'videos'},
+    { id: 5, name: 'Wiki', alias: 'wiki'},
 ])
 
 function move(id) {
@@ -23,8 +23,8 @@ function move(id) {
 let moved = $state(null);
 
 // item started to move
-function moving(id) {
-    moved = id;
+function over(item) {
+    moved = item;
 }
 
 // kill move state
@@ -32,20 +32,20 @@ function end() {
     moved = null;
 }
 
-let active = $state(null);
+let dragged = $state(null);
 
-function activate(id) {
-    active = id;
+function start(item) {
+    dragged = item;
 }
 
 </script>
 
 <div class="h-100">
-    {#each items as item(item.id)}
-        <Item {item} {moved} {active}
+    {#each items as space(space.id)}
+        <Item {space} {moved} {dragged}
         move={move} 
-        moving={moving} 
-        activate={activate} 
+        over={over} 
+        start={start} 
         end={end} />
     {/each}
 

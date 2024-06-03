@@ -1,6 +1,5 @@
 <script>
-import '../../app.css'
-import Base from '$lib/layout/base.svelte'
+import View from '$lib/view/view.svelte'
 
 $effect(() => {
 })
@@ -8,8 +7,8 @@ $effect(() => {
 
 </script>
 
-<Base />
 
+<View />
 
 
 <style>
