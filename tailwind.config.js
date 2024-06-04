@@ -29,6 +29,7 @@ export default {
         'text': 'var(--text)',
         'link': 'var(--link)',
         'code': 'var(--code)',
+        'tick': 'var(--tick)',
       }
     },
   },

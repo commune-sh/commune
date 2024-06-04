@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+    .hide-scroll::-webkit-scrollbar {
+      display: none;
+    }
+    .hide-scroll {
+      -ms-overflow-style: none; 
+      scrollbar-width: none; 
+    }
+}
+
 :root.dark {
     --background: hsla(0, 0%, 5%, 1);;
     --shade-1: hsla(0, 0%, 7%, 1);
@@ -22,6 +32,8 @@
 
     --logo: hsla(0, 0%, 13%, 1);
     --logo-fill: #FF0000;
+
+    --tick: hsla(0, 0%, 90%, 0.8);
 }
 
 :root.light {

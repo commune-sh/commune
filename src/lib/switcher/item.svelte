@@ -5,6 +5,8 @@ import { page } from '$app/stores';
 import { createInitials } from '$lib/utils/string';
 
 let { space, 
+    index,
+    move,
     start, 
     dragged, 
     over, 
@@ -32,14 +34,44 @@ function drag(e) {
 // dropped
 function drop(e) {
     e.preventDefault();
-    console.log(`space ${dragged.id} dropped over space ${dragged_over.id}`)
+    //console.log(`space ${dragged} dropped over space ${index}`)
+
+    // previous item
+    if(is_prev && at_top) {
+        console.log("do nothing")
+    } else if(is_prev && at_bottom) {
+        move(dragged, index)
+    }
+
+    // items before the prev one
+    if((dragged < index && !is_prev) && at_top) {
+        move(dragged, index - 1)
+    } else if((dragged < index && !is_prev) && at_bottom) {
+        move(dragged, index)
+    }
+
+    // next item
+    if(is_next && at_top) {
+        move(dragged, index)
+    } else if(is_prev && at_bottom) {
+        console.log("do nothing")
+    }
+
+    // items after the next one
+    if((dragged > index && !is_next) && at_top) {
+        move(dragged, index)
+    } else if((dragged > index && !is_next) && at_bottom) {
+        move(dragged, index - 1)
+    }
+
+
     clientY = 0;
 }
 
 // space started to be dragged
 function dragstart(e) {
     e.dataTransfer.setData('text/plain', space.id)
-    start(space);
+    start(index);
 }
 
 // drag ended
@@ -51,36 +83,22 @@ function dragend() {
 // is another space being dragged over this one?
 function dragover(e) {
     e.preventDefault();
-    over(space);
+    over(index);
     clientY = e.clientY;
-    //console.log("is this a prev item?", dragged.id, space.id)
-    /*
-    if(is_prev) {
-        console.log("prev item")
-    }
-    if(is_next) {
-        console.log("next item")
-    }
-    */
-    if(clientY > mid) {
-        console.log("dragging over bottom half")
-    }
-    if(clientY < mid) {
-        console.log("dragging over top half")
-    }
 }
 
-let mark_top = $derived(clientY <= mid);
-let mark_bottom = $derived(clientY > mid);
+let at_top = $derived(clientY <= mid);
+let at_bottom = $derived(clientY > mid);
 
-let is_prev = $derived(dragged?.id == space?.id - 1);
-let is_next = $derived(dragged?.id == space?.id + 1);
+let is_prev = $derived(dragged == index - 1);
+let is_next = $derived(dragged == index + 1);
 
 
 // dropzone state
 //let dropzone = $derived(dragged_over?.id == space?.id)
 let dropzone = $derived(
-    dragged_over?.id == space?.id
+    dragged_over == index &&
+    dragged != index
 )
 
 
@@ -119,7 +137,7 @@ function goToSpace() {
         class="space bg-shade-4 w-[46px] h-[46px] grid
         hover:rounded-[14px]
         transition-transform duration-200
-        place-items-center cursor-pointer hover:bg-shade-7 opacity-30 hover:opacity-100" 
+        place-items-center cursor-pointer hover:bg-shade-7 opacity-50 hover:opacity-100" 
         class:rounded-[14px]={active}
         class:rounded-[50%]={!active}
         class:text-[14px]={initial.length > 2}
@@ -137,7 +155,7 @@ function goToSpace() {
         </div>
     </div>
 
-    <div class="tick opacity-0 absolute left-[0px] w-[5px] top-[14px] bottom-[14px]
+    <div class="tick opacity-0 absolute left-[0px] w-[4px] top-[16px] bottom-[16px]
         bg-primary rounded-[4px] duration-100"
         class:opacity-100={active && !dragging}
     >
@@ -145,8 +163,8 @@ function goToSpace() {
 
     {#if dropzone}
         <div 
-            class:bottom-[-6px]={mark_bottom}
-            class:top-[-6px]={mark_top}
+            class:bottom-[-6px]={at_bottom}
+            class:top-[-6px]={at_top}
             class="absolute h-[2px] bg-primary left-[3px]
             right-[3px]
             mx-[6px] rounded-[6px]">
