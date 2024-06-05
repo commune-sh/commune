@@ -13,7 +13,9 @@ let { space,
     dragged_over, 
     end, 
     hovered,
-    hover
+    hover,
+    update, 
+    clientY
 } = $props();
 
 let active = $derived($page.params?.space === space?.alias)
@@ -21,7 +23,6 @@ let active = $derived($page.params?.space === space?.alias)
 const initial = $derived(createInitials(space?.name))
 
 let item;
-let clientY = $state(0);
 let mid = $state(0);
 
 // is this space being dragged?
@@ -29,43 +30,38 @@ let dragging = $state(false);
 
 function drag(e) {
     dragging = true;
+    let cy = item.getBoundingClientRect().top + e.offsetY
+    update(cy)
 }
 
 // dropped
 function drop(e) {
     e.preventDefault();
-    //console.log(`space ${dragged} dropped over space ${index}`)
 
     // previous item
-    if(is_prev && at_top) {
-        console.log("do nothing")
-    } else if(is_prev && at_bottom) {
+    if(is_prev && at_bottom) {
         move(dragged, index)
     }
 
     // items before the prev one
-    if((dragged < index && !is_prev) && at_top) {
+    if((dragged <= index - 2) && at_top) {
         move(dragged, index - 1)
-    } else if((dragged < index && !is_prev) && at_bottom) {
+    } else if((dragged <= index - 2) && at_bottom) {
         move(dragged, index)
     }
 
     // next item
     if(is_next && at_top) {
         move(dragged, index)
-    } else if(is_prev && at_bottom) {
-        console.log("do nothing")
     }
 
     // items after the next one
     if((dragged > index && !is_next) && at_top) {
         move(dragged, index)
     } else if((dragged > index && !is_next) && at_bottom) {
-        move(dragged, index - 1)
+        move(dragged, index)
     }
 
-
-    clientY = 0;
 }
 
 // space started to be dragged
@@ -84,7 +80,6 @@ function dragend() {
 function dragover(e) {
     e.preventDefault();
     over(index);
-    clientY = e.clientY;
 }
 
 let at_top = $derived(clientY <= mid);
@@ -97,13 +92,9 @@ let is_next = $derived(dragged == index + 1);
 // dropzone state
 //let dropzone = $derived(dragged_over?.id == space?.id)
 let dropzone = $derived(
-    dragged_over == index &&
-    dragged != index
+    dragged_over == index
 )
 
-
-// top zone
-let top = $derived(clientY < 108);
 
 
 async function moveIntoView() {
@@ -113,8 +104,12 @@ async function moveIntoView() {
     }
 }
 
+
 $effect(() => {
-    mid = item.getBoundingClientRect().top + item.getBoundingClientRect().height / 2;
+
+    if(dragged == null) {
+        mid = item.getBoundingClientRect().top + item.getBoundingClientRect().height / 2;
+    }
 
     if(active && item) {
         moveIntoView()
@@ -129,6 +124,7 @@ function goToSpace() {
 
 
 <div bind:this={item} onclick={goToSpace}
+    ondrop={drop}
     class="grid relative place-items-center mb-[10px]">
     <div class:dragging={dragging} 
         onmouseover={hover}
@@ -148,10 +144,9 @@ function goToSpace() {
         ondrag={drag}
         ondragend={dragend}
         ondragover={dragover}
-        ondrop={drop}
         ondragstart={dragstart}>
         <div class="initial font-semibold">
-        {initial}
+        {initial} 
         </div>
     </div>
 
