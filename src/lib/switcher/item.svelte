@@ -3,6 +3,7 @@ import { isInViewport } from '$lib/utils/ui';
 import { goto } from '$app/navigation';
 import { page } from '$app/stores';
 import { createInitials } from '$lib/utils/string';
+import { createStore } from '$lib/store/store.svelte.js'
 
 let { space, 
     index,
@@ -114,7 +115,12 @@ $effect(() => {
     if(active && item) {
         moveIntoView()
     }
+    if(active) {
+        store.updateSpace(space.alias)
+    }
 })
+
+const store = createStore()
 
 function goToSpace() {
     goto(`/${space.alias}`)

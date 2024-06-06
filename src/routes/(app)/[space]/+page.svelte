@@ -1,13 +1,15 @@
 <script>
+import { createStore } from '$lib/store/store.svelte.js'
 
-$effect(() => {
-})
+const store = createStore()
 
+
+let space = $derived(store.space)
 
 </script>
 
 
-space
+space {space}
 
 <style>
 </style>
