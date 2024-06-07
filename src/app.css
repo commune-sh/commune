@@ -25,13 +25,13 @@
     --shade-9: hsla(0, 0%, 23%, 1);
     --shade-10: hsla(0, 0%, 25%, 1);
     --text-primary: #e1e1e1;
-    --primary: #FF0000;
+    --primary: #c50000;
     --switcher: hsla(0, 0%, 7%, 1);
     --sidebar: hsla(0, 0%, 9%, 1);
     --view: hsla(0, 0%, 11%, 1);
 
     --logo: hsla(0, 0%, 13%, 1);
-    --logo-fill: #FF0000;
+    --logo-fill: #c50000;
 
     --tick: hsla(0, 0%, 90%, 0.8);
 }
@@ -57,7 +57,7 @@
     --view: hsla(0, 0%, 100%, 1);
 
     --logo: hsla(0, 0%, 13%, 1);
-    --logo-fill: #FF0000;
+    --logo-fill: #c50000;
 }
 
 :root.black {

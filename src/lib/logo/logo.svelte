@@ -16,12 +16,18 @@ function goHome() {
 
 <div class="grid place-items-center">
     <div onclick={goHome}
+        class:active={active}
         class:bg-shade-7={active}
-        class="justify-center cursor-pointer w-[46px] h-[46px] p-[8px] bg-logo rounded-[14px] hover:bg-shade-6">
+        class="justify-center cursor-pointer w-[46px] h-[46px] p-[8px] bg-logo rounded-[14px] hover:bg-shade-7">
         {@html logo}
     </div>
 </div>
 
 
 <style>
+.active {
+    background-color: var(--primary);
+    --logo-fill: black;
+}
+
 </style>
