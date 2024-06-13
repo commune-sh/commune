@@ -1,5 +1,13 @@
 <script lang="ts">
 import Item from './item.svelte'
+import { onMount } from 'svelte'
+import SkeletonItems from '$lib/skeleton/switcher-items.svelte'
+
+import { createStore } from '$lib/store/store.svelte.js'
+
+const store = createStore()
+
+let public_rooms_fetched = $derived(store.public_rooms_fetched)
 
 let items = $state([
     { id: 0, name: "Programming", alias: "programming" },
@@ -14,7 +22,7 @@ let items = $state([
     { id: 13, name: "Reading", alias: "reading" },
 ])
 
-$effect(() => {
+onMount(() => {
 })
 
 
@@ -64,15 +72,19 @@ function update(cy) {
         onmouseleave={() => hovered = false}
     >
         <div class="overflow-y-auto h-full hide-scroll pt-[6px]">
-        {#each items as space, index (space?.id ?? index)}
-            <Item {space} {dragged_over} {dragged} {hovered} {index} {clientY}
-            move={move} 
-            over={over} 
-            start={start} 
-            hover={hover}
-            update={update}
-            end={end} />
-        {/each}
+        {#if public_rooms_fetched}
+            {#each items as space, index (space?.id ?? index)}
+                <Item {space} {dragged_over} {dragged} {hovered} {index} {clientY}
+                move={move} 
+                over={over} 
+                start={start} 
+                hover={hover}
+                update={update}
+                end={end} />
+            {/each}
+        {:else}
+            <SkeletonItems />
+        {/if}
         </div>
 
     </div>

@@ -30,6 +30,7 @@ export default {
         'link': 'var(--link)',
         'code': 'var(--code)',
         'tick': 'var(--tick)',
+        'mask': 'var(--mask)',
       }
     },
   },

@@ -48,3 +48,42 @@ export const register = async (body) => {
 
 }
 
+export const get_public_rooms = async () => {
+  const url = `${MATRIX_BASE_URL}/publicRooms`;
+
+  let options = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+  }
+
+  try {
+    const response = await fetch(url, options)
+    return response.json();
+  } catch (error) {
+    throw error
+  }
+
+}
+
+export const whoami = async () => {
+  const url = `${MATRIX_BASE_URL}/account/whoami`;
+
+  const access_token = localStorage.getItem('access_token')
+
+  let options = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${access_token}`
+      },
+  }
+
+  try {
+    const response = await fetch(url, options)
+    return response.json();
+  } catch (error) {
+    throw error
+  }
+
+}
+
