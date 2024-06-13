@@ -23,7 +23,7 @@ function getCookie(name) {
  * @param {boolean} [options.useBearerToken=false] - Whether to include the bearer token from cookies/localStorage
  * @returns {Promise} - A promise that resolves to the response data or an error object
  */
-async function fetchWithTimeout(url, options = {}) {
+export async function fetchWithTimeout(url, options = {}) {
   const {
     method = 'GET',
     headers = {
@@ -96,7 +96,7 @@ async function fetchWithTimeout(url, options = {}) {
  * @param {number} [retryOptions.maxTries=Infinity] - Maximum number of retry attempts before giving up
  * @returns {Promise} - A promise that resolves to the response data or an error object
  */
-async function fetchWithRetry(url, options = {}, retryOptions = {}) {
+export async function fetchWithRetry(url, options = {}, retryOptions = {}) {
   const {
     defaultDelay = 3000,
     backoffAfter = Infinity,
@@ -112,6 +112,7 @@ async function fetchWithRetry(url, options = {}, retryOptions = {}) {
       const response = await fetchWithTimeout(url, options);
       return response;
     } catch (error) {
+      console.log(error)
       attempt++;
       if (attempt >= maxTries) {
         throw new Error(`Max retries reached: ${error.message}`);

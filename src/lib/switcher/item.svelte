@@ -131,6 +131,7 @@ function goToSpace() {
 
 <div bind:this={item} onclick={goToSpace}
     ondrop={drop}
+    ondragover={dragover}
     class="grid relative place-items-center mb-[10px]">
     <div class:dragging={dragging} 
         onmouseover={hover}
@@ -149,7 +150,6 @@ function goToSpace() {
         draggable="true"
         ondrag={drag}
         ondragend={dragend}
-        ondragover={dragover}
         ondragstart={dragstart}>
         <div class="initial font-semibold">
         {initial} 

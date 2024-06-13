@@ -1,8 +1,12 @@
 <script lang="ts">
 import '../../app.css'
 import { PUBLIC_META_TITLE } from '$env/static/public';
+import Matrix from '$lib/matrix/matrix.svelte'
+
 import Switcher from '$lib/switcher/switcher.svelte'
 import Sidebar from '$lib/sidebar/sidebar.svelte'
+import Auth from '$lib/auth/auth.svelte'
+
 </script>
 
 <svelte:head>
@@ -14,11 +18,15 @@ import Sidebar from '$lib/sidebar/sidebar.svelte'
         <Switcher />
         <Sidebar />
     </div>
-    <div class="view grid grid-rows-[52px_1fr] bg-view">
+    <div class="view grid grid-rows-[52px_1fr] bg-view h-screen">
         <div class="header bg-header"></div>
         <slot></slot>
     </div>
 </div>
+
+<Matrix />
+
+<Auth />
 
 <style>
 @media (max-width: 768px) {

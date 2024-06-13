@@ -7,7 +7,6 @@ import Items from './items.svelte'
     <Logo />
     <Items />
     <div class="">
-        3
     </div>
 </div>
 

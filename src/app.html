@@ -8,6 +8,7 @@
 		%sveltekit.head%
         <link rel="preload" href="/fonts/Inter-VariableFont_slnt,wght.ttf" as="font" type="font/ttf" crossorigin="">
         <script>
+            window.global = window;
             const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
             let stored = localStorage.getItem(`theme`)
