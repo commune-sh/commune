@@ -1,3 +1,5 @@
+let capabilities = $state(null);
+
 let app = $state({
   space: null,
 });
@@ -21,6 +23,10 @@ export function createStore() {
     ui_state.public_rooms_fetched = true;
 	}
 
+	function updateCapabilities(data) {
+    capabilities = data;
+	}
+
 	return {
 		get space() {
 			return app.space;
@@ -31,8 +37,12 @@ export function createStore() {
 		get public_rooms_fetched() {
 			return ui_state.public_rooms_fetched;
 		},
+		get capabilities() {
+			return capabilities;
+		},
     publicRoomsFetched,
 		updateSpace,
-    toggleAuth
+    toggleAuth,
+    updateCapabilities,
 	};
 }
