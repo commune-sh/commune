@@ -17,7 +17,7 @@ let ready = $state(false);
 
 $effect(() => {
     if(browser && authReady && credentials && !ready) {
-        matrixClient.setup(credentials)
+        //matrixClient.setup(credentials)
         ready = true
     }
 })

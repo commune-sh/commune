@@ -66,10 +66,8 @@ export const get_public_rooms = async () => {
 
 }
 
-export const whoami = async () => {
+export const whoami = async (access_token) => {
   const url = `${MATRIX_BASE_URL}/account/whoami`;
-
-  const access_token = localStorage.getItem('access_token')
 
   let options = {
       headers: {
@@ -87,3 +85,20 @@ export const whoami = async () => {
 
 }
 
+export const versions = async () => {
+  const url = `${PUBLIC_MATRIX_URL}/_matrix/client/versions`;
+
+  let options = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+  }
+
+  try {
+    const response = await fetch(url, options)
+    return response.json();
+  } catch (error) {
+    throw error
+  }
+
+}

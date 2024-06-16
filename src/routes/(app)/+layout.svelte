@@ -33,12 +33,16 @@ let { data } = $props();
 // derive native mode from app store
 let native_mode = $derived(store.native_mode)
 
-$effect(() => {
 
+let homeserver_reachable = $derived(data.homeserver_reachable)
+
+$effect(() => {
     if(browser && !authReady) {
         authStore.setup()
     }
+})
 
+onMount(() => {
     // set app to native matrix client mode
     if(!data?.public_server_exists && !data?.public_server_unreachable) {
         store.isNativeMode();
@@ -48,10 +52,6 @@ $effect(() => {
     if(data?.public_server_exists && data?.capabilities) {
         store.updateCapabilities(data.capabilities)
     }
-
-})
-
-onMount(() => {
 })
 
 </script>

@@ -1,3 +1,5 @@
+import { whoami } from '$lib/matrix/requests';
+
 let ready = $state(false);
 
 let access_token_valid = $state(false);
@@ -11,12 +13,26 @@ let authenticated = $state(false);
 
 export function createAuthStore() {
 
-  function setup() {
+  async function setup() {
+
     console.log("Setting up Auth store.")
 
     const access_token = localStorage.getItem('mx_access_token')
     const user_id = localStorage.getItem('mx_user_id')
     const device_id = localStorage.getItem('mx_device_id')
+
+    if(access_token && user_id) {
+
+      try {
+        const response = await whoami(access_token);
+        authenticated = true;
+        console.log("Access token is valid.", response)
+      } catch (error) {
+        console.log(error)
+        //purge();
+      }
+
+    }
 
     if(access_token && user_id && device_id) {
       credentials = {
