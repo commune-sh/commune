@@ -1,6 +1,8 @@
+let native_mode = $state(false);
 let capabilities = $state(null);
 
 let app = $state({
+  ready: false,
   space: null,
 });
 
@@ -10,6 +12,15 @@ let ui_state = $state({
 });
 
 export function createStore() {
+
+	function setAppReady() {
+    app.ready = true
+	}
+
+	function isNativeMode() {
+    console.log("Public server doesn't exist or is unreachable. Setting native mode.")
+    native_mode = true;
+	}
 
 	function updateSpace(space) {
     app.space = space;
@@ -24,13 +35,24 @@ export function createStore() {
 	}
 
 	function updateCapabilities(data) {
+    console.log("Storing public server capabilities.")
     capabilities = data;
 	}
 
 	return {
+
+		get ready() {
+			return app.ready;
+		},
+
+    get native_mode() {
+      return native_mode;
+    },
+
 		get space() {
 			return app.space;
 		},
+
 		get auth_toggled() {
 			return ui_state.auth_toggled;
 		},
@@ -40,6 +62,8 @@ export function createStore() {
 		get capabilities() {
 			return capabilities;
 		},
+    setAppReady,
+    isNativeMode,
     publicRoomsFetched,
 		updateSpace,
     toggleAuth,
