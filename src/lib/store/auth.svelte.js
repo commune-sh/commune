@@ -3,7 +3,7 @@ import { whoami } from '$lib/matrix/requests';
 let ready = $state(false);
 
 let access_token_valid = $state(false);
-let access_token_validated = $state(false);
+let access_token_checked = $state(false);
 
 let credentials = $state(null);
 
@@ -21,12 +21,27 @@ export function createAuthStore() {
     const user_id = localStorage.getItem('mx_user_id')
     const device_id = localStorage.getItem('mx_device_id')
 
+    if(!access_token || !user_id || !device_id) {
+      console.log("No credentials found in local storage.")
+      return
+    }
+
     if(access_token && user_id) {
 
       try {
         const response = await whoami(access_token);
-        authenticated = true;
-        console.log("Access token is valid.", response)
+        if(response.errcode == "M_UNKNOWN_TOKEN") {
+          console.log("Access token is invalid.")
+          purge();
+          access_token_checked = true;
+          return
+        }
+        if(response.user_id == user_id && response.device_id == device_id) {
+          console.log("Access token is valid.")
+          access_token_valid = true;
+          access_token_checked = true;
+        }
+        //authenticated = true;
       } catch (error) {
         console.log(error)
         //purge();
@@ -64,7 +79,7 @@ export function createAuthStore() {
   }
 
   function validateAccessToken() {
-    access_token_validated = true;
+    access_token_checked = true;
   }
 
 
@@ -85,8 +100,8 @@ export function createAuthStore() {
       return access_token_valid;
     },
 
-    get access_token_validated() {
-      return access_token_validated;
+    get access_token_checked() {
+      return access_token_checked;
     },
 
     setup,
