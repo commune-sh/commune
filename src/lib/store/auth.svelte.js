@@ -23,6 +23,7 @@ export function createAuthStore() {
 
     if(!access_token || !user_id || !device_id) {
       console.log("No credentials found in local storage.")
+      ready = true
       return
     }
 
@@ -34,6 +35,7 @@ export function createAuthStore() {
           console.log("Access token is invalid.")
           purge();
           access_token_checked = true;
+          ready = true
           return
         }
         if(response.user_id == user_id && response.device_id == device_id) {

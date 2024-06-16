@@ -5,22 +5,33 @@ import SkeletonItems from '$lib/skeleton/switcher-items.svelte'
 
 import { createStore } from '$lib/store/store.svelte.js'
 
+import { getPublicRooms } from '$lib/public_server/requests'
+
 const store = createStore()
+
+// auth store
+import { createAuthStore } from '$lib/store/auth.svelte.js'
+const authStore = createAuthStore()
+const authReady = $derived(authStore.ready)
+const authenticated = $derived(authStore.authenticated)
+
+$effect(() => {
+    if(authReady && !authenticated) {
+        console.log("fetching public rooms")
+        fetchPublicRooms()
+    }
+})
+
+async function fetchPublicRooms() {
+    const rooms = await getPublicRooms()
+    console.log(rooms)
+    //store.public_rooms_fetched = true
+    //items = rooms
+}
 
 let public_rooms_fetched = $derived(store.public_rooms_fetched)
 
-let items = $state([
-    { id: 0, name: "Programming", alias: "programming" },
-    { id: 1, name: "Yacht Rock", alias: "yacht-rock" },
-    { id: 2, name: "Fitness Fanatic", alias: "fitness" },
-    { id: 3, name: "Traveling for Life", alias: "traveling" },
-    { id: 8, name: "Cooking", alias: "cooking" },
-    { id: 9, name: "Music", alias: "music" },
-    { id: 10, name: "News", alias: "news" },
-    { id: 11, name: "Gaming Mania", alias: "gaming" },
-    { id: 12, name: "Sports Is really cool", alias: "sports" },
-    { id: 13, name: "Reading", alias: "reading" },
-])
+let items = $state([])
 
 onMount(() => {
 })
