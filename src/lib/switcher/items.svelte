@@ -9,6 +9,8 @@ import { getPublicRooms } from '$lib/public_server/requests'
 
 const store = createStore()
 
+const homeserver_reachable = $derived(store.homeserver_reachable)
+
 // auth store
 import { createAuthStore } from '$lib/store/auth.svelte.js'
 const authStore = createAuthStore()
@@ -18,7 +20,7 @@ const authenticated = $derived(authStore.authenticated)
 let items = $state(null)
 
 $effect(() => {
-    if(authReady && !authenticated) {
+    if(authReady && !authenticated && homeserver_reachable) {
         console.log("fetching public rooms")
         fetchPublicRooms()
     }
@@ -29,10 +31,8 @@ async function fetchPublicRooms() {
     console.log(rooms)
     if(rooms?.length > 0) {
         items = rooms
-        public_rooms_fetched = true
     }
-    //store.public_rooms_fetched = true
-    //items = rooms
+    public_rooms_fetched = true
 }
 
 let public_rooms_fetched = $state(false)

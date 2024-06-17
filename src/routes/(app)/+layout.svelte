@@ -52,6 +52,11 @@ onMount(() => {
     if(data?.public_server_exists && data?.capabilities) {
         store.updateCapabilities(data.capabilities)
     }
+
+    // 
+    if(data?.homeserver_reachable && data?.homeserver_versions != null) {
+        store.updateHomeserverStatus(data.homeserver_versions)
+    }
 })
 
 </script>
