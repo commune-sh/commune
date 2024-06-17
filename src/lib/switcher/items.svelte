@@ -15,6 +15,8 @@ const authStore = createAuthStore()
 const authReady = $derived(authStore.ready)
 const authenticated = $derived(authStore.authenticated)
 
+let items = $state(null)
+
 $effect(() => {
     if(authReady && !authenticated) {
         console.log("fetching public rooms")
@@ -25,13 +27,16 @@ $effect(() => {
 async function fetchPublicRooms() {
     const rooms = await getPublicRooms()
     console.log(rooms)
+    if(rooms?.length > 0) {
+        items = rooms
+        public_rooms_fetched = true
+    }
     //store.public_rooms_fetched = true
     //items = rooms
 }
 
-let public_rooms_fetched = $derived(store.public_rooms_fetched)
+let public_rooms_fetched = $state(false)
 
-let items = $state([])
 
 onMount(() => {
 })

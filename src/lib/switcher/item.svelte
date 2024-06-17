@@ -1,9 +1,30 @@
 <script>
+import { onMount } from 'svelte';
 import { isInViewport } from '$lib/utils/ui';
 import { goto } from '$app/navigation';
 import { page } from '$app/stores';
 import { createInitials } from '$lib/utils/string';
 import { createStore } from '$lib/store/store.svelte.js'
+
+import { room_alias_from_ID } from '$lib/utils/matrix'
+
+import tippy from 'tippy.js';
+
+let menu;
+let el;
+let content;
+
+onMount(() => {
+    menu = tippy(el, {
+        content: content,
+        placement: 'right',
+        arrow: true,
+        duration: 1,
+        offset: [0, 26],
+        theme: 'inline',
+    });
+})
+
 
 let { space, 
     index,
@@ -19,7 +40,9 @@ let { space,
     clientY
 } = $props();
 
-let active = $derived($page.params?.space === space?.alias)
+const alias = $derived(room_alias_from_ID(space?.canonical_alias))
+
+let active = $derived($page.params?.space === alias)
 
 const initial = $derived(createInitials(space?.name))
 
@@ -105,6 +128,7 @@ async function moveIntoView() {
     }
 }
 
+let mounted = $state(false);
 
 $effect(() => {
 
@@ -118,22 +142,39 @@ $effect(() => {
     if(active) {
         store.updateSpace(space.alias)
     }
+
+    if(item) {
+        mounted = true;
+    }
 })
 
 const store = createStore()
 
 function goToSpace() {
-    goto(`/${space.alias}`)
+    goto(`/${alias}`)
 }
+
+
+let focused = $state(false);
+
 
 </script>
 
+<div class="" bind:this={content}>
+    <div class="font-bold">
+        {space.name}
+    </div>
+</div>
+
+
 
 <div bind:this={item} onclick={goToSpace}
+    onmouseover={() => focused = true}
+    onmouseleave={() => focused = false}
     ondrop={drop}
     ondragover={dragover}
     class="grid relative place-items-center mb-[10px]">
-    <div class:dragging={dragging} 
+    <div bind:this={el} class:dragging={dragging} 
         onmouseover={hover}
         class:bg-shade-7={active}
         class:active={active || hovered}
@@ -172,6 +213,11 @@ function goToSpace() {
         </div>
     {/if}
 
+    {#if focused}
+    <div class="absolute left-[80px] top-[16px]" role="tooltip">
+            {alias}
+    </div>
+    {/if}
 </div>
 
 <style>

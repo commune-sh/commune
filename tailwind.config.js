@@ -31,6 +31,7 @@ export default {
         'code': 'var(--code)',
         'tick': 'var(--tick)',
         'mask': 'var(--mask)',
+        'tooltip': 'var(--tooltip)',
       }
     },
   },
