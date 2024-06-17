@@ -44,8 +44,12 @@ $effect(() => {
 
 onMount(() => {
     // set app to native matrix client mode
-    if(!data?.public_server_exists && !data?.public_server_unreachable) {
+    if(!data?.public_server_exists && !data?.public_server_reachable) {
         store.isNativeMode();
+    }
+
+    if(data?.public_server_exists && data?.public_server_reachable) {
+        store.updatePublicServerStatus()
     }
 
     // store server capabilities

@@ -1,6 +1,8 @@
 let native_mode = $state(false);
 let capabilities = $state(null);
 
+let public_server_reachable = $state(false);
+
 let homeserver_reachable = $state(false);
 let homeserver_versions = $state(null);
 
@@ -48,6 +50,10 @@ export function createStore() {
     homeserver_versions = data;
 	}
 
+	function updatePublicServerStatus(data) {
+    public_server_reachable = true
+	}
+
 	function updateSpaceItems(data) {
     console.log("Storing homeserver versions.")
     homeserver_reachable = true;
@@ -83,6 +89,10 @@ export function createStore() {
 			return homeserver_reachable;
 		},
 
+		get public_server_reachable() {
+			return public_server_reachable;
+		},
+
     setAppReady,
     isNativeMode,
     publicRoomsFetched,
@@ -90,5 +100,6 @@ export function createStore() {
     toggleAuth,
     updateCapabilities,
     updateHomeserverStatus,
+    updatePublicServerStatus
 	};
 }
