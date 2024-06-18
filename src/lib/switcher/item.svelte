@@ -6,7 +6,8 @@ import { page } from '$app/stores';
 import { createInitials } from '$lib/utils/string';
 import { createStore } from '$lib/store/store.svelte.js'
 
-import { room_alias_from_ID } from '$lib/utils/matrix'
+import { room_alias_from_ID, get_local_part } from '$lib/utils/matrix'
+import { getRoomHierarchy } from '$lib/public_server/requests'
 
 import tippy from 'tippy.js';
 
@@ -141,6 +142,7 @@ $effect(() => {
     }
     if(active) {
         store.updateSpace(space.alias)
+        getHierarchy()
     }
 
     if(item) {
@@ -152,6 +154,11 @@ const store = createStore()
 
 function goToSpace() {
     goto(`/${alias}`)
+}
+
+async function getHierarchy() {
+    const response = await getRoomHierarchy(space.room_id)
+    console.log(response)
 }
 
 

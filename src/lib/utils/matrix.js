@@ -20,3 +20,7 @@ export function room_alias_from_ID(room_id) {
   }
 }
 
+export function get_local_part(room_id_or_alias) {
+  return room_id_or_alias.replace(/^[\#!](.*?):.*$/, '$1');
+}
+
