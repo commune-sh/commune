@@ -1,23 +1,21 @@
 <script>
-import { login } from '$lib/matrix/requests'
 import { createUIStore } from '$lib/store/ui.svelte.js'
 
 const ui_store = createUIStore()
-let auth_active = $derived(ui_store.auth_active)
+let settings_active = $derived(ui_store.settings_active)
 
 function kill(e) {
     if(e.target == e.currentTarget) {
-        ui_store.closeAuth()
+        ui_store.closeSettings()
     }
 }
-
 </script>
 
-{#if auth_active}
+{#if settings_active}
 <div class="fixed inset-x-0 inset-y-0 bg-mask grid h-screen place-items-center" 
     onclick={kill}>
-        <div class="">
-            ok
+        <div class="bg-shade-4 p-4">
+            settings
         </div>
 </div>
 {/if}

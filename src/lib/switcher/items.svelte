@@ -111,7 +111,7 @@ function update(cy) {
 
 
     <div class="">
-        tools
+
     </div>
 </div>
 

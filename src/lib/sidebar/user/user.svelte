@@ -1,18 +1,18 @@
 <script lang="ts">
-import { createStore } from '$lib/store/store.svelte.js'
+import { createUIStore } from '$lib/store/ui.svelte.js'
 
-const store = createStore()
+const ui_store = createUIStore()
 
-let auth_toggled = $derived(store.auth_toggled)
+let auth_active = $derived(ui_store.auth_active)
 
 function toggle() {
-    store.toggleAuth()
+    ui_store.openAuth()
 }
 
 </script>
 
 <div class="bg-sidebar">
-    {auth_toggled}
+    {auth_active}
     <button onclick={toggle}>Toggle</button>
 </div>
 

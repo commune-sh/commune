@@ -32,6 +32,9 @@ export default {
         'tick': 'var(--tick)',
         'mask': 'var(--mask)',
         'tooltip': 'var(--tooltip)',
+
+        'icon': 'var(--icon)',
+        'icon-hover': 'var(--icon-hover)',
       }
     },
   },
