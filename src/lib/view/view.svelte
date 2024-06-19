@@ -2,6 +2,11 @@
 import Toggle from '$lib/theme/toggle.svelte'
 import { onMount, tick } from 'svelte'
 
+// UI store
+import { createMatrixStore } from '$lib/store/matrix.svelte.js'
+const matrixStore = createMatrixStore()
+
+
 let events = $state([])
 
 let viewport;

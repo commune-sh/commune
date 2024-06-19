@@ -1,4 +1,4 @@
-import { PUBLIC_MATRIX_URL } from '$env/static/public';
+import { PUBLIC_MATRIX_URL, PUBLIC_REQUIRE_AUTH } from '$env/static/public';
 import { redirect } from "@sveltejs/kit";
 import { error } from '@sveltejs/kit';
 
@@ -29,6 +29,10 @@ export async function load( { fetch, params, url, cookies, request } ) {
       data.homeserver_reachable = true;
     } catch (_) {
     }
+  }
+
+  if(!access_token && PUBLIC_REQUIRE_AUTH == 'true') {
+    throw redirect(302, '/login');
   }
 
   return data;

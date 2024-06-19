@@ -3,24 +3,28 @@ import * as sdk from 'matrix-js-sdk';
 
 let client = $state(null)
 
-let synced = $state(null)
+let synced = $state(false)
 
+export function createMatrixStore() {
 
-export function createMatrixClient() {
-
-  function setup(credentials) {
+  async function setup(credentials) {
     console.log("Setting up Matrix client for:", credentials.user_id)
-    client = sdk.createClient({
+    window.client = sdk.createClient({
       baseUrl: PUBLIC_MATRIX_URL,
       accessToken: credentials.access_token,
       userId: credentials.user_id,
     });
-    client.startClient();
+    await window.client.startClient();
+
+
   }
 
 	return {
 		get client() {
 			return client;
+		},
+		get store() {
+			return store;
 		},
 		get synced() {
 			return synced;

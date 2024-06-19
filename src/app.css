@@ -41,6 +41,8 @@
 
     --icon: hsla(0, 0%, 35%, 1);
     --icon-hover: hsla(0, 0%, 45%, 1);
+
+    --button-primary: #c50000;
 }
 
 :root.light {
@@ -107,6 +109,14 @@ body {
     height: -webkit-fill-available;
     width: 100%;
     overscroll-behavior: none;
+}
+
+button.primary {
+    background-color: var(--button-primary);
+    color: var(--text-primary);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-weight: 500;
 }
 
 .icon > svg {

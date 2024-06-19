@@ -26,6 +26,7 @@ export function createAuthStore() {
         user_id: opts.user_id,
         device_id: opts.device_id,
       }
+      authenticated = true;
 
       ready = true
       return
@@ -52,7 +53,7 @@ export function createAuthStore() {
         const response = await whoami(access_token);
         if(response.errcode == "M_UNKNOWN_TOKEN") {
           console.log("Access token is invalid.")
-          purge();
+          //purge();
           access_token_checked = true;
           ready = true
           return

@@ -20,9 +20,6 @@ import Settings from '$lib/settings/settings.svelte'
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
 
-// matrix client store
-import { createMatrixClient } from '$lib/store/matrix.svelte.js'
-const matrixClient = createMatrixClient()
 
 // auth store
 import { createAuthStore } from '$lib/store/auth.svelte.js'
