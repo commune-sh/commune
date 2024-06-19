@@ -3,7 +3,7 @@
 
 
 
-<div class="loading flex h-screen justify-center items-center">
+<div class="loading flex h-full justify-center items-center">
     <div>
         loading...
     </div>

@@ -4,7 +4,7 @@ import Sidebar from '$lib/sidebar/sidebar.svelte'
 import View from '$lib/view/view.svelte'
 </script>
 
-<div class="grid grid-cols-[72px_232px_1fr] min-h-screen">
+<div class="grid grid-cols-[72px_232px_1fr] min-h-full">
     <Switcher />
     <Sidebar />
     <View />

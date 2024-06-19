@@ -14,7 +14,7 @@ function kill(e) {
 </script>
 
 {#if auth_active}
-<div class="fixed inset-x-0 inset-y-0 bg-mask grid h-screen place-items-center" 
+<div class="fixed inset-x-0 inset-y-0 bg-mask grid h-full place-items-center" 
     onclick={kill}>
         <div class="">
             ok

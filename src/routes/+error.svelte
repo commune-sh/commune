@@ -5,7 +5,7 @@ import { page } from '$app/stores';
 
 
 
-<div class="flex h-screen justify-center items-center">
+<div class="flex h-full justify-center items-center">
     <div>
         {$page.error.message}
     </div>

@@ -114,7 +114,7 @@ class:menu-active={menu_active}>
         <Switcher />
         <Sidebar />
     </div>
-    <div class="view grid grid-rows-[52px_1fr] bg-view h-screen"
+    <div class="view grid grid-rows-[52px_1fr] bg-view h-full"
     class:slide-in={menu_active}>
         <Header />
         <slot></slot>

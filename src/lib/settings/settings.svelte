@@ -36,7 +36,7 @@ function kill(e) {
 </script>
 
 {#if settings_active}
-<div class="fixed inset-x-0 inset-y-0 bg-mask grid h-screen
+<div class="fixed inset-x-0 inset-y-0 bg-mask grid h-full
         place-items-center" >
     <div class="">
         settings
