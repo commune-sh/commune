@@ -27,17 +27,13 @@ $effect(() => {
         console.log("fetching public rooms")
         fetchPublicRooms()
     }
-    if(authReady && !authenticated && !public_server_reachable) {
-        public_rooms_fetched = true
-    }
 })
 
 async function fetchPublicRooms() {
-    const rooms = await getPublicRooms()
-    console.log(rooms)
-    if(rooms?.length > 0) {
+    const resp = await getPublicRooms()
+    if(resp?.chunk?.length > 0) {
         //items = rooms
-        store.updateSpaces(rooms)
+        store.updateSpaces(resp.chunk)
     }
     public_rooms_fetched = true
 }

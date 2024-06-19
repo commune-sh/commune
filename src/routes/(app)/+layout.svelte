@@ -107,7 +107,7 @@ function killMenu() {
 </div>
 {/if}
 
-<div class="root grid grid-cols-[304px_1fr] h-full" bind:this={root}
+<div class="root grid grid-cols-[304px_1fr] h-dvh" bind:this={root}
 class:menu-active={menu_active}>
     <div class="sidebar grid grid-cols-[72px_232px]"
     class:show={menu_active}>

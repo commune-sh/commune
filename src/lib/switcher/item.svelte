@@ -153,6 +153,7 @@ $effect(() => {
 const store = createStore()
 
 function goToSpace() {
+    menu.destroy()
     goto(`/${alias}`)
 }
 
