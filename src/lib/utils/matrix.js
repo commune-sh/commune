@@ -5,9 +5,9 @@ export function convertFromMXC(url) {
   return `${PUBLIC_MATRIX_URL}/_matrix/media/r0/download/${stripped}`;
 }
 
-export function thumbnail_from_MXC(url) {
+export function thumbnail_from_MXC(url, height, width) {
   let stripped = url.replace('mxc://', '');
-  return `${PUBLIC_MATRIX_URL}/_matrix/media/v3/thumbnail/${stripped}?width=80&height=80&method=crop&allow_redirect=true`;
+  return `${PUBLIC_MATRIX_URL}/_matrix/media/v3/thumbnail/${stripped}?width=${width}&height=${height}&method=crop`;
 }
 
 export function room_alias_from_ID(room_id) {

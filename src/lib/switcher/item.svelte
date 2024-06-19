@@ -6,7 +6,12 @@ import { page } from '$app/stores';
 import { createInitials } from '$lib/utils/string';
 import { createStore } from '$lib/store/store.svelte.js'
 
-import { room_alias_from_ID, get_local_part } from '$lib/utils/matrix'
+import { 
+    room_alias_from_ID, 
+    get_local_part,
+    thumbnail_from_MXC,
+} from '$lib/utils/matrix'
+
 import { getRoomHierarchy } from '$lib/public_server/requests'
 
 import tippy from 'tippy.js';
@@ -167,6 +172,12 @@ async function getHierarchy() {
 let focused = $state(false);
 
 
+let avatar = $derived.by(() => {
+    if(space?.avatar_url) {
+        return thumbnail_from_MXC(space.avatar_url, 46, 46)
+    }
+})
+
 </script>
 
 <div class="hidden" bind:this={content}>
@@ -183,6 +194,7 @@ let focused = $state(false);
     ondrop={drop}
     ondragover={dragover}
     class="grid relative place-items-center mb-[10px]">
+
     <div bind:this={el} class:dragging={dragging} 
         onmouseover={hover}
         class:bg-shade-7={active}
@@ -197,10 +209,13 @@ let focused = $state(false);
         class:text-[12px]={initial.length > 4}
         class:text-[10px]={initial.length > 5}
         class:text-[9px]={initial.length > 6}
+        class:bg-img={avatar}
         draggable="true"
         ondrag={drag}
         ondragend={dragend}
-        ondragstart={dragstart}>
+        ondragstart={dragstart}
+        style="background-image: url({avatar})">
+
         <div class="initial font-semibold">
         {initial} 
         </div>
