@@ -46,6 +46,7 @@ export function createStore() {
     homeserver_reachable = true;
     homeserver_versions = data;
 	}
+
 	return {
 
 		get ready() {

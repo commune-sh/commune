@@ -4,11 +4,15 @@ import { PUBLIC_META_TITLE } from '$env/static/public';
 import { onMount } from 'svelte'
 import { browser } from '$app/environment';
 
+import { getCapabilities } from '$lib/public_server/requests'
+import { getVersions } from '$lib/matrix/requests'
+
 import Switcher from '$lib/switcher/switcher.svelte'
 import Sidebar from '$lib/sidebar/sidebar.svelte'
 import Auth from '$lib/auth/auth.svelte'
 
 import Matrix from '$lib/matrix/matrix.svelte'
+
 
 // app store
 import { createStore } from '$lib/store/store.svelte.js'
@@ -42,25 +46,28 @@ $effect(() => {
     }
 })
 
-onMount(() => {
-    // set app to native matrix client mode
-    if(!data?.public_server_exists && !data?.public_server_reachable) {
+async function setup() {
+    try {
+        const resp = await getCapabilities();
+        if(resp?.capabilities) {
+            store.updatePublicServerStatus()
+            store.updateCapabilities(data.capabilities)
+        }
+    } catch(_) {
         store.isNativeMode();
     }
-
-    if(data?.public_server_exists && data?.public_server_reachable) {
-        store.updatePublicServerStatus()
+    try {
+        const resp = await getVersions();
+        if(resp?.versions) {
+            console.log(resp)
+            store.updateHomeserverStatus(resp)
+        }
+    } catch(_) {
     }
+}
 
-    // store server capabilities
-    if(data?.public_server_exists && data?.capabilities) {
-        store.updateCapabilities(data.capabilities)
-    }
-
-    // 
-    if(data?.homeserver_reachable && data?.homeserver_versions != null) {
-        store.updateHomeserverStatus(data.homeserver_versions)
-    }
+onMount(() => {
+    setup()
 })
 
 </script>

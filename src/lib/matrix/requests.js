@@ -85,7 +85,7 @@ export const whoami = async (access_token) => {
 
 }
 
-export const versions = async () => {
+export const getVersions = async () => {
   const url = `${PUBLIC_MATRIX_URL}/_matrix/client/versions`;
 
   let options = {
