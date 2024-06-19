@@ -31,6 +31,10 @@ export function createUIStore() {
     ui_state.menu_active = !ui_state.menu_active;
 	}
 
+  function killMenu() {
+    ui_state.menu_active = false;
+  }
+
 	return {
 
 		get auth_active() {
@@ -55,5 +59,6 @@ export function createUIStore() {
     openSettings,
     closeSettings,
     toggleMenu,
+    killMenu,
 	};
 }

@@ -90,6 +90,10 @@ onMount(() => {
     });
 })
 
+function killMenu() {
+    ui_store.killMenu()
+}
+
 </script>
 
 <Matrix />
@@ -98,7 +102,12 @@ onMount(() => {
     <title>{PUBLIC_META_TITLE}</title>
 </svelte:head>
 
-<div class="root grid grid-cols-[304px_1fr] h-screen" bind:this={root}
+{#if menu_active}
+<div class="mask" onclick={killMenu}>
+</div>
+{/if}
+
+<div class="root grid grid-cols-[304px_1fr] h-full" bind:this={root}
 class:menu-active={menu_active}>
     <div class="sidebar grid grid-cols-[72px_232px]"
     class:show={menu_active}>
@@ -126,6 +135,16 @@ class:menu-active={menu_active}>
     left: 304px;
     place-self: stretch;
     width: 100%;
+}
+
+.mask {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 304px;
+    height: 100%;
+    z-index: 10000;
+    width: 100vw;
 }
 
 
