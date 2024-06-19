@@ -1,4 +1,5 @@
 let ui_state = $state({
+  menu_active: false,
   auth_active: false,
   settings_active: false,
   public_rooms_fetched: false,
@@ -26,6 +27,10 @@ export function createUIStore() {
     ui_state.public_rooms_fetched = true;
 	}
 
+	function toggleMenu() {
+    ui_state.menu_active = !ui_state.menu_active;
+	}
+
 	return {
 
 		get auth_active() {
@@ -40,10 +45,15 @@ export function createUIStore() {
 			return ui_state.public_rooms_fetched;
 		},
 
+    get menu_active() {
+      return ui_state.menu_active;
+    },
+
     publicRoomsFetched,
     openAuth,
     closeAuth,
     openSettings,
     closeSettings,
+    toggleMenu,
 	};
 }

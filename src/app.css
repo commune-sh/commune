@@ -109,6 +109,14 @@ body {
     overscroll-behavior: none;
 }
 
+.icon > svg {
+    fill: var(--icon);
+}
+
+.icon > svg:hover {
+    fill: var(--icon-hover);
+}
+
 .tippy-box[data-theme~='inline'] {
     padding: 0.5rem 1rem;
     line-height: 1.5;

@@ -5,6 +5,7 @@ let client = $state(null)
 
 let synced = $state(null)
 
+
 export function createMatrixClient() {
 
   function setup(credentials) {

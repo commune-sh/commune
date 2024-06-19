@@ -11,6 +11,8 @@ let app = $state({
   space: null,
 });
 
+let spaces = $state([])
+
 export function createStore() {
 
 	function setAppReady() {
@@ -41,11 +43,11 @@ export function createStore() {
     public_server_reachable = true
 	}
 
-	function updateSpaceItems(data) {
-    console.log("Storing homeserver versions.")
-    homeserver_reachable = true;
-    homeserver_versions = data;
-	}
+  function updateSpaces(items) {
+    console.log("Storing spaces.", items)
+    spaces = items;
+  }
+
 
 	return {
 
@@ -73,11 +75,16 @@ export function createStore() {
 			return public_server_reachable;
 		},
 
+		get spaces() {
+			return spaces;
+		},
+
     setAppReady,
     isNativeMode,
 		updateSpace,
     updateCapabilities,
     updateHomeserverStatus,
-    updatePublicServerStatus
+    updatePublicServerStatus,
+    updateSpaces,
 	};
 }

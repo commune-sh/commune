@@ -3,11 +3,11 @@ import Item from './item.svelte'
 import { onMount } from 'svelte'
 import SkeletonItems from '$lib/skeleton/switcher-items.svelte'
 
+// app store
 import { createStore } from '$lib/store/store.svelte.js'
+const store = createStore()
 
 import { getPublicRooms } from '$lib/public_server/requests'
-
-const store = createStore()
 
 const public_server_reachable = $derived(store.public_server_reachable)
 
@@ -17,7 +17,10 @@ const authStore = createAuthStore()
 const authReady = $derived(authStore.ready)
 const authenticated = $derived(authStore.authenticated)
 
-let items = $state(null)
+
+let spaces = $derived(store.spaces)
+
+let items = $derived(spaces)
 
 $effect(() => {
     if(authReady && !authenticated && public_server_reachable) {
@@ -33,7 +36,8 @@ async function fetchPublicRooms() {
     const rooms = await getPublicRooms()
     console.log(rooms)
     if(rooms?.length > 0) {
-        items = rooms
+        //items = rooms
+        store.updateSpaces(rooms)
     }
     public_rooms_fetched = true
 }

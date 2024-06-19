@@ -9,6 +9,7 @@ import { getVersions } from '$lib/matrix/requests'
 
 import Switcher from '$lib/switcher/switcher.svelte'
 import Sidebar from '$lib/sidebar/sidebar.svelte'
+import Header from '$lib/header/header.svelte'
 import Auth from '$lib/auth/auth.svelte'
 
 import Matrix from '$lib/matrix/matrix.svelte'
@@ -26,6 +27,12 @@ const matrixClient = createMatrixClient()
 import { createAuthStore } from '$lib/store/auth.svelte.js'
 const authStore = createAuthStore()
 const authReady = $derived(authStore.ready)
+
+// UI store
+import { createUIStore } from '$lib/store/ui.svelte.js'
+const ui_store = createUIStore()
+
+const menu_active = $derived(ui_store.menu_active)
 
 // derive credentials from auth store
 const credentials = $derived(authStore.credentials)
@@ -66,8 +73,21 @@ async function setup() {
     }
 }
 
+let root;
+
 onMount(() => {
     setup()
+
+    let mq = window.matchMedia("(min-width: 768px)");
+    mq.addEventListener("change", (e) => {
+        if(e?.matches == true && menu_active) {
+            ui_store.toggleMenu()
+            root.style.width = `auto`
+        }
+        if(e?.matches == true && root) {
+            root.style.width = `auto`
+        }
+    });
 })
 
 </script>
@@ -78,13 +98,16 @@ onMount(() => {
     <title>{PUBLIC_META_TITLE}</title>
 </svelte:head>
 
-<div class="root grid grid-cols-[304px_1fr] h-screen">
-    <div class="sidebar grid grid-cols-[72px_232px]">
+<div class="root grid grid-cols-[304px_1fr] h-screen" bind:this={root}
+class:menu-active={menu_active}>
+    <div class="sidebar grid grid-cols-[72px_232px]"
+    class:show={menu_active}>
         <Switcher />
         <Sidebar />
     </div>
-    <div class="view grid grid-rows-[52px_1fr] bg-view h-screen">
-        <div class="header bg-header"></div>
+    <div class="view grid grid-rows-[52px_1fr] bg-view h-screen"
+    class:slide-in={menu_active}>
+        <Header />
         <slot></slot>
     </div>
 </div>
@@ -92,10 +115,29 @@ onMount(() => {
 <Auth />
 
 <style>
+.menu-active {
+    grid-template-columns: 304px 1fr;
+}
+
+.slide-in {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 304px;
+    place-self: stretch;
+    width: 100%;
+}
+
+
 @media (max-width: 768px) {
     .root {
+        grid-template-columns: auto;
     }
     .sidebar {
+        display: none;
+    }
+    .show {
+        display: grid;
     }
 }
 </style>
