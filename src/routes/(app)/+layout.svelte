@@ -50,10 +50,15 @@ let homeserver_reachable = $derived(data.homeserver_reachable)
 
 $effect(() => {
     if(browser && !authReady) {
-        authStore.setup()
+        authStore.setup({
+            authenticated: data?.authenticated,
+            access_token: data?.access_token || null,
+            user_id: data?.user_id || null,
+            device_id: data?.device_id || null,
+        })
     }
     if(data) {
-        console.log($state.snapshot(data))
+        //console.log($state.snapshot(data))
     }
 })
 

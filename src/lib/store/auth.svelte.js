@@ -13,9 +13,28 @@ let authenticated = $state(false);
 
 export function createAuthStore() {
 
-  async function setup() {
+  async function setup(opts) {
 
-    console.log("Setting up Auth store.")
+    if(opts?.authenticated && opts?.access_token && opts?.user_id) {
+      console.log("Setting up Auth store. User is authenticated.")
+
+      access_token_valid = true;
+      access_token_checked = true;
+
+      credentials = {
+        access_token: opts.access_token,
+        user_id: opts.user_id,
+        device_id: opts.device_id,
+      }
+
+      ready = true
+      return
+
+
+    } else {
+      console.log("Setting up Auth store.")
+    }
+
 
     const access_token = localStorage.getItem('mx_access_token')
     const user_id = localStorage.getItem('mx_user_id')
@@ -109,5 +128,5 @@ export function createAuthStore() {
     setup,
     purge,
     validateAccessToken,
-    };
+  };
 }

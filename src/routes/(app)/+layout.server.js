@@ -8,7 +8,7 @@ export async function load( { fetch, params, url, cookies, request } ) {
 
   let data = {
     authenticated: false,
-    server_status: 'unknown',
+    homeserver_reachable: false,
   };
 
   const access_token = cookies.get('access_token');
@@ -22,11 +22,11 @@ export async function load( { fetch, params, url, cookies, request } ) {
       const resp = await res.json();
       if(resp?.user_id && resp?.device_id) {
         data.authenticated = true;
+        data.access_token = access_token;
         data.user_id = resp.user_id;
         data.device_id = resp.device_id;
-      } else if(resp?.errcode == "M_UNKNOWN_TOKEN") {
-        data.server_status = 'alive';
       }
+      data.homeserver_reachable = true;
     } catch (_) {
     }
   }
