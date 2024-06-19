@@ -11,12 +11,12 @@ import { getRoomHierarchy } from '$lib/public_server/requests'
 
 import tippy from 'tippy.js';
 
-let menu;
+let tooltip;
 let el;
 let content;
 
 onMount(() => {
-    menu = tippy(el, {
+    tooltip = tippy(el, {
         content: content,
         placement: 'right',
         arrow: true,
@@ -24,6 +24,7 @@ onMount(() => {
         offset: [0, 26],
         theme: 'inline',
     });
+    content.style.display = 'block'
 })
 
 
@@ -153,7 +154,7 @@ $effect(() => {
 const store = createStore()
 
 function goToSpace() {
-    menu.destroy()
+    tooltip.hide()
     goto(`/${alias}`)
 }
 
@@ -168,7 +169,7 @@ let focused = $state(false);
 
 </script>
 
-<div class="" bind:this={content}>
+<div class="hidden" bind:this={content}>
     <div class="font-bold">
         {space.name}
     </div>

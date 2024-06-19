@@ -12,7 +12,5 @@ function toggle() {
 </script>
 
 <div class="bg-sidebar">
-    {auth_active}
-    <button onclick={toggle}>Toggle</button>
 </div>
 

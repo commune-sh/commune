@@ -13,6 +13,7 @@ import Header from '$lib/header/header.svelte'
 import Auth from '$lib/auth/auth.svelte'
 
 import Matrix from '$lib/matrix/matrix.svelte'
+import Settings from '$lib/settings/settings.svelte'
 
 
 // app store
@@ -50,6 +51,9 @@ let homeserver_reachable = $derived(data.homeserver_reachable)
 $effect(() => {
     if(browser && !authReady) {
         authStore.setup()
+    }
+    if(data) {
+        console.log($state.snapshot(data))
     }
 })
 
@@ -107,7 +111,7 @@ function killMenu() {
 </div>
 {/if}
 
-<div class="root grid grid-cols-[304px_1fr] h-dvh" bind:this={root}
+<div class="root grid grid-cols-[304px_1fr] h-dvh select-none" bind:this={root}
 class:menu-active={menu_active}>
     <div class="sidebar grid grid-cols-[72px_232px]"
     class:show={menu_active}>
@@ -117,11 +121,14 @@ class:menu-active={menu_active}>
     <div class="view grid grid-rows-[52px_1fr] bg-view h-full"
     class:slide-in={menu_active}>
         <Header />
-        <slot></slot>
+        <section class="view select-text">
+            <slot></slot>
+        </section>
     </div>
 </div>
 
 <Auth />
+<Settings />
 
 <style>
 .menu-active {
