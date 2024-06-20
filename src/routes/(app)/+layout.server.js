@@ -29,6 +29,13 @@ export async function load( { fetch, params, url, cookies, request } ) {
       data.homeserver_reachable = true;
     } catch (_) {
     }
+  } else {
+      let url = `${PUBLIC_MATRIX_URL}/_matrix/client/versions`;
+      const res = await fetch( url );
+      const resp = await res.json();
+      if(resp?.versions) {
+        data.homeserver_reachable = true;
+      }
   }
 
   if(!access_token && PUBLIC_REQUIRE_AUTH == 'true') {

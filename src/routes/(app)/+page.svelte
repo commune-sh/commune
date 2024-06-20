@@ -4,6 +4,8 @@ import Loading from '$lib/loading/loading.svelte'
 
 import AuthView from '$lib/auth/auth-view.svelte'
 
+let { data } = $props();
+
 // auth store
 import { createAuthStore } from '$lib/store/auth.svelte.js'
 const authStore = createAuthStore()
@@ -13,6 +15,9 @@ const authenticated = $derived(authStore.authenticated)
 const show_home = $derived(authReady && authenticated)
 
 $effect(() => {
+    if(data) {
+        console.log(data)
+    }
 })
 
 </script>

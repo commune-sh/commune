@@ -28,10 +28,12 @@ async function getFlows() {
         }
     } catch (error) {
         console.log(error)
+        /*
         ui_store.activateAlert({
             message: "Can't connect to homeserver.",
             type: "error"
         })
+        */
     }
 }
 
@@ -43,7 +45,6 @@ onMount(() => {
 
 
 
-{#if ready}
 
 <div class="loading flex h-full justify-center items-center">
     <div>
@@ -55,8 +56,3 @@ onMount(() => {
     </div>
 </div>
 
-{:else}
-
-    <Loading />
-
-{/if}

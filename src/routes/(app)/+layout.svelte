@@ -129,7 +129,7 @@ class:menu-active={menu_active}>
     </div>
     <div class="view grid bg-view h-full"
     class:slide-in={menu_active}>
-        <slot />
+        <slot {data} />
     </div>
 </div>
 </main>
