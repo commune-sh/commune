@@ -1,4 +1,9 @@
-import { PUBLIC_MATRIX_URL, PUBLIC_REQUIRE_AUTH } from '$env/static/public';
+import { 
+  PUBLIC_SERVER, 
+  PUBLIC_MATRIX_URL, 
+  PUBLIC_REQUIRE_AUTH 
+} from '$env/static/public';
+
 import { redirect } from "@sveltejs/kit";
 import { error } from '@sveltejs/kit';
 
@@ -37,6 +42,22 @@ export async function load( { fetch, params, url, cookies, request } ) {
         data.homeserver_reachable = true;
       }
   }
+
+
+  if(params?.space != "" && PUBLIC_SERVER != "") {
+    try {
+
+      let url = `${PUBLIC_SERVER}/rooms/${params.space}/state`;
+      const res = await fetch( url );
+      const resp = await res.json();
+      if(resp?.room_id) {
+        data.space = params.space;
+        data.space_state = resp;
+      }
+    } catch (_) {
+    }
+  }
+
 
   if(!access_token && PUBLIC_REQUIRE_AUTH == 'true') {
     throw redirect(302, '/login');
