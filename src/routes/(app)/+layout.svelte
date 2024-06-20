@@ -121,7 +121,8 @@ function killMenu() {
     <Alert />
 {/if}
 
-<div class="root grid grid-cols-[72px_1fr] h-full select-none" bind:this={root}
+<div class:root={!menu_active} 
+        class="grid grid-cols-[72px_1fr] h-full select-none" bind:this={root}
 class:menu-active={menu_active}>
     <div class="switcher grid"
     class:show={menu_active}>
@@ -155,7 +156,7 @@ class:menu-active={menu_active}>
     position: fixed;
     top: 0;
     bottom: 0;
-    left: 72px;
+    left: 304px;
     height: 100%;
     z-index: 10000;
     width: 100vw;

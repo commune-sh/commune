@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 import User from '$lib/sidebar/user/user.svelte'
 </script>
 

@@ -8,15 +8,22 @@ import Header from '$lib/header/header.svelte'
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
 
+// UI store
+import { createUIStore } from '$lib/store/ui.svelte.js'
+const ui_store = createUIStore()
+
+const menu_active = $derived(ui_store.menu_active)
+
 let container;
 
 </script>
 
 
-<div class="container grid grid-cols-[232px_1fr]" 
-    bind:this={container}>
+<div class:container={!menu_active} class="grid grid-cols-[232px_1fr]" 
+    bind:this={container}
+class:menu-active={menu_active}>
 
-    <div class="sidebar grid">
+    <div class="sidebar grid" class:show={menu_active}>
         <Sidebar />
     </div>
 
@@ -31,4 +38,18 @@ let container;
 
 
 <style>
+.menu-active {
+    grid-template-columns: 232px 1fr;
+}
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: auto;
+    }
+    .sidebar {
+        display: none;
+    }
+    .show {
+        display: grid;
+    }
+}
 </style>
