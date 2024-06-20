@@ -5,6 +5,12 @@ let ui_state = $state({
   public_rooms_fetched: false,
 });
 
+let alert = $state({
+  active: false,
+  message: null,
+  type: null,
+});
+
 export function createUIStore() {
 
 	function openAuth() {
@@ -35,7 +41,18 @@ export function createUIStore() {
     ui_state.menu_active = false;
   }
 
+  function activateAlert(opts) {
+    alert.active = true;
+    alert.message = opts?.message;
+    alert.type = opts?.type;
+  }
+
+
 	return {
+
+		get alert() {
+			return alert;
+		},
 
 		get auth_active() {
 			return ui_state.auth_active;
@@ -60,5 +77,6 @@ export function createUIStore() {
     closeSettings,
     toggleMenu,
     killMenu,
+    activateAlert,
 	};
 }

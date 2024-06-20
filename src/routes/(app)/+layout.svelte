@@ -8,9 +8,9 @@ import { getCapabilities } from '$lib/public_server/requests'
 import { getVersions } from '$lib/matrix/requests'
 
 import Switcher from '$lib/switcher/switcher.svelte'
-import Sidebar from '$lib/sidebar/sidebar.svelte'
-import Header from '$lib/header/header.svelte'
+
 import Auth from '$lib/auth/auth.svelte'
+import Alert from '$lib/alert/alert.svelte'
 
 import Matrix from '$lib/matrix/matrix.svelte'
 import Settings from '$lib/settings/settings.svelte'
@@ -31,6 +31,8 @@ import { createUIStore } from '$lib/store/ui.svelte.js'
 const ui_store = createUIStore()
 
 const menu_active = $derived(ui_store.menu_active)
+
+const alert_active = $derived(ui_store.alert?.active)
 
 // derive credentials from auth store
 const credentials = $derived(authStore.credentials)
@@ -113,9 +115,15 @@ function killMenu() {
 </div>
 {/if}
 
-<div class="root grid grid-cols-[72px_1fr] h-dvh select-none" bind:this={root}
+<main class="app grid h-dvh" class:grid-rows-[auto_1fr]={alert_active}>
+
+{#if alert_active}
+    <Alert />
+{/if}
+
+<div class="root grid grid-cols-[72px_1fr] h-full select-none" bind:this={root}
 class:menu-active={menu_active}>
-    <div class="sidebar grid"
+    <div class="switcher grid"
     class:show={menu_active}>
         <Switcher />
     </div>
@@ -124,6 +132,7 @@ class:menu-active={menu_active}>
         <slot />
     </div>
 </div>
+</main>
 
 <Auth />
 <Settings />
@@ -157,7 +166,7 @@ class:menu-active={menu_active}>
     .root {
         grid-template-columns: auto;
     }
-    .sidebar {
+    .switcher {
         display: none;
     }
     .show {

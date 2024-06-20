@@ -18,7 +18,13 @@ $effect(() => {
 </script>
 
 
+{#if show_home}
+    <View />
+{:else if !authReady}
     <Loading />
+{:else if authReady && !authenticated}
+    <AuthView />
+{/if}
 
 
 <style>
