@@ -113,19 +113,15 @@ function killMenu() {
 </div>
 {/if}
 
-<div class="root grid grid-cols-[304px_1fr] h-dvh select-none" bind:this={root}
+<div class="root grid grid-cols-[72px_1fr] h-dvh select-none" bind:this={root}
 class:menu-active={menu_active}>
-    <div class="sidebar grid grid-cols-[72px_232px]"
+    <div class="sidebar grid"
     class:show={menu_active}>
         <Switcher />
-        <Sidebar />
     </div>
-    <div class="view grid grid-rows-[52px_1fr] bg-view h-full"
+    <div class="view grid bg-view h-full"
     class:slide-in={menu_active}>
-        <Header />
-        <section class="view select-text">
-            <slot></slot>
-        </section>
+        <slot />
     </div>
 </div>
 
@@ -134,14 +130,14 @@ class:menu-active={menu_active}>
 
 <style>
 .menu-active {
-    grid-template-columns: 304px 1fr;
+    grid-template-columns: 72px 1fr;
 }
 
 .slide-in {
     position: fixed;
     top: 0;
     bottom: 0;
-    left: 304px;
+    left: 72px;
     place-self: stretch;
     width: 100%;
 }
@@ -150,7 +146,7 @@ class:menu-active={menu_active}>
     position: fixed;
     top: 0;
     bottom: 0;
-    left: 304px;
+    left: 72px;
     height: 100%;
     z-index: 10000;
     width: 100vw;

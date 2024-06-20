@@ -17,7 +17,6 @@ function kill(e) {
 <div class="fixed inset-x-0 inset-y-0 bg-mask grid h-full place-items-center" 
     onclick={kill}>
         <div class="">
-            ok
         </div>
 </div>
 {/if}
