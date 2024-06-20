@@ -2,15 +2,24 @@
 import Toggle from '$lib/theme/toggle.svelte'
 import { onMount, tick } from 'svelte'
 
-// UI store
+// matrix store
 import { createMatrixStore } from '$lib/store/matrix.svelte.js'
 const matrixStore = createMatrixStore()
+
+const client = $derived(matrixStore.client)
+const synced = $derived(matrixStore.synced)
+
+const rooms = $derived(client?.store?.rooms)
 
 
 let events = $state([])
 
 let viewport;
 
+$effect(() => {
+    if(synced && client?.store) {
+    }
+})
 
 </script>
 
