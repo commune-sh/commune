@@ -20,6 +20,8 @@ const authenticated = $derived(authStore.authenticated)
 
 let spaces = $derived(store.spaces)
 
+let no_items = $derived(spaces?.length === 0)
+
 let items = $derived(spaces)
 
 $effect(() => {
@@ -91,7 +93,7 @@ function update(cy) {
         onmouseleave={() => hovered = false}
     >
         <div class="overflow-y-auto h-full hide-scroll pt-[6px]">
-        {#if public_rooms_fetched}
+        {#if !no_items || public_rooms_fetched}
             {#each items as space, index (space?.id ?? index)}
                 <Item {space} {dragged_over} {dragged} {hovered} {index} {clientY}
                 move={move} 

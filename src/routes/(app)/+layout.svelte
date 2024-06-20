@@ -102,12 +102,25 @@ function killMenu() {
     ui_store.killMenu()
 }
 
+let title = $derived.by(() => {
+    if(data?.space_state != undefined)  {
+        return `${data?.space_state?.name} - ${PUBLIC_META_TITLE}`
+    } 
+    return PUBLIC_META_TITLE
+})
+
+$effect(() => {
+    if(data?.space_state != undefined)  {
+        store.updateSpaces([data.space_state])
+    }
+})
+
 </script>
 
 <Matrix />
 
 <svelte:head>
-    <title>{PUBLIC_META_TITLE}</title>
+    <title>{title}</title>
 </svelte:head>
 
 {#if menu_active}
