@@ -19,7 +19,7 @@ let container;
 </script>
 
 
-<div class:container={!menu_active} class="grid grid-cols-[232px_1fr]" 
+<div class="grid grid-cols-[232px_1fr]" class:con={!menu_active}
     bind:this={container}
 class:menu-active={menu_active}>
 
@@ -42,7 +42,7 @@ class:menu-active={menu_active}>
     grid-template-columns: 232px 1fr;
 }
 @media (max-width: 768px) {
-    .container {
+    .con {
         grid-template-columns: auto;
     }
     .sidebar {

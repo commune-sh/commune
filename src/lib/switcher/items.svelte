@@ -17,6 +17,9 @@ const authStore = createAuthStore()
 const authReady = $derived(authStore.ready)
 const authenticated = $derived(authStore.authenticated)
 
+// matrix client store
+import { createMatrixStore } from '$lib/store/matrix.svelte.js'
+const matrixStore = createMatrixStore()
 
 let spaces = $derived(store.spaces)
 

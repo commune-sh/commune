@@ -7,6 +7,8 @@ let synced = $state(false)
 
 let rooms = $state(null)
 
+let spaces = $state([])
+
 export function createMatrixStore() {
 
   async function setup(credentials) {
@@ -21,11 +23,59 @@ export function createMatrixStore() {
 
     client.on("sync", (state, prevState, data) => {
       if(state === "PREPARED") {
-        console.log("Sync prepared", client);
         synced = true
+        buildUserSpaces()
       }
     });
 
+  }
+
+  function buildUserSpaces() {
+    const roomList = client.getRooms();
+    if(roomList?.lenght == 0) return;
+    roomList.forEach((room) => {
+      const is_parent = room.currentState.events.has('m.space.child')
+      const is_child = room.currentState.events.has('m.space.parent')
+      if(is_parent && !is_child) {
+
+        console.log(room)
+        let space = {
+          room_id: room.roomId,
+        }
+
+        room.timeline.forEach((item) => {
+          let event = item.event
+
+
+          switch(event.type) {
+            case "m.room.name":
+              space.name = event.content.name
+              break;
+            case "m.room.canonical_alias":
+              space.canonical_alias = event.content.alias
+              break;
+            case "m.room.avatar":
+              space.avatar_url = event.content.url
+              break;
+            case "m.room.join_rules":
+              space.join_rule = event.content.join_rule
+              break;
+            case "m.room.topic":
+              space.topic = event.content.topic
+              break;
+            case "m.room.guest_access":
+              space.guest_access = event.content.guest_access
+              break;
+            case "m.room.history_visibility":
+              if(event.content.history_visibility == "world_readable") {
+                space.world_readable = true
+              }
+              break;
+          }
+        })
+        spaces.push(space)
+      }
+    })
   }
 
   return {
