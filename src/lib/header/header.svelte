@@ -2,19 +2,15 @@
 import { page } from '$app/stores';
 import { bars } from '$lib/assets/icons'
 
-// auth store
-import { createAuthStore } from '$lib/store/auth.svelte.js'
-const authStore = createAuthStore()
-const show_auth = $derived(authStore.ready && authStore.authenticated)
+import { createStore } from '$lib/store/store.svelte.js'
+const store = createStore()
 
-// UI store
-import { createUIStore } from '$lib/store/ui.svelte.js'
-const ui_store = createUIStore()
+const show_auth = $derived(store.auth.ready && store.auth.authenticated)
 
-const menu_active = $derived(ui_store.menu_active)
+const menu_active = $derived(store.ui.menu_active)
 
 function toggleMenu() {
-    ui_store.toggleMenu()
+    store.ui.toggleMenu()
 }
 
 </script>

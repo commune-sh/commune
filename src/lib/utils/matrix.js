@@ -1,4 +1,4 @@
-import { PUBLIC_MATRIX_URL } from '$env/static/public';
+import { PUBLIC_MATRIX_URL, PUBLIC_MATRIX_SERVER_NAME } from '$env/static/public';
 
 export function convertFromMXC(url) {
   let stripped = url.replace('mxc://', '');
@@ -24,3 +24,9 @@ export function get_local_part(room_id_or_alias) {
   return room_id_or_alias.replace(/^[\#!](.*?):.*$/, '$1');
 }
 
+export function is_local_room(room_id) {
+  if(!room_id) return false;
+  const parts = room_id.split(':');
+  const domain = parts[1];
+  return domain === PUBLIC_MATRIX_SERVER_NAME;
+}

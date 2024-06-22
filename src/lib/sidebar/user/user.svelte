@@ -1,12 +1,12 @@
 <script lang="ts">
-import { createUIStore } from '$lib/store/ui.svelte.js'
 
-const ui_store = createUIStore()
+import { createStore } from '$lib/store/store.svelte.js'
+const store = createStore()
 
-let auth_active = $derived(ui_store.auth_active)
+let auth_active = $derived(store.ui.auth_active)
 
 function toggle() {
-    ui_store.openAuth()
+    store.ui.openAuth()
 }
 
 </script>

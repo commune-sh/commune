@@ -5,9 +5,8 @@ import Loading from '$lib/loading/loading.svelte'
 import Login from './login.svelte'
 import Signup from './signup.svelte'
 
-// UI store
-import { createUIStore } from '$lib/store/ui.svelte.js'
-const ui_store = createUIStore()
+import { createStore } from '$lib/store/store.svelte.js'
+const store = createStore()
 
 let active = $state("login")
 
@@ -29,7 +28,7 @@ async function getFlows() {
     } catch (error) {
         console.log(error)
         /*
-        ui_store.activateAlert({
+        store.ui.activateAlert({
             message: "Can't connect to homeserver.",
             type: "error"
         })

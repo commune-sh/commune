@@ -2,12 +2,11 @@
 import Toggle from '$lib/theme/toggle.svelte'
 import { onMount, tick } from 'svelte'
 
-// matrix store
-import { createMatrixStore } from '$lib/store/matrix.svelte.js'
-const matrixStore = createMatrixStore()
+import { createStore } from '$lib/store/store.svelte.js'
+const store = createStore()
 
-const client = $derived(matrixStore.client)
-const synced = $derived(matrixStore.synced)
+const client = $derived(store.matrix.client)
+const synced = $derived(store.matrix.synced)
 
 const rooms = $derived(client?.store?.rooms)
 

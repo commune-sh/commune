@@ -2,24 +2,20 @@
 import { browser  } from '$app/environment'
 import { onMount } from 'svelte'
 
-// matrix client store
-import { createMatrixStore } from '$lib/store/matrix.svelte.js'
-const matrixStore = createMatrixStore()
+import { createStore } from '$lib/store/store.svelte.js'
+const store = createStore()
 
-const client = $derived(matrixStore.client)
+const client = $derived(store.matrix.client)
 
-// auth store
-import { createAuthStore } from '$lib/store/auth.svelte.js'
-const authStore = createAuthStore()
-const authReady = $derived(authStore.ready)
+const authReady = $derived(store.auth.ready)
 
-const credentials = $derived($state.snapshot(authStore.credentials))
+const credentials = $derived($state.snapshot(store.auth.credentials))
 
 let ready = $state(false);
 
 $effect(() => {
     if(browser && authReady && credentials && !ready) {
-        matrixStore.setup(credentials)
+        store.matrix.setup(credentials)
         ready = true
     }
 })

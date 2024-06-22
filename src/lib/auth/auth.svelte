@@ -1,13 +1,14 @@
 <script>
 import { login } from '$lib/matrix/requests'
-import { createUIStore } from '$lib/store/ui.svelte.js'
 
-const ui_store = createUIStore()
-let auth_active = $derived(ui_store.auth_active)
+import { createStore } from '$lib/store/store.svelte.js'
+const store = createStore()
+
+let auth_active = $derived(store.ui.auth_active)
 
 function kill(e) {
     if(e.target == e.currentTarget) {
-        ui_store.closeAuth()
+        store.ui.closeAuth()
     }
 }
 

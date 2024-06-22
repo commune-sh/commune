@@ -73,7 +73,12 @@ export function createMatrixStore() {
               break;
           }
         })
-        spaces.push(space)
+
+
+        const exists = spaces.find((item) => item.room_id === space.room_id)
+        if(!exists) {
+          spaces.push(space)
+        }
       }
     })
   }

@@ -41,10 +41,13 @@ export async function load( { fetch, params, url, cookies, request } ) {
       if(resp?.versions) {
         data.homeserver_reachable = true;
       }
+
+
+
   }
 
 
-  if(params?.space != "" && PUBLIC_SERVER != "") {
+  if(!data.authenticated && params?.space != "" && PUBLIC_SERVER != "") {
     try {
 
       let url = `${PUBLIC_SERVER}/rooms/${params.space}/state`;

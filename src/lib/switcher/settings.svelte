@@ -1,22 +1,24 @@
 <script>
 import { settings as settingsIcon } from '$lib/assets/icons'
-import { createUIStore } from '$lib/store/ui.svelte.js'
+
 import { onMount } from 'svelte';
 
-const ui_store = createUIStore()
+import { createStore } from '$lib/store/store.svelte.js'
+const store = createStore()
+
 
 function openSettings() {
     if(menu_active) {
-        ui_store.killMenu()
+        store.ui.killMenu()
     }
-    ui_store.openSettings()
+    store.ui.openSettings()
     if(tooltip) {
         tooltip.hide()
     }
 }
 
-let settings_active = $derived(ui_store.settings_active)
-let menu_active = $derived(ui_store.menu_active)
+let settings_active = $derived(store.ui.settings_active)
+let menu_active = $derived(store.ui.menu_active)
 
 import tippy from 'tippy.js';
 

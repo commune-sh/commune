@@ -1,14 +1,12 @@
 <script>
-import { createUIStore } from '$lib/store/ui.svelte.js'
 import { onMount, onDestroy } from 'svelte'
 import { browser } from '$app/environment'
 import { close } from '$lib/assets/icons'
 
-// settings store
-import { createSettingsStore } from '$lib/store/settings.svelte.js'
-const settingsStore = createSettingsStore()
+import { createStore } from '$lib/store/store.svelte.js'
+const store = createStore()
 
-const unsaved_changes = $derived(settingsStore.unsaved_changes)
+const unsaved_changes = $derived(store.settings.unsaved_changes)
 
 onMount(() => {
 })
@@ -21,17 +19,16 @@ $effect(() => {
     }
 })
 
-const ui_store = createUIStore()
-let settings_active = $derived(ui_store.settings_active)
+let settings_active = $derived(store.ui.settings_active)
 
 function esc(e) {
     if(e.key === 'Escape') {
-        ui_store.closeSettings()
+        store.ui.closeSettings()
     }
 }
 
 function kill(e) {
-    ui_store.closeSettings()
+    store.ui.closeSettings()
 }
 </script>
 

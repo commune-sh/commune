@@ -4,7 +4,10 @@ import { isInViewport } from '$lib/utils/ui';
 import { goto } from '$app/navigation';
 import { page } from '$app/stores';
 import { createInitials } from '$lib/utils/string';
+
 import { createStore } from '$lib/store/store.svelte.js'
+
+const store = createStore()
 
 import { 
     room_alias_from_ID, 
@@ -158,17 +161,19 @@ $effect(() => {
     if(active && item) {
         moveIntoView()
     }
-    if(active) {
-        store.updateSpace(space.alias)
-        getHierarchy()
-    }
 
     if(item) {
         mounted = true;
     }
 })
 
-const store = createStore()
+$effect(() => {
+    if(active) {
+        store.client.updateSpace(space.alias)
+        //getHierarchy()
+    }
+})
+
 
 function goToSpace() {
     tooltip.hide()

@@ -1,78 +1,34 @@
-let native_mode = $state(false);
-let capabilities = $state(null);
-
-let public_server_reachable = $state(false);
-
-let homeserver_reachable = $state(false);
-let homeserver_versions = $state(null);
-
-let app = $state({
-  ready: false,
-  space: null,
-});
-
+import { createClientStore } from './client.svelte.js';
+import { createUIStore } from './ui.svelte.js';
+import { createAuthStore } from './auth.svelte.js';
+import { createMatrixStore } from './matrix.svelte.js';
+import { createSettingsStore } from './settings.svelte.js';
 
 export function createStore() {
 
-	function setAppReady() {
-    app.ready = true
-	}
-
-	function isNativeMode() {
-    console.log("Public server doesn't exist or is unreachable. Setting native mode.")
-    native_mode = true;
-	}
-
-	function updateSpace(space) {
-    app.space = space;
-	}
-
-	function updateCapabilities(data) {
-    console.log("Storing public server capabilities.")
-    capabilities = data;
-	}
-
-	function updateHomeserverStatus(data) {
-    console.log("Storing homeserver versions.")
-    homeserver_reachable = true;
-    homeserver_versions = data;
-	}
-
-	function updatePublicServerStatus(data) {
-    public_server_reachable = true
-	}
-
 	return {
 
-		get ready() {
-			return app.ready;
+
+
+		get client() {
+			return createClientStore();
 		},
 
-    get native_mode() {
-      return native_mode;
-    },
-
-		get space() {
-			return app.space;
+		get ui() {
+			return createUIStore();
 		},
 
-		get capabilities() {
-			return capabilities;
+		get auth() {
+			return createAuthStore();
 		},
 
-		get homeserver_reachable() {
-			return homeserver_reachable;
+		get matrix() {
+			return createMatrixStore();
 		},
 
-		get public_server_reachable() {
-			return public_server_reachable;
+		get settings() {
+			return createSettingsStore();
 		},
 
-    setAppReady,
-    isNativeMode,
-		updateSpace,
-    updateCapabilities,
-    updateHomeserverStatus,
-    updatePublicServerStatus,
 	};
 }

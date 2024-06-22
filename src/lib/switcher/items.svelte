@@ -11,17 +11,10 @@ import { getPublicRooms } from '$lib/public_server/requests'
 
 const public_server_reachable = $derived(store.public_server_reachable)
 
-// auth store
-import { createAuthStore } from '$lib/store/auth.svelte.js'
-const authStore = createAuthStore()
-const authReady = $derived(authStore.ready)
-const authenticated = $derived(authStore.authenticated)
+const authReady = $derived(store.auth.ready)
+const authenticated = $derived(store.auth.authenticated)
 
-// matrix client store
-import { createMatrixStore } from '$lib/store/matrix.svelte.js'
-const matrixStore = createMatrixStore()
-
-let spaces = $derived(matrixStore.spaces)
+let spaces = $derived(store.matrix.spaces)
 
 let no_items = $derived(spaces?.length === 0)
 
@@ -42,7 +35,7 @@ async function fetchPublicRooms() {
     const resp = await getPublicRooms()
     if(resp?.chunk?.length > 0) {
         //items = rooms
-        matrixStore.updateSpaces(resp.chunk)
+        store.matrix.updateSpaces(resp.chunk)
     }
     public_rooms_fetched = true
 }

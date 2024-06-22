@@ -8,11 +8,7 @@ import Header from '$lib/header/header.svelte'
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
 
-// UI store
-import { createUIStore } from '$lib/store/ui.svelte.js'
-const ui_store = createUIStore()
-
-const menu_active = $derived(ui_store.menu_active)
+const menu_active = $derived(store.ui.menu_active)
 
 let container;
 

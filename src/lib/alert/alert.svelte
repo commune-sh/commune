@@ -1,10 +1,10 @@
 <script>
-// UI store
-import { createUIStore } from '$lib/store/ui.svelte.js'
-const ui_store = createUIStore()
+
+import { createStore } from '$lib/store/store.svelte.js'
+const store = createStore()
 
 
-const alert = $derived(ui_store.alert)
+const alert = $derived(store.ui.alert)
 
 const active = $derived(alert.active)
 

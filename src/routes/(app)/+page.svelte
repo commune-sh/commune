@@ -6,11 +6,11 @@ import AuthView from '$lib/auth/auth-view.svelte'
 
 let { data } = $props();
 
-// auth store
-import { createAuthStore } from '$lib/store/auth.svelte.js'
-const authStore = createAuthStore()
-const authReady = $derived(authStore.ready)
-const authenticated = $derived(authStore.authenticated)
+import { createStore } from '$lib/store/store.svelte.js'
+const store = createStore()
+
+const authReady = $derived(store.auth.ready)
+const authenticated = $derived(store.auth.authenticated)
 
 const show_home = $derived(authReady && authenticated)
 

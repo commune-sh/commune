@@ -21,39 +21,29 @@ import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
 
 
-// auth store
-import { createAuthStore } from '$lib/store/auth.svelte.js'
-const authStore = createAuthStore()
-const authReady = $derived(authStore.ready)
+const menu_active = $derived(store.ui.menu_active)
 
-// UI store
-import { createUIStore } from '$lib/store/ui.svelte.js'
-const ui_store = createUIStore()
+const alert_active = $derived(store.ui.alert?.active)
 
-const menu_active = $derived(ui_store.menu_active)
-
-const alert_active = $derived(ui_store.alert?.active)
-
-// matrix client store
-import { createMatrixStore } from '$lib/store/matrix.svelte.js'
-const matrixStore = createMatrixStore()
 
 // derive credentials from auth store
-const credentials = $derived(authStore.credentials)
+const credentials = $derived(store.auth.credentials)
 
+
+let authReady = $derived(store.auth.ready)
 
 // data from server fetch
 let { data } = $props();
 
 // derive native mode from app store
-let native_mode = $derived(store.native_mode)
+let native_mode = $derived(store.client.native_mode)
 
 
 let homeserver_reachable = $derived(data.homeserver_reachable)
 
 $effect(() => {
     if(browser && !authReady) {
-        authStore.setup({
+        store.auth.setup({
             authenticated: data?.authenticated,
             access_token: data?.access_token || null,
             user_id: data?.user_id || null,
@@ -69,17 +59,17 @@ async function setup() {
     try {
         const resp = await getCapabilities();
         if(resp?.capabilities) {
-            store.updatePublicServerStatus()
-            store.updateCapabilities(data.capabilities)
+            store.client.updatePublicServerStatus()
+            store.client.updateCapabilities(data.capabilities)
         }
     } catch(_) {
-        store.isNativeMode();
+        store.client.isNativeMode();
     }
     try {
         const resp = await getVersions();
         if(resp?.versions) {
             console.log(resp)
-            store.updateHomeserverStatus(resp)
+            store.client.updateHomeserverStatus(resp)
         }
     } catch(_) {
     }
@@ -93,7 +83,7 @@ onMount(() => {
     let mq = window.matchMedia("(min-width: 768px)");
     mq.addEventListener("change", (e) => {
         if(e?.matches == true && menu_active) {
-            ui_store.toggleMenu()
+            store.ui.toggleMenu()
             root.style.width = `auto`
         }
         if(e?.matches == true && root) {
@@ -103,7 +93,7 @@ onMount(() => {
 })
 
 function killMenu() {
-    ui_store.killMenu()
+    store.ui.killMenu()
 }
 
 let title = $derived.by(() => {
@@ -115,7 +105,7 @@ let title = $derived.by(() => {
 
 $effect(() => {
     if(data?.space_state != undefined)  {
-        matrixStore.updateSpaces([data.space_state])
+        store.matrix.updateSpaces([data.space_state])
     }
 })
 
