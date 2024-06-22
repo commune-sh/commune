@@ -189,9 +189,6 @@ async function getHierarchy() {
 }
 
 
-let focused = $state(false);
-
-
 let avatar = $derived.by(() => {
     if(space?.avatar_url) {
         return thumbnail_from_MXC(space.avatar_url, 46, 46)
@@ -202,6 +199,8 @@ function logItem(e) {
     e.preventDefault()
     console.log(space)
 }
+
+let size = $state(46)
 
 </script>
 
@@ -215,8 +214,6 @@ function logItem(e) {
 
 <div bind:this={item} onclick={goToSpace}
     oncontextmenu={logItem}
-    onmouseover={() => focused = true}
-    onmouseleave={() => focused = false}
     ondrop={drop}
     ondragover={dragover}
     class="grid relative place-items-center mb-[10px]">
@@ -225,7 +222,7 @@ function logItem(e) {
         onmouseover={hover}
         class:bg-shade-7={active}
         class:active={active || hovered}
-        class="space bg-shade-4 w-[46px] h-[46px] grid
+        class="space bg-shade-4 w-[{size}px] h-[{size}px] grid
         hover:rounded-[14px]
         transition-transform duration-200
         place-items-center cursor-pointer hover:bg-shade-7 opacity-50 hover:opacity-100" 
@@ -263,11 +260,6 @@ function logItem(e) {
         </div>
     {/if}
 
-    {#if focused}
-    <div class="absolute left-[80px] top-[16px]" role="tooltip">
-            {alias}
-    </div>
-    {/if}
 </div>
 
 <style>

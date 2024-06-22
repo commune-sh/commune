@@ -9,7 +9,7 @@ const store = createStore()
 
 import { getPublicRooms } from '$lib/public_server/requests'
 
-const public_server_reachable = $derived(store.public_server_reachable)
+const public_server_reachable = $derived(store.app.public_server_reachable)
 
 const authReady = $derived(store.auth.ready)
 const authenticated = $derived(store.auth.authenticated)
@@ -21,13 +21,9 @@ let no_items = $derived(spaces?.length === 0)
 let items = $derived(spaces)
 
 $effect(() => {
-    if(authReady && !authenticated && public_server_reachable) {
+    if(authReady && !authenticated) {
         console.log("fetching public rooms")
         fetchPublicRooms()
-    }
-
-    if(spaces) {
-        console.log("founds spaces", spaces)
     }
 })
 
@@ -93,7 +89,7 @@ function update(cy) {
         onmouseleave={() => hovered = false}
     >
         <div class="overflow-y-auto h-full hide-scroll pt-[6px]">
-        {#if !no_items || public_rooms_fetched}
+        {#if !no_items}
             {#each items as space, index (space?.id ?? index)}
                 <Item {space} {dragged_over} {dragged} {hovered} {index} {clientY}
                 move={move} 

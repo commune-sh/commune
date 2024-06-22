@@ -2,6 +2,9 @@
 import Toggle from '$lib/theme/toggle.svelte'
 import { onMount, tick } from 'svelte'
 
+import Sidebar from '$lib/sidebar/sidebar.svelte'
+import Header from '$lib/header/header.svelte'
+
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
 
@@ -10,10 +13,13 @@ const synced = $derived(store.matrix.synced)
 
 const rooms = $derived(client?.store?.rooms)
 
+const menu_active = $derived(store.ui.menu_active)
 
 let events = $state([])
 
 let viewport;
+
+let container;
 
 $effect(() => {
     if(synced && client?.store) {
@@ -23,11 +29,38 @@ $effect(() => {
 </script>
 
 
-<div class="overflow-hidden max-h-full">
-    <div class="p-8 overflow-y-auto h-full" bind:this={viewport}>
+
+<div class="grid grid-cols-[232px_1fr]" class:con={!menu_active}
+    bind:this={container}
+class:menu-active={menu_active}>
+
+    <div class="sidebar grid" class:show={menu_active}>
+        <Sidebar />
     </div>
+
+    <div class="view grid grid-rows-[52px_1fr] bg-view h-full">
+        <Header />
+        <section class="view select-text">
+            home
+        </section>
+    </div>
+
 </div>
 
-<style>
-</style>
 
+<style>
+.menu-active {
+    grid-template-columns: 232px 1fr;
+}
+@media (max-width: 768px) {
+    .con {
+        grid-template-columns: auto;
+    }
+    .sidebar {
+        display: none;
+    }
+    .show {
+        display: grid;
+    }
+}
+</style>

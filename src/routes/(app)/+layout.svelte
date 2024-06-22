@@ -33,7 +33,7 @@ const credentials = $derived(store.auth.credentials)
 let authReady = $derived(store.auth.ready)
 
 // data from server fetch
-let { data } = $props();
+let { data, children } = $props();
 
 // derive native mode from app store
 let native_mode = $derived(store.app.native_mode)
@@ -103,9 +103,11 @@ let title = $derived.by(() => {
     return PUBLIC_META_TITLE
 })
 
+let spaces_exist = $derived(store.matrix.spaces?.length > 0)
+
 $effect(() => {
-    if(data?.space_state != undefined)  {
-        store.matrix.updateSpaces([data.space_state])
+    if(data?.space_state != undefined && !spaces_exist)  {
+        //store.matrix.updateSpaces([data.space_state])
     }
 })
 
@@ -129,7 +131,7 @@ $effect(() => {
 {/if}
 
 <div class:root={!menu_active} 
-        class="grid grid-cols-[72px_1fr] h-full select-none" bind:this={root}
+        class="grid grid-cols-[auto_1fr] h-full select-none" bind:this={root}
 class:menu-active={menu_active}>
     <div class="switcher grid"
     class:show={menu_active}>
@@ -137,7 +139,7 @@ class:menu-active={menu_active}>
     </div>
     <div class="view grid bg-view h-full"
     class:slide-in={menu_active}>
-        <slot {data} />
+        {@render children()}
     </div>
 </div>
 </main>
