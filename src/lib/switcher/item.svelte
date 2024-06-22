@@ -47,9 +47,21 @@ let { space,
     clientY
 } = $props();
 
-const alias = $derived(room_alias_from_ID(space?.canonical_alias))
 
-let active = $derived($page.params?.space === alias)
+const alias = $derived.by(() => {
+    if(space?.canonical_alias) {
+        return room_alias_from_ID(space.canonical_alias)
+    }
+})
+
+
+let active = $derived.by(() => {
+    if(alias) {
+        return $page.params?.space === alias
+    } else if(space?.room_id) {
+        return $page.params?.space === space.room_id
+    }
+})
 
 const initial = $derived(createInitials(space?.name))
 
@@ -160,7 +172,10 @@ const store = createStore()
 
 function goToSpace() {
     tooltip.hide()
-    goto(`/${alias}`)
+
+    let location = alias ? alias : space.room_id
+
+    goto(`/${location}`)
 }
 
 async function getHierarchy() {
@@ -178,6 +193,11 @@ let avatar = $derived.by(() => {
     }
 })
 
+function logItem(e) {
+    e.preventDefault()
+    console.log(space)
+}
+
 </script>
 
 <div class="hidden" bind:this={content}>
@@ -189,6 +209,7 @@ let avatar = $derived.by(() => {
 
 
 <div bind:this={item} onclick={goToSpace}
+    oncontextmenu={logItem}
     onmouseover={() => focused = true}
     onmouseleave={() => focused = false}
     ondrop={drop}

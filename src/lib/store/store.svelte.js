@@ -11,7 +11,6 @@ let app = $state({
   space: null,
 });
 
-let spaces = $state([])
 
 export function createStore() {
 
@@ -43,18 +42,6 @@ export function createStore() {
     public_server_reachable = true
 	}
 
-  function updateSpaces(items) {
-    console.log("Storing spaces.", items)
-    //spaces = items;
-    items.forEach((item) => {
-      const exists = spaces.find((space) => space.room_id === item.room_id)
-      if(!exists) {
-        spaces.push(item)
-      }
-    })
-  }
-
-
 	return {
 
 		get ready() {
@@ -81,16 +68,11 @@ export function createStore() {
 			return public_server_reachable;
 		},
 
-		get spaces() {
-			return spaces;
-		},
-
     setAppReady,
     isNativeMode,
 		updateSpace,
     updateCapabilities,
     updateHomeserverStatus,
     updatePublicServerStatus,
-    updateSpaces,
 	};
 }

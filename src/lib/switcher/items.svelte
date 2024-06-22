@@ -21,7 +21,7 @@ const authenticated = $derived(authStore.authenticated)
 import { createMatrixStore } from '$lib/store/matrix.svelte.js'
 const matrixStore = createMatrixStore()
 
-let spaces = $derived(store.spaces)
+let spaces = $derived(matrixStore.spaces)
 
 let no_items = $derived(spaces?.length === 0)
 
@@ -32,13 +32,17 @@ $effect(() => {
         console.log("fetching public rooms")
         fetchPublicRooms()
     }
+
+    if(spaces) {
+        console.log("founds spaces", spaces)
+    }
 })
 
 async function fetchPublicRooms() {
     const resp = await getPublicRooms()
     if(resp?.chunk?.length > 0) {
         //items = rooms
-        store.updateSpaces(resp.chunk)
+        matrixStore.updateSpaces(resp.chunk)
     }
     public_rooms_fetched = true
 }

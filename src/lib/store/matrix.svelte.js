@@ -78,6 +78,17 @@ export function createMatrixStore() {
     })
   }
 
+  function updateSpaces(items) {
+    console.log("Storing spaces.", items)
+    //spaces = items;
+    items.forEach((item) => {
+      const exists = spaces.find((space) => space.room_id === item.room_id)
+      if(!exists) {
+        spaces.push(item)
+      }
+    })
+  }
+
   return {
     get client() {
       return client;
@@ -91,7 +102,13 @@ export function createMatrixStore() {
     get rooms() {
       return rooms;
     },
+    get spaces() {
+      return spaces;
+    },
+
     setup,
-    };
+    updateSpaces,
+
+  };
 
 }

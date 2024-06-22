@@ -34,6 +34,10 @@ const menu_active = $derived(ui_store.menu_active)
 
 const alert_active = $derived(ui_store.alert?.active)
 
+// matrix client store
+import { createMatrixStore } from '$lib/store/matrix.svelte.js'
+const matrixStore = createMatrixStore()
+
 // derive credentials from auth store
 const credentials = $derived(authStore.credentials)
 
@@ -111,7 +115,7 @@ let title = $derived.by(() => {
 
 $effect(() => {
     if(data?.space_state != undefined)  {
-        store.updateSpaces([data.space_state])
+        matrixStore.updateSpaces([data.space_state])
     }
 })
 
