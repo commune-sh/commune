@@ -12,7 +12,7 @@ let app = $state({
 });
 
 
-export function createClientStore() {
+export function createAppStore() {
 
 	function setAppReady() {
     app.ready = true

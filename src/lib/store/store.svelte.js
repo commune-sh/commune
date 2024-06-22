@@ -1,4 +1,4 @@
-import { createClientStore } from './client.svelte.js';
+import { createAppStore } from './app.svelte.js';
 import { createUIStore } from './ui.svelte.js';
 import { createAuthStore } from './auth.svelte.js';
 import { createMatrixStore } from './matrix.svelte.js';
@@ -8,10 +8,8 @@ export function createStore() {
 
 	return {
 
-
-
-		get client() {
-			return createClientStore();
+		get app() {
+			return createAppStore();
 		},
 
 		get ui() {

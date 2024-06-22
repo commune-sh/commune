@@ -36,7 +36,7 @@ let authReady = $derived(store.auth.ready)
 let { data } = $props();
 
 // derive native mode from app store
-let native_mode = $derived(store.client.native_mode)
+let native_mode = $derived(store.app.native_mode)
 
 
 let homeserver_reachable = $derived(data.homeserver_reachable)
@@ -59,17 +59,17 @@ async function setup() {
     try {
         const resp = await getCapabilities();
         if(resp?.capabilities) {
-            store.client.updatePublicServerStatus()
-            store.client.updateCapabilities(data.capabilities)
+            store.app.updatePublicServerStatus()
+            store.app.updateCapabilities(data.capabilities)
         }
     } catch(_) {
-        store.client.isNativeMode();
+        store.app.isNativeMode();
     }
     try {
         const resp = await getVersions();
         if(resp?.versions) {
             console.log(resp)
-            store.client.updateHomeserverStatus(resp)
+            store.app.updateHomeserverStatus(resp)
         }
     } catch(_) {
     }

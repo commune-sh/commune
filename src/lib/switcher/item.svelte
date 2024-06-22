@@ -169,7 +169,7 @@ $effect(() => {
 
 $effect(() => {
     if(active) {
-        store.client.updateSpace(space.alias)
+        store.app.updateSpace(space.alias)
         //getHierarchy()
     }
 })
