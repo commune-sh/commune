@@ -41,7 +41,7 @@ export function createUIStore() {
     ui_state.menu_active = false;
   }
 
-  function activateAlert(opts) {
+  function newAlert(opts) {
     alert.active = true;
     alert.message = opts?.message;
     alert.type = opts?.type;
@@ -77,6 +77,6 @@ export function createUIStore() {
     closeSettings,
     toggleMenu,
     killMenu,
-    activateAlert,
+    newAlert,
 	};
 }

@@ -7,10 +7,10 @@ import { browser } from '$app/environment';
 import { getCapabilities } from '$lib/public_server/requests'
 import { getVersions } from '$lib/matrix/requests'
 
-import Switcher from '$lib/switcher/switcher.svelte'
+import Layout from '$lib/layout/layout.svelte'
+
 
 import Auth from '$lib/auth/auth.svelte'
-import Alert from '$lib/alert/alert.svelte'
 
 import Matrix from '$lib/matrix/matrix.svelte'
 import Settings from '$lib/settings/settings.svelte'
@@ -19,12 +19,6 @@ import Settings from '$lib/settings/settings.svelte'
 // app store
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
-
-
-const menu_active = $derived(store.ui.menu_active)
-
-const alert_active = $derived(store.ui.alert?.active)
-
 
 // derive credentials from auth store
 const credentials = $derived(store.auth.credentials)
@@ -68,47 +62,14 @@ async function setup() {
     try {
         const resp = await getVersions();
         if(resp?.versions) {
-            console.log(resp)
             store.app.updateHomeserverStatus(resp)
         }
     } catch(_) {
     }
 }
 
-let root;
-
 onMount(() => {
     setup()
-
-    let mq = window.matchMedia("(min-width: 768px)");
-    mq.addEventListener("change", (e) => {
-        if(e?.matches == true && menu_active) {
-            store.ui.toggleMenu()
-            root.style.width = `auto`
-        }
-        if(e?.matches == true && root) {
-            root.style.width = `auto`
-        }
-    });
-})
-
-function killMenu() {
-    store.ui.killMenu()
-}
-
-let title = $derived.by(() => {
-    if(data?.space_state != undefined)  {
-        return `${data?.space_state?.name} - ${PUBLIC_META_TITLE}`
-    } 
-    return PUBLIC_META_TITLE
-})
-
-let spaces_exist = $derived(store.matrix.spaces?.length > 0)
-
-$effect(() => {
-    if(data?.space_state != undefined && !spaces_exist)  {
-        //store.matrix.updateSpaces([data.space_state])
-    }
 })
 
 </script>
@@ -116,33 +77,15 @@ $effect(() => {
 <Matrix />
 
 <svelte:head>
-    <title>{title}</title>
+    <title>{PUBLIC_META_TITLE}</title>
 </svelte:head>
 
-{#if menu_active}
-<div class="mask" onclick={killMenu}>
-</div>
-{/if}
 
-<main class="app grid h-dvh" class:grid-rows-[auto_1fr]={alert_active}>
+{#snippet content()}
+    {@render children()}
+{/snippet}
+<Layout {content} />
 
-{#if alert_active}
-    <Alert />
-{/if}
-
-<div class:root={!menu_active} 
-        class="grid grid-cols-[auto_1fr] h-full select-none" bind:this={root}
-class:menu-active={menu_active}>
-    <div class="switcher grid"
-    class:show={menu_active}>
-        <Switcher />
-    </div>
-    <div class="view grid bg-view h-full"
-    class:slide-in={menu_active}>
-        {@render children()}
-    </div>
-</div>
-</main>
 
 <Auth />
 <Settings />
@@ -171,16 +114,4 @@ class:menu-active={menu_active}>
     width: 100vw;
 }
 
-
-@media (max-width: 768px) {
-    .root {
-        grid-template-columns: auto;
-    }
-    .switcher {
-        display: none;
-    }
-    .show {
-        display: grid;
-    }
-}
 </style>

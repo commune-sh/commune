@@ -1,4 +1,6 @@
 <script>
+import { PUBLIC_META_TITLE } from '$env/static/public';
+
 import { onMount } from 'svelte';
 import { isInViewport } from '$lib/utils/ui';
 import { goto } from '$app/navigation';
@@ -177,6 +179,9 @@ $effect(() => {
 
 function goToSpace() {
     tooltip.hide()
+
+    let title = `${space.name} - ${PUBLIC_META_TITLE}`
+    document.title = title
 
     let location = alias ? alias : space.room_id
 

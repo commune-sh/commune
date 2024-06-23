@@ -1,4 +1,5 @@
 <script>
+import { PUBLIC_META_TITLE } from '$env/static/public';
 import { page } from '$app/stores';
 
 import Sidebar from '$lib/sidebar/sidebar.svelte'
@@ -8,18 +9,30 @@ import Header from '$lib/header/header.svelte'
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
 
-const menu_active = $derived(store.ui.menu_active)
+
+let {
+    data,
+} = $props();
 
 let container;
 
+let title = $derived.by(() => {
+    if(data?.space != undefined && data?.space?.name != "")  {
+        return `${data?.space?.name} - ${PUBLIC_META_TITLE}`
+    } 
+    return PUBLIC_META_TITLE
+})
+
 </script>
 
+<svelte:head>
+    <title>{title}</title>
+</svelte:head>
 
-<div class="grid grid-cols-[232px_1fr]" class:con={!menu_active}
-    bind:this={container}
-class:menu-active={menu_active}>
 
-    <div class="sidebar grid" class:show={menu_active}>
+<div class="grid grid-cols-[232px_1fr]" bind:this={container}>
+
+    <div class="sidebar grid">
         <Sidebar />
     </div>
 
@@ -34,18 +47,4 @@ class:menu-active={menu_active}>
 
 
 <style>
-.menu-active {
-    grid-template-columns: 232px 1fr;
-}
-@media (max-width: 768px) {
-    .con {
-        grid-template-columns: auto;
-    }
-    .sidebar {
-        display: none;
-    }
-    .show {
-        display: grid;
-    }
-}
 </style>
