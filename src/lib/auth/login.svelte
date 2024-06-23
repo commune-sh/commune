@@ -49,7 +49,10 @@ let {
 
 let providers = $derived.by(() => {
     if(flows) {
-        return flows.find(flow => flow.type === 'm.login.sso').identity_providers;
+        let sso = flows.some(element => element.type === "m.login.sso");
+        if(sso) {
+            return flows.find(flow => flow.type === 'm.login.sso').identity_providers;
+        }
     }
     return [];
 });
@@ -106,21 +109,20 @@ function signup() {
         <input bind:this={password} type="password" class=""
         placeholder="Password">
     </div>
-    <div class="mt-6 text-xl">
-        Need an account? <a onclick={signup} class="text-primary">Sign up</a>
+    <div class="mt-6 text-xl text-light">
+        Need an account? 
+        <a href="#signup" class="text-primary silk">Sign up</a>
     </div>
     <div class="mt-6">
-        <button class="w-full py-5">Log in</button>
+        <button class="w-full py-6">Log in</button>
     </div>
 
-</div>
-
     {#if providers?.length > 0}
-    <div class="mt-16 flex justify-center">
+    <div class="mt-12 flex justify-center">
         {#each providers as provider(provider.id)}
             <div class="provider bg-switcher p-[8px] mx-2 
                 rounded-[8px] cursor-pointer">
-                <div class="icon w-[24px]">
+                <div class="brand w-[22px]">
                 {#if provider?.icon}
                     {@html provider.icon}
                 {/if}
@@ -130,15 +132,27 @@ function signup() {
     </div>
     {/if}
 
+</div>
+
+
 
 
 <style>
 .provider {
-    border: 2px solid transparent;
+    background: var(--shade-3);
 }
 
 .provider:hover {
-    border: 2px solid var(--shade-8);
+    background: var(--shade-6);
+}
+
+.brand {
+    fill: var(--icon);
+}
+
+.provider:hover .brand {
+    fill: var(--text);
+    opacity: 0.7;
 }
 
 .title {

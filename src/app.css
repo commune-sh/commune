@@ -24,8 +24,8 @@
     --shade-8: hsla(0, 0%, 21%, 1);
     --shade-9: hsla(0, 0%, 23%, 1);
     --shade-10: hsla(0, 0%, 25%, 1);
-    --text-primary: #e1e1e1;
-    --text-light: #e1e1e1;
+    --text: #e1e1e1;
+    --light: hsla(0, 0%, 70%, 1);
     --primary: #c50000;
     --switcher: hsla(0, 0%, 7%, 1);
     --sidebar: hsla(0, 0%, 9%, 1);
@@ -49,6 +49,7 @@
     --input: hsla(0, 0%, 10%, 1);
     --input-focus: hsla(0, 0%, 20%, 1);
     --input-text: hsla(0, 0%, 96%, 1);
+    --input-placeholder: hsla(0, 0%, 50%, 1);
 }
 
 :root.light {
@@ -65,7 +66,7 @@
     --shade-9: hsla(0, 0%, 95%, 1);
     --shade-10: hsla(0, 0%, 98%, 1);
 
-    --text-primary: black;
+    --text: black;
     --primary: blue;
     --switcher: hsla(0, 0%, 92%, 1);
     --sidebar: hsla(0, 0%, 97%, 1);
@@ -81,7 +82,7 @@
 
 :root.black {
     --background: white;
-    --text-primary: black;
+    --text: black;
     --primary: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
 }
 
@@ -108,7 +109,7 @@ body {
     line-height: 1;
     margin: 0;
     padding: 0;
-    color: var(--text-primary);
+    color: var(--text);
     background-color: var(--background);
     overflow: hidden;
     height: 100%;
@@ -123,7 +124,7 @@ body {
 
 button {
     background-color: var(--button);
-    color: var(--text-primary);
+    color: var(--text);
     padding: 0.75rem 1rem;
     border-radius: 4px;
     font-weight: 500;
@@ -153,6 +154,10 @@ input {
 
 textarea:focus, input:focus{
     outline: none;
+}
+
+input::placeholder {
+    color: var(--input-placeholder);
 }
 
 .icon > svg {

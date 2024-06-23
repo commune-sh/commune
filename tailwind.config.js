@@ -27,7 +27,7 @@ export default {
         'foreground': 'var(--foreground)',
         'border': 'var(--border)',
         'text': 'var(--text)',
-        'text-light': 'var(--text-light)',
+        'light': 'var(--light)',
         'link': 'var(--link)',
         'code': 'var(--code)',
         'tick': 'var(--tick)',
