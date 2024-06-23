@@ -18,7 +18,7 @@ export async function load( { fetch, params, url, cookies, request } ) {
   const access_token = cookies.get('access_token');
 
   if(!access_token && PUBLIC_REQUIRE_AUTH == 'true') {
-    throw redirect(302, '/login');
+    redirect(302, '/login');
   }
 
   /*

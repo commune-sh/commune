@@ -14,6 +14,12 @@ let {
     data,
 } = $props();
 
+$effect(() => {
+    if(data) {
+        console.log(data)
+    }
+})
+
 let container;
 
 let title = $derived.by(() => {
@@ -40,6 +46,8 @@ let title = $derived.by(() => {
         <Header />
         <section class="view select-text">
             {$page.params.space}
+            {#await data.space}
+            {/await}
         </section>
     </div>
 

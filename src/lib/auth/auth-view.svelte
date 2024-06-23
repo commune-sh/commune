@@ -44,14 +44,16 @@ onMount(() => {
 
 
 
-
-<div class="loading flex h-full justify-center items-center">
-    <div>
-        {#if login_active}
-            <Login />
-        {:else if signup_active}
-            <Signup />
-        {/if}
-    </div>
+<div class="auth-view flex flex-col h-full  items-center">
+    {#if login_active}
+        <Login {flows} />
+    {:else if signup_active}
+        <Signup />
+    {/if}
 </div>
 
+<style>
+.auth-view {
+    margin-top: calc(50vh / 2);
+}
+</style>

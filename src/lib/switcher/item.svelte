@@ -173,6 +173,8 @@ $effect(() => {
     if(active) {
         store.app.updateSpace(space.alias)
         //getHierarchy()
+        let title = `${PUBLIC_META_TITLE} - ${space.name}`
+        document.title = title
     }
 })
 
@@ -180,7 +182,7 @@ $effect(() => {
 function goToSpace() {
     tooltip.hide()
 
-    let title = `${space.name} - ${PUBLIC_META_TITLE}`
+    let title = `${PUBLIC_META_TITLE} - ${space.name}`
     document.title = title
 
     let location = alias ? alias : space.room_id

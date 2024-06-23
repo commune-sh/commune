@@ -6,7 +6,7 @@ import Settings from './settings.svelte'
 </script>
 
 <div class="switcher grid grid-rows-[72px_1fr_auto] h-full bg-switcher select-none">
-    <Logo />
+    <Logo main={true} />
     <Items />
     <div class="grid grid-rows">
         <Settings />

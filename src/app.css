@@ -42,7 +42,12 @@
     --icon: hsla(0, 0%, 35%, 1);
     --icon-hover: hsla(0, 0%, 45%, 1);
 
-    --button-primary: #c50000;
+    --button: hsla(0, 0%, 19%, 1);
+    --button-hover: hsla(0, 0%, 22%, 1);
+
+    --input: hsla(0, 0%, 10%, 1);
+    --input-focus: hsla(0, 0%, 20%, 1);
+    --input-text: hsla(0, 0%, 90%, 1);
 }
 
 :root.light {
@@ -111,12 +116,37 @@ body {
     overscroll-behavior: none;
 }
 
-button.primary {
-    background-color: var(--button-primary);
+button {
+    background-color: var(--button);
     color: var(--text-primary);
-    padding: 0.5rem 1rem;
+    padding: 0.75rem 1rem;
     border-radius: 4px;
     font-weight: 500;
+}
+
+button:focus {
+    outline: none;
+    background-color: var(--button-hover);
+}
+
+button:hover {
+    background-color: var(--button-hover);
+}
+
+input {
+    background-color: var(--input);
+    color: var(--input-text);
+    padding: 1rem 1.5rem;
+    border-radius: 2px;
+    border: 1px solid transparent;
+    font-weight: normal;
+    font-size: 15px;
+    width: 100%;
+    transition: 0.1s;
+}
+
+textarea:focus, input:focus{
+    outline: none;
 }
 
 .icon > svg {
