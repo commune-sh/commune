@@ -25,6 +25,7 @@
     --shade-9: hsla(0, 0%, 23%, 1);
     --shade-10: hsla(0, 0%, 25%, 1);
     --text-primary: #e1e1e1;
+    --text-light: #e1e1e1;
     --primary: #c50000;
     --switcher: hsla(0, 0%, 7%, 1);
     --sidebar: hsla(0, 0%, 9%, 1);
@@ -47,7 +48,7 @@
 
     --input: hsla(0, 0%, 10%, 1);
     --input-focus: hsla(0, 0%, 20%, 1);
-    --input-text: hsla(0, 0%, 90%, 1);
+    --input-text: hsla(0, 0%, 96%, 1);
 }
 
 :root.light {
@@ -116,12 +117,17 @@ body {
     overscroll-behavior: none;
 }
 
+.silk {
+    font-family: "Silkscreen";
+}
+
 button {
     background-color: var(--button);
     color: var(--text-primary);
     padding: 0.75rem 1rem;
     border-radius: 4px;
     font-weight: 500;
+    font-size: 15px;
 }
 
 button:focus {
@@ -136,7 +142,7 @@ button:hover {
 input {
     background-color: var(--input);
     color: var(--input-text);
-    padding: 1rem 1.5rem;
+    padding: 1.25rem 1.5rem;
     border-radius: 2px;
     border: 1px solid transparent;
     font-weight: normal;

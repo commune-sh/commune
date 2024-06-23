@@ -1,10 +1,50 @@
 <script>
+import { login } from '$lib/matrix/requests';
+import { browser } from '$app/environment';
 import { onMount, tick } from 'svelte';
+import { goto } from '$app/navigation';
+
+let flows = $state(null);
+
+async function getFlows() {
+    try {
+        const response = await login();
+        if(response?.flows) {
+            flows = response.flows;
+            console.log("Login flows: ", flows)
+        }
+    } catch (error) {
+        console.log(error)
+        /*
+        store.ui.activateAlert({
+            message: "Can't connect to homeserver.",
+            type: "error"
+        })
+        */
+    }
+}
+
+function updateHash(hash) {
+    if(!browser) return;
+    const url = new URL(window.location.href);
+    url.hash = hash;
+    window.history.pushState({}, "", url);
+}
+
+onMount(() => {
+
+    if(browser) {
+        updateHash('#login');
+    }
+
+    getFlows();
+})
+
 let handle;
 let password;
 
 let {
-    flows
+    switchToSignup
 } = $props();
 
 let providers = $derived.by(() => {
@@ -41,15 +81,24 @@ onMount(async () => {
     handle.focus();
 });
 
+function signup() {
+    goto(`#signup`);
+}
+
 </script>
 
+
 <div class="login-container flex flex-col w-[420px] rounded-[4px]
-    bg-switcher
+    bg-switcher mt-10
     p-[20px]">
-    <div class="">
-        Log in
+
+    <div class="flex justify-center">
+        <div class="title silk">
+            Login
+        </div>
     </div>
-    <div class="mt-20">
+
+    <div class="mt-8">
         <input bind:this={handle} type="text" class=""
         placeholder="Email or username">
     </div>
@@ -58,7 +107,7 @@ onMount(async () => {
         placeholder="Password">
     </div>
     <div class="mt-6 text-xl">
-        Need an account? <a href="/signup" class="text-primary">Sign up</a>
+        Need an account? <a onclick={signup} class="text-primary">Sign up</a>
     </div>
     <div class="mt-6">
         <button class="w-full py-5">Log in</button>
@@ -67,10 +116,11 @@ onMount(async () => {
 </div>
 
     {#if providers?.length > 0}
-    <div class="mt-16 flex ">
+    <div class="mt-16 flex justify-center">
         {#each providers as provider(provider.id)}
-            <div class="bg-switcher p-[8px] mx-2 rounded-[8px]">
-                <div class="icon w-[34px]">
+            <div class="provider bg-switcher p-[8px] mx-2 
+                rounded-[8px] cursor-pointer">
+                <div class="icon w-[24px]">
                 {#if provider?.icon}
                     {@html provider.icon}
                 {/if}
@@ -83,4 +133,18 @@ onMount(async () => {
 
 
 <style>
+.provider {
+    border: 2px solid transparent;
+}
+
+.provider:hover {
+    border: 2px solid var(--shade-8);
+}
+
+.title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary);
+    text-shadow: 3px 3px 3px hsla(0, 0%, 1%, 0.5);
+}
 </style>
