@@ -111,7 +111,7 @@ function signup() {
     </div>
     <div class="mt-6 text-xl text-light">
         Need an account? 
-        <a href="#signup" class="text-primary silk">Sign up</a>
+        <a href="#signup" class="text-primary hover:text-text silk">Sign up</a>
     </div>
     <div class="mt-6">
         <button class="w-full py-6">Log in</button>
