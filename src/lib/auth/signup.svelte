@@ -12,7 +12,13 @@ let registration_disabled = $state(false)
 
 onMount(() => {
     getRegisterFlows();
+    focus()
 })
+
+async function focus() {
+    await tick();
+    usernameInput.focus();
+}
 
 async function getRegisterFlows() {
     try {
@@ -35,18 +41,50 @@ async function getRegisterFlows() {
         */
     }
 }
+
+
+let usernameInput;
+let emailInput; 
+let passwordInput;
+
 </script>
 
-<div class="auth-view flex flex-col h-full items-center">
-    <div class="flex flex-col">
-        <div class="">
-            signup
+<div class="signup-container flex flex-col w-[420px] rounded-[4px]
+    bg-switcher mt-10 relative
+    p-[20px]">
+
+    <div class="flex justify-center">
+        <div class="title silk">
+            Create an account
         </div>
     </div>
+
+    <div class="mt-8">
+        <input bind:this={usernameInput} type="text" class=""
+            placeholder="Username">
+    </div>
+
+    <div class="mt-8">
+        <input bind:this={emailInput} type="text" class=""
+            placeholder="Email">
+    </div>
+
+    <div class="mt-6">
+        <input bind:this={passwordInput} type="password" class=""
+            placeholder="Password">
+    </div>
+
+    <div class="mt-6 text-xl text-light">
+    </div>
+    <div class="mt-6">
+        <button class="w-full py-5">Create account</button>
+    </div>
+
+
+
 </div>
 
+
+
 <style>
-.auth-view {
-    margin-top: calc(50vh / 2);
-}
 </style>

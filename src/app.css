@@ -290,3 +290,8 @@ input::placeholder {
         transform: rotate(360deg);
     }
 }
+
+.mt-mid {
+    margin-top: calc(50vh / 2);
+}
+
