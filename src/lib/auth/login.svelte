@@ -5,6 +5,8 @@ import { page } from '$app/stores';
 import { pushState } from '$app/navigation'
 import { login } from '$lib/matrix/requests';
 
+import Logo from '$lib/logo/static-logo.svelte'
+
 import Flows from './flows.svelte'
 
 import { createStore } from '$lib/store/store.svelte.js'
@@ -51,10 +53,16 @@ function signup() {
     });
 }
 
-let is_app = $derived($page.route.id == '/(app)')
+let is_app_group = $derived($page.route.id == '/(app)')
+let is_auth_group = $derived($page.route.id == '/(auth)/login')
 
 </script>
 
+{#if is_auth_group}
+    <div class="flex justify-center">
+        <Logo />
+    </div>
+{/if}
 
 <div class="login-container flex flex-col w-[420px] rounded-[4px]
     bg-switcher mt-10 relative
@@ -77,7 +85,7 @@ let is_app = $derived($page.route.id == '/(app)')
     </div>
     <div class="mt-6 text-xl text-light">
         Need an account? 
-        {#if is_app}
+        {#if is_app_group}
             <a onclick={signup} class="text-primary cursor-pointer hover:text-text ">Sign up</a>
         {:else}
             <a href="/signup" class="text-primary hover:text-text">Sign up</a>
