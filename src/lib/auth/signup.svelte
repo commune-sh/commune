@@ -1,9 +1,17 @@
 <script>
-import { browser } from '$app/environment';
 import { onMount, tick } from 'svelte';
-import { goto } from '$app/navigation';
+import { page } from '$app/stores';
+import { pushState } from '$app/navigation'
+import { login, register } from '$lib/matrix/requests';
 
-import { register } from '$lib/matrix/requests';
+import Flows from './flows.svelte'
+
+import { createStore } from '$lib/store/store.svelte.js'
+const store = createStore()
+
+
+
+let login_flows = $derived(store.auth.login_flows)
 
 let register_flows = $state(null);
 let session = $state(null);
@@ -13,6 +21,9 @@ let registration_disabled = $state(false)
 onMount(() => {
     getRegisterFlows();
     focus()
+    if(!login_flows) {
+        getLoginFlows()
+    }
 })
 
 async function focus() {
@@ -20,6 +31,16 @@ async function focus() {
     usernameInput.focus();
 }
 
+async function getLoginFlows() {
+    try {
+        const response = await login();
+        if(response?.flows) {
+            store.auth.updateLoginFlows(response.flows)
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
 async function getRegisterFlows() {
     try {
         const response = await register();
@@ -46,6 +67,14 @@ async function getRegisterFlows() {
 let usernameInput;
 let emailInput; 
 let passwordInput;
+
+let is_app = $derived($page.route.id == '/(app)')
+
+function goToLogin() {
+    pushState('', {
+        active_view: "login"
+    });
+}
 
 </script>
 
@@ -76,6 +105,17 @@ let passwordInput;
 
     <div class="mt-6 text-xl text-light">
     </div>
+
+    <div class="mt-6 text-xl text-light">
+        Already have an account?
+        {#if is_app}
+            <a onclick={goToLogin} class="text-primary cursor-pointer
+                hover:text-text ">Login</a>
+        {:else}
+            <a href="/login" class="text-primary hover:text-text">Login</a>
+        {/if}
+    </div>
+
     <div class="mt-6">
         <button class="w-full py-5">Create account</button>
     </div>
@@ -84,6 +124,7 @@ let passwordInput;
 
 </div>
 
+<Flows />
 
 
 <style>

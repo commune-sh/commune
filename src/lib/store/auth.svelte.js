@@ -11,6 +11,8 @@ let accounts = $state(null);
 
 let authenticated = $state(false);
 
+let login_flows = $state(null);
+
 export function createAuthStore() {
 
   async function setup(opts) {
@@ -104,6 +106,11 @@ export function createAuthStore() {
     access_token_checked = true;
   }
 
+  function updateLoginFlows(flows) {
+    console.log("Storing login flows: ", flows)
+    login_flows = flows
+  }
+
 
   return {
     get ready() {
@@ -126,8 +133,13 @@ export function createAuthStore() {
       return access_token_checked;
     },
 
+    get login_flows() {
+      return login_flows;
+    },
+
     setup,
     purge,
     validateAccessToken,
+    updateLoginFlows,
   };
 }
