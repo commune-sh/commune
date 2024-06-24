@@ -1,12 +1,35 @@
 <script>
 import { browser } from '$app/environment';
 import { onMount, tick } from 'svelte';
+import { page } from '$app/stores';
 import { goto } from '$app/navigation';
+import { pushState } from '$app/navigation'
+
+import { login } from '$lib/matrix/requests';
+
+let login_flows = $state(null);
+
+async function getLoginFlows() {
+    try {
+        const response = await login();
+        if(response?.flows) {
+            login_flows = response.flows;
+            console.log("Login flows: ", login_flows)
+        }
+    } catch (error) {
+        console.log(error)
+        /*
+        store.ui.activateAlert({
+            message: "Can't connect to homeserver.",
+            type: "error"
+        })
+        */
+    }
+}
 
 onMount(() => {
-
     if(browser) {
-        //updateHash('#login');
+        getLoginFlows()
     }
 
 })
@@ -15,7 +38,6 @@ let handle;
 let password;
 
 let {
-    login_flows
 } = $props();
 
 let no_flows = $derived.by(() => {
@@ -60,64 +82,84 @@ onMount(async () => {
 });
 
 function signup() {
-    //goto(`#signup`);
+    pushState('', {
+        active_view: "signup"
+    });
 }
+
+let is_app = $derived($page.route.id == '/(app)')
 
 </script>
 
+<div class="auth-view flex flex-col h-full items-center">
+    <div class="flex flex-col">
 
-<div class="login-container flex flex-col w-[420px] rounded-[4px]
-    bg-switcher mt-10 relative
-    p-[20px]">
+    <div class="login-container flex flex-col w-[420px] rounded-[4px]
+        bg-switcher mt-10 relative
+        p-[20px]">
 
-    <div class="flex justify-center">
-        <div class="title silk">
-            Login
-        </div>
-    </div>
-
-    <div class="mt-8">
-        <input bind:this={handle} type="text" class=""
-        placeholder="Email or username">
-    </div>
-    <div class="mt-6">
-        <input bind:this={password} type="password" class=""
-        placeholder="Password">
-    </div>
-    <div class="mt-6 text-xl text-light">
-        Need an account? 
-        <a href="/signup" class="text-primary hover:text-text silk">Sign up</a>
-    </div>
-    <div class="mt-6">
-        <button class="w-full py-5">Log in</button>
-    </div>
-
-
-
-</div>
-
-    {#if no_flows}
-    <div class="mt-12 flex justify-center">
-        <div class="spinner border-primary"></div>
-</div>
-    {:else if providers?.length > 0}
-    <div class="mt-12 flex justify-center">
-        {#each providers as provider, i (provider.id)}
-            <div class="provider bg-switcher p-[8px] mx-2 
-                rounded-[8px] cursor-pointer" tabindex="0">
-                <div class="brand w-[22px]">
-                {#if provider?.icon}
-                    {@html provider.icon}
-                {/if}
-                </div>
+        <div class="flex justify-center">
+            <div class="title silk">
+                Login
             </div>
-        {/each}
+        </div>
+
+        <div class="mt-8">
+            <input bind:this={handle} type="text" class=""
+            placeholder="Email or username">
+        </div>
+        <div class="mt-6">
+            <input bind:this={password} type="password" class=""
+            placeholder="Password">
+        </div>
+        <div class="mt-6 text-xl text-light">
+            Need an account? 
+            {#if is_app}
+            <a onclick={signup} class="text-primary hover:text-text silk">Sign up</a>
+                {:else}
+            <a href="/signup" class="text-primary hover:text-text silk">Sign up</a>
+            {/if}
+        </div>
+        <div class="mt-6">
+            <button class="w-full py-5">Log in</button>
+        </div>
+
+
+
     </div>
-    {/if}
+
+        {#if no_flows}
+            <div class="mt-12 flex justify-center">
+                <div class="spinner border-primary"></div>
+            </div>
+        {:else if providers?.length > 0}
+            <div class="mt-12 flex justify-center">
+                {#each providers as provider, i (provider.id)}
+                    <div class="provider bg-switcher p-[8px] mx-2 
+                        rounded-[8px] cursor-pointer" tabindex="0">
+                        <div class="brand w-[22px]">
+                        {#if provider?.icon}
+                            {@html provider.icon}
+                        {/if}
+                        </div>
+                    </div>
+                {/each}
+            </div>
+        {/if}
+
+
+
+    </div>
+</div>
+
 
 
 
 <style>
+
+.auth-view {
+    margin-top: calc(50vh / 2);
+}
 
 .provider {
     background: var(--shade-3);

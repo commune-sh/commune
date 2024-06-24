@@ -1,6 +1,12 @@
 <script>
 import View from '$lib/view/view.svelte'
 import Loading from '$lib/loading/loading.svelte'
+import { pushState } from '$app/navigation'
+import { browser } from '$app/environment';
+import { onMount } from 'svelte'
+
+onMount(() => {
+})
 
 import AuthView from '$lib/auth/auth-view.svelte'
 
@@ -14,16 +20,22 @@ const authenticated = $derived(store.auth.authenticated)
 
 const show_home = $derived(authReady && authenticated)
 
+const access_token_exists = $derived(data?.access_token_exists)
+
 $effect(() => {
-    if(data) {
-        console.log(data)
-    }
 })
 
 </script>
 
-
-<View />
+{#if !access_token_exists}
+    <AuthView />
+{:else}
+    {#if !authReady}
+        <Loading />
+    {:else if show_home}
+        <View />
+    {/if}
+{/if}
 
 
 <style>

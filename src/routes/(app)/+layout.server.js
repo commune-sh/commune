@@ -11,10 +11,16 @@ import { error } from '@sveltejs/kit';
 /** @type {import('./$types').LayoutServerLoad} */
 export async function load( { fetch, params, url, cookies, request } ) {
 
+  const access_token = cookies.get('mx_access_token');
   let data = {
     homeserver_reachable: false,
+    access_token_exists: !!access_token,
   };
 
+
+  if(!access_token && PUBLIC_REQUIRE_AUTH == 'true') {
+    redirect(302, '/login');
+  }
 
   /*
   try {
