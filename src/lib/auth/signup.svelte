@@ -83,23 +83,30 @@ function goToLogin() {
     p-[20px]">
 
     <div class="flex justify-center">
-        <div class="title silk">
+        <div class="title silk duration-300" 
+            class:opacity-20={registration_disabled}>
             Create an account
         </div>
     </div>
 
     <div class="mt-8">
-        <input bind:this={usernameInput} type="text" class=""
+        <input bind:this={usernameInput} type="text" 
+            class="duration-300"
+            disabled={registration_disabled}
             placeholder="Username">
     </div>
 
     <div class="mt-8">
-        <input bind:this={emailInput} type="text" class=""
+        <input bind:this={emailInput} type="text" 
+            class="duration-300"
+            disabled={registration_disabled}
             placeholder="Email">
     </div>
 
     <div class="mt-6">
-        <input bind:this={passwordInput} type="password" class=""
+        <input bind:this={passwordInput} type="password" 
+            class="duration-300"
+            disabled={registration_disabled}
             placeholder="Password">
     </div>
 
@@ -117,14 +124,25 @@ function goToLogin() {
     </div>
 
     <div class="mt-6">
-        <button class="w-full py-5">Create account</button>
+        <button class="w-full py-5 duration-300"
+            disabled={registration_disabled}>
+            Create account
+        </button>
     </div>
 
+
+    {#if registration_disabled}
+        <div class="mt-6 text-xl text-light warn text-center">
+            Registration has been disabled by the server.
+        </div>
+    {/if}
 
 
 </div>
 
+{#if !registration_disabled}
 <Flows />
+{/if}
 
 
 <style>

@@ -149,6 +149,15 @@ button:active {
     background-color: var(--button-active);
 }
 
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+button:disabled:hover {
+    background-color: var(--button);
+}
+
 input {
     background-color: var(--input);
     color: var(--input-text);
@@ -158,6 +167,11 @@ input {
     font-weight: normal;
     font-size: 15px;
     width: 100%;
+}
+
+input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 textarea:focus, input:focus{
@@ -175,6 +189,10 @@ input::placeholder {
 
 .icon > svg:hover {
     fill: var(--icon-hover);
+}
+
+.warn {
+    color: red;
 }
 
 .tippy-box[data-theme~='inline'] {
