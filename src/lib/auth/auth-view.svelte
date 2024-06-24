@@ -20,6 +20,8 @@ let login_flows = $state(null);
 let register_flows = $state(null);
 let session = $state(null);
 
+let registration_disabled = $state(false)
+
 $effect(() => {
 })
 
@@ -54,6 +56,9 @@ async function getRegisterFlows() {
             register_flows = response.flows;
             session = response.session
         }
+        if(response?.errcode == "M_FORBIDDEN") {
+            registration_disabled = true
+        }
     } catch (error) {
         console.log(error)
         /*
@@ -73,7 +78,12 @@ async function getRegisterFlows() {
     {#if login_active}
         <Login {login_flows} {register_flows} />
     {:else if signup_active}
-        <Signup {login_flows} {register_flows} {session} />
+        <Signup 
+            {login_flows} 
+            {register_flows} 
+            {session} 
+            {registration_disabled}
+        />
     {/if}
     </div>
 </div>
