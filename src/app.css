@@ -45,6 +45,7 @@
 
     --button: hsla(0, 0%, 19%, 1);
     --button-hover: hsla(0, 0%, 22%, 1);
+    --button-active: hsla(0, 0%, 15%, 1);
 
     --input: hsla(0, 0%, 10%, 1);
     --input-focus: hsla(0, 0%, 20%, 1);
@@ -137,7 +138,6 @@ button {
 }
 
 button:focus {
-    outline: none;
     background-color: var(--button-hover);
 }
 
@@ -145,20 +145,24 @@ button:hover {
     background-color: var(--button-hover);
 }
 
+button:active {
+    background-color: var(--button-active);
+}
+
 input {
     background-color: var(--input);
     color: var(--input-text);
-    padding: 1.25rem 1.5rem;
+    padding: 1rem 1.5rem;
     border-radius: 2px;
     border: 1px solid transparent;
     font-weight: normal;
     font-size: 15px;
     width: 100%;
-    transition: 0.1s;
 }
 
 textarea:focus, input:focus{
     outline: none;
+    border: 1px solid var(--shade-8);
 }
 
 input::placeholder {
@@ -265,4 +269,24 @@ input::placeholder {
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
+}
+
+.spinner {
+    width: 12px;
+    height: 12px;
+    border-width: 2px;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 0.5s linear infinite;
+    }
+
+    @keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }

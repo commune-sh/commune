@@ -1,57 +1,32 @@
 <script>
-import { login } from '$lib/matrix/requests';
 import { browser } from '$app/environment';
 import { onMount, tick } from 'svelte';
 import { goto } from '$app/navigation';
 
-let flows = $state(null);
-
-async function getFlows() {
-    try {
-        const response = await login();
-        if(response?.flows) {
-            flows = response.flows;
-            console.log("Login flows: ", flows)
-        }
-    } catch (error) {
-        console.log(error)
-        /*
-        store.ui.activateAlert({
-            message: "Can't connect to homeserver.",
-            type: "error"
-        })
-        */
-    }
-}
-
-function updateHash(hash) {
-    if(!browser) return;
-    const url = new URL(window.location.href);
-    url.hash = hash;
-    window.history.pushState({}, "", url);
-}
-
 onMount(() => {
 
     if(browser) {
-        updateHash('#login');
+        //updateHash('#login');
     }
 
-    getFlows();
 })
 
 let handle;
 let password;
 
 let {
-    switchToSignup
+    login_flows
 } = $props();
 
+let no_flows = $derived.by(() => {
+    return !login_flows;
+});
+
 let providers = $derived.by(() => {
-    if(flows) {
-        let sso = flows.some(element => element.type === "m.login.sso");
+    if(login_flows) {
+        let sso = login_flows.some(element => element.type === "m.login.sso");
         if(sso) {
-            return flows.find(flow => flow.type === 'm.login.sso').identity_providers;
+            return login_flows.find(flow => flow.type === 'm.login.sso').identity_providers;
         }
     }
     return [];
@@ -85,14 +60,14 @@ onMount(async () => {
 });
 
 function signup() {
-    goto(`#signup`);
+    //goto(`#signup`);
 }
 
 </script>
 
 
 <div class="login-container flex flex-col w-[420px] rounded-[4px]
-    bg-switcher mt-10
+    bg-switcher mt-10 relative
     p-[20px]">
 
     <div class="flex justify-center">
@@ -111,17 +86,25 @@ function signup() {
     </div>
     <div class="mt-6 text-xl text-light">
         Need an account? 
-        <a href="#signup" class="text-primary hover:text-text silk">Sign up</a>
+        <a href="/signup" class="text-primary hover:text-text silk">Sign up</a>
     </div>
     <div class="mt-6">
-        <button class="w-full py-6">Log in</button>
+        <button class="w-full py-5">Log in</button>
     </div>
 
-    {#if providers?.length > 0}
+
+
+</div>
+
+    {#if no_flows}
     <div class="mt-12 flex justify-center">
-        {#each providers as provider(provider.id)}
+        <div class="spinner border-primary"></div>
+</div>
+    {:else if providers?.length > 0}
+    <div class="mt-12 flex justify-center">
+        {#each providers as provider, i (provider.id)}
             <div class="provider bg-switcher p-[8px] mx-2 
-                rounded-[8px] cursor-pointer">
+                rounded-[8px] cursor-pointer" tabindex="0">
                 <div class="brand w-[22px]">
                 {#if provider?.icon}
                     {@html provider.icon}
@@ -132,12 +115,10 @@ function signup() {
     </div>
     {/if}
 
-</div>
-
-
 
 
 <style>
+
 .provider {
     background: var(--shade-3);
 }
@@ -160,5 +141,15 @@ function signup() {
     font-weight: 700;
     color: var(--primary);
     text-shadow: 3px 3px 3px hsla(0, 0%, 1%, 0.5);
+}
+
+.loading-flows {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--shade-9);
+    height: 3px;
+    border-radius: 0 0 4px 4px;
 }
 </style>
