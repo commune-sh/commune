@@ -18,8 +18,8 @@ export const login = async (body) => {
   }
 
   try {
-    const response = await fetchWithTimeout(url, options)
-    return response;
+    const response = await fetch(url, options)
+    return response.json();
   } catch (error) {
     throw error
   }

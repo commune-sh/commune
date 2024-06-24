@@ -12,6 +12,7 @@ let login_flows = $state(null);
 async function getLoginFlows() {
     try {
         const response = await login();
+        console.log(response)
         if(response?.flows) {
             login_flows = response.flows;
             console.log("Login flows: ", login_flows)

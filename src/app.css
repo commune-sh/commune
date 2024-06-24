@@ -13,7 +13,7 @@
 }
 
 :root.dark {
-    --background: hsla(0, 0%, 5%, 1);;
+    --background: hsla(0, 0%, 11%, 1);;
     --shade-1: hsla(0, 0%, 7%, 1);
     --shade-2: hsla(0, 0%, 9%, 1);
     --shade-3: hsla(0, 0%, 11%, 1);
