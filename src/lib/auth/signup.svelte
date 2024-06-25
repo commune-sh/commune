@@ -3,12 +3,14 @@ import { onMount, tick } from 'svelte';
 import { page } from '$app/stores';
 import { pushState } from '$app/navigation'
 import { login, register } from '$lib/matrix/requests';
+import { eye, eyeSlash } from '$lib/assets/icons'
 
 import Logo from '$lib/logo/static-logo.svelte'
 
 import Flows from './flows.svelte'
 
 import { createStore } from '$lib/store/store.svelte.js'
+    import Toggle from '$lib/theme/toggle.svelte';
 const store = createStore()
 
 
@@ -65,10 +67,34 @@ async function getRegisterFlows() {
     }
 }
 
+// Which register flows exist?
+
+let dummy_flow_exists = $derived.by(() => {
+    return register_flows?.find(flow => flow.stages.includes("m.login.dummy"))
+    != null
+})
+let email_flow_exists = $derived.by(() => {
+    return register_flows?.find(flow =>
+        flow.stages.includes("m.login.email.identity")) != null
+})
+
+let email_required = $derived(email_flow_exists && !dummy_flow_exists)
+let email_optional = $derived(email_flow_exists && dummy_flow_exists)
+
+let emailPlaceholder = $derived(email_required ? "Email" : "Email (optional)")
+
 
 let usernameInput;
 let emailInput; 
 let passwordInput;
+
+let password_visible = $state(false);
+
+let togglePasswordVisibility = () => {
+    password_visible = !password_visible;
+    passwordInput.type = password_visible ? "text" : "password";
+    passwordInput.focus();
+}
 
 let is_app_group = $derived($page.route.id == '/(app)')
 let is_auth_group = $derived($page.route.id == '/(auth)/signup')
@@ -88,6 +114,7 @@ function goToLogin() {
     </div>
 {/if}
 
+
 <div class="signup-container flex flex-col w-[420px] rounded-[4px]
     bg-switcher mt-10 relative
     p-[20px]">
@@ -106,18 +133,28 @@ function goToLogin() {
             placeholder="Username">
     </div>
 
+    {#if email_flow_exists}
     <div class="mt-8">
         <input bind:this={emailInput} type="text" 
             class="duration-300"
             disabled={registration_disabled}
-            placeholder="Email">
+            placeholder={emailPlaceholder}>
     </div>
+    {/if}
 
-    <div class="mt-6">
+    <div class="mt-6 relative">
         <input bind:this={passwordInput} type="password" 
             class="duration-300"
             disabled={registration_disabled}
             placeholder="Password">
+        <div class="absolute right-0 top-4 mr-4 icon cursor-pointer w-[20px] h-[20px]" 
+            onclick={togglePasswordVisibility}>
+            {#if password_visible}
+                {@html eye}
+            {:else}
+                {@html eyeSlash}
+            {/if}
+        </div>
     </div>
 
     <div class="mt-6 text-xl text-light">
