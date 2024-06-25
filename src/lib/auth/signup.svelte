@@ -219,6 +219,12 @@ function saveSession(opts) {
     })
 }
 
+function handleEnter(e) {
+    if(e.key == 'Enter') {
+        createAccount()
+    }
+}
+
 
 </script>
 
@@ -277,6 +283,7 @@ function saveSession(opts) {
             disabled={registration_disabled || busy}
             class:fail={bad_password}
             oninput={updatePassword}
+            onkeypress={handleEnter}
             placeholder="Password">
         <div class="absolute right-0 top-4 mr-4 icon cursor-pointer w-[20px] h-[20px]" 
             onclick={togglePasswordVisibility}>

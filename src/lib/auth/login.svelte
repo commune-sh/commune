@@ -130,6 +130,17 @@ function saveSession(opts) {
     })
 }
 
+function goToPassword(e) {
+    if(e.key == 'Enter' && handle.value?.length > 0) {
+        passwordInput.focus()
+    }
+}
+function handleEnter(e) {
+    if(e.key == 'Enter') {
+        startLogin()
+    }
+}
+
 </script>
 
 <svelte:head>
@@ -153,15 +164,16 @@ function saveSession(opts) {
             id="handle"
             autocomplete="off"
             placeholder="Email or username"
-            class:fail={bad_credentials}
+            onkeypress={goToPassword}
             disabled={busy}>
     </div>
     <div class="mt-5">
         <input bind:this={passwordInput} type="password" 
             id="password"
             class="duration-300"
-            class:fail={bad_password || bad_credentials}
+            class:fail={bad_password}
             oninput={updatePassword}
+            onkeypress={handleEnter}
             placeholder="Password"
             disabled={busy}>
     </div>
@@ -193,6 +205,14 @@ function saveSession(opts) {
 
 </div>
 
+{#if bad_credentials}
+<div class="mt-4 px-[20px] py-3 bg-shade-2 
+    border border-primary
+    rounded-[4px] text-xl warn
+    text-center">
+    Incorrect username or password.
+</div>
+{/if}
 
 
 
