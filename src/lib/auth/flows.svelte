@@ -43,8 +43,7 @@ $effect(() => {
 </script>
 
 {#if no_flows}
-    <div class="mt-8 flex justify-center">
-        <div class="spinner border-primary"></div>
+    <div class="loading-flows animate-pulse">
     </div>
 {:else if providers?.length > 0}
     <div class="flex flex-col justify-center">
@@ -72,20 +71,23 @@ $effect(() => {
 
 
 <style>
-.provider {
-    background: var(--shade-3);
+.loading-flows {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    border-radius: 4px 4px 0 0;
+    background: linear-gradient(to right, transparent 0%, var(--primary) 50%, transparent 100%);
+    background-size: 200% 100%; 
+    animation: move 1s linear infinite; 
 }
-
-.provider:hover {
-    background: var(--shade-6);
-}
-
-.brand {
-    fill: var(--icon);
-}
-
-.provider:hover .brand {
-    fill: var(--text);
-    opacity: 0.7;
+@keyframes move {
+    from { 
+        background-position: 0% 50%;
+    }
+    to {
+        background-position: 100% 50%;
+    }
 }
 </style>
