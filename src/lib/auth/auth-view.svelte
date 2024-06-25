@@ -10,14 +10,17 @@ const store = createStore()
 
 let active_view = $derived($page.state?.active_view)
 
-const login_active = $derived(active_view == undefined || 
+const login_active = $derived((active_view == undefined) || 
     active_view == "login")
 const signup_active = $derived(active_view == "signup")
+
+$effect(() => {
+})
 
 </script>
 
 <div class="mt-mid flex flex-col h-full items-center">
-    <div class="flex flex-col">
+    <div class="flex flex-col max-w-[460px] w-full px-5">
 
 
     {#if login_active}

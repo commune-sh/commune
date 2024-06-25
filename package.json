@@ -26,6 +26,7 @@
 	"type": "module",
 	"dependencies": {
 		"matrix-js-sdk": "^32.4.0",
-		"tippy.js": "^6.3.7"
+		"tippy.js": "^6.3.7",
+		"uuid": "^10.0.0"
 	}
 }

@@ -67,7 +67,7 @@ let title = $derived.by(() => {
     <title>{title}</title>
 </svelte:head>
 
-<div class="login-container flex flex-col w-[420px] rounded-[4px]
+<div class="login-container flex flex-col rounded-[4px]
     bg-switcher mt-10 relative
     p-[20px]">
 
@@ -99,7 +99,7 @@ let title = $derived.by(() => {
     </div>
 
     <div class="mt-6">
-        <button class="w-full py-6 duration-100">Log in</button>
+        <button class="w-full py-5 duration-100">Log in</button>
     </div>
 
 
