@@ -43,20 +43,27 @@ $effect(() => {
 </script>
 
 {#if no_flows}
-    <div class="mt-12 flex justify-center">
+    <div class="mt-8 flex justify-center">
         <div class="spinner border-primary"></div>
     </div>
 {:else if providers?.length > 0}
-    <div class="mt-12 flex justify-center">
+    <div class="flex flex-col justify-center">
         {#each providers as provider, i (provider.id)}
-            <div class="provider bg-switcher p-[8px] mx-2 
-                rounded-[8px] cursor-pointer" tabindex="0">
-                <div class="brand w-[22px]">
-                    {#if provider?.icon}
-                        {@html provider.icon}
-                    {/if}
-                </div>
+
+            <div class="mt-5">
+                <button class="flex items-center justify-center
+                    secondary w-full py-4 duration-100 
+                    text-light text-xl
+                    bg-shade-3 hover:bg-shade-5">
+                    <span class="brand w-[18px] mr-4">
+                        {#if provider?.icon}
+                            {@html provider.icon}
+                        {/if}
+                    </span>
+                    Continue with {provider.name}
+                </button>
             </div>
+
         {/each}
     </div>
 {/if}

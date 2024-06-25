@@ -150,8 +150,8 @@ button:active {
 }
 
 button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 button:disabled:hover {
@@ -170,8 +170,9 @@ input {
 }
 
 input:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+    opacity: 0.5;
+    cursor: not-allowed;
+    transition: 0.1s;
 }
 
 textarea:focus, input:focus{

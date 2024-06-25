@@ -1,4 +1,5 @@
 <script>
+import { PUBLIC_META_TITLE } from '$env/static/public';
 import { onMount, tick } from 'svelte';
 import { page } from '$app/stores';
 import { pushState } from '$app/navigation'
@@ -58,12 +59,6 @@ async function getRegisterFlows() {
         }
     } catch (error) {
         console.log(error)
-        /*
-        store.ui.activateAlert({
-            message: "Can't connect to homeserver.",
-            type: "error"
-        })
-        */
     }
 }
 
@@ -99,6 +94,10 @@ let togglePasswordVisibility = () => {
 let is_app_group = $derived($page.route.id == '/(app)')
 let is_auth_group = $derived($page.route.id == '/(auth)/signup')
 
+let title = $derived.by(() => {
+    return is_auth_group ? `${PUBLIC_META_TITLE} - Login` : PUBLIC_META_TITLE
+})
+
 function goToLogin() {
     pushState('', {
         active_view: "login"
@@ -107,12 +106,9 @@ function goToLogin() {
 
 </script>
 
-{#if is_auth_group}
-    <div class="flex justify-center"
-            class:opacity-30={registration_disabled}>
-        <Logo />
-    </div>
-{/if}
+<svelte:head>
+    <title>{title}</title>
+</svelte:head>
 
 
 <div class="signup-container flex flex-col w-[420px] rounded-[4px]
@@ -120,7 +116,7 @@ function goToLogin() {
     p-[20px]">
 
     <div class="flex justify-center">
-        <div class="title silk duration-300" 
+        <div class="font-semibold duration-300" 
             class:opacity-20={registration_disabled}>
             Create an account
         </div>
@@ -128,22 +124,25 @@ function goToLogin() {
 
     <div class="mt-8">
         <input bind:this={usernameInput} type="text" 
+            id="usernmae"
             class="duration-300"
             disabled={registration_disabled}
             placeholder="Username">
     </div>
 
     {#if email_flow_exists}
-    <div class="mt-8">
+    <div class="mt-5">
         <input bind:this={emailInput} type="text" 
             class="duration-300"
+            id="email"
             disabled={registration_disabled}
             placeholder={emailPlaceholder}>
     </div>
     {/if}
 
-    <div class="mt-6 relative">
+    <div class="mt-5 relative">
         <input bind:this={passwordInput} type="password" 
+            id="password"
             class="duration-300"
             disabled={registration_disabled}
             placeholder="Password">
@@ -158,9 +157,6 @@ function goToLogin() {
     </div>
 
     <div class="mt-6 text-xl text-light">
-    </div>
-
-    <div class="mt-6 text-xl text-light">
         Already have an account?
         {#if is_app_group}
             <a onclick={goToLogin} class="text-primary cursor-pointer
@@ -171,7 +167,7 @@ function goToLogin() {
     </div>
 
     <div class="mt-6">
-        <button class="w-full py-5 duration-300"
+        <button class="w-full py-6 duration-100"
             disabled={registration_disabled}>
             Create account
         </button>
@@ -184,12 +180,12 @@ function goToLogin() {
         </div>
     {/if}
 
+    {#if !registration_disabled}
+    <Flows />
+    {/if}
+
 
 </div>
-
-{#if !registration_disabled}
-<Flows />
-{/if}
 
 
 <style>
