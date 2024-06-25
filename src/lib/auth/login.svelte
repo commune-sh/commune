@@ -5,6 +5,7 @@ import { onMount, tick } from 'svelte';
 import { page } from '$app/stores';
 import { pushState } from '$app/navigation'
 import { login } from '$lib/matrix/requests';
+import { storeCookies } from '$lib/utils/cookie'
 
 import Logo from '$lib/logo/static-logo.svelte'
 
@@ -36,7 +37,7 @@ onMount(() => {
 })
 
 let handle;
-let password;
+let passwordInput;
 
 
 onMount(() => {
@@ -61,6 +62,74 @@ let title = $derived.by(() => {
     return is_auth_group ? `${PUBLIC_META_TITLE} - Login` : PUBLIC_META_TITLE
 })
 
+let busy = $state(false);
+let failed = $state(false);
+
+let bad_password = $state(false);
+let bad_credentials = $state(false);
+
+async function startLogin() {
+    bad_credentials = false
+    busy = true
+    let username = handle.value
+    let password = passwordInput.value
+    if(username == '') {
+        handle.focus()
+        busy = false
+        return
+    }
+    if(password?.length < 8) {
+        bad_password = true
+        passwordInput.focus()
+        busy = false
+        return
+    }
+    const resp = await login({
+        identifier: {
+            type: "m.id.user",
+            user: username
+        },
+        initial_device_display_name: PUBLIC_APP_NAME,
+        password: password,
+        type: "m.login.password",
+    })
+    if(resp?.errcode == "M_FORBIDDEN") {
+        bad_credentials = true
+        busy = false
+        await tick()
+        handle.focus()
+        return
+    }
+    if(resp?.access_token && resp?.user_id && resp?.device_id) {
+        console.log(resp)
+        saveSession({
+            access_token: resp.access_token,
+            user_id: resp.user_id,
+            device_id: resp.device_id,
+            home_server: resp.home_server,
+        })
+    } else {
+        failed = true
+        busy = false
+        return
+    }
+}
+
+function updatePassword() {
+    if(passwordInput.value?.length >= 8) {
+        bad_password = false
+    }
+}
+
+function saveSession(opts) {
+    storeCookies({
+        mx_access_token: opts.access_token,
+        mx_user_id: opts.user_id,
+        mx_device_id: opts.user_id,
+        mx_home_server: opts.home_server,
+    })
+}
+
 </script>
 
 <svelte:head>
@@ -82,12 +151,19 @@ let title = $derived.by(() => {
     <div class="mt-8">
         <input bind:this={handle} type="text" class=""
             id="handle"
-            placeholder="Email or username">
+            autocomplete="off"
+            placeholder="Email or username"
+            class:fail={bad_credentials}
+            disabled={busy}>
     </div>
     <div class="mt-5">
-        <input bind:this={password} type="password" class=""
+        <input bind:this={passwordInput} type="password" 
             id="password"
-            placeholder="Password">
+            class="duration-300"
+            class:fail={bad_password || bad_credentials}
+            oninput={updatePassword}
+            placeholder="Password"
+            disabled={busy}>
     </div>
     <div class="mt-6 text-xl text-light">
         Need an account? 
@@ -98,12 +174,21 @@ let title = $derived.by(() => {
         {/if}
     </div>
 
-    <div class="mt-6">
-        <button class="w-full py-5 duration-100">Log in</button>
+    <div class="mt-6 relative">
+        <button class="w-full py-5 duration-100"
+            onclick={startLogin}
+            disabled={busy}>
+            {busy ? `Loggin in` : `Log in`}
+        </button>
+        {#if busy}
+            <div class="absolute top-5 right-6">
+                <div class="spinner border-primary"></div>
+            </div>
+        {/if}
     </div>
 
 
-    <Flows />
+    <Flows {busy} />
 
 
 </div>

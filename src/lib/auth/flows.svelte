@@ -2,6 +2,10 @@
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
 
+let {
+    busy
+} = $props();
+
 let login_flows = $derived(store.auth.login_flows)
 
 let no_flows = $derived.by(() => {
@@ -54,7 +58,9 @@ $effect(() => {
                 <button class="flex items-center justify-center
                     secondary w-full py-4 duration-100 
                     text-light text-xl
-                    bg-shade-3 hover:bg-shade-5">
+                    bg-shade-3 hover:bg-shade-4"
+                    class:disabled={busy}
+                    disabled={busy}>
                     <span class="brand w-[18px] mr-4">
                         {#if provider?.icon}
                             {@html provider.icon}
@@ -74,5 +80,8 @@ $effect(() => {
 <style>
 .brand {
     fill: var(--icon);
+}
+.disabled:hover{
+    background: var(--shade-3);
 }
 </style>

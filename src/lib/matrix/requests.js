@@ -14,7 +14,7 @@ export const login = async (body) => {
 
   if(body !== undefined && body?.type != ''){
     options.method = 'POST'
-    options.body = body
+    options.body = JSON.stringify(body)
   }
 
   try {

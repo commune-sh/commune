@@ -240,13 +240,13 @@ function saveSession(opts) {
 
     <div class="mt-8 relative">
         <input bind:this={usernameInput} type="text" 
-            id="usernmae"
+            id="username"
             class="duration-300"
             class:fail={username_unavailable}
             oninput={checkUsername}
             onkeypress={reset}
             autocomplete="off"
-            disabled={registration_disabled}
+            disabled={registration_disabled || busy}
             placeholder="Username">
         {#if checking}
             <div class="absolute top-5 right-6">
@@ -265,7 +265,7 @@ function saveSession(opts) {
             <input bind:this={emailInput} type="text" 
                 class="duration-300"
                 id="email"
-                disabled={registration_disabled}
+                disabled={registration_disabled || busy}
                 placeholder={emailPlaceholder}>
         </div>
     {/if}
@@ -274,7 +274,7 @@ function saveSession(opts) {
         <input bind:this={passwordInput} type="password" 
             id="password"
             class="duration-300"
-            disabled={registration_disabled}
+            disabled={registration_disabled || busy}
             class:fail={bad_password}
             oninput={updatePassword}
             placeholder="Password">
