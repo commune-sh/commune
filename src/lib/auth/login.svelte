@@ -36,8 +36,10 @@ onMount(() => {
 
 })
 
-let handle;
+let handleInput;
+let username_or_email = $state('');
 let passwordInput;
+let password = $state('')
 
 
 onMount(() => {
@@ -46,7 +48,7 @@ onMount(() => {
 
 async function focus() {
     await tick();
-    handle.focus();
+    handleInput.focus();
 }
 
 function signup() {
@@ -68,7 +70,6 @@ let failed = $state(false);
 let bad_password = $state(false);
 let bad_credentials = $state(false);
 
-let username_or_email = $state('');
 
 let possibly_email = $derived.by(() => {
     return naiveEmailCheck(username_or_email)
@@ -78,11 +79,11 @@ async function startLogin() {
     bad_credentials = false
     busy = true
 
-    let username = handle.value
+    let username = handleInput.value
     let password = passwordInput.value
 
     if(username == '') {
-        handle.focus()
+        handleInput.focus()
         busy = false
         return
     }
@@ -117,7 +118,7 @@ async function startLogin() {
         bad_credentials = true
         busy = false
         await tick()
-        handle.focus()
+        handleInput.focus()
         return
     }
     if(resp?.access_token && resp?.user_id && resp?.device_id) {
@@ -143,7 +144,7 @@ function updatePassword() {
 
 
 function goToPassword(e) {
-    if(e.key == 'Enter' && handle.value?.length > 0) {
+    if(e.key == 'Enter' && handleInput.value?.length > 0) {
         passwordInput.focus()
     }
 }
@@ -172,9 +173,9 @@ function handleEnter(e) {
 
 
     <div class="mt-8">
-        <input bind:this={handle} type="text" class=""
+        <input bind:this={handleInput} type="text" class=""
             bind:value={username_or_email}
-            id="handle"
+            id="handleInput"
             autocomplete="off"
             placeholder="Email or username"
             onkeypress={goToPassword}

@@ -6,6 +6,7 @@ import { pushState } from '$app/navigation'
 import { login, register, usernameAvailable } from '$lib/matrix/requests';
 import { debounce } from '$lib/utils/utils'
 import { eye, eyeSlash, close, check } from '$lib/assets/icons'
+import { naiveEmailCheck } from '$lib/utils/utils';
 import { v7 as uuidv4 } from 'uuid';
 
 import Logo from '$lib/logo/static-logo.svelte'
@@ -88,8 +89,11 @@ let emailPlaceholder = $derived(email_required ? "Email" : "Email (optional)")
 
 
 let usernameInput;
+let username = $state('')
 let emailInput; 
+let email = $state('')
 let passwordInput;
+let password = $state('')
 
 let password_visible = $state(false);
 
@@ -120,7 +124,6 @@ function checkUsername(e) {
     debounce(async() => {
         username_available = false;
         username_unavailable = false;
-        let username = usernameInput.value;
         if(username?.length == 0) return
         checking = true;
         let response = await usernameAvailable(username);
@@ -139,19 +142,51 @@ function reset() {
 
 let bad_password = $state(false);
 
+let bad_email = $derived.by(() => {
+    return email != '' &&  naiveEmailCheck(email) == false
+})
+
+let showEmailWarning = $state(false)
+
+function checkEmail() {
+    showEmailWarning = false
+    debounce(() => {
+        if(email != '' && !naiveEmailCheck(email)) {
+            showEmailWarning = true
+        }
+    }, 500)
+}
+
 let busy = $state(false);
 
 let failed = $state(false);
 
+let wait_for_email_verification = $state(false);
+
 async function createAccount() {
     busy = true
-    let username = usernameInput.value
+
     if(username == '' || username_unavailable) {
         usernameInput.focus()
         busy = false
         return
     }
-    let password = passwordInput.value
+
+    if(email_required && email == '') {
+        emailInput.focus()
+        busy = false
+        return
+    }
+
+    if(!dummy_mode) {
+        let email_like = naiveEmailCheck(email)
+        if(!email_like) {
+            emailInput.focus()
+            busy = false
+            return
+        }
+    }
+
     if(password?.length < 8) {
         bad_password = true
         passwordInput.focus()
@@ -170,6 +205,7 @@ async function createDummyAccount(username, password) {
         username: username,
         password: password
     });
+
     if(response?.session) {
         console.log("Register response ", response)
         session = response.session
@@ -237,6 +273,7 @@ function handleEnter(e) {
 
     <div class="mt-8 relative">
         <input bind:this={usernameInput} type="text" 
+            bind:value={username}
             id="username"
             class="duration-300"
             class:fail={username_unavailable}
@@ -257,18 +294,20 @@ function handleEnter(e) {
         {/if}
     </div>
 
-    {#if email_flow_exists}
-        <div class="mt-5">
-            <input bind:this={emailInput} type="text" 
-                class="duration-300"
-                id="email"
-                disabled={registration_disabled || busy}
-                placeholder={emailPlaceholder}>
-        </div>
-    {/if}
+    <div class="mt-5" class:hidden={dummy_mode}>
+        <input bind:this={emailInput} type="text" 
+            bind:value={email}
+            class:fail={showEmailWarning}
+            class="duration-300"
+            oninput={checkEmail}
+            id="email"
+            disabled={registration_disabled || busy}
+            placeholder={emailPlaceholder}>
+    </div>
 
     <div class="mt-5 relative">
         <input bind:this={passwordInput} type="password" 
+            bind:value={password}
             id="password"
             class="duration-300"
             disabled={registration_disabled || busy}
