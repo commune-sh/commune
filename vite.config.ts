@@ -23,5 +23,6 @@ export default defineConfig({
     define: {
         __VERSION__: version,
         __COMMIT__: commit,
+        __LINK__: `https://github.com/commune-os/client/commit/${commit}`,
     },
 });
