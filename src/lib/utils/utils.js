@@ -11,3 +11,8 @@ export const debounce = function () {
   };
 }();
 
+
+export function naiveEmailCheck(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}

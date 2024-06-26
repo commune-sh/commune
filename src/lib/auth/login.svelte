@@ -5,6 +5,7 @@ import { onMount, tick } from 'svelte';
 import { page } from '$app/stores';
 import { pushState } from '$app/navigation'
 import { login } from '$lib/matrix/requests';
+import { naiveEmailCheck } from '$lib/utils/utils';
 
 import Logo from '$lib/logo/static-logo.svelte'
 
@@ -67,11 +68,19 @@ let failed = $state(false);
 let bad_password = $state(false);
 let bad_credentials = $state(false);
 
+let username_or_email = $state('');
+
+let possibly_email = $derived.by(() => {
+    return naiveEmailCheck(username_or_email)
+})
+
 async function startLogin() {
     bad_credentials = false
     busy = true
+
     let username = handle.value
     let password = passwordInput.value
+
     if(username == '') {
         handle.focus()
         busy = false
@@ -83,7 +92,8 @@ async function startLogin() {
         busy = false
         return
     }
-    const resp = await login({
+
+    let body = {
         identifier: {
             type: "m.id.user",
             user: username
@@ -91,7 +101,18 @@ async function startLogin() {
         initial_device_display_name: PUBLIC_APP_NAME,
         password: password,
         type: "m.login.password",
-    })
+    }
+
+    if(possibly_email) {
+        body.identifier = {
+            type: "m.id.thirdparty",
+            medium: "email",
+            address: username
+        }
+    }
+
+    const resp = await login(body);
+
     if(resp?.errcode == "M_FORBIDDEN") {
         bad_credentials = true
         busy = false
@@ -152,6 +173,7 @@ function handleEnter(e) {
 
     <div class="mt-8">
         <input bind:this={handle} type="text" class=""
+            bind:value={username_or_email}
             id="handle"
             autocomplete="off"
             placeholder="Email or username"
@@ -201,7 +223,12 @@ function handleEnter(e) {
     border border-primary
     rounded-[4px] text-xl warn
     text-center">
-    Incorrect username or password.
+
+        {#if possibly_email}
+            Incorrect email or password.
+        {:else}
+            Incorrect username or password.
+        {/if}
 </div>
 {/if}
 
