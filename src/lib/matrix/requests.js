@@ -52,8 +52,11 @@ export const register = async (body) => {
   }
 }
 
-export const requestToken = async (email, client_secret) => {
-  const url = `${MATRIX_BASE_URL}/register`;
+export const requestToken = async (opts) => {
+  if(!opts.email || !opts.client_secret || !opts.send_attempt){
+    throw new Error('Missing required parameters')
+  }
+  const url = `${MATRIX_BASE_URL}/register/email/requestToken`;
 
   let options = {
     method: 'POST',
@@ -61,9 +64,9 @@ export const requestToken = async (email, client_secret) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      "client_secret": client_secret,
-      "email": email,
-      "send_attempt": 1
+      "client_secret": opts.client_secret,
+      "email": opts.email,
+      "send_attempt": opts.send_attempt,
     })
   }
 

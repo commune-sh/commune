@@ -3,11 +3,11 @@ import { PUBLIC_META_TITLE, PUBLIC_APP_NAME } from '$env/static/public';
 import { onMount, tick } from 'svelte';
 import { page } from '$app/stores';
 import { pushState } from '$app/navigation'
-import { login, register, usernameAvailable } from '$lib/matrix/requests';
+import { login, register, usernameAvailable, requestToken } from '$lib/matrix/requests';
 import { debounce } from '$lib/utils/utils'
 import { eye, eyeSlash, close, check } from '$lib/assets/icons'
 import { naiveEmailCheck } from '$lib/utils/utils';
-import { v7 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 
 import Logo from '$lib/logo/static-logo.svelte'
 
@@ -85,7 +85,8 @@ let dummy_mode = $derived(dummy_flow_exists && !email_flow_exists)
 let email_required = $derived(email_flow_exists && !dummy_flow_exists)
 let email_optional = $derived(email_flow_exists && dummy_flow_exists)
 
-let emailPlaceholder = $derived(email_required ? "Email" : "Email (optional)")
+let emailPlaceholder = $derived(email_optional ? "Email (optional)" : "Email")
+
 
 
 let usernameInput;
@@ -193,8 +194,13 @@ async function createAccount() {
         busy = false
         return
     }
+
     if(dummy_mode) {
         createDummyAccount(username, password)
+    }
+
+    if(email_required) {
+        createEmailAccount()
     }
 }
 
@@ -238,6 +244,75 @@ async function createDummyAccount(username, password) {
         return
     }
 }
+
+async function createEmailAccount() {
+
+    let client_secret = uuidv4();
+
+    const response = await register({
+        initial_device_display_name: PUBLIC_APP_NAME,
+        username: username,
+        password: password
+    });
+
+    if(response?.session) {
+        console.log("Register response ", response)
+        session = response.session
+    } else {
+        failed = true
+        busy = false
+        return
+    }
+
+    const tokenResponse = await requestToken({
+        client_secret: client_secret,
+        email: email,
+        send_attempt: 1
+    });
+
+    let sid;
+
+    if(tokenResponse?.sid) {
+        sid = tokenResponse.sid
+
+        let body = {
+            auth: {
+                type: "m.login.email.identity",
+                session: session,
+                threepid_creds: {
+                    client_secret: client_secret,
+                    sid: sid
+                }
+            },
+            initial_device_display_name: PUBLIC_APP_NAME,
+            username: username,
+            password: password
+        }
+
+        loopRegister(body)
+    }
+}
+
+
+async function loopRegister(body) {
+    const response = await register(body);
+
+    if(!response?.user_id || !response?.access_token) {
+        setTimeout(() => {
+            loopRegister(body)
+        }, 1000)
+    } else {
+        console.log(response)
+        store.auth.saveSession({
+            access_token: response.access_token,
+            user_id: response.user_id,
+            device_id: response.device_id,
+            home_server: response.home_server,
+        })
+        session = null
+    }
+}
+
 
 function updatePassword() {
     if(passwordInput.value?.length >= 8) {

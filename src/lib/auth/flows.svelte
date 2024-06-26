@@ -57,6 +57,10 @@ function startAuth(provider) {
         <div class="spinner border-primary"></div>
     </div>
 {:else if providers?.length > 0}
+
+    <div class="sep mt-5 h-[1px] bg-shade-3">
+    </div>
+
     <div class="flex flex-col justify-center">
         {#each providers as provider, i (provider.id)}
 
