@@ -63,7 +63,9 @@ onMount(() => {
         </div>
 
         {:else if failed}
-            Something went wrong.
+            <span class="warn">
+                Something went wrong.
+            </span>
         {/if}
 
     </div>

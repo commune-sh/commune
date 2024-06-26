@@ -46,7 +46,7 @@ $effect(() => {
 })
 
 function startAuth(provider) {
-    let link = `${PUBLIC_MATRIX_URL}/_matrix/client/v3/login/sso/redirect/${provider.id}?redirectUrl=${PUBLIC_BASE_URL}`;
+    let link = `${PUBLIC_MATRIX_URL}/_matrix/client/v3/login/sso/redirect/${provider.id}?redirectUrl=${PUBLIC_BASE_URL}/oidc/callback`;
     window.location = link
 }
 
