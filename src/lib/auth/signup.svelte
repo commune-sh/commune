@@ -9,12 +9,10 @@ import { eye, eyeSlash, close, check } from '$lib/assets/icons'
 import { naiveEmailCheck } from '$lib/utils/utils';
 import { v4 as uuidv4 } from 'uuid';
 
-import Logo from '$lib/logo/static-logo.svelte'
 
 import Flows from './flows.svelte'
 
 import { createStore } from '$lib/store/store.svelte.js'
-import Toggle from '$lib/theme/toggle.svelte';
 const store = createStore()
 
 
@@ -108,7 +106,7 @@ let is_app_group = $derived($page.route.id == '/(app)')
 let is_auth_group = $derived($page.route.id == '/(auth)/signup')
 
 let title = $derived.by(() => {
-    return is_auth_group ? `${PUBLIC_META_TITLE} - Login` : PUBLIC_META_TITLE
+    return is_auth_group ? `${PUBLIC_META_TITLE} - Sign up` : PUBLIC_META_TITLE
 })
 
 function goToLogin() {

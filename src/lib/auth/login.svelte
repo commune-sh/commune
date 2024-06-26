@@ -160,6 +160,9 @@ function handleEnter(e) {
     <title>{title}</title>
 </svelte:head>
 
+{__VERSION__}
+{__COMMIT__}
+
 <div class="login-container flex flex-col rounded-[4px]
     bg-switcher mt-10 relative
     p-[20px]">
