@@ -13,6 +13,8 @@ let [version, commit] = (
     ])
 ).map(v => JSON.stringify(v.value?.stdout.trim()))
 
+let link = `https://github.com/commune-os/client/commit/${commit}`
+
 export default defineConfig({
     plugins: [sveltekit()],
     server: {
@@ -23,6 +25,6 @@ export default defineConfig({
     define: {
         __VERSION__: version,
         __COMMIT__: commit,
-        __LINK__: `https://github.com/commune-os/client/commit/${commit}`,
+        __LINK__: JSON.stringify(link)
     },
 });

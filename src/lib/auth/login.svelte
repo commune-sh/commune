@@ -162,6 +162,7 @@ function handleEnter(e) {
 
 {__VERSION__}
 {__COMMIT__}
+{__LINK__}
 
 <div class="login-container flex flex-col rounded-[4px]
     bg-switcher mt-10 relative
