@@ -1,4 +1,5 @@
 <script>
+import { PUBLIC_MATRIX_URL, PUBLIC_BASE_URL } from '$env/static/public';
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
 
@@ -44,6 +45,11 @@ $effect(() => {
     }
 })
 
+function startAuth(provider) {
+    let link = `${PUBLIC_MATRIX_URL}/_matrix/client/v3/login/sso/redirect/${provider.id}?redirectUrl=${PUBLIC_BASE_URL}`;
+    window.location = link
+}
+
 </script>
 
 {#if no_flows}
@@ -59,9 +65,10 @@ $effect(() => {
                     secondary w-full py-4 duration-100 
                     text-light text-xl
                     bg-shade-3 hover:bg-shade-4"
+                    onclick={() => startAuth(provider)}
                     class:disabled={busy}
                     disabled={busy}>
-                    <span class="brand w-[18px] mr-4">
+                    <span class="brand w-[16px] h-[16px] mr-4">
                         {#if provider?.icon}
                             {@html provider.icon}
                         {/if}

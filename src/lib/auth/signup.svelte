@@ -300,7 +300,7 @@ function handleEnter(e) {
         <button class="w-full py-5 duration-100"
             onclick={createAccount}
             disabled={registration_disabled || busy}>
-            {busy ? `Creating account` : `Creat account`}
+            {busy ? `Creating account` : `Create account`}
         </button>
         {#if busy}
             <div class="absolute top-5 right-6">

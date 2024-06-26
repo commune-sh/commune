@@ -1,6 +1,7 @@
 <script>
 import { page } from '$app/stores';
 
+import Token from './token.svelte'
 import Login from './login.svelte'
 import Signup from './signup.svelte'
 
@@ -14,7 +15,13 @@ const login_active = $derived((active_view == undefined) ||
     active_view == "login")
 const signup_active = $derived(active_view == "signup")
 
+const has_login_token = $derived.by(() => {
+    let loginToken = $page.url.searchParams.get('loginToken')
+    return loginToken != null
+})
+
 $effect(() => {
+    console.log($page)
 })
 
 </script>
@@ -23,7 +30,9 @@ $effect(() => {
     <div class="flex flex-col max-w-[460px] w-full px-5">
 
 
-    {#if login_active}
+    {#if has_login_token}
+        <Token />
+    {:else if login_active}
         <Login />
     {:else if signup_active}
         <Signup />

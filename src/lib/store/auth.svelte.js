@@ -121,7 +121,7 @@ export function createAuthStore() {
     storeCookies({
       mx_access_token: opts.access_token,
       mx_user_id: opts.user_id,
-      mx_device_id: opts.user_id,
+      mx_device_id: opts.device_id,
       mx_home_server: opts.home_server,
     })
     credentials = {
