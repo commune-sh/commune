@@ -1,3 +1,4 @@
+import { storeCookies } from '$lib/utils/cookie'
 import { whoami } from '$lib/matrix/requests';
 
 let ready = $state(false);
@@ -111,6 +112,28 @@ export function createAuthStore() {
     login_flows = flows
   }
 
+  function saveSession(opts) {
+    if(!opts?.access_token || 
+      !opts?.user_id || 
+      !opts?.device_id) {
+      return 
+    }
+    storeCookies({
+      mx_access_token: opts.access_token,
+      mx_user_id: opts.user_id,
+      mx_device_id: opts.user_id,
+      mx_home_server: opts.home_server,
+    })
+    credentials = {
+      access_token: opts.access_token,
+      user_id: opts.user_id,
+      device_id: opts.device_id,
+    }
+    authenticated = true;
+    access_token_valid = true;
+    access_token_checked = true;
+    ready = true
+  }
 
   return {
     get ready() {
@@ -141,5 +164,6 @@ export function createAuthStore() {
     purge,
     validateAccessToken,
     updateLoginFlows,
+    saveSession,
   };
 }

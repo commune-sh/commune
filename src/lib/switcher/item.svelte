@@ -235,10 +235,10 @@ let size = $state(46)
         place-items-center cursor-pointer hover:bg-shade-7 opacity-50 hover:opacity-100" 
         class:rounded-[14px]={active}
         class:rounded-[50%]={!active}
-        class:text-[14px]={initial.length > 2}
-        class:text-[12px]={initial.length > 4}
-        class:text-[10px]={initial.length > 5}
-        class:text-[9px]={initial.length > 6}
+        class:text-[14px]={initial?.length > 2}
+        class:text-[12px]={initial?.length > 4}
+        class:text-[10px]={initial?.length > 5}
+        class:text-[9px]={initial?.length > 6}
         class:bg-img={avatar}
         draggable="true"
         ondrag={drag}

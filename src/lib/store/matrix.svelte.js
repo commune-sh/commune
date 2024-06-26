@@ -38,11 +38,11 @@ export function createMatrixStore() {
       const is_child = room.currentState.events.has('m.space.parent')
       if(is_parent && !is_child) {
 
-        console.log(room)
         let space = {
           room_id: room.roomId,
         }
 
+        console.log(room)
         room.timeline.forEach((item) => {
           let event = item.event
 
@@ -81,6 +81,7 @@ export function createMatrixStore() {
         }
       }
     })
+    console.log("Built user spaces: ", spaces)
   }
 
   function updateSpaces(items) {

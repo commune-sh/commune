@@ -5,7 +5,6 @@ import { onMount, tick } from 'svelte';
 import { page } from '$app/stores';
 import { pushState } from '$app/navigation'
 import { login } from '$lib/matrix/requests';
-import { storeCookies } from '$lib/utils/cookie'
 
 import Logo from '$lib/logo/static-logo.svelte'
 
@@ -102,7 +101,7 @@ async function startLogin() {
     }
     if(resp?.access_token && resp?.user_id && resp?.device_id) {
         console.log(resp)
-        saveSession({
+        store.auth.saveSession({
             access_token: resp.access_token,
             user_id: resp.user_id,
             device_id: resp.device_id,
@@ -121,14 +120,6 @@ function updatePassword() {
     }
 }
 
-function saveSession(opts) {
-    storeCookies({
-        mx_access_token: opts.access_token,
-        mx_user_id: opts.user_id,
-        mx_device_id: opts.user_id,
-        mx_home_server: opts.home_server,
-    })
-}
 
 function goToPassword(e) {
     if(e.key == 'Enter' && handle.value?.length > 0) {

@@ -27,7 +27,7 @@ $effect(() => {
 
 </script>
 
-{#if !access_token_exists}
+{#if !access_token_exists && !authenticated}
     <AuthView />
 {:else}
     {#if !authReady}

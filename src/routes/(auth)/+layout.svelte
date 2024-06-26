@@ -1,6 +1,19 @@
 <script>
 import '../../app.css'
 let { data, children } = $props()
+import { goto } from '$app/navigation'
+
+import { createStore } from '$lib/store/store.svelte.js'
+const store = createStore()
+
+const authenticated = $derived(store.auth.authenticated)
+
+$effect(() => {
+    if(authenticated) {
+        goto('/')
+    }
+})
+
 </script>
 
 <div class="mt-mid flex flex-col h-full items-center">

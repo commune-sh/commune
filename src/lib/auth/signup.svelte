@@ -5,7 +5,6 @@ import { page } from '$app/stores';
 import { pushState } from '$app/navigation'
 import { login, register, usernameAvailable } from '$lib/matrix/requests';
 import { debounce } from '$lib/utils/utils'
-import { storeCookies } from '$lib/utils/cookie'
 import { eye, eyeSlash, close, check } from '$lib/assets/icons'
 import { v7 as uuidv4 } from 'uuid';
 
@@ -190,7 +189,7 @@ async function createDummyAccount(username, password) {
     });
     if(resp?.access_token && resp?.user_id && resp?.device_id) {
         console.log(resp)
-        saveSession({
+        store.auth.saveSession({
             access_token: resp.access_token,
             user_id: resp.user_id,
             device_id: resp.device_id,
@@ -210,14 +209,6 @@ function updatePassword() {
     }
 }
 
-function saveSession(opts) {
-    storeCookies({
-        mx_access_token: opts.access_token,
-        mx_user_id: opts.user_id,
-        mx_device_id: opts.user_id,
-        mx_home_server: opts.home_server,
-    })
-}
 
 function handleEnter(e) {
     if(e.key == 'Enter') {
