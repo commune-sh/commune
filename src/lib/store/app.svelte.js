@@ -1,9 +1,9 @@
 import { 
-  PUBLIC_MATRIX_URL,
+  PUBLIC_HOMESERVER,
   PUBLIC_SERVER
 } from '$env/static/public';
 
-let homeserver = $state(PUBLIC_MATRIX_URL);
+let homeserver = $state(PUBLIC_HOMESERVER);
 let public_server = $state(PUBLIC_SERVER);
 
 let native_mode = $state(false);

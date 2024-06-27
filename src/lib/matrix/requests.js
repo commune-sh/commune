@@ -1,7 +1,7 @@
-import { PUBLIC_MATRIX_URL, PUBLIC_APP_NAME } from '$env/static/public';
+import { PUBLIC_HOMESERVER, PUBLIC_APP_NAME } from '$env/static/public';
 import { fetchWithTimeout, fetchWithRetry } from '$lib/utils/fetch';
 
-export const MATRIX_BASE_URL = `${PUBLIC_MATRIX_URL}/_matrix/client/v3`
+export const MATRIX_BASE_URL = `${PUBLIC_HOMESERVER}/_matrix/client/v3`
 
 export const login = async (body) => {
   const url = `${MATRIX_BASE_URL}/login`;
@@ -137,7 +137,7 @@ export const whoami = async (access_token) => {
 }
 
 export const getVersions = async () => {
-  const url = `${PUBLIC_MATRIX_URL}/_matrix/client/versions`;
+  const url = `${PUBLIC_HOMESERVER}/_matrix/client/versions`;
 
   let options = {
     headers: {

@@ -1,13 +1,13 @@
-import { PUBLIC_MATRIX_URL, PUBLIC_MATRIX_SERVER_NAME } from '$env/static/public';
+import { PUBLIC_HOMESERVER, PUBLIC_HOMESERVER_NAME } from '$env/static/public';
 
 export function convertFromMXC(url) {
   let stripped = url.replace('mxc://', '');
-  return `${PUBLIC_MATRIX_URL}/_matrix/media/r0/download/${stripped}`;
+  return `${PUBLIC_HOMESERVER}/_matrix/media/r0/download/${stripped}`;
 }
 
 export function thumbnail_from_MXC(url, height, width) {
   let stripped = url.replace('mxc://', '');
-  return `${PUBLIC_MATRIX_URL}/_matrix/media/v3/thumbnail/${stripped}?width=${width}&height=${height}&method=crop`;
+  return `${PUBLIC_HOMESERVER}/_matrix/media/v3/thumbnail/${stripped}?width=${width}&height=${height}&method=crop`;
 }
 
 export function room_alias_from_ID(room_id) {
@@ -28,5 +28,5 @@ export function is_local_room(room_id) {
   if(!room_id) return false;
   const parts = room_id.split(':');
   const domain = parts[1];
-  return domain === PUBLIC_MATRIX_SERVER_NAME;
+  return domain === PUBLIC_HOMESERVER_NAME;
 }

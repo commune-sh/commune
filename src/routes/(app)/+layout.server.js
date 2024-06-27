@@ -1,6 +1,6 @@
 import { 
   PUBLIC_SERVER, 
-  PUBLIC_MATRIX_URL, 
+  PUBLIC_HOMESERVER, 
   PUBLIC_REQUIRE_AUTH 
 } from '$env/static/public';
 
@@ -25,7 +25,7 @@ export async function load( { fetch, params, url, cookies, request } ) {
 
   /*
   try {
-    let url = `${PUBLIC_MATRIX_URL}/_matrix/client/versions`;
+    let url = `${PUBLIC_HOMESERVER}/_matrix/client/versions`;
     const res = await fetch( url );
     const resp = await res.json();
     if(resp?.versions) {

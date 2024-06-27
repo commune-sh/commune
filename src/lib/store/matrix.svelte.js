@@ -1,4 +1,4 @@
-import { PUBLIC_MATRIX_URL } from '$env/static/public';
+import { PUBLIC_HOMESERVER } from '$env/static/public';
 import * as sdk from 'matrix-js-sdk';
 
 import { createAppStore } from './app.svelte.js';
@@ -20,7 +20,7 @@ export function createMatrixStore() {
 
     console.log("Setting up Matrix client for:", credentials.user_id)
     client = sdk.createClient({
-      baseUrl: PUBLIC_MATRIX_URL,
+      baseUrl: PUBLIC_HOMESERVER,
       accessToken: credentials.access_token,
       userId: credentials.user_id,
     });
