@@ -332,12 +332,15 @@ function handleEnter(e) {
     <title>{title}</title>
 </svelte:head>
 
-
 <div class="signup-container flex flex-col rounded-[4px]
     bg-switcher mt-10 relative
     p-[20px]">
 
-    <div class="flex justify-center">
+
+
+
+
+    <div class="mt-1 flex justify-center">
         <div class="font-semibold duration-300" 
             class:opacity-20={registration_disabled}>
             Create an account
@@ -437,4 +440,5 @@ function handleEnter(e) {
 
 
 <style>
+
 </style>

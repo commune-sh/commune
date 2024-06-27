@@ -79,10 +79,7 @@ async function startLogin() {
     bad_credentials = false
     busy = true
 
-    let username = handleInput.value
-    let password = passwordInput.value
-
-    if(username == '') {
+    if(username_or_email == '') {
         handleInput.focus()
         busy = false
         return
@@ -97,7 +94,7 @@ async function startLogin() {
     let body = {
         identifier: {
             type: "m.id.user",
-            user: username
+            user: username_or_email
         },
         initial_device_display_name: PUBLIC_APP_NAME,
         password: password,
@@ -108,7 +105,7 @@ async function startLogin() {
         body.identifier = {
             type: "m.id.thirdparty",
             medium: "email",
-            address: username
+            address: username_or_email
         }
     }
 
@@ -121,6 +118,7 @@ async function startLogin() {
         handleInput.focus()
         return
     }
+
     if(resp?.access_token && resp?.user_id && resp?.device_id) {
         console.log(resp)
         store.auth.saveSession({
@@ -164,7 +162,7 @@ function handleEnter(e) {
     bg-switcher mt-10 relative
     p-[20px]">
 
-    <div class="flex justify-center">
+    <div class="mt-1 flex justify-center">
         <div class="font-semibold duration-300">
             Log in to {PUBLIC_APP_NAME}
         </div>
@@ -183,6 +181,7 @@ function handleEnter(e) {
     </div>
     <div class="mt-5">
         <input bind:this={passwordInput} type="password" 
+            bind:value={password}
             id="password"
             class="duration-300"
             class:fail={bad_password}

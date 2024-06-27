@@ -53,9 +53,9 @@ function startAuth(provider) {
 </script>
 
 {#if no_flows}
-    <div class="mt-8 flex justify-center absolute top-1 right-8">
-        <div class="spinner border-primary"></div>
-    </div>
+
+    <div class="loading-flows animate-pulse"></div>
+
 {:else if providers?.length > 0}
 
     <div class="sep mt-5 h-[1px] bg-shade-3">
@@ -94,5 +94,27 @@ function startAuth(provider) {
 }
 .disabled:hover{
     background: var(--shade-3);
+}
+.loading-flows {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, transparent 0%, transparent 50%,
+        var(--shade-10) 50%, var(--shade-10) 100%);
+    background-size: 200% 100%;
+    animation: loading 1.6s ease-in-out infinite;
+    border-radius: 4px;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 100% 0;
+    }
+    100% {
+        background-position: -100% 0;
+    }
 }
 </style>
