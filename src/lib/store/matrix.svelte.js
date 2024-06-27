@@ -6,6 +6,7 @@ const app = createAppStore();
 
 let login_flows = $state(null);
 let register_flows = $state(null);
+let registration_disabled = $state(false);
 
 let homeserver = $derived(app.homeserver)
 
@@ -23,14 +24,26 @@ export function createMatrixStore() {
     client = sdk.createClient({
       baseUrl: homeserver
     });
-    let response = await client.loginFlows()
-    if(response?.flows) {
-      login_flows = response.flows
+
+    try {
+      let response = await client.loginFlows()
+      if(response?.flows) {
+        login_flows = response.flows
+      }
+    } catch (_){
     }
-    response = await client.register()
-    if(response?.flows) {
-      register_flows = response.flows
+
+    try {
+      let response = await client.register()
+      if(response?.flows) {
+        register_flows = response.flows
+      }
+    } catch(error) {
+      if(error.errcode == "M_FORBIDDEN") {
+        registration_disabled = true
+      }
     }
+
   }
 
   async function setup(credentials) {
@@ -137,6 +150,10 @@ export function createMatrixStore() {
 
     get login_flows() {
       return login_flows;
+    },
+
+    get registration_disabled() {
+      return registration_disabled;
     },
 
 

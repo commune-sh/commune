@@ -18,7 +18,7 @@ const store = createStore()
 let register_flows = $derived(store.matrix.register_flows)
 let session = $state(null);
 
-let registration_disabled = $state(false)
+let registration_disabled = $derived(store.matrix.registration_disabled)
 
 onMount(() => {
     focus()
