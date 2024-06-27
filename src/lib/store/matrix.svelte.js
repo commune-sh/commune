@@ -4,6 +4,9 @@ import * as sdk from 'matrix-js-sdk';
 import { createAppStore } from './app.svelte.js';
 const app = createAppStore();
 
+let login_flows = $state(null);
+let register_flows = $state(null);
+
 let homeserver = $derived(app.homeserver)
 
 let client = $state(null)
@@ -15,6 +18,20 @@ let rooms = $state(null)
 let spaces = $state([])
 
 export function createMatrixStore() {
+
+  async function initialize() {
+    client = sdk.createClient({
+      baseUrl: homeserver
+    });
+    let response = await client.loginFlows()
+    if(response?.flows) {
+      login_flows = response.flows
+    }
+    response = await client.register()
+    if(response?.flows) {
+      register_flows = response.flows
+    }
+  }
 
   async function setup(credentials) {
 
@@ -118,6 +135,12 @@ export function createMatrixStore() {
       return spaces;
     },
 
+    get login_flows() {
+      return login_flows;
+    },
+
+
+    initialize,
     setup,
     updateSpaces,
 

@@ -26,7 +26,7 @@
     --shade-10: hsla(0, 0%, 25%, 1);
     --text: #e1e1e1;
     --light: hsla(0, 0%, 70%, 1);
-    --primary: #c50000;
+    --primary: hsla(0, 99%, 33%, 1);
     --switcher: hsla(0, 0%, 7%, 1);
     --sidebar: hsla(0, 0%, 9%, 1);
     --view: hsla(0, 0%, 11%, 1);

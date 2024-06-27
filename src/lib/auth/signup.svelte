@@ -3,7 +3,7 @@ import { PUBLIC_META_TITLE, PUBLIC_APP_NAME } from '$env/static/public';
 import { onMount, tick } from 'svelte';
 import { page } from '$app/stores';
 import { pushState } from '$app/navigation'
-import { login, register, usernameAvailable, requestToken } from '$lib/matrix/requests';
+import { register, usernameAvailable, requestToken } from '$lib/matrix/requests';
 import { debounce } from '$lib/utils/utils'
 import { eye, eyeSlash, close, check } from '$lib/assets/icons'
 import { naiveEmailCheck } from '$lib/utils/utils';
@@ -15,52 +15,18 @@ import Flows from './flows.svelte'
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
 
-
-
-let login_flows = $derived(store.auth.login_flows)
-
-let register_flows = $state(null);
+let register_flows = $derived(store.matrix.register_flows)
 let session = $state(null);
 
 let registration_disabled = $state(false)
 
 onMount(() => {
-    getRegisterFlows();
     focus()
-    if(!login_flows) {
-        getLoginFlows()
-    }
 })
 
 async function focus() {
     await tick();
     usernameInput.focus();
-}
-
-async function getLoginFlows() {
-    try {
-        const response = await login();
-        if(response?.flows) {
-            store.auth.updateLoginFlows(response.flows)
-        }
-    } catch (error) {
-        console.log(error)
-    }
-}
-async function getRegisterFlows() {
-    try {
-        const response = await register();
-        if(response?.flows && response?.session) {
-            console.log("Register flows: ", response)
-            register_flows = response.flows;
-            session = response.session
-        }
-        if(response?.errcode == "M_FORBIDDEN") {
-            registration_disabled = true
-        }
-    } catch (error) {
-        console.log(error)
-    }
 }
 
 // Which register flows exist?

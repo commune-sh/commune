@@ -1,13 +1,9 @@
 <script>
 import { PUBLIC_META_TITLE, PUBLIC_APP_NAME } from '$env/static/public';
-import { browser } from '$app/environment';
 import { onMount, tick } from 'svelte';
 import { page } from '$app/stores';
 import { pushState } from '$app/navigation'
-import { login } from '$lib/matrix/requests';
 import { naiveEmailCheck } from '$lib/utils/utils';
-
-import Logo from '$lib/logo/static-logo.svelte'
 
 import Flows from './flows.svelte'
 
@@ -16,24 +12,8 @@ const store = createStore()
 
 
 
-let login_flows = $derived(store.auth.login_flows)
-
-async function getLoginFlows() {
-    try {
-        const response = await login();
-        if(response?.flows) {
-            store.auth.updateLoginFlows(response.flows)
-        }
-    } catch (error) {
-        console.log(error)
-    }
-}
 
 onMount(() => {
-    if(browser && !login_flows) {
-        getLoginFlows()
-    }
-
 })
 
 let handleInput;
@@ -116,29 +96,31 @@ async function startLogin() {
         }
     }
 
-    const resp = await login(body);
 
-    if(resp?.errcode == "M_FORBIDDEN") {
-        bad_credentials = true
-        busy = false
-        await tick()
-        handleInput.focus()
-        return
-    }
-
-    if(resp?.access_token && resp?.user_id && resp?.device_id) {
+    try {
+        let resp = await store.matrix.client.login("m.login.password", body)
         console.log(resp)
-        store.auth.saveSession({
-            access_token: resp.access_token,
-            user_id: resp.user_id,
-            device_id: resp.device_id,
-            home_server: resp.home_server,
-        })
-    } else {
-        failed = true
-        busy = false
-        return
+
+        if(resp?.access_token && resp?.user_id && resp?.device_id) {
+            console.log(resp)
+            store.auth.saveSession({
+                access_token: resp.access_token,
+                user_id: resp.user_id,
+                device_id: resp.device_id,
+                home_server: resp.home_server,
+            })
+        }
+
+    } catch (error) {
+        if(error?.errcode == "M_FORBIDDEN") {
+            bad_credentials = true
+            busy = false
+            await tick()
+            handleInput.focus()
+            return
+        }
     }
+
 }
 
 function updatePassword() {

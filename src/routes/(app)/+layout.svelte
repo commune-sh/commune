@@ -69,6 +69,7 @@ async function setup() {
 }
 
 onMount(() => {
+    store.matrix.initialize()
     setup()
 })
 

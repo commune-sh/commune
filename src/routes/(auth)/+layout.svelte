@@ -1,12 +1,17 @@
 <script>
 import '../../app.css'
 let { data, children } = $props()
+import { onMount } from 'svelte'
 import { goto } from '$app/navigation'
 
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
 
 const authenticated = $derived(store.auth.authenticated)
+
+onMount(() => {
+    store.matrix.initialize()
+})
 
 $effect(() => {
     if(authenticated) {

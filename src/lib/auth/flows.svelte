@@ -7,7 +7,7 @@ let {
     busy
 } = $props();
 
-let login_flows = $derived(store.auth.login_flows)
+let login_flows = $derived(store.matrix.login_flows)
 
 let no_flows = $derived.by(() => {
     return !login_flows;
@@ -15,6 +15,7 @@ let no_flows = $derived.by(() => {
 
 let providers = $derived.by(() => {
     if(login_flows) {
+        console.log(login_flows)
         let sso = login_flows.some(element => element.type === "m.login.sso");
         if(sso) {
             return login_flows.find(flow => flow.type === 'm.login.sso').identity_providers;
