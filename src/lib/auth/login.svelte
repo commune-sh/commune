@@ -57,6 +57,13 @@ function signup() {
     });
 }
 
+function forgot_password() {
+    pushState('', {
+        active_view: "password"
+    });
+}
+
+
 let is_app_group = $derived($page.route.id == '/(app)')
 let is_auth_group = $derived($page.route.id == '/(auth)/login')
 
@@ -190,14 +197,17 @@ function handleEnter(e) {
             placeholder="Password"
             disabled={busy}>
     </div>
-    <div class="mt-6 text-xl text-light">
-        Need an account? 
+
+    <div class="mt-6 text-xl">
         {#if is_app_group}
-            <a onclick={signup} class="text-primary cursor-pointer hover:text-text ">Sign up</a>
+            <a onclick={forgot_password} class="text-primary cursor-pointer
+                hover:text-text ">Forgot password?</a>
         {:else}
-            <a href="/signup" class="text-primary hover:text-text">Sign up</a>
+            <a href="/password" class="text-primary hover:text-text">Forgot
+                password?</a>
         {/if}
     </div>
+
 
     <div class="mt-6 relative">
         <button class="w-full py-5 duration-100"
@@ -209,6 +219,15 @@ function handleEnter(e) {
             <div class="absolute top-5 right-6">
                 <div class="spinner border-primary"></div>
             </div>
+        {/if}
+    </div>
+
+    <div class="mt-6 text-xl text-light text-center">
+        Don't have an account?
+        {#if is_app_group}
+            <a onclick={signup} class="text-primary cursor-pointer hover:text-text ">Sign up</a>
+        {:else}
+            <a href="/signup" class="text-primary hover:text-text">Sign up</a>
         {/if}
     </div>
 

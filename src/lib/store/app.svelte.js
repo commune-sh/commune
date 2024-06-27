@@ -1,8 +1,15 @@
+import { 
+  PUBLIC_MATRIX_URL,
+  PUBLIC_SERVER
+} from '$env/static/public';
+
+let homeserver = $state(PUBLIC_MATRIX_URL);
+let public_server = $state(PUBLIC_SERVER);
+
 let native_mode = $state(false);
 let capabilities = $state(null);
 
 let public_server_reachable = $state(false);
-
 let homeserver_reachable = $state(false);
 let homeserver_versions = $state(null);
 
@@ -12,10 +19,13 @@ let app = $state({
 });
 
 
+let ready = $state(false);
+
+
 export function createAppStore() {
 
 	function setAppReady() {
-    app.ready = true
+    ready = true
 	}
 
 	function isNativeMode() {
@@ -42,10 +52,26 @@ export function createAppStore() {
     public_server_reachable = true
 	}
 
+  function updateHomeserver(homeserver) {
+    homeserver = homeserver;
+  }
+
+  function updatePublicServer(server) {
+    public_server = server;
+  }
+
 	return {
 
+		get homeserver() {
+			return homeserver;
+		},
+
+		get public_server() {
+			return public_server;
+		},
+
 		get ready() {
-			return app.ready;
+			return ready;
 		},
 
     get native_mode() {
@@ -68,6 +94,8 @@ export function createAppStore() {
 			return public_server_reachable;
 		},
 
+    updateHomeserver,
+    updatePublicServer,
     setAppReady,
     isNativeMode,
 		updateSpace,

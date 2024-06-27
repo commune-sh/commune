@@ -1,3 +1,8 @@
+import { createAppStore } from './app.svelte.js';
+const app = createAppStore();
+
+let homeserver = $derived(app.homeserver)
+
 import { storeCookies } from '$lib/utils/cookie'
 import { whoami } from '$lib/matrix/requests';
 

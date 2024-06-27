@@ -427,7 +427,7 @@ function handleEnter(e) {
 
     {#if registration_disabled}
         <div class="mt-6 text-xl text-light warn text-center">
-            Registration has been disabled by the server.
+            Registration has been disabled.
         </div>
     {/if}
 

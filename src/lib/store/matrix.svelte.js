@@ -1,6 +1,11 @@
 import { PUBLIC_MATRIX_URL } from '$env/static/public';
 import * as sdk from 'matrix-js-sdk';
 
+import { createAppStore } from './app.svelte.js';
+const app = createAppStore();
+
+let homeserver = $derived(app.homeserver)
+
 let client = $state(null)
 
 let synced = $state(false)
@@ -12,6 +17,7 @@ let spaces = $state([])
 export function createMatrixStore() {
 
   async function setup(credentials) {
+
     console.log("Setting up Matrix client for:", credentials.user_id)
     client = sdk.createClient({
       baseUrl: PUBLIC_MATRIX_URL,

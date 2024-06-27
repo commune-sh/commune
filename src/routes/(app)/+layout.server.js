@@ -12,6 +12,7 @@ import { error } from '@sveltejs/kit';
 export async function load( { fetch, params, url, cookies, request } ) {
 
   const access_token = cookies.get('mx_access_token');
+
   let data = {
     homeserver_reachable: false,
     access_token_exists: !!access_token,

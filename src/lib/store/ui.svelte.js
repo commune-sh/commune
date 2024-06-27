@@ -11,6 +11,8 @@ let alert = $state({
   type: null,
 });
 
+let theme = $state(null);
+
 export function createUIStore() {
 
 	function openAuth() {

@@ -19,7 +19,6 @@
             }
             if(!stored) {
                 let theme = prefersDarkMode ? `dark` : def
-                console.log(theme)
                 document.getElementsByTagName(`html`)[0].setAttribute(`class`,
                     theme)
                 localStorage.setItem(`theme`, theme)

@@ -2,6 +2,7 @@
 import Logo from '$lib/logo/logo.svelte'
 import Items from './items.svelte'
 import Settings from './settings.svelte'
+import ToggleTheme from '$lib/theme/toggle.svelte'
 
 </script>
 
@@ -9,6 +10,7 @@ import Settings from './settings.svelte'
     <Logo main={true} />
     <Items />
     <div class="grid grid-rows">
+        <ToggleTheme />
         <Settings />
     </div>
 </div>

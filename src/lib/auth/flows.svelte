@@ -66,6 +66,7 @@ function startAuth(provider) {
 
             <div class="mt-5">
                 <button class="flex items-center justify-center
+                    font-normal
                     secondary w-full py-4 duration-100 
                     text-light text-xl
                     bg-shade-3 hover:bg-shade-4"

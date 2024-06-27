@@ -84,8 +84,8 @@ onMount(() => {
 {#snippet content()}
     {@render children()}
 {/snippet}
-<Layout {content} />
 
+<Layout {content} />
 
 <Auth />
 <Settings />
