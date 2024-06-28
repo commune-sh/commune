@@ -10,7 +10,9 @@ let registration_disabled = $state(false);
 
 let homeserver = $derived(app.homeserver)
 
-let client = $state(null)
+let client = $state(sdk.createClient({
+    baseUrl: homeserver
+}))
 
 let synced = $state(false)
 
@@ -20,11 +22,13 @@ let spaces = $state([])
 
 export function createMatrixStore() {
 
-  async function initialize() {
-    client = sdk.createClient({
+  function tempClient() {
+    return sdk.createClient({
       baseUrl: homeserver
     });
+  }
 
+  async function initialize() {
     try {
       let response = await client.loginFlows()
       if(response?.flows) {
@@ -157,6 +161,7 @@ export function createMatrixStore() {
     },
 
 
+    tempClient,
     initialize,
     setup,
     updateSpaces,

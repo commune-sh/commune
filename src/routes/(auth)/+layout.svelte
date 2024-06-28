@@ -1,5 +1,6 @@
 <script>
 import '../../app.css'
+import { page } from '$app/stores';
 let { data, children } = $props()
 import { onMount } from 'svelte'
 import { goto } from '$app/navigation'
@@ -9,8 +10,12 @@ const store = createStore()
 
 const authenticated = $derived(store.auth.authenticated)
 
+const login_token = $derived($page.url.searchParams.get('loginToken'))
+
 onMount(() => {
-    store.matrix.initialize()
+    if(!login_token) {
+        store.matrix.initialize()
+    }
 })
 
 $effect(() => {
