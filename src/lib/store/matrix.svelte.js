@@ -1,6 +1,18 @@
-import { PUBLIC_HOMESERVER } from '$env/static/public';
+import { 
+  PUBLIC_APP_NAME, 
+  PUBLIC_HOMESERVER,
+} from '$env/static/public';
+
 import { browser } from '$app/environment';
 import * as sdk from 'matrix-js-sdk';
+
+function customFetch(url, options = {}) {
+  options.headers = {
+    ...options.headers,
+    'X-Requested-With': PUBLIC_APP_NAME,
+  };
+  return fetch(url, options);
+}
 
 import { createAppStore } from './app.svelte.js';
 const app = createAppStore();
@@ -22,9 +34,10 @@ let rooms = $state(null)
 let spaces = $state([])
 
 if(browser) {
-    client =  sdk.createClient({
-      baseUrl: homeserver
-    });
+  client =  sdk.createClient({
+    baseUrl: homeserver,
+    fetchFn: customFetch
+  });
 }
 
 export function createMatrixStore() {
@@ -32,7 +45,8 @@ export function createMatrixStore() {
   // temporary throaway client for single requests
   function newClient() {
     return sdk.createClient({
-      baseUrl: homeserver
+      baseUrl: homeserver,
+      fetchFn: customFetch
     });
   }
 

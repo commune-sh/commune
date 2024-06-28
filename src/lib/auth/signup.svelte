@@ -147,7 +147,7 @@ async function createAccount() {
         return
     }
 
-    if(!dummy_mode) {
+    if(email_flow_exists && email != "") {
         let email_like = naiveEmailCheck(email)
         if(!email_like) {
             emailInput.focus()
@@ -163,7 +163,8 @@ async function createAccount() {
         return
     }
 
-    if(dummy_mode) {
+
+    if(dummy_mode || email_optional) {
         createDummyAccount(username, password)
     }
 
