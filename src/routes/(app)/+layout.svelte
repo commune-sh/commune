@@ -14,8 +14,6 @@ import { getVersions } from '$lib/matrix/requests'
 import Layout from '$lib/layout/layout.svelte'
 
 
-import Auth from '$lib/auth/auth.svelte'
-
 import Matrix from '$lib/matrix/matrix.svelte'
 import Settings from '$lib/settings/settings.svelte'
 
@@ -71,8 +69,10 @@ async function setup() {
 }
 
 onMount(() => {
-    store.matrix.initialize()
-    setup()
+    store.matrix.getFlows()
+    if(!data?.native_mode) {
+        setup()
+    }
 })
 
 </script>
@@ -90,7 +90,6 @@ onMount(() => {
 
 <Layout {data} {content} />
 
-<Auth />
 <Settings />
 
 <style>

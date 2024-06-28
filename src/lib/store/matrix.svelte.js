@@ -28,7 +28,8 @@ export function createMatrixStore() {
     });
   }
 
-  async function initialize() {
+  async function getFlows() {
+
     try {
       let response = await client.loginFlows()
       if(response?.flows) {
@@ -40,12 +41,17 @@ export function createMatrixStore() {
     try {
       let response = await client.register()
       if(response?.flows) {
+        console.log("Register flows:", response.flows)
         register_flows = response.flows
       }
     } catch(error) {
       if(error.errcode == "M_FORBIDDEN") {
         registration_disabled = true
       }
+      if(error?.data?.flows) {
+        register_flows = error.data.flows
+      }
+      console.log("Registration flows:", register_flows)
     }
 
   }
@@ -156,13 +162,17 @@ export function createMatrixStore() {
       return login_flows;
     },
 
+    get register_flows() {
+      return register_flows;
+    },
+
     get registration_disabled() {
       return registration_disabled;
     },
 
 
     tempClient,
-    initialize,
+    getFlows,
     setup,
     updateSpaces,
 
