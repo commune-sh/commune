@@ -1,4 +1,5 @@
 import { PUBLIC_HOMESERVER } from '$env/static/public';
+import { browser } from '$app/environment';
 import * as sdk from 'matrix-js-sdk';
 
 import { createAppStore } from './app.svelte.js';
@@ -20,10 +21,16 @@ let rooms = $state(null)
 
 let spaces = $state([])
 
+if(browser) {
+    client =  sdk.createClient({
+      baseUrl: homeserver
+    });
+}
+
 export function createMatrixStore() {
 
   // temporary throaway client for single requests
-  function tempClient() {
+  function newClient() {
     return sdk.createClient({
       baseUrl: homeserver
     });
@@ -31,6 +38,10 @@ export function createMatrixStore() {
 
   // fetch login and registration flows from homeserver
   async function getFlows() {
+
+    if(!client) {
+      client = newClient()
+    }
 
     // login flows
     try {
@@ -181,7 +192,7 @@ export function createMatrixStore() {
     },
 
 
-    tempClient,
+    newClient,
     getFlows,
     setup,
     updateSpaces,
