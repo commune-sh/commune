@@ -12,9 +12,7 @@ let registration_disabled = $state(false);
 
 let homeserver = $derived(app.homeserver)
 
-let client = $state(sdk.createClient({
-    baseUrl: homeserver
-}))
+let client = $state(null);
 
 let synced = $state(false)
 
