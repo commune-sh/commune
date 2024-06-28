@@ -1,6 +1,10 @@
 <script lang="ts">
 import '../../app.css'
-import { PUBLIC_META_TITLE } from '$env/static/public';
+import { 
+    PUBLIC_SERVER,
+    PUBLIC_META_TITLE,
+} from '$env/static/public';
+
 import { onMount } from 'svelte'
 import { browser } from '$app/environment';
 
@@ -23,7 +27,6 @@ const store = createStore()
 // derive credentials from auth store
 const credentials = $derived(store.auth.credentials)
 
-
 let authReady = $derived(store.auth.ready)
 
 // data from server fetch
@@ -31,7 +34,6 @@ let { data, children } = $props();
 
 // derive native mode from app store
 let native_mode = $derived(store.app.native_mode)
-
 
 let homeserver_reachable = $derived(data.homeserver_reachable)
 
@@ -86,7 +88,7 @@ onMount(() => {
     {@render children()}
 {/snippet}
 
-<Layout {content} />
+<Layout {data} {content} />
 
 <Auth />
 <Settings />

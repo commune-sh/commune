@@ -7,10 +7,17 @@ const store = createStore()
 const alert_active = $derived(store.ui.alert?.active)
 
 let {
+    data,
     content,
 } = $props();
 
+let native_mode = $derived(data?.native_mode)
+
 let root;
+
+$effect(() => {
+    console.log("data is", data)
+})
 
 </script>
 

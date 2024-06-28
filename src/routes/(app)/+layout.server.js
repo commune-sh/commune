@@ -1,12 +1,8 @@
 import { 
   PUBLIC_SERVER, 
-  PUBLIC_HOMESERVER, 
-  PUBLIC_REQUIRE_AUTH 
 } from '$env/static/public';
 
 import { redirect } from "@sveltejs/kit";
-import { error } from '@sveltejs/kit';
-
 
 /** @type {import('./$types').LayoutServerLoad} */
 export async function load( { fetch, params, url, cookies, request } ) {
@@ -14,27 +10,17 @@ export async function load( { fetch, params, url, cookies, request } ) {
   const access_token = cookies.get('mx_access_token');
 
   let data = {
-    homeserver_reachable: false,
     access_token_exists: !!access_token,
+    native_mode: false,
   };
 
+  if(PUBLIC_SERVER == "") {
+    data.native_mode = true;
+  }
 
-  if(!access_token && PUBLIC_REQUIRE_AUTH == 'true') {
+  if(!access_token && PUBLIC_SERVER == '') {
     redirect(302, '/login');
   }
-
-  /*
-  try {
-    let url = `${PUBLIC_HOMESERVER}/_matrix/client/versions`;
-    const res = await fetch( url );
-    const resp = await res.json();
-    if(resp?.versions) {
-      data.homeserver_reachable = true;
-    }
-  } catch(_) {
-  }
-  */
-
 
   return data;
 }
