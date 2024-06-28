@@ -95,12 +95,20 @@ function checkUsername(e) {
         username_unavailable = false;
         if(username?.length == 0) return
         checking = true;
-        let response = await usernameAvailable(username);
-        if(response?.errcode == "M_USER_IN_USE") {
+
+
+        try {
+            let available = await store.matrix.client.isUsernameAvailable(username)
+            if(available) {
+                username_available = true;
+            } else {
+                username_unavailable = true;
+            }
+        } catch(err) {
+            console.warn(err)
             username_unavailable = true;
-        } else if(response?.available) {
-            username_available = true;
         }
+
         checking = false;
     }, 350)
 }

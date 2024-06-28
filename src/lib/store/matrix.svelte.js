@@ -36,7 +36,7 @@ let spaces = $state([])
 if(browser) {
   client =  sdk.createClient({
     baseUrl: homeserver,
-    fetchFn: customFetch
+    //fetchFn: customFetch
   });
 }
 
@@ -46,7 +46,7 @@ export function createMatrixStore() {
   function newClient() {
     return sdk.createClient({
       baseUrl: homeserver,
-      fetchFn: customFetch
+      //fetchFn: customFetch
     });
   }
 
