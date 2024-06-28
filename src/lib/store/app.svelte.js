@@ -14,7 +14,7 @@ let native_mode = $state(false);
 let capabilities = $state(null);
 
 let public_server_reachable = $state(false);
-let homeserver_reachable = $state(false);
+let homeserver_reachable = $state(true);
 let homeserver_versions = $state(null);
 
 let app = $state({
@@ -48,8 +48,12 @@ export function createAppStore() {
 
 	function updateHomeserverStatus(data) {
     console.log("Storing homeserver versions.")
-    homeserver_reachable = true;
     homeserver_versions = data;
+	}
+
+	function homeserverUnreachable() {
+    console.warn("Setting homeserver as unreachable.")
+    homeserver_reachable = false;
 	}
 
 	function updatePublicServerStatus(data) {
@@ -107,5 +111,6 @@ export function createAppStore() {
     updateCapabilities,
     updateHomeserverStatus,
     updatePublicServerStatus,
+    homeserverUnreachable
 	};
 }

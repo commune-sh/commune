@@ -15,6 +15,9 @@ import Flows from './flows.svelte'
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
 
+const homeserver_reachable = $derived(store.app.homeserver_reachable)
+
+
 let register_flows = $derived(store.matrix.register_flows)
 let register_flows_fetched = $derived(store.matrix.register_flows != null)
 let session = $state(null);
@@ -309,7 +312,7 @@ function handleEnter(e) {
 
     <div class="mt-1 flex justify-center">
         <div class="font-semibold duration-300" 
-            class:opacity-20={registration_disabled}>
+            class:opacity-20={registration_disabled || !homeserver_reachable}>
             Create an account
         </div>
     </div>
@@ -323,7 +326,7 @@ function handleEnter(e) {
             oninput={checkUsername}
             onkeypress={reset}
             autocomplete="off"
-            disabled={registration_disabled || busy}
+            disabled={registration_disabled || busy || !homeserver_reachable}
             placeholder="Username">
         {#if checking}
             <div class="absolute top-5 right-6">
@@ -344,7 +347,7 @@ function handleEnter(e) {
             class="duration-300"
             oninput={checkEmail}
             id="email"
-            disabled={registration_disabled || busy}
+            disabled={registration_disabled || busy || !homeserver_reachable}
             placeholder={emailPlaceholder}>
     </div>
 
@@ -353,7 +356,7 @@ function handleEnter(e) {
             bind:value={password}
             id="password"
             class="duration-300"
-            disabled={registration_disabled || busy}
+            disabled={registration_disabled || busy || !homeserver_reachable}
             class:fail={bad_password}
             oninput={updatePassword}
             onkeypress={handleEnter}
@@ -381,7 +384,7 @@ function handleEnter(e) {
     <div class="mt-6 relative">
         <button class="w-full py-5 duration-100"
             onclick={createAccount}
-            disabled={registration_disabled || busy}>
+            disabled={registration_disabled || busy || !homeserver_reachable}>
             {busy ? `Creating account` : `Create account`}
         </button>
         {#if busy}
@@ -392,7 +395,7 @@ function handleEnter(e) {
     </div>
 
 
-    {#if register_flows_fetched && !registration_disabled}
+    {#if homeserver_reachable && register_flows_fetched && !registration_disabled}
         <Flows />
     {/if}
 

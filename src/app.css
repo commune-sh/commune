@@ -51,6 +51,8 @@
     --input-focus: hsla(0, 0%, 20%, 1);
     --input-text: hsla(0, 0%, 96%, 1);
     --input-placeholder: hsla(0, 0%, 50%, 1);
+
+    --alert: hsla(0, 100%, 50%, 1);
 }
 
 :root.light {

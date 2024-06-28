@@ -15,3 +15,6 @@ const active = $derived(alert.active)
     {alert?.message}
 </div>
 {/if}
+
+<style>
+</style>

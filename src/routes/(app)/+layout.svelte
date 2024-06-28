@@ -13,6 +13,7 @@ import { getVersions } from '$lib/matrix/requests'
 
 import Layout from '$lib/layout/layout.svelte'
 
+import HomeserverDown from '$lib/alert/homeserver-down.svelte'
 
 import Matrix from '$lib/matrix/matrix.svelte'
 import Settings from '$lib/settings/settings.svelte'
@@ -76,6 +77,8 @@ onMount(() => {
 })
 
 </script>
+
+<HomeserverDown />
 
 <Matrix />
 

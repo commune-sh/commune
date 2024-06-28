@@ -10,8 +10,7 @@ import Flows from './flows.svelte'
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
 
-
-
+const homeserver_reachable = $derived(store.app.homeserver_reachable)
 
 onMount(() => {
 })
@@ -152,7 +151,8 @@ function handleEnter(e) {
     p-[20px]">
 
     <div class="mt-1 flex justify-center">
-        <div class="font-semibold duration-300">
+        <div class="font-semibold duration-300"
+            class:opacity-20={!homeserver_reachable}>
             Log in to {PUBLIC_APP_NAME}
         </div>
     </div>
@@ -166,7 +166,7 @@ function handleEnter(e) {
             autocomplete="off"
             placeholder="Email or username"
             onkeypress={goToPassword}
-            disabled={busy}>
+            disabled={busy || !homeserver_reachable}>
     </div>
     <div class="mt-5">
         <input bind:this={passwordInput} type="password" 
@@ -177,7 +177,7 @@ function handleEnter(e) {
             oninput={updatePassword}
             onkeypress={handleEnter}
             placeholder="Password"
-            disabled={busy}>
+            disabled={busy || !homeserver_reachable}>
     </div>
 
     <div class="mt-6 text-xl">
@@ -194,7 +194,7 @@ function handleEnter(e) {
     <div class="mt-6 relative">
         <button class="w-full py-5 duration-100"
             onclick={startLogin}
-            disabled={busy}>
+            disabled={busy || !homeserver_reachable}>
             {busy ? `Loggin in` : `Log in`}
         </button>
         {#if busy}
@@ -214,7 +214,9 @@ function handleEnter(e) {
     </div>
 
 
-    <Flows {busy} />
+    {#if homeserver_reachable}
+        <Flows {busy} />
+    {/if}
 
 
 </div>

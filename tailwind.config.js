@@ -24,6 +24,7 @@ export default {
           9: 'var(--shade-9)',
           10: 'var(--shade-10)',
         },
+        'alert': 'var(--alert)',
         'foreground': 'var(--foreground)',
         'border': 'var(--border)',
         'text': 'var(--text)',

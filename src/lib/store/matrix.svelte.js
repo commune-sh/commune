@@ -3,6 +3,8 @@ import * as sdk from 'matrix-js-sdk';
 
 import { createAppStore } from './app.svelte.js';
 const app = createAppStore();
+import { createUIStore } from './ui.svelte.js';
+const ui = createUIStore();
 
 let login_flows = $state(null);
 let register_flows = $state(null);
@@ -22,38 +24,48 @@ let spaces = $state([])
 
 export function createMatrixStore() {
 
+  // temporary throaway client for single requests
   function tempClient() {
     return sdk.createClient({
       baseUrl: homeserver
     });
   }
 
+  // fetch login and registration flows from homeserver
   async function getFlows() {
 
+    // login flows
     try {
       let response = await client.loginFlows()
       if(response?.flows) {
         login_flows = response.flows
       }
-    } catch (_){
+    } catch (err){
+      if(err.name == "ConnectionError") {
+        app.homeserverUnreachable()
+      }
     }
 
+    // registration flows
     try {
       let response = await client.register()
       if(response?.flows) {
         console.log("Register flows:", response.flows)
         register_flows = response.flows
       }
-    } catch(error) {
-      if(error.errcode == "M_FORBIDDEN") {
+    } catch(err) {
+      if(err.errcode == "M_FORBIDDEN") {
         registration_disabled = true
       }
-      if(error?.data?.flows) {
-        register_flows = error.data.flows
+      if(err?.data?.flows) {
+        register_flows = err.data.flows
       }
       console.log("Registration flows:", register_flows)
     }
 
+  }
+
+  async function recheckHomeserver() {
   }
 
   async function setup(credentials) {
