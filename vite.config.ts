@@ -16,6 +16,9 @@ let [version, commit] = (
 let link = `https://github.com/commune-os/client/commit/${commit}`
 
 export default defineConfig({
+    build: {
+        sourcemap: true,
+    },
     plugins: [sveltekit()],
     server: {
         fs: {
