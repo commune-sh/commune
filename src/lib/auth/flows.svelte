@@ -15,7 +15,6 @@ let no_flows = $derived.by(() => {
 
 let providers = $derived.by(() => {
     if(login_flows) {
-        console.log(login_flows)
         let sso = login_flows.some(element => element.type === "m.login.sso");
         if(sso) {
             return login_flows.find(flow => flow.type === 'm.login.sso').identity_providers;

@@ -16,6 +16,7 @@ import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
 
 let register_flows = $derived(store.matrix.register_flows)
+let register_flows_fetched = $derived(store.matrix.register_flows != null)
 let session = $state(null);
 
 let registration_disabled = $derived(store.matrix.registration_disabled)
@@ -391,19 +392,21 @@ function handleEnter(e) {
     </div>
 
 
-    {#if registration_disabled}
-        <div class="mt-6 text-xl text-light warn text-center">
-            Registration has been disabled.
-        </div>
-    {/if}
-
-    {#if !registration_disabled}
+    {#if register_flows_fetched && !registration_disabled}
         <Flows />
     {/if}
 
 
 </div>
 
+{#if registration_disabled}
+    <div class="mt-4 px-[20px] py-3 bg-shade-2 
+        border border-primary
+        rounded-[4px] text-xl warn
+        text-center">
+        Registration has been disabled.
+    </div>
+{/if}
 
 <style>
 
