@@ -1,41 +1,65 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" href="%sveltekit.assets%/favicon.png" />
         <title>%sveltekit.env.PUBLIC_META_TITLE%</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		%sveltekit.head%
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        %sveltekit.head%
         <link rel="preload" href="/fonts/Inter-VariableFont_slnt,wght.ttf" as="font" type="font/ttf" crossorigin="">
         <link rel="preload" href="/fonts/Silkscreen-Regular.ttf" as="font" type="font/ttf" crossorigin="">
         <script>
-            window.global = window;
-            const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+function getCookieDomain() {
+  const hostname = window.location.hostname;
 
-            let stored = localStorage.getItem(`theme`)
-            let def = `%sveltekit.env.PUBLIC_DEFAULT_THEME%`
-            if(def != `dark`) {
-                def = `light`
+  if (hostname === 'localhost') {
+    return 'localhost';
+  }
+
+  const parts = hostname.split('.');
+
+  if (parts.length > 2) {
+    parts.shift();
+  }
+
+  return '.' + parts.join('.');
+}
+        function getCookie(name) {
+            const cookies = document.cookie.split(';');
+            for (const cookie of cookies) {
+                const [key, value] = cookie.trim().split('=');
+                if (key.toLowerCase() === name) {
+                    return value;
+                }
             }
-            if(!stored) {
-                let theme = prefersDarkMode ? `dark` : def
-                document.getElementsByTagName(`html`)[0].setAttribute(`class`,
-                    theme)
-                localStorage.setItem(`theme`, theme)
-            } else {
-                document.getElementsByTagName(`html`)[0].setAttribute(`class`,
-                    stored)
-            }
-        </script>
-	</head>
-    <style>
-        @font-face {
-            font-family: 'Inter';
-            font-display: swap;
-            src: url('/fonts/Inter-VariableFont_slnt,wght.ttf') format('truetype');
+            return null;
         }
+        window.global = window;
+        const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        let stored = getCookie("theme");
+        let default_theme = `%sveltekit.env.PUBLIC_DEFAULT_THEME%`
+        if(!default_theme) {
+            default_theme = `dark`
+        }
+        const domain = getCookieDomain();
+        if(!stored) {
+            let theme = prefersDarkMode ? `dark` : default_theme
+            document.getElementsByTagName(`html`)[0].setAttribute(`class`, theme)
+            document.cookie = `theme=${theme}; path=/; max-age=2147483647; domain=${domain};`;
+        } else {
+            document.getElementsByTagName(`html`)[0].setAttribute(`class`, stored)
+        }
+        </script>
+    </head>
+    <style>
+    @font-face {
+        font-family: 'Inter';
+        font-display: swap;
+        src: url('/fonts/Inter-VariableFont_slnt,wght.ttf') format('truetype');
+    }
     </style>
-	<body data-sveltekit-preload-data="hover">
-		<div style="display: contents">%sveltekit.body%</div>
-	</body>
+    <body data-sveltekit-preload-data="hover">
+        <div style="display: contents">%sveltekit.body%</div>
+    </body>
 </html>

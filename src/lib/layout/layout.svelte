@@ -33,6 +33,7 @@ $effect(() => {
     <div class="switcher grid">
         <Switcher />
     </div>
+
     <div class="view grid h-full">
         {@render content()}
     </div>
@@ -41,4 +42,13 @@ $effect(() => {
 </main>
 
 <style>
+
+@media (max-width: 768px) {
+    .root {
+        grid-template-columns: 1fr;
+    }
+    .switcher {
+        display: none;
+    }
+}
 </style>

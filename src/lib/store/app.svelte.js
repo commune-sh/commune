@@ -5,6 +5,9 @@ import {
   PUBLIC_ALLOW_OTHER_HOMESERVERS
 } from '$env/static/public';
 
+import { browser } from '$app/environment';
+import { getCookie, createCookie } from '$lib/utils/cookie'
+
 let homeserver = $state(PUBLIC_HOMESERVER);
 let homeserver_name = $state(PUBLIC_HOMESERVER_NAME);
 let public_server = $state(PUBLIC_SERVER);
@@ -22,43 +25,51 @@ let app = $state({
   space: null,
 });
 
+let theme = $state(null);
+if(browser) {
+  let stored = getCookie("theme");
+  if(stored) {
+    theme = stored;
+  }
+}
+
 
 let ready = $state(false);
 
 
 export function createAppStore() {
 
-	function setAppReady() {
+  function setAppReady() {
     ready = true
-	}
+  }
 
-	function isNativeMode() {
+  function isNativeMode() {
     console.log("Public server doesn't exist or is unreachable. Setting native mode.")
     native_mode = true;
-	}
+  }
 
-	function updateSpace(space) {
+  function updateSpace(space) {
     app.space = space;
-	}
+  }
 
-	function updateCapabilities(data) {
+  function updateCapabilities(data) {
     console.log("Storing public server capabilities.")
     capabilities = data;
-	}
+  }
 
-	function updateHomeserverStatus(data) {
+  function updateHomeserverStatus(data) {
     console.log("Storing homeserver versions.")
     homeserver_versions = data;
-	}
+  }
 
-	function homeserverUnreachable() {
+  function homeserverUnreachable() {
     console.warn("Setting homeserver as unreachable.")
     homeserver_reachable = false;
-	}
+  }
 
-	function updatePublicServerStatus(data) {
+  function updatePublicServerStatus(data) {
     public_server_reachable = true
-	}
+  }
 
   function updateHomeserver(h) {
     console.log("Updating homeserver to: ", h)
@@ -69,48 +80,67 @@ export function createAppStore() {
     public_server = server;
   }
 
-	return {
+  function toggleTheme() {
+    if(!browser) return;
+    if (theme == 'dark') {
+      theme = 'light'
+      document.getElementsByTagName(`html`)[0].setAttribute(`class`, `light`)
+      createCookie('theme', 'light')
+    } else {
+      theme = 'dark'
+      document.getElementsByTagName(`html`)[0].setAttribute(`class`, `dark`)
+      createCookie('theme', 'dark')
+    }
+  }
 
-		get homeserver() {
-			return homeserver;
-		},
+  return {
 
-		get public_server() {
-			return public_server;
-		},
+    get homeserver() {
+      return homeserver;
+    },
 
-		get ready() {
-			return ready;
-		},
+    get public_server() {
+      return public_server;
+    },
+
+    get ready() {
+      return ready;
+    },
 
     get native_mode() {
       return native_mode;
     },
 
-		get space() {
-			return app.space;
-		},
+    get space() {
+      return app.space;
+    },
 
-		get capabilities() {
-			return capabilities;
-		},
+    get capabilities() {
+      return capabilities;
+    },
 
-		get homeserver_reachable() {
-			return homeserver_reachable;
-		},
+    get homeserver_reachable() {
+      return homeserver_reachable;
+    },
 
-		get public_server_reachable() {
-			return public_server_reachable;
-		},
+    get public_server_reachable() {
+      return public_server_reachable;
+    },
+
+    get theme() {
+      return theme;
+    },
+
 
     updateHomeserver,
     updatePublicServer,
     setAppReady,
     isNativeMode,
-		updateSpace,
+    updateSpace,
     updateCapabilities,
     updateHomeserverStatus,
     updatePublicServerStatus,
-    homeserverUnreachable
-	};
+    homeserverUnreachable,
+    toggleTheme
+    };
 }
