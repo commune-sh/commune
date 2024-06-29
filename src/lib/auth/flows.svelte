@@ -65,11 +65,10 @@ function startAuth(provider) {
         {#each providers as provider, i (provider.id)}
 
             <div class="mt-5">
-                <button class="flex items-center justify-center
+                <button class="secondary flex items-center justify-center
                     font-normal
-                    secondary w-full py-4
-                    text-light text-xl
-                    bg-shade-3 hover:bg-shade-4"
+                    w-full py-4
+                    text-xl"
                     onclick={() => startAuth(provider)}
                     class:disabled={busy}
                     disabled={busy}>

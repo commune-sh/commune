@@ -251,7 +251,7 @@ let size = $state(46)
     </div>
 
     <div class="tick opacity-0 absolute left-[0px] w-[4px] top-[16px] bottom-[16px]
-        bg-primary rounded-[4px] duration-100"
+        bg-primary duration-100"
         class:opacity-100={active && !dragging}
     >
     </div>
@@ -284,6 +284,10 @@ let size = $state(46)
 .active:hover + .tick {
     opacity: 1;
 } 
+
+.tick {
+border-radius: 0 4px 4px 0;
+}
 
 .dragging {
     opacity: 0.2;
