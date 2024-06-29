@@ -46,8 +46,6 @@ let { space,
     over, 
     dragged_over, 
     end, 
-    hovered,
-    hover,
     update, 
     clientY
 } = $props();
@@ -226,13 +224,12 @@ let size = $state(46)
     class="grid relative place-items-center mb-[10px]">
 
     <div bind:this={el} class:dragging={dragging} 
-        onmouseover={hover}
         class:bg-shade-7={active}
-        class:active={active || hovered}
+        class:active={active}
         class="space bg-shade-4 w-[{size}px] h-[{size}px] grid
         hover:rounded-[14px]
         transition-transform duration-200
-        place-items-center cursor-pointer hover:bg-shade-7 opacity-50 hover:opacity-100" 
+        place-items-center cursor-pointer hover:bg-shade-7" 
         class:rounded-[14px]={active}
         class:rounded-[50%]={!active}
         class:text-[14px]={initial?.length > 2}
@@ -246,9 +243,11 @@ let size = $state(46)
         ondragstart={dragstart}
         style="background-image: url({avatar})">
 
+        {#if !avatar}
         <div class="initial font-semibold">
-        {initial} 
+            {initial} 
         </div>
+        {/if}
     </div>
 
     <div class="tick opacity-0 absolute left-[0px] w-[4px] top-[16px] bottom-[16px]

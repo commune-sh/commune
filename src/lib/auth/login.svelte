@@ -147,11 +147,11 @@ function handleEnter(e) {
 </svelte:head>
 
 <div class="login-container flex flex-col rounded-[4px]
-    bg-switcher mt-10 relative
+    bg-shade-1 mt-10 relative
     p-[20px]">
 
     <div class="mt-1 flex justify-center">
-        <div class="font-semibold duration-300"
+        <div class="font-semibold"
             class:opacity-20={!homeserver_reachable}>
             Log in to {PUBLIC_APP_NAME}
         </div>
@@ -172,7 +172,7 @@ function handleEnter(e) {
         <input bind:this={passwordInput} type="password" 
             bind:value={password}
             id="password"
-            class="duration-300"
+            class=""
             class:fail={bad_password}
             oninput={updatePassword}
             onkeypress={handleEnter}
@@ -192,7 +192,7 @@ function handleEnter(e) {
 
 
     <div class="mt-6 relative">
-        <button class="w-full py-5 duration-100"
+        <button class="w-full py-5"
             onclick={startLogin}
             disabled={busy || !homeserver_reachable}>
             {busy ? `Loggin in` : `Log in`}

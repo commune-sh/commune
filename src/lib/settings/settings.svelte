@@ -33,7 +33,7 @@ function kill(e) {
 </script>
 
 {#if settings_active}
-<div class="fixed inset-x-0 inset-y-0 bg-mask grid h-full
+<div class="settings fixed inset-x-0 inset-y-0 bg-background grid h-full
         place-items-center" >
     <div class="">
         settings
@@ -46,6 +46,9 @@ function kill(e) {
 
 
 <style>
+.settings {
+    z-index: 10000;
+}
 .icon {
     height: 48px;
     width: 48px;

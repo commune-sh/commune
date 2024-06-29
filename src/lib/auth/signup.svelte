@@ -312,7 +312,7 @@ function handleEnter(e) {
 </svelte:head>
 
 <div class="signup-container flex flex-col rounded-[4px]
-    bg-switcher mt-10 relative
+    bg-shade-1 mt-10 relative
     p-[20px]">
 
 
@@ -320,7 +320,7 @@ function handleEnter(e) {
 
 
     <div class="mt-1 flex justify-center">
-        <div class="font-semibold duration-300" 
+        <div class="font-semibold" 
             class:opacity-20={registration_disabled || !homeserver_reachable}>
             Create an account
         </div>
@@ -330,7 +330,7 @@ function handleEnter(e) {
         <input bind:this={usernameInput} type="text" 
             bind:value={username}
             id="username"
-            class="duration-300"
+            class=""
             class:fail={username_unavailable}
             oninput={checkUsername}
             onkeypress={reset}
@@ -353,7 +353,7 @@ function handleEnter(e) {
         <input bind:this={emailInput} type="text" 
             bind:value={email}
             class:fail={showEmailWarning}
-            class="duration-300"
+            class=""
             oninput={checkEmail}
             id="email"
             disabled={registration_disabled || busy || !homeserver_reachable}
@@ -364,7 +364,7 @@ function handleEnter(e) {
         <input bind:this={passwordInput} type="password" 
             bind:value={password}
             id="password"
-            class="duration-300"
+            class=""
             disabled={registration_disabled || busy || !homeserver_reachable}
             class:fail={bad_password}
             oninput={updatePassword}
@@ -391,7 +391,7 @@ function handleEnter(e) {
     </div>
 
     <div class="mt-6 relative">
-        <button class="w-full py-5 duration-100"
+        <button class="w-full py-5 "
             onclick={createAccount}
             disabled={registration_disabled || busy || !homeserver_reachable}>
             {busy ? `Creating account` : `Create account`}

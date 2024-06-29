@@ -69,12 +69,6 @@ function start(index) {
     dragged = index;
 }
 
-let hovered = $state(false);
-
-function hover() {
-    hovered  = true
-}
-
 let clientY = $state(null);
 
 function update(cy) {
@@ -85,17 +79,14 @@ function update(cy) {
 
 <div class="grid grid-rows-[1fr_auto] overflow-hidden">
 
-    <div class="items overflow-hidden"
-        onmouseleave={() => hovered = false}
-    >
+    <div class="items overflow-hidden">
         <div class="overflow-y-auto h-full hide-scroll pt-[6px]">
         {#if !no_items}
             {#each items as space, index (space?.id ?? index)}
-                <Item {space} {dragged_over} {dragged} {hovered} {index} {clientY}
+                <Item {space} {dragged_over} {dragged} {index} {clientY}
                 move={move} 
                 over={over} 
                 start={start} 
-                hover={hover}
                 update={update}
                 end={end} />
             {/each}

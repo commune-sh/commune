@@ -38,7 +38,7 @@ class:menu-active={menu_active}>
         <Sidebar />
     </div>
 
-    <div class="view grid grid-rows-[52px_1fr] bg-view h-full">
+    <div class="view grid grid-rows-[52px_1fr] h-full">
         <Header />
         <section class="view select-text">
             home

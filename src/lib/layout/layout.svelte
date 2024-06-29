@@ -33,7 +33,7 @@ $effect(() => {
     <div class="switcher grid">
         <Switcher />
     </div>
-    <div class="view grid bg-view h-full">
+    <div class="view grid h-full">
         {@render content()}
     </div>
 </div>

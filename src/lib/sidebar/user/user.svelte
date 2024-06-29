@@ -11,6 +11,6 @@ function toggle() {
 
 </script>
 
-<div class="bg-sidebar">
+<div class="">
 </div>
 

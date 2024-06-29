@@ -57,14 +57,14 @@ onMount(() => {
 <style>
 
 .active {
-    background-color: var(--primary);
-    --logo-fill: black;
+    background-color: var(--logo);
+    fill: var(--logo-fill);
     border-radius: 14px;
 }
 
 .logo:hover {
-    background-color: var(--primary);
-    --logo-fill: black;
+    background-color: var(--logo);
+    fill: var(--logo-fill);
     border-radius: 14px;
 }
 

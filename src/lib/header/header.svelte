@@ -16,7 +16,7 @@ function toggleMenu() {
 </script>
 
 <div class="header grid 
-    bg-header border-solid border-b border-shade-6">
+    bg-header border-solid border-b border-border">
     <div class="menu grid cursor-pointer place-items-center" 
         onclick={toggleMenu}>
         <div class="icon h-[32px] w-[32px]">

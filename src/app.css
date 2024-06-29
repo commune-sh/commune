@@ -13,7 +13,8 @@
 }
 
 :root.dark {
-    --background: hsla(0, 0%, 11%, 1);;
+    --background: hsla(0, 0%, 2%, 1);;
+    --border: hsla(0, 0%, 9%, 1);;
     --shade-1: hsla(0, 0%, 7%, 1);
     --shade-2: hsla(0, 0%, 9%, 1);
     --shade-3: hsla(0, 0%, 11%, 1);
@@ -27,18 +28,15 @@
     --text: #e1e1e1;
     --light: hsla(0, 0%, 70%, 1);
     --primary: hsla(0, 99%, 33%, 1);
-    --switcher: hsla(0, 0%, 7%, 1);
-    --sidebar: hsla(0, 0%, 9%, 1);
-    --view: hsla(0, 0%, 11%, 1);
 
-    --logo: hsla(0, 0%, 13%, 1);
-    --logo-fill: #c50000;
+    --logo: hsla(0, 99%, 33%, 1);
+    --logo-fill: hsla(0, 0%, 0%, 1);
 
     --tick: hsla(0, 0%, 90%, 0.8);
 
     --mask: hsla(0, 0%, 0%, 0.5);
 
-    --tooltip: hsla(0, 0%, 3%, 1);
+    --tooltip: hsla(0, 0%, 9%, 1);
 
     --icon: hsla(0, 0%, 35%, 1);
     --icon-hover: hsla(0, 0%, 45%, 1);
@@ -57,17 +55,20 @@
 
 :root.light {
     --background: white;
+    --border: hsla(0, 0%, 90%, 1);;
 
-    --shade-1: hsla(0, 0%, 71%, 1);
-    --shade-2: hsla(0, 0%, 74%, 1);
-    --shade-3: hsla(0, 0%, 77%, 1);
-    --shade-4: hsla(0, 0%, 80%, 1);
-    --shade-5: hsla(0, 0%, 83%, 1);
-    --shade-6: hsla(0, 0%, 86%, 1);
-    --shade-7: hsla(0, 0%, 89%, 1);
-    --shade-8: hsla(0, 0%, 92%, 1);
-    --shade-9: hsla(0, 0%, 95%, 1);
-    --shade-10: hsla(0, 0%, 98%, 1);
+    --shade-1: hsla(0, 0%, 98%, 1);
+    --shade-2: hsla(0, 0%, 95%, 1);
+    --shade-3: hsla(0, 0%, 92%, 1);
+    --shade-4: hsla(0, 0%, 89%, 1);
+    --shade-5: hsla(0, 0%, 86%, 1);
+    --shade-6: hsla(0, 0%, 83%, 1);
+    --shade-7: hsla(0, 0%, 80%, 1);
+    --shade-8: hsla(0, 0%, 77%, 1);
+    --shade-9: hsla(0, 0%, 74%, 1);
+    --shade-10: hsla(0, 0%, 71%, 1);
+
+    --tooltip: hsla(0, 0%, 90%, 1);
 
     --text: black;
     --primary: blue;
@@ -75,8 +76,9 @@
     --sidebar: hsla(0, 0%, 97%, 1);
     --view: hsla(0, 0%, 100%, 1);
 
-    --logo: hsla(0, 0%, 13%, 1);
-    --logo-fill: #c50000;
+    --logo: hsla(0, 0%, 20%, 1);
+    --logo-fill: hsla(0, 99%, 44%, 1);
+
 
     --tick: hsla(0, 0%, 90%, 0.8);
 
@@ -174,7 +176,6 @@ input {
 input:disabled {
     opacity: 0.5;
     cursor: not-allowed;
-    transition: 0.1s;
 }
 
 textarea:focus, input:focus{
