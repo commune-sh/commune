@@ -48,13 +48,16 @@
     --button-secondary-focus: hsla(0, 0%, 13%, 1);
     --button-secondary-active: hsla(0, 0%, 5%, 1);
 
-    --input: hsla(0, 0%, 10%, 1);
+    --input-background: hsla(0, 0%, 4%, 1);
     --input-border: transparent;
-    --input-focus: hsla(0, 0%, 20%, 1);
+    --input-focus: hsla(0, 0%, 21%, 1);
     --input-text: hsla(0, 0%, 96%, 1);
     --input-placeholder: hsla(0, 0%, 50%, 1);
 
     --alert: hsla(0, 100%, 50%, 1);
+
+    --container-background: hsla(0, 0%, 7%, 1);
+    --container-border: transparent;
 }
 
 :root.light {
@@ -71,7 +74,7 @@
     --shade-9: hsla(0, 0%, 74%, 1);
     --shade-10: hsla(0, 0%, 71%, 1);
     --text: black;
-    --light: hsla(0, 0%, 70%, 1);
+    --light: hsla(0, 0%, 20%, 1);
     --primary: hsla(0, 99%, 33%, 1);
     --logo: hsla(0, 0%, 20%, 1);
     --logo-fill: hsla(0, 99%, 44%, 1);
@@ -93,21 +96,17 @@
     --button-secondary-focus: hsla(0, 0%, 90%, 1);
     --button-secondary-active: hsla(0, 0%, 88%, 1);
 
-    --input: hsla(0, 0%, 100%, 1);
-    --input-border: hsla(0, 0%, 90%, 1);
+    --input-background: hsla(0, 0%, 100%, 1);
+    --input-border: hsla(0, 0%, 80%, 1);
     --input-focus: hsla(0, 0%, 20%, 1);
     --input-text: hsla(0, 0%, 0%, 1);
     --input-placeholder: hsla(0, 0%, 50%, 1);
 
     --alert: hsla(0, 100%, 50%, 1);
-}
 
-:root.black {
-    --background: white;
-    --text: black;
-    --primary: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+    --container-background: transparent;
+    --container-border: hsla(0, 0%, 90%, 1);
 }
-
 
 
 @font-face {
@@ -143,6 +142,11 @@ body {
     height: -webkit-fill-available;
     width: 100%;
     overscroll-behavior: none;
+}
+
+.container {
+    background: var(--container-background);
+    border: 1px solid var(--container-border);
 }
 
 .silk {
@@ -198,7 +202,7 @@ button.secondary:active {
 }
 
 input {
-    background-color: var(--input);
+    background-color: var(--input-background);
     color: var(--input-text);
     padding: 1rem 1.5rem;
     border-radius: 2px;
@@ -215,7 +219,7 @@ input:disabled {
 
 textarea:focus, input:focus{
     outline: none;
-    border: 1px solid var(--shade-8);
+    border: 1px solid var(--input-focus);
 }
 
 input::placeholder {

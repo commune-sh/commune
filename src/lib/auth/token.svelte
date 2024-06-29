@@ -54,8 +54,8 @@ onMount(() => {
 
 </script>
 
-<div class="signup-container grid rounded-[4px] place-items-center
-    bg-shade-1 mt-10 relative h-[300px]
+<div class="signup-container container grid rounded-[4px] place-items-center
+    mt-10 relative h-[300px]
     p-[20px]">
 
     <div class="flex">

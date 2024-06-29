@@ -7,6 +7,7 @@ export default {
         'primary': 'var(--primary)',
         'secondary': 'var(--secondary)',
         'background': 'var(--background)',
+        'container': 'var(--container)',
         'logo': 'var(--logo)',
         'shade': {
           1: 'var(--shade-1)',

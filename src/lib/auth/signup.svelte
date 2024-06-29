@@ -311,8 +311,8 @@ function handleEnter(e) {
     <title>{title}</title>
 </svelte:head>
 
-<div class="signup-container flex flex-col rounded-[4px]
-    bg-shade-1 mt-10 relative
+<div class="signup-container container flex flex-col rounded-[4px]
+    mt-10 relative
     p-[20px]">
 
 
