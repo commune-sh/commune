@@ -3,9 +3,9 @@ import { PUBLIC_META_TITLE, PUBLIC_APP_NAME } from '$env/static/public';
 import { onMount, tick } from 'svelte';
 import { page } from '$app/stores';
 import { pushState } from '$app/navigation'
-import { register, usernameAvailable, requestToken } from '$lib/matrix/requests';
+import { register, requestToken } from '$lib/matrix/requests';
 import { debounce } from '$lib/utils/utils'
-import { eye, eyeSlash, close, check } from '$lib/assets/icons'
+import { eye, eyeSlash, check } from '$lib/assets/icons'
 import { naiveEmailCheck } from '$lib/utils/utils';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -312,21 +312,15 @@ function handleEnter(e) {
 </svelte:head>
 
 <div class="signup-container container flex flex-col rounded-[4px]
-    mt-10 relative
-    p-[20px]">
+    relative">
 
-
-
-
-
-    <div class="mt-1 flex justify-center">
-        <div class="font-semibold" 
-            class:opacity-20={registration_disabled || !homeserver_reachable}>
+    <div class="flex justify-center">
+        <div class="font-semibold text-xl">
             Create an account
         </div>
     </div>
 
-    <div class="mt-8 relative">
+    <div class="mt-6 relative">
         <input bind:this={usernameInput} type="text" 
             bind:value={username}
             id="username"
@@ -337,19 +331,21 @@ function handleEnter(e) {
             autocomplete="off"
             disabled={registration_disabled || busy || !homeserver_reachable}
             placeholder="Username">
+
         {#if checking}
-            <div class="absolute top-5 right-6">
+            <div class="absolute top-[0.8rem] right-4">
                 <div class="spinner border-primary"></div>
             </div>
         {/if}
+
         {#if username_available}
-            <div class="absolute right-0 top-5 mr-4 stroke-white h-[18px] w-[18px]">
+            <div class="absolute right-0 top-[0.8rem] mr-4 stroke-white h-[18px] w-[18px]">
                 {@html check}
             </div>
         {/if}
     </div>
 
-    <div class="mt-5" class:hidden={dummy_mode}>
+    <div class="mt-3" class:hidden={dummy_mode}>
         <input bind:this={emailInput} type="text" 
             bind:value={email}
             class:fail={showEmailWarning}
@@ -360,7 +356,7 @@ function handleEnter(e) {
             placeholder={emailPlaceholder}>
     </div>
 
-    <div class="mt-5 relative">
+    <div class="mt-3 relative">
         <input bind:this={passwordInput} type="password" 
             bind:value={password}
             id="password"
@@ -370,7 +366,9 @@ function handleEnter(e) {
             oninput={updatePassword}
             onkeypress={handleEnter}
             placeholder="Password">
-        <div class="absolute right-0 top-4 mr-4 icon cursor-pointer w-[20px] h-[20px]" 
+
+        <div class="absolute right-0 top-3 mr-3 icon cursor-pointer w-[1.2rem]
+            h-[1.2rem]" 
             onclick={togglePasswordVisibility}>
             {#if password_visible}
                 {@html eye}
@@ -378,20 +376,21 @@ function handleEnter(e) {
                 {@html eyeSlash}
             {/if}
         </div>
+
     </div>
 
-    <div class="mt-6 text-xl text-light">
+    <div class="mt-4 text-xs text-light">
         Already have an account?
         {#if is_app_group}
             <a onclick={goToLogin} class="text-primary cursor-pointer
-                hover:text-text ">Login</a>
+                hover:text-text" tabindex="0">Login</a>
         {:else}
-            <a href="/login" class="text-primary hover:text-text">Login</a>
+            <a href="/login" class="text-primary hover:text-text" tabindex="0">Login</a>
         {/if}
     </div>
 
-    <div class="mt-6 relative">
-        <button class="w-full py-5 "
+    <div class="mt-4 relative">
+        <button class="w-full py-3 "
             onclick={createAccount}
             disabled={registration_disabled || busy || !homeserver_reachable}>
             {busy ? `Creating account` : `Create account`}
@@ -412,9 +411,9 @@ function handleEnter(e) {
 </div>
 
 {#if registration_disabled}
-    <div class="mt-4 px-[20px] py-3 bg-shade-2 
+    <div class="mt-4 px-[2rem] py-3 
         border border-primary
-        rounded-[4px] text-xl warn
+        rounded-[4px] warn
         text-center">
         Registration has been disabled.
     </div>

@@ -4,6 +4,7 @@ import { onMount, tick } from 'svelte';
 import { page } from '$app/stores';
 import { pushState } from '$app/navigation'
 import { naiveEmailCheck } from '$lib/utils/utils';
+import { eye, eyeSlash, check } from '$lib/assets/icons'
 
 import Flows from './flows.svelte'
 
@@ -42,6 +43,13 @@ function forgot_password() {
     });
 }
 
+let password_visible = $state(false);
+
+let togglePasswordVisibility = () => {
+    password_visible = !password_visible;
+    passwordInput.type = password_visible ? "text" : "password";
+    passwordInput.focus();
+}
 
 let is_app_group = $derived($page.route.id == '/(app)')
 let is_auth_group = $derived($page.route.id == '/(auth)/login')
@@ -147,11 +155,10 @@ function handleEnter(e) {
 </svelte:head>
 
 <div class="login-container container flex flex-col rounded-[4px]
-    mt-10 relative
-    p-[20px]">
+    relative">
 
-    <div class="mt-1 flex justify-center">
-        <div class="font-semibold"
+    <div class="flex justify-center">
+        <div class="font-semibold text-xl"
             class:opacity-20={!homeserver_reachable}>
             Log in to {PUBLIC_APP_NAME}
         </div>
@@ -159,7 +166,7 @@ function handleEnter(e) {
 
 
 
-    <div class="mt-8">
+    <div class="mt-6">
         <input bind:this={handleInput} type="text" class=""
             bind:value={username_or_email}
             id="handleInput"
@@ -168,7 +175,7 @@ function handleEnter(e) {
             onkeypress={goToPassword}
             disabled={busy || !homeserver_reachable}>
     </div>
-    <div class="mt-5">
+    <div class="mt-3 relative">
         <input bind:this={passwordInput} type="password" 
             bind:value={password}
             id="password"
@@ -178,24 +185,34 @@ function handleEnter(e) {
             onkeypress={handleEnter}
             placeholder="Password"
             disabled={busy || !homeserver_reachable}>
+        <div class="absolute right-0 top-3 mr-3 icon cursor-pointer w-[1.2rem]
+            h-[1.2rem]" 
+            onclick={togglePasswordVisibility}>
+            {#if password_visible}
+                {@html eye}
+            {:else}
+                {@html eyeSlash}
+            {/if}
+        </div>
+
     </div>
 
-    <div class="mt-6 text-xl">
+    <div class="mt-3 text-xs">
         {#if is_app_group}
             <a onclick={forgot_password} class="text-primary cursor-pointer
-                hover:text-text ">Forgot password?</a>
+                hover:text-text " tabindex="0">Forgot password?</a>
         {:else}
-            <a href="/password" class="text-primary hover:text-text">Forgot
+            <a href="/password" class="text-primary hover:text-text" tabindex="0">Forgot
                 password?</a>
         {/if}
     </div>
 
 
-    <div class="mt-6 relative">
-        <button class="w-full py-5"
+    <div class="mt-4 relative">
+        <button class="w-full py-3"
             onclick={startLogin}
             disabled={busy || !homeserver_reachable}>
-            {busy ? `Loggin in` : `Log in`}
+            {busy ? `Logging in` : `Log in`}
         </button>
         {#if busy}
             <div class="absolute top-5 right-6">
@@ -204,12 +221,12 @@ function handleEnter(e) {
         {/if}
     </div>
 
-    <div class="mt-6 text-xl text-light text-center">
+    <div class="mt-4 text-xs text-light text-center">
         Don't have an account?
         {#if is_app_group}
-            <a onclick={signup} class="text-primary cursor-pointer hover:text-text ">Sign up</a>
+            <a onclick={signup} class="text-primary cursor-pointer hover:text-text " tabindex="0">Sign up</a>
         {:else}
-            <a href="/signup" class="text-primary hover:text-text">Sign up</a>
+            <a href="/signup" class="text-primary hover:text-text" tabindex="0">Sign up</a>
         {/if}
     </div>
 
@@ -222,9 +239,9 @@ function handleEnter(e) {
 </div>
 
 {#if bad_credentials}
-<div class="mt-4 px-[20px] py-3 bg-shade-2 
+<div class="mt-4 py-2
     border border-primary
-    rounded-[4px] text-xl warn
+    rounded-[4px] text-sm warn
     text-center">
 
         {#if possibly_email}

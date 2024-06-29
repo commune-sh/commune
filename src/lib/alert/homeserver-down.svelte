@@ -13,7 +13,7 @@ let is_app_group = $derived($page.route.id == '/(app)')
 {#if down}
 <div class="alert p-4 bg-red font-semibold grid place-items-center"
     class:pad={is_app_group}>
-    <div class="mt-5 py-6 bg-shade-1 max-w-[430px] w-full 
+    <div class="mt-5 py-4 max-w-[430px] w-full 
             border-2 border-primary rounded-[4px]
             text-center">
             Cannot reach homeserver.

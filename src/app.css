@@ -12,6 +12,26 @@
     }
 }
 
+@font-face {
+    font-family: 'Twemoji';
+    src: url('/fonts/TwemojiMozilla-colr.4d2d834.woff2');
+}
+
+@font-face {
+    font-family: 'Silkscreen';
+    src: url('/fonts/Silkscreen-Regular.ttf');
+}
+
+:root {
+  --base-font-size: 100%;
+}
+
+@media (max-width: 768px) {
+    :root {
+      //--base-font-size: 80%;
+    }
+}
+
 :root.dark {
     --background: hsla(0, 0%, 2%, 1);;
     --border: hsla(0, 0%, 9%, 1);;
@@ -25,7 +45,7 @@
     --shade-8: hsla(0, 0%, 21%, 1);
     --shade-9: hsla(0, 0%, 23%, 1);
     --shade-10: hsla(0, 0%, 25%, 1);
-    --text: #e1e1e1;
+    --text: hsla(0, 0%, 90%, 1);
     --light: hsla(0, 0%, 70%, 1);
     --primary: hsla(0, 99%, 33%, 1);
     --logo: hsla(0, 99%, 33%, 1);
@@ -36,27 +56,29 @@
     --icon: hsla(0, 0%, 35%, 1);
     --icon-hover: hsla(0, 0%, 45%, 1);
 
-    --button: hsla(0, 0%, 19%, 1);
-    --button-text: #e1e1e1;
+    --button-background: hsla(0, 0%, 19%, 1);
+    --button-text: hsla(0, 0%, 90%, 1);
     --button-hover: hsla(0, 0%, 22%, 1);
     --button-focus: hsla(0, 0%, 22%, 1);
     --button-active: hsla(0, 0%, 15%, 1);
+    --button-border: transparent;
 
-    --button-secondary: hsla(0, 0%, 11%, 1);
-    --button-secondary-text: #e1e1e1;
+    --button-secondary-background: hsla(0, 0%, 11%, 1);
+    --button-secondary-text: hsla(0, 0%, 70%, 1);
     --button-secondary-hover: hsla(0, 0%, 13%, 1);
     --button-secondary-focus: hsla(0, 0%, 13%, 1);
     --button-secondary-active: hsla(0, 0%, 5%, 1);
+    --button-secondary-border: transparent;
 
-    --input-background: hsla(0, 0%, 4%, 1);
-    --input-border: transparent;
-    --input-focus: hsla(0, 0%, 21%, 1);
+    --input-background: transparent;
+    --input-border: hsla(0, 0%, 15%, 1);
+    --input-focus: hsla(0, 0%, 30%, 1);
     --input-text: hsla(0, 0%, 96%, 1);
     --input-placeholder: hsla(0, 0%, 50%, 1);
 
     --alert: hsla(0, 100%, 50%, 1);
 
-    --container-background: hsla(0, 0%, 7%, 1);
+    --container-background: transparent;
     --container-border: transparent;
 }
 
@@ -73,28 +95,30 @@
     --shade-8: hsla(0, 0%, 77%, 1);
     --shade-9: hsla(0, 0%, 74%, 1);
     --shade-10: hsla(0, 0%, 71%, 1);
-    --text: black;
-    --light: hsla(0, 0%, 20%, 1);
+    --text: hsla(0, 0%, 10%, 1);
+    --light: hsla(0, 0%, 25%, 1);
     --primary: hsla(0, 99%, 33%, 1);
     --logo: hsla(0, 0%, 20%, 1);
     --logo-fill: hsla(0, 99%, 44%, 1);
     --tick: hsla(0, 0%, 90%, 0.8);
     --mask: hsla(0, 0%, 0%, 0.5);
     --tooltip: hsla(0, 0%, 90%, 1);
-    --icon: hsla(0, 0%, 35%, 1);
+    --icon: hsla(0, 0%, 25%, 1);
     --icon-hover: hsla(0, 0%, 45%, 1);
 
-    --button: hsla(0, 0%, 15%, 1);
+    --button-background: hsla(0, 0%, 15%, 1);
     --button-text: hsla(0, 0%, 100%, 1);
     --button-hover: hsla(0, 0%, 20%, 1);
     --button-focus: hsla(0, 0%, 20%, 1);
     --button-active: hsla(0, 0%, 5%, 1);
+    --button-border: transparent;
 
-    --button-secondary: hsla(0, 0%, 92%, 1);
-    --button-secondary-text: hsla(0, 0%, 3%, 1);
+    --button-secondary-background: hsla(0, 0%, 92%, 1);
+    --button-secondary-text: hsla(0, 0%, 7%, 1);
     --button-secondary-hover: hsla(0, 0%, 90%, 1);
     --button-secondary-focus: hsla(0, 0%, 90%, 1);
     --button-secondary-active: hsla(0, 0%, 88%, 1);
+    --button-secondary-border: transparent;
 
     --input-background: hsla(0, 0%, 100%, 1);
     --input-border: hsla(0, 0%, 80%, 1);
@@ -105,24 +129,12 @@
     --alert: hsla(0, 100%, 50%, 1);
 
     --container-background: transparent;
-    --container-border: hsla(0, 0%, 90%, 1);
+    --container-border: transparent;
 }
-
-
-@font-face {
-    font-family: 'Twemoji';
-    src: url('/fonts/TwemojiMozilla-colr.4d2d834.woff2');
-}
-
-@font-face {
-    font-family: 'Silkscreen';
-    src: url('/fonts/Silkscreen-Regular.ttf');
-}
-
 html {
     -webkit-font-smoothing: antialiased;
     -webkit-text-size-adjust: none;
-    font-size: 62.5%;
+    font-size: var(--base-font-size);
     height: -webkit-fill-available;
     width: 100%;
     overflow: hidden;
@@ -131,7 +143,7 @@ html {
 body {
     font-family: "Inter", "Twemoji", "Apple Color Emoji", "Segoe UI Emoji", "Arial", "Helvetica", sans-serif, "STIXGeneral", "Noto Color Emoji";
     font-weight: normal;
-    font-size: 1.5rem;
+    font-size: 1rem;
     line-height: 1;
     margin: 0;
     padding: 0;
@@ -154,12 +166,10 @@ body {
 }
 
 button {
-    background-color: var(--button);
+    background-color: var(--button-background);
     color: var(--button-text);
-    padding: 0.75rem 1rem;
     border-radius: 4px;
     font-weight: 500;
-    font-size: 15px;
 }
 
 button:focus {
@@ -180,12 +190,12 @@ button:disabled {
 }
 
 button:disabled:hover {
-    background-color: var(--button);
+    background-color: var(--button-background);
 }
 
 
 button.secondary {
-    background-color: var(--button-secondary);
+    background-color: var(--button-secondary-background);
     color: var(--button-secondary-text);
 }
 
@@ -204,11 +214,11 @@ button.secondary:active {
 input {
     background-color: var(--input-background);
     color: var(--input-text);
-    padding: 1rem 1.5rem;
-    border-radius: 2px;
+    padding: 0.75rem;
+    border-radius: 4px;
     border: 1px solid var(--input-border);
     font-weight: normal;
-    font-size: 15px;
+    font-size: 0.96rem;
     width: 100%;
 }
 

@@ -54,21 +54,23 @@ function startAuth(provider) {
 
 {#if no_flows}
 
-    <div class="loading-flows animate-pulse"></div>
+    <div class="absolute top-[0.4rem] right-1">
+        <div class="spinner border-primary"></div>
+    </div>
 
 {:else if providers?.length > 0}
 
     <div class="sep mt-5 h-[1px] bg-shade-3">
     </div>
 
-    <div class="flex flex-col justify-center">
+    <div class="mt-2 flex flex-col justify-center">
         {#each providers as provider, i (provider.id)}
 
-            <div class="mt-5">
+            <div class="mt-3">
                 <button class="secondary flex items-center justify-center
                     font-normal
-                    w-full py-4
-                    text-xl"
+                    w-full py-2
+                    text-sm"
                     onclick={() => startAuth(provider)}
                     class:disabled={busy}
                     disabled={busy}>
@@ -110,11 +112,11 @@ function startAuth(provider) {
 }
 
 @keyframes loading {
-    0% {
-        background-position: 100% 0;
-    }
-    100% {
-        background-position: -100% 0;
-    }
+0% {
+    background-position: 100% 0;
+}
+100% {
+    background-position: -100% 0;
+}
 }
 </style>
