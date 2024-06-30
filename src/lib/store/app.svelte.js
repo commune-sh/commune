@@ -85,10 +85,12 @@ export function createAppStore() {
     if (theme == 'dark') {
       theme = 'light'
       document.getElementsByTagName(`html`)[0].setAttribute(`class`, `light`)
+      localStorage.setItem('theme', 'light')
       createCookie('theme', 'light')
     } else {
       theme = 'dark'
       document.getElementsByTagName(`html`)[0].setAttribute(`class`, `dark`)
+      localStorage.setItem('theme', 'dark')
       createCookie('theme', 'dark')
     }
   }

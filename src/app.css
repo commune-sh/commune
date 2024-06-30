@@ -131,6 +131,8 @@
     --container-background: transparent;
     --container-border: transparent;
 }
+
+
 html {
     -webkit-font-smoothing: antialiased;
     -webkit-text-size-adjust: none;
@@ -155,6 +157,15 @@ body {
     width: 100%;
     overscroll-behavior: none;
 }
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active  {
+    transition: background-color 5000s;
+    -webkit-text-fill-color: var(--input-text) !important;
+}
+
 
 .container {
     background: var(--container-background);

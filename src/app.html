@@ -46,6 +46,7 @@ function getCookieDomain() {
         if(!stored) {
             let theme = prefersDarkMode ? `dark` : default_theme
             document.getElementsByTagName(`html`)[0].setAttribute(`class`, theme)
+            localStorage.setItem(`theme`, theme)
             document.cookie = `theme=${theme}; path=/; max-age=2147483647; domain=${domain};`;
         } else {
             document.getElementsByTagName(`html`)[0].setAttribute(`class`, stored)

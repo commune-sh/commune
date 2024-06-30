@@ -11,6 +11,8 @@ import { browser } from '$app/environment';
 import { getCapabilities } from '$lib/public_server/requests'
 import { getVersions } from '$lib/matrix/requests'
 
+import Listeners from '$lib/listeners/listeners.svelte'
+
 import Layout from '$lib/layout/layout.svelte'
 
 import HomeserverDown from '$lib/alert/homeserver-down.svelte'
@@ -77,6 +79,8 @@ onMount(() => {
 })
 
 </script>
+
+<Listeners />
 
 <HomeserverDown />
 

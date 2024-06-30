@@ -4,6 +4,8 @@ import { page } from '$app/stores';
 let { data, children } = $props()
 import { onMount } from 'svelte'
 import { goto } from '$app/navigation'
+
+import Listeners from '$lib/listeners/listeners.svelte'
 import HomeserverDown from '$lib/alert/homeserver-down.svelte'
 
 import { createStore } from '$lib/store/store.svelte.js'
@@ -27,6 +29,8 @@ $effect(() => {
 })
 
 </script>
+
+<Listeners />
 
 <HomeserverDown />
 
