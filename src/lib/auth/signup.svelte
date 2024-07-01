@@ -407,6 +407,11 @@ function handleEnter(e) {
         <Flows />
     {/if}
 
+    {#if !register_flows_fetched && !registration_disabled}
+        <div class="absolute top-[0.4rem] right-1">
+            <div class="spinner border-primary"></div>
+        </div>
+    {/if}
 
 </div>
 
