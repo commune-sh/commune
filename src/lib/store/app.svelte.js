@@ -1,7 +1,7 @@
 import { 
   PUBLIC_HOMESERVER,
   PUBLIC_HOMESERVER_NAME,
-  PUBLIC_SERVER,
+  PUBLIC_APPSERVICE,
   PUBLIC_ALLOW_OTHER_HOMESERVERS
 } from '$env/static/public';
 
@@ -10,7 +10,7 @@ import { getCookie, createCookie } from '$lib/utils/cookie'
 
 let homeserver = $state(PUBLIC_HOMESERVER);
 let homeserver_name = $state(PUBLIC_HOMESERVER_NAME);
-let public_server = $state(PUBLIC_SERVER);
+let public_server = $state(PUBLIC_APPSERVICE);
 let allow_other_homeservers = $state(PUBLIC_ALLOW_OTHER_HOMESERVERS);
 
 let native_mode = $state(false);

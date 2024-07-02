@@ -1,7 +1,7 @@
 <script lang="ts">
 import '../../app.css'
 import { 
-    PUBLIC_SERVER,
+    PUBLIC_APPSERVICE,
     PUBLIC_META_TITLE,
 } from '$env/static/public';
 

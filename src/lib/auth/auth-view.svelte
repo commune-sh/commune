@@ -25,7 +25,6 @@ const has_login_token = $derived.by(() => {
 const password_active = $derived(active_view == "password")
 
 $effect(() => {
-    console.log($page)
 })
 
 </script>

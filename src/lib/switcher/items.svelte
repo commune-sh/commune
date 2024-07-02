@@ -9,6 +9,7 @@ const store = createStore()
 
 import { getPublicRooms } from '$lib/public_server/requests'
 
+const homeserver_reachable = $derived(store.app.homeserver_reachable)
 const public_server_reachable = $derived(store.app.public_server_reachable)
 
 const authReady = $derived(store.auth.ready)
@@ -90,7 +91,7 @@ function update(cy) {
                 update={update}
                 end={end} />
             {/each}
-        {:else}
+        {:else if homeserver_reachable}
             <SkeletonItems />
         {/if}
         </div>

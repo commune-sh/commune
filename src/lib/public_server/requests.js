@@ -1,7 +1,7 @@
-import { PUBLIC_SERVER } from '$env/static/public';
+import { PUBLIC_APPSERVICE } from '$env/static/public';
 
 export const getCapabilities = async () => {
-  const url = `${PUBLIC_SERVER}/capabilities`;
+  const url = `${PUBLIC_APPSERVICE}/capabilities`;
 
   let options = {
       headers: {
@@ -20,7 +20,7 @@ export const getCapabilities = async () => {
 
 
 export const getPublicRooms = async () => {
-  const url = `${PUBLIC_SERVER}/publicRooms`;
+  const url = `${PUBLIC_APPSERVICE}/publicRooms`;
 
   let options = {
       headers: {
@@ -38,7 +38,7 @@ export const getPublicRooms = async () => {
 }
 
 export const getRoomHierarchy = async (room_id) => {
-  const url = `${PUBLIC_SERVER}/rooms/${room_id}/hierarchy`;
+  const url = `${PUBLIC_APPSERVICE}/rooms/${room_id}/hierarchy`;
 
   let options = {
       headers: {
