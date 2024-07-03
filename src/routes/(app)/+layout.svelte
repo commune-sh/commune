@@ -8,7 +8,7 @@ import {
 import { onMount } from 'svelte'
 import { browser } from '$app/environment';
 
-import { getCapabilities } from '$lib/public_server/requests'
+import { getCapabilities } from '$lib/appservice/requests'
 import { getVersions } from '$lib/matrix/requests'
 
 import Listeners from '$lib/listeners/listeners.svelte'

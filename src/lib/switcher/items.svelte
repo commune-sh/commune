@@ -7,10 +7,10 @@ import SkeletonItems from '$lib/skeleton/switcher-items.svelte'
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
 
-import { getPublicRooms } from '$lib/public_server/requests'
+import { getPublicRooms } from '$lib/appservice/requests'
 
 const homeserver_reachable = $derived(store.app.homeserver_reachable)
-const public_server_reachable = $derived(store.app.public_server_reachable)
+const appservice_reachable = $derived(store.app.appservice_reachable)
 
 const authReady = $derived(store.auth.ready)
 const authenticated = $derived(store.auth.authenticated)

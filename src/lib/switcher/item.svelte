@@ -17,7 +17,7 @@ import {
     thumbnail_from_MXC,
 } from '$lib/utils/matrix'
 
-import { getRoomHierarchy } from '$lib/public_server/requests'
+import { getRoomHierarchy } from '$lib/appservice/requests'
 
 import tippy from 'tippy.js';
 
