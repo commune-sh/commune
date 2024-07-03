@@ -14,10 +14,6 @@ export async function load( { fetch, params, url, cookies, request } ) {
     native_mode: false,
   };
 
-  if(PUBLIC_APPSERVICE == "") {
-    data.native_mode = true;
-  }
-
   if(!access_token && PUBLIC_APPSERVICE == '') {
     redirect(302, '/login');
   }
