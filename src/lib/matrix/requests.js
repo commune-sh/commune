@@ -1,10 +1,10 @@
-import { PUBLIC_HOMESERVER, PUBLIC_APP_NAME } from '$env/static/public';
+import { PUBLIC_HOMESERVER, PUBLIC_APP_NAME, PUBLIC_HOMESERVER_DOMAIN } from '$env/static/public';
 import { fetchWithTimeout, fetchWithRetry } from '$lib/utils/fetch';
 
 export const MATRIX_BASE_URL = `${PUBLIC_HOMESERVER}/_matrix/client/v3`
 
 export const wellKnownClient = async () => {
-  const url = `${PUBLIC_HOMESERVER}/.well-known/matrix/client`;
+  const url = `${PUBLIC_HOMESERVER_DOMAIN}/.well-known/matrix/client`;
   let options = {
     headers: {
       'Content-Type': 'application/json',
