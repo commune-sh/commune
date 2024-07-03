@@ -10,7 +10,7 @@ import { getCookie, createCookie } from '$lib/utils/cookie'
 
 let homeserver = $state(PUBLIC_HOMESERVER);
 let homeserver_name = $state(PUBLIC_HOMESERVER_NAME);
-let appservice = $state(PUBLIC_APPSERVICE);
+let appservice = $state(null);
 let allow_other_homeservers = $state(PUBLIC_ALLOW_OTHER_HOMESERVERS);
 
 let native_mode = $state(false);
@@ -67,7 +67,7 @@ export function createAppStore() {
     homeserver_reachable = false;
   }
 
-  function updatePublicServerStatus(data) {
+  function updateAppserviceStatus() {
     appservice_reachable = true
   }
 
@@ -76,8 +76,8 @@ export function createAppStore() {
     homeserver = h;
   }
 
-  function updatePublicServer(server) {
-    appservice = server;
+  function updateAppservice(url) {
+    appservice = url;
   }
 
   function toggleTheme() {
@@ -135,13 +135,13 @@ export function createAppStore() {
 
 
     updateHomeserver,
-    updatePublicServer,
+    updateAppservice,
     setAppReady,
     isNativeMode,
     updateSpace,
     updateCapabilities,
     updateHomeserverStatus,
-    updatePublicServerStatus,
+    updateAppserviceStatus,
     homeserverUnreachable,
     toggleTheme
     };

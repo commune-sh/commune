@@ -3,6 +3,22 @@ import { fetchWithTimeout, fetchWithRetry } from '$lib/utils/fetch';
 
 export const MATRIX_BASE_URL = `${PUBLIC_HOMESERVER}/_matrix/client/v3`
 
+export const wellKnownClient = async () => {
+  const url = `${PUBLIC_HOMESERVER}/.well-known/matrix/client`;
+  let options = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }
+  try {
+    const response = await fetch(url, options)
+    return response.json();
+  } catch (error) {
+    throw error
+  }
+}
+
+
 export const login = async (body) => {
   const url = `${MATRIX_BASE_URL}/login`;
 

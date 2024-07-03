@@ -9,7 +9,7 @@ import { onMount } from 'svelte'
 import { browser } from '$app/environment';
 
 import { getCapabilities } from '$lib/appservice/requests'
-import { getVersions } from '$lib/matrix/requests'
+import { wellKnownClient, getVersions } from '$lib/matrix/requests'
 
 import Listeners from '$lib/listeners/listeners.svelte'
 
@@ -53,15 +53,19 @@ $effect(() => {
 })
 
 async function setup() {
+
     try {
-        const resp = await getCapabilities();
-        if(resp?.capabilities) {
-            store.app.updatePublicServerStatus()
-            store.app.updateCapabilities(data.capabilities)
+        const resp = await wellKnownClient();
+        if(resp?.["commune.appservice"]?.url) {
+            let url = resp["commune.appservice"].url
+            console.log("Found commune appservice:", url)
+            store.app.updateAppservice(url)
+        } else {
+            store.app.isNativeMode();
         }
     } catch(_) {
-        store.app.isNativeMode();
     }
+
     try {
         const resp = await getVersions();
         if(resp?.versions) {
