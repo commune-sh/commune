@@ -215,7 +215,7 @@ function handleEnter(e) {
             {busy ? `Logging in` : `Log in`}
         </button>
         {#if busy}
-            <div class="absolute top-5 right-6">
+            <div class="absolute top-3 right-3">
                 <div class="spinner border-primary"></div>
             </div>
         {/if}
