@@ -38,11 +38,11 @@ let title = $derived.by(() => {
 
 <div class="grid grid-cols-[232px_1fr]" bind:this={container}>
 
-    <div class="sidebar grid">
+    <div class="sidebar bg-sidebar grid">
         <Sidebar />
     </div>
 
-    <div class="view grid grid-rows-[52px_1fr] h-full">
+    <div class="view bg-view grid grid-rows-[52px_1fr] h-full">
         <Header />
         <section class="view select-text">
             {$page.params.space}

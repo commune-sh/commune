@@ -34,6 +34,9 @@
 
 :root.dark {
     --background: hsla(0, 0%, 2%, 1);;
+    --switcher: transparent;
+    --sidebar: transparent;
+    --view: transparent;
     --border: hsla(0, 0%, 9%, 1);;
     --shade-1: hsla(0, 0%, 7%, 1);
     --shade-2: hsla(0, 0%, 9%, 1);
@@ -84,6 +87,9 @@
 
 :root.light {
     --background: white;
+    --switcher: transparent;
+    --sidebar: transparent;
+    --view: transparent;
     --border: hsla(0, 0%, 90%, 1);;
     --shade-1: hsla(0, 0%, 98%, 1);
     --shade-2: hsla(0, 0%, 95%, 1);
@@ -131,7 +137,6 @@
     --container-background: transparent;
     --container-border: transparent;
 }
-
 
 html {
     -webkit-font-smoothing: antialiased;

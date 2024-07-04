@@ -30,11 +30,11 @@ $effect(() => {
 
 
 <div class="root grid grid-cols-[auto_1fr] h-full select-none" bind:this={root}>
-    <div class="switcher grid">
+    <div class="switcher bg-switcher grid">
         <Switcher />
     </div>
 
-    <div class="view grid h-full">
+    <div class="view bg-view grid h-full">
         {@render content()}
     </div>
 </div>

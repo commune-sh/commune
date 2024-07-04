@@ -9,6 +9,9 @@ export default {
         'background': 'var(--background)',
         'container': 'var(--container)',
         'logo': 'var(--logo)',
+        'switcher': 'var(--switcher)',
+        'sidebar': 'var(--sidebar)',
+        'view': 'var(--view)',
         'shade': {
           1: 'var(--shade-1)',
           2: 'var(--shade-2)',

@@ -34,11 +34,11 @@ $effect(() => {
     bind:this={container}
 class:menu-active={menu_active}>
 
-    <div class="sidebar grid" class:show={menu_active}>
+    <div class="sidebar bg-sidebar grid" class:show={menu_active}>
         <Sidebar />
     </div>
 
-    <div class="view grid grid-rows-[52px_1fr] h-full">
+    <div class="view bg-view grid grid-rows-[52px_1fr] h-full">
         <Header />
         <section class="view select-text">
             home
