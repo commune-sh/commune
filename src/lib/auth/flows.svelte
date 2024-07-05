@@ -60,10 +60,10 @@ function startAuth(provider) {
 
 {:else if providers?.length > 0}
 
-    <div class="sep mt-5 h-[1px] bg-shade-3">
+    <div class="sep mt-6 h-[1px] bg-shade-3 ">
     </div>
 
-    <div class="mt-2 flex flex-col justify-center">
+    <div class="mt-3 flex flex-col justify-center">
         {#each providers as provider, i (provider.id)}
 
             <div class="mt-3">

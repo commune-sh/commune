@@ -25,7 +25,9 @@ let session = $state(null);
 let registration_disabled = $derived(store.matrix.registration_disabled)
 
 onMount(() => {
-    focus()
+    if(usernameInput) {
+        focus()
+    }
 })
 
 async function focus() {
@@ -222,6 +224,10 @@ async function createDummyAccount(username, password) {
     }
 }
 
+let waiting_for_confirmation = $state(false);
+
+let send_attempt = $state(0);
+
 async function createEmailAccount() {
 
     let client_secret = uuidv4();
@@ -241,16 +247,20 @@ async function createEmailAccount() {
         return
     }
 
+    send_attempt += 1
+
     const tokenResponse = await requestToken({
         client_secret: client_secret,
         email: email,
-        send_attempt: 1
+        send_attempt: send_attempt
     });
 
     let sid;
 
     if(tokenResponse?.sid) {
         sid = tokenResponse.sid
+
+        waiting_for_confirmation = true
 
         let body = {
             auth: {
@@ -305,11 +315,23 @@ function handleEnter(e) {
 }
 
 
+function resendEmail() {
+
+}
+
+async function goBack() {
+    waiting_for_confirmation = false
+    await tick()
+    focus()
+}
+
 </script>
 
 <svelte:head>
     <title>{title}</title>
 </svelte:head>
+
+{#if !waiting_for_confirmation}
 
 <div class="signup-container container flex flex-col rounded-[4px]
     relative">
@@ -416,6 +438,38 @@ function handleEnter(e) {
     {/if}
 
 </div>
+
+{:else}
+
+
+<div class="signup-container container flex flex-col rounded-[4px]
+    relative">
+    <div class="flex justify-center">
+        <div class="font-semibold text-xl">
+                Check your email to continue
+        </div>
+    </div>
+    <div class="mt-10 leading-6">
+        To create your account, open the link we just sent to
+        <strong>{email}</strong>.
+    </div>
+    <div class="mt-8 leading-6 text-light">
+        Didn't receive the email?
+        <span class="cursor-pointer text-primary"
+            onclick={resendEmail}>
+            Send again
+        </span>
+    </div>
+
+    <div class="mt-10 text-sm">
+        <span class="cursor-pointer text-primary"
+            onclick={goBack}>
+                Go back
+        </span>
+    </div>
+</div>
+
+{/if}
 
 {#if registration_disabled}
     <div class="mt-4 px-[2rem] py-3 

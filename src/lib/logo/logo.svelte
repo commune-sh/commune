@@ -40,14 +40,16 @@ onMount(() => {
     </div>
 </div>
 
-<div class="grid place-items-center">
+<div class="container grid place-items-center">
     <div onclick={goHome}
         bind:this={el}
         class:active={active && !loading}
         class:loading={loading}
         class:animate-pulse={loading}
-        class="logo bg-shade-7 justify-center cursor-pointer w-[46px] h-[46px] p-[4px] rounded-[50%] hover:bg-shade-7">
+        class="logo relative bg-shade-7 justify-center cursor-pointer w-[46px] h-[46px] p-[4px] rounded-[50%] hover:bg-shade-7">
+        <div class="pop relative">
         {@html logo}
+        </div>
     </div>
 </div>
 
@@ -68,7 +70,6 @@ onMount(() => {
     fill: var(--logo-fill);
     border-radius: 14px;
 }
-
 
 .loading {
     height: 38px;
