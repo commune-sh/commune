@@ -29,6 +29,7 @@ $effect(() => {
 
 </script>
 
+<div class="auth-view bg-view">
 <div class="mt-mid flex flex-col h-full items-center">
     <div class="flex flex-col max-w-[26rem] w-full px-5">
 
@@ -43,6 +44,7 @@ $effect(() => {
 
 
     </div>
+</div>
 </div>
 
 <style>

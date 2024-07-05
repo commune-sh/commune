@@ -36,7 +36,7 @@ onMount(() => {
 
 <div class="hidden" bind:this={content}>
     <div class="font-bold">
-        Direct Messages
+        Home
     </div>
 </div>
 
@@ -46,8 +46,7 @@ onMount(() => {
         class:active={active && !loading}
         class:loading={loading}
         class:animate-pulse={loading}
-        class:bg-shade-7={active}
-        class="logo justify-center cursor-pointer w-[46px] h-[46px] p-[8px] bg-logo
+        class="logo bg-shade-7 justify-center cursor-pointer w-[46px] h-[46px] p-[4px]
         rounded-[50%] hover:rounded-[14px] hover:bg-shade-7">
         {@html logo}
     </div>
@@ -56,17 +55,22 @@ onMount(() => {
 
 <style>
 
-.active {
-    background-color: var(--logo);
+.logo {
+    fill: var(--logo-fill-inactive);
+}
+
+.logo:hover {
+    background-color: var(--logo-background);
     fill: var(--logo-fill);
     border-radius: 14px;
 }
 
-.logo:hover {
-    background-color: var(--logo);
+.active {
+    background-color: var(--logo-background);
     fill: var(--logo-fill);
     border-radius: 14px;
 }
+
 
 .loading {
     height: 38px;

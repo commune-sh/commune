@@ -38,6 +38,8 @@
     --sidebar: transparent;
     --view: transparent;
     --border: hsla(0, 0%, 9%, 1);;
+    --sidebar-border: hsla(0, 0%, 9%, 1);;
+    --switcher-border: hsla(0, 0%, 9%, 1);;
     --shade-1: hsla(0, 0%, 7%, 1);
     --shade-2: hsla(0, 0%, 9%, 1);
     --shade-3: hsla(0, 0%, 11%, 1);
@@ -51,8 +53,9 @@
     --text: hsla(0, 0%, 90%, 1);
     --light: hsla(0, 0%, 70%, 1);
     --primary: hsla(0, 99%, 33%, 1);
-    --logo: hsla(0, 99%, 33%, 1);
+    --logo-background: hsla(0, 99%, 33%, 1);
     --logo-fill: hsla(0, 0%, 0%, 1);
+    --logo-fill-inactive: hsla(0, 100%, 41.6%, 1);
     --tick: hsla(0, 0%, 90%, 0.8);
     --mask: hsla(0, 0%, 0%, 0.5);
     --tooltip: hsla(0, 0%, 9%, 1);
@@ -91,6 +94,8 @@
     --sidebar: transparent;
     --view: transparent;
     --border: hsla(0, 0%, 90%, 1);;
+    --sidebar-border: hsla(0, 0%, 90%, 1);;
+    --switcher-border: hsla(0, 0%, 90%, 1);;
     --shade-1: hsla(0, 0%, 98%, 1);
     --shade-2: hsla(0, 0%, 95%, 1);
     --shade-3: hsla(0, 0%, 92%, 1);
@@ -104,8 +109,9 @@
     --text: hsla(0, 0%, 10%, 1);
     --light: hsla(0, 0%, 25%, 1);
     --primary: hsla(0, 99%, 33%, 1);
-    --logo: hsla(0, 0%, 20%, 1);
+    --logo-background: hsla(0, 0%, 10%, 1);
     --logo-fill: hsla(0, 99%, 44%, 1);
+    --logo-fill-inactive: hsla(0, 100%, 41.6%, 1);
     --tick: hsla(0, 0%, 90%, 0.8);
     --mask: hsla(0, 0%, 0%, 0.5);
     --tooltip: hsla(0, 0%, 90%, 1);

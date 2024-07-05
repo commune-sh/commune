@@ -26,6 +26,8 @@ export default {
         },
         'alert': 'var(--alert)',
         'border': 'var(--border)',
+        'sidebar-border': 'var(--sidebar-border)',
+        'switcher-border': 'var(--switcher-border)',
         'text': 'var(--text)',
         'light': 'var(--light)',
         'tick': 'var(--tick)',
