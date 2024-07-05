@@ -328,7 +328,7 @@ function handleEnter(e) {
             class:fail={username_unavailable}
             oninput={checkUsername}
             onkeypress={reset}
-            autocomplete="new-username"
+            autocomplete="off"
             disabled={registration_disabled || busy || !homeserver_reachable}
             placeholder="Username">
 
@@ -352,7 +352,7 @@ function handleEnter(e) {
             class=""
             oninput={checkEmail}
             id="email"
-            autocomplete="new-email"
+            autocomplete="off"
             disabled={registration_disabled || busy || !homeserver_reachable}
             placeholder={emailPlaceholder}>
     </div>
@@ -366,7 +366,7 @@ function handleEnter(e) {
             class:fail={bad_password}
             oninput={updatePassword}
             onkeypress={handleEnter}
-            autocomplete="new-password"
+            autocomplete="off"
             placeholder="Password">
 
         <div class="absolute right-0 top-3 mr-3 icon cursor-pointer w-[1.2rem]
