@@ -35,7 +35,7 @@ $effect(() => {
 <HomeserverDown />
 
 
-<div class="mt-mid flex flex-col h-full items-center">
+<div class="mt-mid flex flex-col h-full items-center select-none">
     <div class="flex flex-col max-w-[26rem] w-full px-5">
         {@render children()}
     </div>
