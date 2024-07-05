@@ -167,6 +167,7 @@ function handleEnter(e) {
 
 
     <div class="mt-6">
+        <label class="hide-label" for="handleInput">Username or email</label>
         <input bind:this={handleInput} type="text" class=""
             bind:value={username_or_email}
             id="handleInput"
@@ -178,6 +179,7 @@ function handleEnter(e) {
     </div>
 
     <div class="mt-3 relative">
+        <label class="hide-label" for="password">Password</label>
         <input bind:this={passwordInput} type="password" 
             bind:value={password}
             id="password"

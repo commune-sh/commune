@@ -349,6 +349,7 @@ async function goBack() {
     </div>
 
     <div class="mt-6 relative">
+        <label class="hide-label" for="username">Username</label>
         <input bind:this={usernameInput} type="text" 
             bind:value={username}
             id="username"
@@ -375,6 +376,7 @@ async function goBack() {
     </div>
 
     <div class="relative mt-3" class:hidden={dummy_mode}>
+        <label class="hide-label" for="email">Email</label>
         <input bind:this={emailInput} type="text" 
             bind:value={email}
             class:fail={showEmailWarning}
@@ -393,6 +395,7 @@ async function goBack() {
     </div>
 
     <div class="mt-3 relative">
+        <label class="hide-label" for="password">Password</label>
         <input bind:this={passwordInput} type="password" 
             bind:value={password}
             id="password"

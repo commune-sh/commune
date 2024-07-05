@@ -267,14 +267,15 @@ input.success {
     border: 1px solid green;
 }
 
-.input-label {
-    font-size: 0.7rem;
-    font-weight: 600;
-    color: var(--light);
-    text-transform: uppercase;
-    background-color: var(--background);
-    padding-left: 0.25rem;
-    padding-right: 0.25rem;
+.hide-label {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
 }
 
 .icon > svg {
