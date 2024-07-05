@@ -160,7 +160,7 @@ function handleEnter(e) {
     <div class="flex justify-center">
         <div class="font-semibold text-xl"
             class:opacity-20={!homeserver_reachable}>
-            Log in to {PUBLIC_APP_NAME}
+            Log in 
         </div>
     </div>
 
@@ -171,10 +171,12 @@ function handleEnter(e) {
             bind:value={username_or_email}
             id="handleInput"
             autocomplete="off"
-            placeholder="Email or username"
+            placeholder="Username or email"
             onkeypress={goToPassword}
+            spellcheck="false"
             disabled={busy || !homeserver_reachable}>
     </div>
+
     <div class="mt-3 relative">
         <input bind:this={passwordInput} type="password" 
             bind:value={password}

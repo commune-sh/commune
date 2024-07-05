@@ -71,5 +71,4 @@ export const logo = `
     </g>
   </g>
 </svg>
-
 `

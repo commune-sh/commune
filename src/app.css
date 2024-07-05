@@ -80,7 +80,7 @@
     --input-border: hsla(0, 0%, 15%, 1);
     --input-focus: hsla(0, 0%, 30%, 1);
     --input-text: hsla(0, 0%, 96%, 1);
-    --input-placeholder: hsla(0, 0%, 50%, 1);
+    --input-placeholder: hsla(0, 0%, 40%, 1);
 
     --alert: hsla(0, 100%, 50%, 1);
 
@@ -136,7 +136,7 @@
     --input-border: hsla(0, 0%, 80%, 1);
     --input-focus: hsla(0, 0%, 20%, 1);
     --input-text: hsla(0, 0%, 0%, 1);
-    --input-placeholder: hsla(0, 0%, 50%, 1);
+    --input-placeholder: hsla(0, 0%, 60%, 1);
 
     --alert: hsla(0, 100%, 50%, 1);
 
@@ -185,6 +185,7 @@ input:-webkit-autofill:active  {
 
 .silk {
     font-family: "Silkscreen";
+    color: var(--primary);
 }
 
 button {
@@ -264,6 +265,16 @@ input.fail {
 
 input.success {
     border: 1px solid green;
+}
+
+.input-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--light);
+    text-transform: uppercase;
+    background-color: var(--background);
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
 }
 
 .icon > svg {

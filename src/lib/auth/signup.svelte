@@ -55,7 +55,9 @@ let dummy_mode = $derived(dummy_flow_exists && !email_flow_exists)
 let email_required = $derived(email_flow_exists && !dummy_flow_exists)
 let email_optional = $derived(email_flow_exists && dummy_flow_exists)
 
-let emailPlaceholder = $derived(email_optional ? "Email (optional)" : "Email")
+let pem = `me@me.com`
+
+let emailPlaceholder = $derived(email_optional ? `Email (optional)` : `Email`)
 
 
 
@@ -135,6 +137,10 @@ function checkEmail() {
         }
     }, 500)
 }
+
+let email_ok = $derived.by(() => {
+    return (email != '' && naiveEmailCheck(email))
+})
 
 let busy = $state(false);
 
@@ -333,12 +339,12 @@ async function goBack() {
 
 {#if !waiting_for_confirmation}
 
-<div class="signup-container container flex flex-col rounded-[4px]
+<div class="signup-container container flex flex-col select-none
     relative">
 
     <div class="flex justify-center">
         <div class="font-semibold text-xl">
-            Create an account
+            Sign Up
         </div>
     </div>
 
@@ -352,6 +358,7 @@ async function goBack() {
             onkeypress={reset}
             autocomplete="off"
             disabled={registration_disabled || busy || !homeserver_reachable}
+            spellcheck="false"
             placeholder="Username">
 
         {#if checking}
@@ -367,7 +374,7 @@ async function goBack() {
         {/if}
     </div>
 
-    <div class="mt-3" class:hidden={dummy_mode}>
+    <div class="relative mt-3" class:hidden={dummy_mode}>
         <input bind:this={emailInput} type="text" 
             bind:value={email}
             class:fail={showEmailWarning}
@@ -376,7 +383,13 @@ async function goBack() {
             id="email"
             autocomplete="off"
             disabled={registration_disabled || busy || !homeserver_reachable}
+            spellcheck="false"
             placeholder={emailPlaceholder}>
+        {#if email_ok}
+            <div class="absolute right-0 top-[0.8rem] mr-4 stroke-white h-[18px] w-[18px]">
+                {@html check}
+            </div>
+        {/if}
     </div>
 
     <div class="mt-3 relative">
@@ -476,7 +489,7 @@ async function goBack() {
         border border-primary
         rounded-[4px] warn
         text-center">
-        Registration has been disabled.
+        Signups have been disabled.
     </div>
 {/if}
 

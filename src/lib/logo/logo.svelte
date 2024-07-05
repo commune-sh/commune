@@ -47,9 +47,7 @@ onMount(() => {
         class:loading={loading}
         class:animate-pulse={loading}
         class="logo relative bg-shade-7 justify-center cursor-pointer w-[46px] h-[46px] p-[4px] rounded-[50%] hover:bg-shade-7">
-        <div class="pop relative">
         {@html logo}
-        </div>
     </div>
 </div>
 
