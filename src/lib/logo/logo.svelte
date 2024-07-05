@@ -46,8 +46,7 @@ onMount(() => {
         class:active={active && !loading}
         class:loading={loading}
         class:animate-pulse={loading}
-        class="logo bg-shade-7 justify-center cursor-pointer w-[46px] h-[46px] p-[4px]
-        rounded-[50%] hover:rounded-[14px] hover:bg-shade-7">
+        class="logo bg-shade-7 justify-center cursor-pointer w-[46px] h-[46px] p-[4px] rounded-[50%] hover:bg-shade-7">
         {@html logo}
     </div>
 </div>
@@ -62,7 +61,6 @@ onMount(() => {
 .logo:hover {
     background-color: var(--logo-background);
     fill: var(--logo-fill);
-    border-radius: 14px;
 }
 
 .active {

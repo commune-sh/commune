@@ -250,8 +250,8 @@ let size = $state(46)
         {/if}
     </div>
 
-    <div class="tick opacity-0 absolute left-[0px] w-[4px] top-[16px] bottom-[16px]
-        bg-primary duration-100"
+    <div class="pill opacity-0 absolute left-[0px] w-[4px] top-[16px] bottom-[16px]
+        bg-pill duration-100"
         class:opacity-100={active && !dragging}
     >
     </div>
@@ -273,20 +273,20 @@ let size = $state(46)
     transform: translate(0, 0);
 }
 
-.space:hover + .tick {
-    opacity: 0.5;
+.space:hover + .pill {
+    opacity: 0.8;
 } 
 
 .active {
     opacity: 1;
 }
 
-.active:hover + .tick {
+.active:hover + .pill {
     opacity: 1;
 } 
 
-.tick {
-border-radius: 0 4px 4px 0;
+.pill {
+    border-radius: 0 4px 4px 0;
 }
 
 .dragging {
@@ -298,7 +298,7 @@ border-radius: 0 4px 4px 0;
     opacity: 0;
 }
 
-.dragging .tick {
+.dragging .pill {
     opacity: 0;
 }
 

@@ -30,7 +30,7 @@ export default {
         'switcher-border': 'var(--switcher-border)',
         'text': 'var(--text)',
         'light': 'var(--light)',
-        'tick': 'var(--tick)',
+        'pill': 'var(--pill)',
         'mask': 'var(--mask)',
         'tooltip': 'var(--tooltip)',
 

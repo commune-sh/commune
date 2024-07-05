@@ -6,9 +6,11 @@ import ToggleTheme from '$lib/theme/toggle.svelte'
 
 </script>
 
-<div class="switcher grid grid-rows-[72px_1fr_auto] h-full select-none 
+<div class="switcher grid grid-rows-[72px_auto_1fr_auto] h-full select-none 
     border-solid border-r border-switcher-border">
     <Logo />
+    <div class="sep">
+    </div>
     <Items />
     <div class="grid grid-rows">
         <ToggleTheme />
@@ -19,5 +21,12 @@ import ToggleTheme from '$lib/theme/toggle.svelte'
 <style>
 .switcher {
     width: 72px;
+}
+.sep {
+    height: 2px;
+    background: var(--border);
+    margin-right: 1.2rem;
+    margin-left: 1.2rem;
+    border-radius: 2px;
 }
 </style>

@@ -81,7 +81,7 @@ function update(cy) {
 <div class="grid grid-rows-[1fr_auto] overflow-hidden">
 
     <div class="items overflow-hidden">
-        <div class="overflow-y-auto h-full hide-scroll pt-[6px]">
+        <div class="overflow-y-auto h-full hide-scroll pt-[10px]">
         {#if !no_items}
             {#each items as space, index (space?.id ?? index)}
                 <Item {space} {dragged_over} {dragged} {index} {clientY}
