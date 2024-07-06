@@ -1,66 +1,67 @@
-<script lang="ts">
-import Toggle from '$lib/theme/toggle.svelte'
-import { onMount, tick } from 'svelte'
+<script>
+import { PUBLIC_META_TITLE } from '$env/static/public';
+import { page } from '$app/stores';
+import { onMount } from 'svelte'
 
+import Loading from '$lib/loading/loading.svelte'
 import Sidebar from '$lib/sidebar/sidebar.svelte'
 import Header from '$lib/header/header.svelte'
 
+// app store
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
 
-const client = $derived(store.matrix.client)
-const synced = $derived(store.matrix.synced)
 
-const rooms = $derived(client?.store?.rooms)
+let {
+    data,
+} = $props();
 
-const menu_active = $derived(store.ui.menu_active)
+$effect(() => {
+    if(data) {
+    }
+})
 
-let events = $state([])
-
-let viewport;
+let ready = $state(false);
 
 let container;
 
-$effect(() => {
-    if(synced && client?.store) {
-    }
+let title = $derived.by(() => {
+    if(data?.space != undefined && data?.space?.name != "")  {
+        return `${data?.space?.name} - ${PUBLIC_META_TITLE}`
+    } 
+    return PUBLIC_META_TITLE
 })
 
 </script>
 
+<svelte:head>
+    <title>{title}</title>
+</svelte:head>
 
+{#if !ready}
 
-<div class="grid grid-cols-[232px_1fr]" class:con={!menu_active}
-    bind:this={container}
-class:menu-active={menu_active}>
+<Loading />
 
-    <div class="sidebar bg-sidebar grid" class:show={menu_active}>
+{:else}
+<div class="grid grid-cols-[232px_1fr]" bind:this={container}>
+
+    <div class="sidebar bg-sidebar grid">
         <Sidebar />
     </div>
 
     <div class="view bg-view grid grid-rows-[52px_1fr] h-full">
         <Header />
         <section class="view select-text">
-            home
+            {$page.params.space}
+            {#await data.space}
+            {/await}
         </section>
     </div>
 
 </div>
+{/if}
 
 
 <style>
-.menu-active {
-    grid-template-columns: 232px 1fr;
-}
-@media (max-width: 768px) {
-    .con {
-        grid-template-columns: auto;
-    }
-    .sidebar {
-        display: none;
-    }
-    .show {
-        display: grid;
-    }
-}
 </style>
+

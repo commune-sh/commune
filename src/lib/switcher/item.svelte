@@ -227,11 +227,8 @@ let size = $state(46)
         class:bg-shade-7={active}
         class:active={active}
         class="space bg-shade-4 w-[{size}px] h-[{size}px] grid
-        hover:rounded-[14px]
         transition-transform duration-200
-        place-items-center cursor-pointer hover:bg-shade-7" 
-        class:rounded-[14px]={active}
-        class:rounded-[50%]={!active}
+        place-items-center cursor-pointer hover:bg-shade-7 rounded-[50%]" 
         class:text-[14px]={initial?.length > 2}
         class:text-[12px]={initial?.length > 4}
         class:text-[10px]={initial?.length > 5}

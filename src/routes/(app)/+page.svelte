@@ -1,5 +1,5 @@
 <script>
-import View from '$lib/view/view.svelte'
+import Home from '$lib/view/home.svelte'
 import Loading from '$lib/loading/loading.svelte'
 import { pushState } from '$app/navigation'
 import { browser } from '$app/environment';
@@ -33,7 +33,7 @@ $effect(() => {
     {#if !authReady}
         <Loading />
     {:else if show_home}
-        <View />
+        <Home />
     {/if}
 {/if}
 

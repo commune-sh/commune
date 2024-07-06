@@ -1,4 +1,7 @@
 <script>
+import { page } from '$app/stores';
+
+import View from '$lib/view/view.svelte'
 import Alert from '$lib/alert/alert.svelte'
 import Switcher from '$lib/switcher/switcher.svelte'
 
@@ -11,12 +14,17 @@ let {
     content,
 } = $props();
 
-let native_mode = $derived(data?.native_mode)
+let is_home = $derived($page.route.id == '/(app)')
+let is_space = $derived($page.params.space != undefined)
+let is_room = $derived($page.params.room != undefined)
+
+let show_view = $derived(is_space || is_room)
 
 let root;
 
 $effect(() => {
     console.log("data is", data)
+    console.log("page is", $page)
 })
 
 </script>
@@ -35,8 +43,14 @@ $effect(() => {
     </div>
 
     <div class="content-container grid h-full">
-        {@render content()}
+        {#if show_view}
+            <View />
+        {:else}
+            {@render content()}
+        {/if}
+
     </div>
+
 </div>
 
 </main>

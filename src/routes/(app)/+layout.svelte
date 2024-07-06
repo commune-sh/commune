@@ -1,14 +1,12 @@
 <script lang="ts">
 import '../../app.css'
 import { 
-    PUBLIC_APPSERVICE,
     PUBLIC_META_TITLE,
 } from '$env/static/public';
 
 import { onMount } from 'svelte'
 import { browser } from '$app/environment';
 
-import { getCapabilities } from '$lib/appservice/requests'
 import { wellKnownClient, getVersions } from '$lib/matrix/requests'
 
 import Listeners from '$lib/listeners/listeners.svelte'

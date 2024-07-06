@@ -53,7 +53,8 @@ onMount(() => {
         class:loading={loading}
         class:animate-pulse={loading}
         class:cursor-pointer={!is_static}
-        class="logo relative bg-shade-7 justify-center w-[46px] h-[46px] p-[4px] rounded-[50%] hover:bg-shade-7">
+        class="logo relative bg-shade-7 justify-center w-[46px] h-[46px] p-[4px]
+        rounded-[50%] hover:rounded-[14px] hover:bg-shade-7">
         {@html logo}
     </div>
 </div>
