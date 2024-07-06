@@ -1,9 +1,10 @@
+import { browser } from '$app/environment';
 import { createAppStore } from './app.svelte.js';
 const app = createAppStore();
 
 const homeserver = $derived(app.homeserver)
 
-import { storeCookies } from '$lib/utils/cookie'
+import { getCookie, removeCookie, storeCookies } from '$lib/utils/cookie'
 import { whoami } from '$lib/matrix/requests';
 
 let ready = $state(false);
@@ -18,6 +19,13 @@ let accounts = $state(null);
 let authenticated = $state(false);
 
 let login_flows = $state(null);
+
+if(browser) {
+  let access_token = getCookie('mx_access_token')
+  if(access_token == null) {
+    ready = true
+  }
+}
 
 export function createAuthStore() {
 
@@ -45,9 +53,9 @@ export function createAuthStore() {
     }
 
 
-    const access_token = localStorage.getItem('mx_access_token')
-    const user_id = localStorage.getItem('mx_user_id')
-    const device_id = localStorage.getItem('mx_device_id')
+    const access_token = getCookie('mx_access_token')
+    const user_id = getCookie('mx_user_id')
+    const device_id = getCookie('mx_device_id')
 
     if(!access_token || !user_id || !device_id) {
       console.log("No credentials found in local storage.")
@@ -94,18 +102,12 @@ export function createAuthStore() {
   }
 
   function purge() {
-    localStorage.removeItem('mx_access_token')
-    localStorage.removeItem('mx_user_id')
-    localStorage.removeItem('mx_device_id')
-
-    credentials = {
-      access_token: null,
-      user_id: null,
-      device_id: null,
-    }
-
+    console.log("Purging credentials.")
+    removeCookie('mx_access_token')
+    removeCookie('mx_user_id')
+    removeCookie('mx_device_id')
+    credentials = null
     authenticated = false;
-
   }
 
   function validateAccessToken() {

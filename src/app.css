@@ -62,6 +62,8 @@
     --icon: hsla(0, 0%, 35%, 1);
     --icon-hover: hsla(0, 0%, 45%, 1);
 
+    --spinner: hsla(0, 99%, 33%, 1);
+
     --button-background: hsla(0, 0%, 19%, 1);
     --button-text: hsla(0, 0%, 90%, 1);
     --button-hover: hsla(0, 0%, 22%, 1);
@@ -117,6 +119,8 @@
     --tooltip: hsla(0, 0%, 90%, 1);
     --icon: hsla(0, 0%, 25%, 1);
     --icon-hover: hsla(0, 0%, 45%, 1);
+
+    --spinner: hsla(0, 0%, 0%, 1);
 
     --button-background: hsla(0, 0%, 15%, 1);
     --button-text: hsla(0, 0%, 100%, 1);
@@ -389,20 +393,26 @@ input.success {
     height: 12px;
     cursor: not-allowed;
     border-width: 2px;
+    border-color: var(--spinner);
     border-bottom-color: transparent;
     border-radius: 50%;
     display: inline-block;
     box-sizing: border-box;
-    animation: rotation 0.5s linear infinite;
-    }
+    animation: spin 0.5s linear infinite;
+}
 
-    @keyframes rotation {
+@keyframes spin {
     0% {
         transform: rotate(0deg);
     }
     100% {
         transform: rotate(360deg);
     }
+}
+
+.spinner-lg {
+    width: 1.5rem;
+    height: 1.5rem;
 }
 
 .mt-mid {

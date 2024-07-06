@@ -2,6 +2,7 @@
 import { PUBLIC_META_TITLE } from '$env/static/public';
 import { page } from '$app/stores';
 
+import Loading from '$lib/loading/loading.svelte'
 import Sidebar from '$lib/sidebar/sidebar.svelte'
 import Header from '$lib/header/header.svelte'
 
@@ -20,6 +21,8 @@ $effect(() => {
     }
 })
 
+let ready = $state(false);
+
 let container;
 
 let title = $derived.by(() => {
@@ -35,7 +38,11 @@ let title = $derived.by(() => {
     <title>{title}</title>
 </svelte:head>
 
+{#if !ready}
 
+<Loading />
+
+{:else}
 <div class="grid grid-cols-[232px_1fr]" bind:this={container}>
 
     <div class="sidebar bg-sidebar grid">
@@ -52,6 +59,7 @@ let title = $derived.by(() => {
     </div>
 
 </div>
+{/if}
 
 
 <style>

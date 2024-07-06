@@ -4,8 +4,6 @@ import Logo from '$lib/logo/logo.svelte'
 
 
 <div class="loading flex h-full justify-center items-center">
-    <div>
-        <Logo loading={true} />
-    </div>
+    <div class="spinner spinner-lg"></div>
 </div>
 

@@ -6,14 +6,6 @@ import {
 import { browser } from '$app/environment';
 import * as sdk from 'matrix-js-sdk';
 
-function customFetch(url, options = {}) {
-  options.headers = {
-    ...options.headers,
-    'X-Requested-With': PUBLIC_APP_NAME,
-  };
-  return fetch(url, options);
-}
-
 import { createAppStore } from './app.svelte.js';
 const app = createAppStore();
 import { createUIStore } from './ui.svelte.js';
@@ -36,7 +28,6 @@ let spaces = $state([])
 if(browser) {
   client =  sdk.createClient({
     baseUrl: homeserver,
-    //fetchFn: customFetch
   });
 }
 
@@ -46,7 +37,6 @@ export function createMatrixStore() {
   function newClient() {
     return sdk.createClient({
       baseUrl: homeserver,
-      //fetchFn: customFetch
     });
   }
 
