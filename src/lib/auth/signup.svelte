@@ -28,6 +28,7 @@ onMount(() => {
     if(usernameInput) {
         focus()
     }
+    client_secret = uuidv4();
 })
 
 async function focus() {
@@ -234,9 +235,12 @@ let waiting_for_confirmation = $state(false);
 
 let send_attempt = $state(0);
 
+let client_secret = $state(null);
+
+let email_in_use = $state(false);
+
 async function createEmailAccount() {
 
-    let client_secret = uuidv4();
 
     const response = await register({
         initial_device_display_name: PUBLIC_APP_NAME,
@@ -260,6 +264,12 @@ async function createEmailAccount() {
         email: email,
         send_attempt: send_attempt
     });
+
+    if(tokenResponse?.errcode == "M_THREEPID_IN_USE") {
+        busy = false
+        email_in_use = true
+        return
+    }
 
     let sid;
 
@@ -320,9 +330,24 @@ function handleEnter(e) {
     }
 }
 
+let resent = $state(false);
 
-function resendEmail() {
-
+async function resendEmail() {
+    if(resent) return
+    send_attempt += 1
+    const tokenResponse = await requestToken({
+        client_secret: client_secret,
+        email: email,
+        send_attempt: send_attempt
+    });
+    let sid;
+    if(tokenResponse?.sid) {
+        sid = tokenResponse.sid
+        resent = true
+        setTimeout(() => {
+            resent = false
+        }, 10000)
+    }
 }
 
 async function goBack() {
@@ -472,6 +497,7 @@ async function goBack() {
     <div class="mt-8 leading-6 text-light">
         Didn't receive the email?
         <span class="cursor-pointer text-primary"
+            class:cursor-not-allowed={resent}
             onclick={resendEmail}>
             Send again
         </span>
@@ -480,11 +506,20 @@ async function goBack() {
     <div class="mt-10 text-sm">
         <span class="cursor-pointer text-primary"
             onclick={goBack}>
-                Go back
+            Go back
         </span>
     </div>
 </div>
 
+{/if}
+
+{#if email_in_use}
+    <div class="mt-4 px-[2rem] py-3 
+        border border-primary
+        rounded-[4px] warn
+        text-center">
+        That email is already in use.
+    </div>
 {/if}
 
 {#if registration_disabled}
