@@ -2,6 +2,7 @@
 import '../../app.css'
 import { page } from '$app/stores';
 let { data, children } = $props()
+import Logo from '$lib/logo/logo.svelte'
 import { onMount } from 'svelte'
 import { goto } from '$app/navigation'
 
@@ -36,6 +37,9 @@ $effect(() => {
 
 
 <div class="mt-mid flex flex-col h-full items-center select-none">
+    <div class="mb-4">
+        <Logo is_static={true} />
+    </div>
     <div class="flex flex-col max-w-[26rem] w-full px-5">
         {@render children()}
     </div>

@@ -240,7 +240,7 @@ let client_secret = $state(null);
 let email_in_use = $state(false);
 
 async function createEmailAccount() {
-
+    email_in_use = false
 
     const response = await register({
         initial_device_display_name: PUBLIC_APP_NAME,
@@ -303,7 +303,7 @@ async function loopRegister(body) {
     if(!response?.user_id || !response?.access_token) {
         setTimeout(() => {
             loopRegister(body)
-        }, 1000)
+        }, 2000)
     } else {
         console.log(response)
         store.auth.saveSession({

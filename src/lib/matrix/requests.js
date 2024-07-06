@@ -96,6 +96,57 @@ export const requestToken = async (opts) => {
 }
 
 
+export const requestPasswordToken = async (opts) => {
+  if(!opts.email || !opts.client_secret || !opts.send_attempt){
+    throw new Error('Missing required parameters')
+  }
+  const url = `${MATRIX_BASE_URL}/account/password/email/requestToken`;
+
+  let options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      "client_secret": opts.client_secret,
+      "email": opts.email,
+      "send_attempt": opts.send_attempt,
+    })
+  }
+
+  try {
+    const response = await fetch(url, options)
+    return response.json();
+  } catch (error) {
+    throw error
+  }
+
+}
+
+export const savePassword = async (opts) => {
+  if(!opts.new_password || !opts.client_secret || !opts.auth){
+    throw new Error('Missing required parameters')
+  }
+  const url = `${MATRIX_BASE_URL}/account/password`;
+
+  let options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(opts)
+  }
+
+  try {
+    const response = await fetch(url, options)
+    return response.json();
+  } catch (error) {
+    throw error
+  }
+
+}
+
+
 export const usernameAvailable = async (username) => {
   const url = `${MATRIX_BASE_URL}/register/available?username=${username}`;
 

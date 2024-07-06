@@ -5,7 +5,7 @@ import { page } from '$app/stores';
 import { onMount } from 'svelte';
 import tippy from 'tippy.js';
 
-let { main, loading } = $props();
+let { is_static, loading } = $props();
 
 let active = $derived($page.url.pathname == '/')
 
@@ -13,6 +13,9 @@ $effect(() => {
 })
 
 function goHome() {
+    if(is_static) {
+        return
+    }
     goto(`/`)
 }
 
@@ -21,6 +24,9 @@ let el;
 let content;
 
 onMount(() => {
+    if(is_static) {
+        return
+    }
     tooltip = tippy(el, {
         content: content,
         placement: 'right',
@@ -43,10 +49,11 @@ onMount(() => {
 <div class="container grid place-items-center">
     <div onclick={goHome}
         bind:this={el}
-        class:active={active && !loading}
+        class:active={(active && !loading) || is_static}
         class:loading={loading}
         class:animate-pulse={loading}
-        class="logo relative bg-shade-7 justify-center cursor-pointer w-[46px] h-[46px] p-[4px] rounded-[50%] hover:bg-shade-7">
+        class:cursor-pointer={!is_static}
+        class="logo relative bg-shade-7 justify-center w-[46px] h-[46px] p-[4px] rounded-[50%] hover:bg-shade-7">
         {@html logo}
     </div>
 </div>
