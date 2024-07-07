@@ -1,6 +1,7 @@
 <script lang="ts">
 import '../../app.css'
 import { 
+    PUBLIC_APP_NAME,
     PUBLIC_META_TITLE,
     PUBLIC_META_IMAGE,
     PUBLIC_META_DESCRIPTION,
@@ -90,14 +91,13 @@ let is_space = $derived($page.params.space != undefined)
 let is_room = $derived($page.params.room != undefined)
 
 let title = $derived.by(() => {
-    let base = `${PUBLIC_META_TITLE}`
     if(data?.space?.name) {
-        base = `${PUBLIC_META_TITLE} - ${data.space.name}`
+        return data.space.name
     } else if(data?.space?.canonical_alias) {
         const alias =  get_local_part(data.space.canonical_alias)
-        base = `${PUBLIC_META_TITLE} - ${alias}`
+        return alias
     }
-    return base
+    return PUBLIC_META_TITLE
 })
 
 let image = $derived.by(() => {
@@ -119,10 +119,14 @@ let description = $derived.by(() => {
     <title>{title}</title>
     <meta property="og:title" content={title} />
 
+    <meta property="og:site_name" content={PUBLIC_APP_NAME}>
+
     <meta property="og:type" content="website" />
 
     {#if image}
         <meta property="og:image" content={image} />
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="600">
     {/if}
     {#if description}
         <meta name="description" content={description}>
