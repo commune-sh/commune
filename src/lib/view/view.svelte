@@ -14,6 +14,7 @@ const store = createStore()
 
 let {
     data,
+    content
 } = $props();
 
 $effect(() => {
@@ -38,11 +39,6 @@ let title = $derived.by(() => {
     <title>{title}</title>
 </svelte:head>
 
-{#if !ready}
-
-<Loading />
-
-{:else}
 <div class="grid grid-cols-[232px_1fr]" bind:this={container}>
 
     <div class="sidebar bg-sidebar grid">
@@ -52,14 +48,12 @@ let title = $derived.by(() => {
     <div class="view bg-view grid grid-rows-[52px_1fr] h-full">
         <Header />
         <section class="view select-text">
-            {$page.params.space}
-            {#await data.space}
-            {/await}
+            {@render content()}
         </section>
     </div>
 
+
 </div>
-{/if}
 
 
 <style>

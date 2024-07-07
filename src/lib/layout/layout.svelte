@@ -23,8 +23,6 @@ let show_view = $derived(is_space || is_room)
 let root;
 
 $effect(() => {
-    console.log("data is", data)
-    console.log("page is", $page)
 })
 
 </script>
@@ -43,8 +41,9 @@ $effect(() => {
     </div>
 
     <div class="content-container grid h-full">
+
         {#if show_view}
-            <View />
+            <View {content} />
         {:else}
             {@render content()}
         {/if}

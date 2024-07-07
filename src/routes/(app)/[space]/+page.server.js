@@ -14,6 +14,8 @@ export async function load( { fetch, params, url, cookies, request } ) {
   let data = {
   };
 
+  if(access_token) return data;
+
   if(!access_token) {
 
     let url = `${PUBLIC_HOMESERVER_BASE_URL}/.well-known/matrix/client`
@@ -23,10 +25,10 @@ export async function load( { fetch, params, url, cookies, request } ) {
 
       const u = resp["commune.appservice"].url
 
-      let url = `${u}/_matrix/client/v3/rooms/${params.space}/state`
+      let url = `${u}/_matrix/client/v3/rooms/${params.space}/info`
       const r = await fetch(url)
-      const x =  await r.json()
-      console.log(x)
+      const info =  await r.json()
+      data.space_info = info
     }
   }
 
