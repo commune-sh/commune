@@ -20,8 +20,7 @@ let title = $derived.by(() => {
 
     if(data?.space_info?.name) {
         base = `${PUBLIC_META_TITLE} - ${data.space_info.name}`
-    }
-    if(data?.space_info?.canonical_alias) {
+    } else if(data?.space_info?.canonical_alias) {
         const alias =  get_local_part(data.space_info.canonical_alias)
         base = `${PUBLIC_META_TITLE} - ${alias}`
     }
