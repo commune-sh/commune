@@ -23,12 +23,16 @@ let password = $state('')
 
 
 onMount(() => {
-    focus()
+    if(handleInput) {
+        focus()
+    }
 });
 
 async function focus() {
     await tick();
-    handleInput.focus();
+    if(handleInput) {
+        handleInput.focus();
+    }
 }
 
 function signup() {
@@ -53,10 +57,6 @@ let togglePasswordVisibility = () => {
 
 let is_app_group = $derived($page.route.id == '/(app)')
 let is_auth_group = $derived($page.route.id == '/(auth)/login')
-
-let title = $derived.by(() => {
-    return is_auth_group ? `${PUBLIC_META_TITLE} - Login` : PUBLIC_META_TITLE
-})
 
 let busy = $state(false);
 let failed = $state(false);
@@ -149,10 +149,6 @@ function handleEnter(e) {
 }
 
 </script>
-
-<svelte:head>
-    <title>{title}</title>
-</svelte:head>
 
 <div class="login-container container flex flex-col rounded-[4px]
     relative">

@@ -116,10 +116,11 @@ let description = $derived.by(() => {
 
 </script>
 <svelte:head>
-    {#if title}
-        <title>{title}</title>
-        <meta property="og:title" content={title} />
-    {/if}
+    <title>{title}</title>
+    <meta property="og:title" content={title} />
+
+    <meta property="og:type" content="website" />
+
     {#if image}
         <meta property="og:image" content={image} />
     {/if}

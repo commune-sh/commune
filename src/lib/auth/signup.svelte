@@ -80,10 +80,6 @@ let togglePasswordVisibility = () => {
 let is_app_group = $derived($page.route.id == '/(app)')
 let is_auth_group = $derived($page.route.id == '/(auth)/signup')
 
-let title = $derived.by(() => {
-    return is_auth_group ? `${PUBLIC_META_TITLE} - Sign up` : PUBLIC_META_TITLE
-})
-
 function goToLogin() {
     pushState('', {
         active_view: "login"
@@ -357,10 +353,6 @@ async function goBack() {
 }
 
 </script>
-
-<svelte:head>
-    <title>{title}</title>
-</svelte:head>
 
 {#if !waiting_for_confirmation}
 
