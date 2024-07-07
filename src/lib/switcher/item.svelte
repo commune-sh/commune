@@ -182,8 +182,10 @@ $effect(() => {
 function goToSpace() {
     tooltip.hide()
 
+    /*
     let title = `${PUBLIC_META_TITLE} - ${space.name}`
     document.title = title
+    */
 
     let location = alias ? alias : space.room_id
 

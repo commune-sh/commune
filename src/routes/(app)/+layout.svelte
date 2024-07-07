@@ -115,15 +115,11 @@ let description = $derived.by(() => {
 })
 
 </script>
-
-<Listeners />
-
-<HomeserverDown />
-
-<Matrix />
-
 <svelte:head>
-    <title>{title}</title>
+    {#if title}
+        <title>{title}</title>
+        <meta property="og:title" content={title} />
+    {/if}
     {#if image}
         <meta property="og:image" content={image} />
     {/if}
@@ -132,6 +128,13 @@ let description = $derived.by(() => {
         <meta property="og:description" content={description}>
     {/if}
 </svelte:head>
+
+
+<Listeners />
+
+<HomeserverDown />
+
+<Matrix />
 
 
 {#snippet content()}
