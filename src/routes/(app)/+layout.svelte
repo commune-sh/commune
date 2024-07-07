@@ -2,7 +2,12 @@
 import '../../app.css'
 import { 
     PUBLIC_META_TITLE,
+    PUBLIC_META_IMAGE,
+    PUBLIC_META_DESCRIPTION,
 } from '$env/static/public';
+
+import { page } from '$app/stores';
+import { get_local_part, convertFromMXC } from '$lib/utils/matrix'
 
 import { onMount } from 'svelte'
 import { browser } from '$app/environment';
@@ -46,7 +51,7 @@ $effect(() => {
         })
     }
     if(data) {
-        //console.log($state.snapshot(data))
+        console.log($state.snapshot(data))
     }
 })
 
@@ -80,6 +85,35 @@ onMount(() => {
     }
 })
 
+let is_home = $derived($page.route.id == '/(app)')
+let is_space = $derived($page.params.space != undefined)
+let is_room = $derived($page.params.room != undefined)
+
+let title = $derived.by(() => {
+    let base = `${PUBLIC_META_TITLE}`
+    if(data?.space?.name) {
+        base = `${PUBLIC_META_TITLE} - ${data.space.name}`
+    } else if(data?.space?.canonical_alias) {
+        const alias =  get_local_part(data.space.canonical_alias)
+        base = `${PUBLIC_META_TITLE} - ${alias}`
+    }
+    return base
+})
+
+let image = $derived.by(() => {
+    if(data?.space?.avatar_url) {
+        return convertFromMXC(data.space.avatar_url)
+    }
+    return PUBLIC_META_IMAGE
+})
+
+let description = $derived.by(() => {
+    if(data?.space?.topic) {
+        return data.space.topic
+    }
+    return PUBLIC_META_DESCRIPTION
+})
+
 </script>
 
 <Listeners />
@@ -89,7 +123,14 @@ onMount(() => {
 <Matrix />
 
 <svelte:head>
-    <title>{PUBLIC_META_TITLE}</title>
+    <title>{title}</title>
+    {#if image}
+        <meta property="og:image" content={image} />
+    {/if}
+    {#if description}
+        <meta name="description" content={description}>
+        <meta property="og:description" content={description}>
+    {/if}
 </svelte:head>
 
 

@@ -1,4 +1,8 @@
 <script>
+import { 
+    PUBLIC_META_IMAGE,
+} from '$env/static/public';
+
 import { page } from '$app/stores';
 
 import View from '$lib/view/view.svelte'
@@ -26,7 +30,6 @@ $effect(() => {
 })
 
 </script>
-
 
 <main class="app grid h-dvh" class:grid-rows-[auto_1fr]={alert_active}>
 

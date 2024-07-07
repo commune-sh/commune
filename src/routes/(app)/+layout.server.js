@@ -1,5 +1,6 @@
 import { 
   PUBLIC_APPSERVICE, 
+  PUBLIC_HOMESERVER_BASE_URL
 } from '$env/static/public';
 
 import { redirect } from "@sveltejs/kit";
@@ -16,6 +17,22 @@ export async function load( { fetch, params, url, cookies, request } ) {
 
   if(!access_token && PUBLIC_APPSERVICE == '') {
     redirect(302, '/login');
+  }
+
+  if(!access_token && params.space != '') {
+
+    let url = `${PUBLIC_HOMESERVER_BASE_URL}/.well-known/matrix/client`
+    const response = await fetch(url)
+    const resp =  await response.json()
+    if(resp?.["commune.appservice"]?.url) {
+
+      const u = resp["commune.appservice"].url
+
+      let url = `${u}/_matrix/client/v3/rooms/${params.space}/info`
+      const r = await fetch(url)
+      const space =  await r.json()
+      data.space = space
+    }
   }
 
   return data;

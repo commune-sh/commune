@@ -168,12 +168,14 @@ $effect(() => {
 })
 
 $effect(() => {
+    /*
     if(active) {
         store.app.updateSpace(space.alias)
         //getHierarchy()
         let title = `${PUBLIC_META_TITLE} - ${space.name}`
         document.title = title
     }
+    */
 })
 
 

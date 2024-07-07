@@ -26,18 +26,7 @@ let ready = $state(false);
 
 let container;
 
-let title = $derived.by(() => {
-    if(data?.space != undefined && data?.space?.name != "")  {
-        return `${data?.space?.name} - ${PUBLIC_META_TITLE}`
-    } 
-    return PUBLIC_META_TITLE
-})
-
 </script>
-
-<svelte:head>
-    <title>{title}</title>
-</svelte:head>
 
 <div class="grid grid-cols-[232px_1fr]" bind:this={container}>
 
