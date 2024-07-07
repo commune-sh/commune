@@ -30,3 +30,10 @@ export function is_local_room(room_id) {
   const domain = parts[1];
   return domain === PUBLIC_HOMESERVER_NAME;
 }
+
+export function naiveRoomIDCheck(room_id) {
+    if (typeof room_id !== 'string') {
+        return false;
+    }
+    return room_id.includes('!') || room_id.includes(':');
+}
