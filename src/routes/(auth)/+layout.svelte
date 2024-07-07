@@ -1,5 +1,12 @@
 <script>
+import { 
+    PUBLIC_META_TITLE,
+    PUBLIC_META_IMAGE,
+    PUBLIC_META_DESCRIPTION,
+} from '$env/static/public';
+
 import '../../app.css'
+
 import { page } from '$app/stores';
 let { data, children } = $props()
 import Logo from '$lib/logo/logo.svelte'
@@ -30,6 +37,21 @@ $effect(() => {
 })
 
 </script>
+
+<svelte:head>
+    <title>{PUBLIC_META_TITLE}</title>
+    <meta property="og:title" content={PUBLIC_META_TITLE} />
+
+    <meta property="og:type" content="website" />
+
+    {#if PUBLIC_META_IMAGE}
+        <meta property="og:image" content={PUBLIC_META_IMAGE} />
+    {/if}
+    {#if PUBLIC_META_DESCRIPTION}
+        <meta name="description" content={PUBLIC_META_DESCRIPTION}>
+        <meta property="og:description" content={PUBLIC_META_DESCRIPTION}>
+    {/if}
+</svelte:head>
 
 <Listeners />
 

@@ -28,6 +28,9 @@ let container;
 
 </script>
 
+{#if !ready}
+<Loading />
+{:else}
 <div class="grid grid-cols-[232px_1fr]" bind:this={container}>
 
     <div class="sidebar bg-sidebar grid">
@@ -43,6 +46,7 @@ let container;
 
 
 </div>
+{/if}
 
 
 <style>
