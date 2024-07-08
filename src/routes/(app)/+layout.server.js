@@ -19,7 +19,7 @@ export async function load( { fetch, params, url, cookies, request } ) {
     redirect(302, '/login');
   }
 
-  if(!access_token && params.space != '') {
+  if(!access_token && params.space != undefined ) {
 
     try {
       let url = `${PUBLIC_HOMESERVER_BASE_URL}/.well-known/matrix/client`
