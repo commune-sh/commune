@@ -21,18 +21,22 @@ export async function load( { fetch, params, url, cookies, request } ) {
 
   if(!access_token && params.space != '') {
 
-    let url = `${PUBLIC_HOMESERVER_BASE_URL}/.well-known/matrix/client`
-    const response = await fetch(url)
-    const resp =  await response.json()
-    if(resp?.["commune.appservice"]?.url) {
+    try {
+      let url = `${PUBLIC_HOMESERVER_BASE_URL}/.well-known/matrix/client`
+      const response = await fetch(url)
+      const resp =  await response.json()
+      if(resp?.["commune.appservice"]?.url) {
 
-      const u = resp["commune.appservice"].url
+        const u = resp["commune.appservice"].url
 
-      let url = `${u}/_matrix/client/v3/rooms/${params.space}/info`
-      const r = await fetch(url)
-      const space =  await r.json()
-      data.space = space
+        let url = `${u}/_matrix/client/v3/rooms/${params.space}/info`
+        const r = await fetch(url)
+        const space =  await r.json()
+        data.space = space
+      }
+    } catch(_) {
     }
+
   }
 
   return data;
