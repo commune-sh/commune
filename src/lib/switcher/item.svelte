@@ -66,7 +66,9 @@ let active = $derived.by(() => {
     }
 })
 
-const initial = $derived(createInitials(space?.name))
+const name = $derived(space?.name ? space.name : alias)
+
+const initial = $derived(createInitials(name))
 
 let item;
 let mid = $state(0);
@@ -297,6 +299,10 @@ let size = $state(46)
 
 .dragging .initial {
     opacity: 0;
+}
+
+.initial {
+    text-transform: uppercase;
 }
 
 .dragging .pill {
