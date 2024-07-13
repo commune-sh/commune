@@ -21,6 +21,8 @@ let client = $state(null);
 
 let synced = $state(false)
 
+let account_data = $state(false)
+
 let rooms = $state(null)
 
 let spaces = $state([])
@@ -95,7 +97,12 @@ export function createMatrixStore() {
     client.on("sync", (state, prevState, data) => {
       if(state === "PREPARED") {
         synced = true
+
         buildUserSpaces()
+
+        //const customData = client.getAccountData("commune.web.theme");
+        //console.log("Custom account data:", customData);
+
       }
     });
 
@@ -121,10 +128,10 @@ export function createMatrixStore() {
 
         const name_event = state.getStateEvents("m.room.name", "")?.event
         space.name = name_event?.content?.name
-            
+
         const avatar_event = state.getStateEvents("m.room.avatar", "")?.event
         space.avatar_url = avatar_event?.content?.url
-            
+
 
         const exists = spaces.find((item) => item.room_id === space.room_id)
         if(!exists) {
@@ -144,6 +151,25 @@ export function createMatrixStore() {
         spaces.push(item)
       }
     })
+  }
+
+  function saveAccountData(type, content) {
+    console.log("Storing account data:", type, content)
+    client.setAccountData(type, content).then(() => {
+      console.log("Account data set successfully");
+    }).catch(err => {
+      console.error("Error setting account data:", err);
+    });
+  }
+
+  function updateTheme(theme) {
+    console.log("Storing theme in account data:", theme)
+    const content = {theme: theme}
+    client.setAccountData("commune.web.theme", content).then(() => {
+      console.log("Account data set successfully");
+    }).catch(err => {
+      console.error("Error setting account data:", err);
+    });
   }
 
   return {
@@ -180,7 +206,8 @@ export function createMatrixStore() {
     getFlows,
     setup,
     updateSpaces,
-
+    updateTheme,
+    saveAccountData
   };
 
 }

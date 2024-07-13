@@ -19,6 +19,7 @@ const isLight = $derived(theme == 'light')
 
 let toggle = () => {
     store.app.toggleTheme()
+    store.matrix.updateTheme(theme)
 }
 
 let el;
