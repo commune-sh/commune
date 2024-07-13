@@ -425,4 +425,7 @@ input.success {
 .stroke {
     stroke: var(--icon);
 }
+.resize-curosr {
+    cursor: ew-resize;
+}
 
