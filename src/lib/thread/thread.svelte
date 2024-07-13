@@ -47,9 +47,10 @@ $effect(() => {
 
 </script>
 
-<div class="thread-container relative grid">
+<div class="thread-container relative grid bg-background">
     <div class="thread grid border-solid border-l border-sidebar-border"
         style="width: {width}px">
+        thread
     </div>
 
     <div class="dragger absolute" 
@@ -89,6 +90,17 @@ $effect(() => {
     background: var(--dragger);
     margin-left: 5px;
     z-index: 12;
+}
+
+@media (max-width: 768px) {
+    .thread-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 100;
+    }
 }
 </style>
 

@@ -37,16 +37,21 @@ const thread_exists = $derived.by(() => {
     return $page.params.thread != undefined
 })
 
+const menu_active = $derived(store.ui.menu_active)
+
 </script>
 
 {#if !ready}
     <Loading />
 {:else}
-<div class="grid grid-cols-[auto_1fr]" 
+<div class="view-root grid grid-cols-[auto_1fr]" 
     class:has-thread={thread_exists}
+    class:menu-active={menu_active}
     bind:this={container}>
 
-    <Sidebar />
+    <div class="sidebar-container relative bg-sidebar grid">
+        <Sidebar />
+    </div>
 
     <div class="view bg-view grid grid-rows-[52px_1fr] h-full">
         <Header />
@@ -65,6 +70,25 @@ const thread_exists = $derived.by(() => {
 <style>
 .has-thread {
     grid-template-columns: auto 1fr auto;
+}
+@media (max-width: 768px) {
+    .view-root {
+        grid-template-columns: 1fr;
+    }
+    .sidebar-container {
+        display: none;
+    }
+    .has-thread {
+        grid-template-columns: 1fr auto;
+    }
+}
+
+.menu-active {
+    grid-template-columns: auto 1fr;
+}
+
+.menu-active .sidebar-container {
+    display: grid;
 }
 </style>
 

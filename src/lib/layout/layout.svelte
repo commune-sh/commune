@@ -29,6 +29,7 @@ let root;
 $effect(() => {
 })
 
+const menu_active = $derived(store.ui.menu_active)
 </script>
 
 <main class="app grid h-dvh" class:grid-rows-[auto_1fr]={alert_active}>
@@ -38,7 +39,9 @@ $effect(() => {
 {/if}
 
 
-<div class="root grid grid-cols-[auto_1fr] h-full select-none" bind:this={root}>
+<div class="root grid grid-cols-[auto_1fr] h-full select-none" 
+    class:menu-active={menu_active}
+    bind:this={root}>
     <div class="switcher bg-switcher grid">
         <Switcher />
     </div>
@@ -66,5 +69,13 @@ $effect(() => {
     .switcher {
         display: none;
     }
+}
+
+.menu-active {
+    grid-template-columns: auto 1fr;
+}
+
+.menu-active .switcher {
+    display: grid;
 }
 </style>

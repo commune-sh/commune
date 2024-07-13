@@ -48,7 +48,6 @@ $effect(() => {
 
 </script>
 
-<div class="sidebar-container relative bg-sidebar grid">
     <div class="sidebar grid grid-rows-[1fr_70px]
         border-solid border-r border-sidebar-border"
         style="width: {width}px">
@@ -65,7 +64,6 @@ $effect(() => {
         </div>
     </div>
 
-</div>
 
 <style>
 
