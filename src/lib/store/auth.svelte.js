@@ -78,6 +78,8 @@ export function createAuthStore() {
           console.log("Access token is valid.")
           access_token_valid = true;
           access_token_checked = true;
+          authenticated = true;
+          ready = true
         }
         //authenticated = true;
       } catch (error) {

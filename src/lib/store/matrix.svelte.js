@@ -113,38 +113,18 @@ export function createMatrixStore() {
           room_id: room.roomId,
         }
 
-        console.log(room)
-        room.timeline.forEach((item) => {
-          let event = item.event
 
+        const state = room.getLiveTimeline().getState(sdk.EventTimeline.FORWARDS)
 
-          switch(event.type) {
-            case "m.room.name":
-              space.name = event.content.name
-              break;
-            case "m.room.canonical_alias":
-              space.canonical_alias = event.content.alias
-              break;
-            case "m.room.avatar":
-              space.avatar_url = event.content.url
-              break;
-            case "m.room.join_rules":
-              space.join_rule = event.content.join_rule
-              break;
-            case "m.room.topic":
-              space.topic = event.content.topic
-              break;
-            case "m.room.guest_access":
-              space.guest_access = event.content.guest_access
-              break;
-            case "m.room.history_visibility":
-              if(event.content.history_visibility == "world_readable") {
-                space.world_readable = true
-              }
-              break;
-          }
-        })
+        const alias_event = state.getStateEvents("m.room.canonical_alias", "")?.event
+        space.canonical_alias = alias_event?.content?.alias
 
+        const name_event = state.getStateEvents("m.room.name", "")?.event
+        space.name = name_event?.content?.name
+            
+        const avatar_event = state.getStateEvents("m.room.avatar", "")?.event
+        space.avatar_url = avatar_event?.content?.url
+            
 
         const exists = spaces.find((item) => item.room_id === space.room_id)
         if(!exists) {

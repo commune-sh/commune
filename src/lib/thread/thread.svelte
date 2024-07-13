@@ -6,7 +6,7 @@ let saved_width = $derived.by(() => {
     return getSetting('thread_width');
 });
 
-let width = $state(saved_width || 232);
+let width = $state(saved_width || 300);
 
 let resizing = $state(false);
 
@@ -22,7 +22,7 @@ const start = (e) => {
 const resize = (e) => {
     if(resizing) {
         const deltaX = e.clientX - startX;
-        if(deltaX > 0 && width <= 400) return;
+        if(deltaX > 0 && width <= 300) return;
         if(deltaX < 0 && width >= 600) return;
         width += -(deltaX)
         startX = e.clientX;
