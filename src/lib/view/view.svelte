@@ -6,6 +6,7 @@ import { onMount } from 'svelte'
 import Loading from '$lib/loading/loading.svelte'
 import Sidebar from '$lib/sidebar/sidebar.svelte'
 import Header from '$lib/header/header.svelte'
+import Thread from '$lib/thread/thread.svelte'
 
 // app store
 import { createStore } from '$lib/store/store.svelte.js'
@@ -32,12 +33,18 @@ onMount(() => {
     }, 1000)
 })
 
+const thread_exists = $derived.by(() => {
+    return $page.params.thread != undefined
+})
+
 </script>
 
 {#if !ready}
     <Loading />
 {:else}
-<div class="grid grid-cols-[auto_1fr]" bind:this={container}>
+<div class="grid grid-cols-[auto_1fr]" 
+    class:has-thread={thread_exists}
+    bind:this={container}>
 
     <Sidebar />
 
@@ -47,10 +54,17 @@ onMount(() => {
             {@render content()}
         </section>
     </div>
+    {#if thread_exists}
+        <Thread />
+    {/if}
+
 </div>
 {/if}
 
 
 <style>
+.has-thread {
+    grid-template-columns: auto 1fr auto;
+}
 </style>
 
