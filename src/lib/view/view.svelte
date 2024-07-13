@@ -26,13 +26,20 @@ let ready = $state(false);
 
 let container;
 
+onMount(() => {
+    setTimeout(() => {
+        ready = true;
+    }, 1000)
+})
+
 </script>
 
-<div class="grid grid-cols-[232px_1fr]" bind:this={container}>
+{#if !ready}
+    <Loading />
+{:else}
+<div class="grid grid-cols-[auto_1fr]" bind:this={container}>
 
-    <div class="sidebar bg-sidebar grid">
-        <Sidebar />
-    </div>
+    <Sidebar />
 
     <div class="view bg-view grid grid-rows-[52px_1fr] h-full">
         <Header />
@@ -40,9 +47,8 @@ let container;
             {@render content()}
         </section>
     </div>
-
-
 </div>
+{/if}
 
 
 <style>

@@ -88,6 +88,8 @@
 
     --container-background: transparent;
     --container-border: transparent;
+
+    --dragger: hsla(0, 0%, 25%, 1);
 }
 
 :root.light {
@@ -146,6 +148,8 @@
 
     --container-background: transparent;
     --container-border: transparent;
+
+    --dragger: hsla(0, 0%, 65%, 1);
 }
 
 html {

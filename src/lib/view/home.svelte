@@ -30,13 +30,11 @@ $effect(() => {
 
 
 
-<div class="grid grid-cols-[232px_1fr]" class:con={!menu_active}
+<div class="grid grid-cols-[auto_1fr]" class:con={!menu_active}
     bind:this={container}
 class:menu-active={menu_active}>
 
-    <div class="sidebar bg-sidebar grid" class:show={menu_active}>
-        <Sidebar />
-    </div>
+    <Sidebar />
 
     <div class="view bg-view grid grid-rows-[52px_1fr] h-full">
         <Header />
