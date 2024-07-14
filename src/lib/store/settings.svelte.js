@@ -1,7 +1,8 @@
 let unsaved_changes = $state(false);
 
-export function createSettingsStore() {
+let settings = $state(null);
 
+export function createSettingsStore() {
 
   function setUnsaved() {
     unsaved_changes = true
@@ -11,6 +12,11 @@ export function createSettingsStore() {
     unsaved_changes = false
   }
 
+  function updateSettings(data) {
+    settings = data
+  }
+
+
 	return {
 
 		get unsaved_changes() {
@@ -19,5 +25,6 @@ export function createSettingsStore() {
 
     setUnsaved,
     setSaved,
+    updateSettings,
 	};
 }

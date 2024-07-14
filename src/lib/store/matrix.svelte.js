@@ -21,11 +21,11 @@ let client = $state(null);
 
 let synced = $state(false)
 
-let account_data = $state(false)
-
 let rooms = $state(null)
 
 let spaces = $state([])
+
+let events = $state({})
 
 if(browser) {
   client =  sdk.createClient({
@@ -96,16 +96,52 @@ export function createMatrixStore() {
 
     client.on("sync", (state, prevState, data) => {
       if(state === "PREPARED") {
-        synced = true
 
         buildUserSpaces()
+        buildRoomEvents()
 
-        //const customData = client.getAccountData("commune.web.theme");
-        //console.log("Custom account data:", customData);
+        watchRoomEvents()
+
+        synced = true
+
+        const settings = client.getAccountData("commune.web.settings");
+        if(settings) {
+          account_data = settings
+          app.settings.updateSettings(settings)
+        }
 
       }
     });
 
+  }
+
+  function watchRoomEvents() {
+    client.on(sdk.RoomEvent.Timeline, (event, room, toStartOfTimeline) => {
+
+      if (!toStartOfTimeline) {
+        const roomId = room.roomId;
+        if (!events[roomId]) {
+            events[roomId] = [];
+        }
+
+        const eventId = event.getId();
+        const eventExists = events[roomId].some(ev => ev.event_id === eventId);
+        if (!eventExists) {
+          events[roomId].push(event.event);
+        }
+      }
+    });
+
+  }
+
+  function buildRoomEvents() {
+    const rooms = client.getRooms();
+    rooms.forEach(room => {
+      const roomId = room.roomId;
+      const timeline = room.getLiveTimeline();
+      const roomEvents = timeline.getEvents();
+      events[roomId] = roomEvents.map(event => event.event);
+    });
   }
 
   function buildUserSpaces() {
@@ -158,8 +194,8 @@ export function createMatrixStore() {
     client.setAccountData(type, content).then(() => {
       console.log("Account data set successfully");
     }).catch(err => {
-      console.error("Error setting account data:", err);
-    });
+        console.error("Error setting account data:", err);
+      });
   }
 
   function updateTheme(theme) {
@@ -168,8 +204,8 @@ export function createMatrixStore() {
     client.setAccountData("commune.web.theme", content).then(() => {
       console.log("Account data set successfully");
     }).catch(err => {
-      console.error("Error setting account data:", err);
-    });
+        console.error("Error setting account data:", err);
+      });
   }
 
   return {

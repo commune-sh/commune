@@ -57,7 +57,7 @@ $effect(() => {
     </div>
 
 
-    <div class="dragger absolute" 
+    <div class="dragger absolute grid place-items-center" 
         class:resizing={resizing}
         onmousedown={start}>
         <div class="holder" >
@@ -88,10 +88,11 @@ $effect(() => {
 }
 
 .holder {
-    height: 100%;
-    width: 1px;
+    height: 4rem;
+    width: 6px;
+    border-radius: 6px;
     background: var(--dragger);
-    margin-left: 5px;
+    margin-left: -1px;
     z-index: 12;
 }
 </style>
