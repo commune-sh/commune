@@ -18,6 +18,8 @@ let accounts = $state(null);
 
 let authenticated = $state(false);
 
+let is_guest = $state(false);
+
 let login_flows = $state(null);
 
 if(browser) {
@@ -41,6 +43,7 @@ export function createAuthStore() {
         access_token: opts.access_token,
         user_id: opts.user_id,
         device_id: opts.device_id,
+        is_guest: opts.is_guest,
       }
       authenticated = true;
 
@@ -56,6 +59,7 @@ export function createAuthStore() {
     const access_token = getCookie('mx_access_token')
     const user_id = getCookie('mx_user_id')
     const device_id = getCookie('mx_device_id')
+    const is_guest = getCookie('mx_is_guest')
 
     if(!access_token || !user_id || !device_id) {
       console.log("No credentials found in local storage.")
@@ -94,6 +98,7 @@ export function createAuthStore() {
         access_token: access_token,
         user_id: user_id,
         device_id: device_id,
+        is_guest: is_guest == "true" ? true : false,
       }
       console.log("Credentials loaded from local storage.", $state.snapshot(credentials))
     } else {
@@ -108,6 +113,7 @@ export function createAuthStore() {
     removeCookie('mx_access_token')
     removeCookie('mx_user_id')
     removeCookie('mx_device_id')
+    removeCookie('mx_is_guest')
     credentials = null
     authenticated = false;
   }
@@ -132,12 +138,20 @@ export function createAuthStore() {
       mx_user_id: opts.user_id,
       mx_device_id: opts.device_id,
       mx_home_server: opts.home_server,
+      mx_is_guest: opts.is_guest,
     })
+
+    if(opts.is_guest) {
+      is_guest = true;
+    }
+
     credentials = {
       access_token: opts.access_token,
       user_id: opts.user_id,
       device_id: opts.device_id,
+      is_guest: opts.is_guest,
     }
+
     authenticated = true;
     access_token_valid = true;
     access_token_checked = true;

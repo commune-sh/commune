@@ -7,9 +7,12 @@ import { browser } from '$app/environment';
 import * as sdk from 'matrix-js-sdk';
 
 import { processRooms } from '$lib/utils/matrix';
+import { syncGuest } from '$lib/matrix/requests.js';
 
 import { createAppStore } from './app.svelte.js';
 const app = createAppStore();
+import { createAuthStore } from './auth.svelte.js';
+const auth = createAuthStore();
 import { createUIStore } from './ui.svelte.js';
 const ui = createUIStore();
 
@@ -93,6 +96,7 @@ export function createMatrixStore() {
       accessToken: credentials.access_token,
       userId: credentials.user_id,
     });
+
     await client.startClient();
 
 
@@ -118,6 +122,11 @@ export function createMatrixStore() {
       }
     });
 
+  }
+
+  async function setupGuest(credentials) {
+    console.log("Setting up Matrix guest client for:", credentials.user_id)
+    syncGuest(credentials.access_token)
   }
 
 
@@ -214,7 +223,24 @@ export function createMatrixStore() {
     } catch (err){
       console.log("Error fetching hierarchy:", err)
     }
+  }
 
+  async function registerGuest() {
+    try {
+      let response = await client.registerGuest()
+      if(response?.access_token) {
+        console.log("Guest registered:", response)
+        auth.saveSession({
+          access_token: response.access_token,
+          user_id: response.user_id,
+          device_id: response.device_id,
+          home_server: response.home_server,
+          is_guest: true,
+        })
+      }
+    } catch(err) {
+      console.log("Error registering guest:", err)
+    }
   }
 
   return {
@@ -250,12 +276,14 @@ export function createMatrixStore() {
     newClient,
     getFlows,
     setup,
+    setupGuest,
     addRoom,
     addSpace,
     updateSpaces,
     updateTheme,
     saveAccountData,
     getHierarchy,
+    registerGuest,
   };
 
 }

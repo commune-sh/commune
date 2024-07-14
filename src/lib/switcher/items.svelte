@@ -24,7 +24,7 @@ let items = $derived(spaces)
 $effect(() => {
     if(authReady && !authenticated) {
         console.log("fetching public rooms")
-        //fetchPublicRooms()
+        fetchPublicRooms()
     }
 })
 

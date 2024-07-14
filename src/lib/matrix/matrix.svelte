@@ -13,9 +13,18 @@ const credentials = $derived($state.snapshot(store.auth.credentials))
 
 let ready = $state(false);
 
+let {
+    data,
+} = $props();
+
+
 $effect(() => {
     if(browser && authReady && credentials && !ready) {
-        store.matrix.setup(credentials)
+        if(!data.is_guest) {
+            store.matrix.setup(credentials)
+        } else if(data.is_guest) {
+            //store.matrix.setupGuest(credentials)
+        }
         ready = true
     }
 })

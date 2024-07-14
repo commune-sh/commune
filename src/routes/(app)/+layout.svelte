@@ -84,6 +84,11 @@ async function setup() {
 }
 
 onMount(() => {
+
+    if(!data?.access_token_exists) {
+        //store.matrix.registerGuest()
+    }
+
     store.matrix.getFlows()
     if(!data?.native_mode) {
         setup()
@@ -148,7 +153,7 @@ let description = $derived.by(() => {
 
 <HomeserverDown />
 
-<Matrix />
+<Matrix {data} />
 
 
 {#snippet content()}

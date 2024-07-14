@@ -220,3 +220,49 @@ export const getVersions = async () => {
   }
 
 }
+
+
+export async function syncGuest(accessToken) {
+  try {
+    const filter = {
+      room: {
+        timeline: { limit: 10 },
+        state: { limit: 10 },
+        ephemeral: { not_types: ['m.receipt'] },
+        account_data: { not_types: ['*'] }
+      },
+      presence: { not_types: ['*'] },
+      account_data: { not_types: ['*'] }
+    };
+
+    const response = await fetch(`${PUBLIC_HOMESERVER}/_matrix/client/r0/sync?timeout=30000&filter=${encodeURIComponent(JSON.stringify(filter))}`, {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error during sync: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+
+    // Handle new events
+    if (data.rooms && data.rooms.join) {
+      Object.keys(data.rooms.join).forEach(roomId => {
+        const room = data.rooms.join[roomId];
+        room.timeline.events.forEach(event => {
+          console.log(`New event in room ${roomId}:`, event);
+        });
+      });
+    }
+
+    // Continue polling
+    setTimeout(() => syncGuest(accessToken), 3000);
+  } catch (error) {
+    console.error('Error during manual sync:', error);
+    // Retry after a delay in case of error
+    setTimeout(() => syncGuest(accessToken), 5000);
+  }
+}
+

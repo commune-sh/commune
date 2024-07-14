@@ -43,11 +43,13 @@ function getRoomInfo(room) {
   const nameEvent = room.currentState.getStateEvents('m.room.name')[0];
   const avatarEvent = room.currentState.getStateEvents('m.room.avatar')[0];
   const aliasEvent = room.currentState.getStateEvents('m.room.canonical_alias')[0];
+  const topicEvent = room.currentState.getStateEvents('m.room.topic')[0];
   return {
     room_id: room.roomId,
     name: nameEvent ? nameEvent.getContent().name : room.name,
     avatar_url: avatarEvent ? avatarEvent.getContent().url : '',
     canonical_alias: aliasEvent ? aliasEvent.getContent().alias : '',
+    topic: topicEvent ? topicEvent.getContent().topic : '',
   };
 }
 
@@ -63,7 +65,6 @@ export function processRooms(rooms) {
       spacesMap[roomId] = { children: [], roomInfo: {} };
     }
 
-    // Process parent events
     parentEvents.forEach(event => {
       const parentId = event.getStateKey();
       if (!spacesMap[parentId]) {
@@ -74,7 +75,6 @@ export function processRooms(rooms) {
       }
     });
 
-    // Process child events
     childEvents.forEach(event => {
       const childId = event.getStateKey();
       if (!spacesMap[roomId].children.includes(childId)) {
@@ -89,10 +89,9 @@ export function processRooms(rooms) {
 
   });
 
-  // Function to build nested space hierarchy
   function buildHierarchy(spaceId, spacesMap, visited = new Set()) {
     if (visited.has(spaceId)) {
-      return null;  // Avoid cycles
+      return null;  
     }
     visited.add(spaceId);
 
@@ -105,7 +104,6 @@ export function processRooms(rooms) {
     }
   }
 
-  // Build the hierarchy for all top-level spaces
   let hierarchy = {};
   Object.keys(spacesMap).forEach(spaceId => {
     if (!Object.values(spacesMap).some(space => space.children.includes(spaceId))) {

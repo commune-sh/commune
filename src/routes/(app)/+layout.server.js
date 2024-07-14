@@ -9,9 +9,11 @@ import { redirect } from "@sveltejs/kit";
 export async function load( { fetch, params, url, cookies, request } ) {
 
   const access_token = cookies.get('mx_access_token');
+  const is_guest = cookies.get('mx_is_guest');
 
   let data = {
     access_token_exists: !!access_token,
+    is_guest: is_guest == 'true',
     native_mode: false,
   };
 
