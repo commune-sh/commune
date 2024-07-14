@@ -84,6 +84,9 @@ onMount(() => {
     if(!data?.native_mode) {
         setup()
     }
+    if(data?.space) {
+        store.matrix.addSpace(data.space)
+    }
 })
 
 let is_home = $derived($page.route.id == '/(app)')

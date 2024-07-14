@@ -150,6 +150,26 @@ export function createMatrixStore() {
     });
   }
 
+  function addRoom(room) {
+    console.log("Adding room.", room)
+    if(rooms?.length > 0) {
+      const exists = rooms?.find((r) => r.room_id === room.room_id)
+      if(!exists) {
+        rooms.push(room)
+      }
+    } else {
+      rooms = [room]
+    }
+  }
+
+  function addSpace(space) {
+    console.log("Adding space.", space)
+    const exists = spaces?.find((r) => r.room_id === room.room_id)
+    if(!exists) {
+      spaces.push(space)
+    }
+  }
+
 
   function updateSpaces(items) {
     console.log("Storing spaces.", items)
@@ -214,6 +234,8 @@ export function createMatrixStore() {
     newClient,
     getFlows,
     setup,
+    addRoom,
+    addSpace,
     updateSpaces,
     updateTheme,
     saveAccountData
