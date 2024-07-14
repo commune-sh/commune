@@ -6,6 +6,8 @@ import {
 import { browser } from '$app/environment';
 import * as sdk from 'matrix-js-sdk';
 
+import { processRooms } from '$lib/utils/matrix';
+
 import { createAppStore } from './app.svelte.js';
 const app = createAppStore();
 import { createUIStore } from './ui.svelte.js';
@@ -97,7 +99,10 @@ export function createMatrixStore() {
     client.on("sync", (state, prevState, data) => {
       if(state === "PREPARED") {
 
-        buildUserSpaces()
+        const items = client.getRooms();
+        rooms = items
+        spaces = processRooms(items)
+
         buildRoomEvents()
 
         watchRoomEvents()
@@ -115,13 +120,14 @@ export function createMatrixStore() {
 
   }
 
+
   function watchRoomEvents() {
     client.on(sdk.RoomEvent.Timeline, (event, room, toStartOfTimeline) => {
 
       if (!toStartOfTimeline) {
         const roomId = room.roomId;
         if (!events[roomId]) {
-            events[roomId] = [];
+          events[roomId] = [];
         }
 
         const eventId = event.getId();
@@ -144,39 +150,6 @@ export function createMatrixStore() {
     });
   }
 
-  function buildUserSpaces() {
-    const roomList = client.getRooms();
-    if(roomList?.lenght == 0) return;
-    roomList.forEach((room) => {
-      const is_parent = room.currentState.events.has('m.space.child')
-      const is_child = room.currentState.events.has('m.space.parent')
-      if(is_parent && !is_child) {
-
-        let space = {
-          room_id: room.roomId,
-        }
-
-
-        const state = room.getLiveTimeline().getState(sdk.EventTimeline.FORWARDS)
-
-        const alias_event = state.getStateEvents("m.room.canonical_alias", "")?.event
-        space.canonical_alias = alias_event?.content?.alias
-
-        const name_event = state.getStateEvents("m.room.name", "")?.event
-        space.name = name_event?.content?.name
-
-        const avatar_event = state.getStateEvents("m.room.avatar", "")?.event
-        space.avatar_url = avatar_event?.content?.url
-
-
-        const exists = spaces.find((item) => item.room_id === space.room_id)
-        if(!exists) {
-          spaces.push(space)
-        }
-      }
-    })
-    console.log("Built user spaces: ", spaces)
-  }
 
   function updateSpaces(items) {
     console.log("Storing spaces.", items)

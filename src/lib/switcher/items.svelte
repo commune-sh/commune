@@ -83,7 +83,7 @@ function update(cy) {
     <div class="items overflow-hidden">
         <div class="overflow-y-auto h-full hide-scroll pt-[10px]">
         {#if !no_items}
-            {#each items as space, index (space?.id ?? index)}
+            {#each Object.values(items) as space, index (space?.id ?? index)}
                 <Item {space} {dragged_over} {dragged} {index} {clientY}
                 move={move} 
                 over={over} 

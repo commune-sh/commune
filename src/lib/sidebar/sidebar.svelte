@@ -2,6 +2,12 @@
 import { getSetting, updateSetting } from '$lib/utils/localstorage.js';
 import User from '$lib/sidebar/user/user.svelte'
 
+import { createStore } from '$lib/store/store.svelte.js'
+const store = createStore()
+
+const rooms = $derived.by(() => {
+    return store.matrix.rooms
+})
 
 let saved_width = $derived.by(() => {
     return getSetting('sidebar_width');
