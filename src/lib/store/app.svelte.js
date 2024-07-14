@@ -67,8 +67,8 @@ export function createAppStore() {
     homeserver_reachable = false;
   }
 
-  function updateAppserviceStatus() {
-    appservice_reachable = true
+  function updateAppserviceStatus(state) {
+    appservice_reachable = state
   }
 
   function updateHomeserver(h) {

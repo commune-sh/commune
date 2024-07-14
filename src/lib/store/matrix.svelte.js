@@ -164,7 +164,7 @@ export function createMatrixStore() {
 
   function addSpace(space) {
     console.log("Adding space.", space)
-    const exists = spaces?.find((r) => r.room_id === room.room_id)
+    const exists = spaces?.find((r) => r.room_id === space.room_id)
     if(!exists) {
       spaces.push(space)
     }
@@ -199,6 +199,22 @@ export function createMatrixStore() {
     }).catch(err => {
         console.error("Error setting account data:", err);
       });
+  }
+
+  async function getHierarchy(room_id) {
+    if(!room_id) return null;
+
+    try {
+      let url = `${app.appservice}/_matrix/client/v1/rooms/${room_id}/hierarchy`
+      let response = await fetch(url)   
+      let data = await response.json()
+      if(data?.rooms) {
+        console.log(data.rooms)
+      }
+    } catch (err){
+      console.log("Error fetching hierarchy:", err)
+    }
+
   }
 
   return {
@@ -238,7 +254,8 @@ export function createMatrixStore() {
     addSpace,
     updateSpaces,
     updateTheme,
-    saveAccountData
+    saveAccountData,
+    getHierarchy,
   };
 
 }

@@ -54,6 +54,9 @@ $effect(() => {
     if(data) {
         console.log($state.snapshot(data))
     }
+    if(data?.space && store.matrix.spaces.length == 0 && store.app.appservice_reachable) {
+        prepareSpace()
+    }
 })
 
 async function setup() {
@@ -64,6 +67,7 @@ async function setup() {
             let url = resp["commune.appservice"].url
             console.log("Found commune appservice:", url)
             store.app.updateAppservice(url)
+            store.app.updateAppserviceStatus(true)
         } else {
             store.app.isNativeMode();
         }
@@ -84,10 +88,12 @@ onMount(() => {
     if(!data?.native_mode) {
         setup()
     }
-    if(data?.space) {
-        store.matrix.addSpace(data.space)
-    }
 })
+
+async function prepareSpace() {
+    store.matrix.getHierarchy(data.space.room_id)
+    store.matrix.addSpace(data.space)
+}
 
 let is_home = $derived($page.route.id == '/(app)')
 let is_space = $derived($page.params.space != undefined)
