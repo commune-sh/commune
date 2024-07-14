@@ -6,7 +6,7 @@ import {
 import { browser } from '$app/environment';
 import * as sdk from 'matrix-js-sdk';
 
-import { processRooms } from '$lib/utils/matrix';
+import { processRooms, buildHierarchy, buildSpacesHierarchy } from '$lib/utils/matrix';
 import { syncGuest } from '$lib/matrix/requests.js';
 
 import { createAppStore } from './app.svelte.js';
@@ -29,6 +29,8 @@ let synced = $state(false)
 let rooms = $state(null)
 
 let spaces = $state([])
+
+let hierarchy = $state({})
 
 let events = $state({})
 
@@ -218,7 +220,16 @@ export function createMatrixStore() {
       let response = await fetch(url)   
       let data = await response.json()
       if(data?.rooms) {
-        console.log(data.rooms)
+        const exists = hierarchy[room_id]
+        if(!exists) {
+          hierarchy[room_id] = data.rooms
+        }
+        console.log("Hierarchy:", hierarchy)
+
+        //let sorted = buildHierarchy(clone)
+        //console.log(sorted)
+        let parents = buildSpacesHierarchy(data)
+        console.log(parents)
       }
     } catch (err){
       console.log("Error fetching hierarchy:", err)

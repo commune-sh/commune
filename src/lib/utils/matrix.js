@@ -113,3 +113,66 @@ export function processRooms(rooms) {
 
   return hierarchy;
 }
+
+export function buildHierarchy(data) {
+  console.log("data is", data)
+    // Create a dictionary to store rooms by their room_id
+    const roomDict = {};
+    data.rooms.forEach(room => {
+        room.children = []; // Initialize children array
+        roomDict[room.room_id] = room;
+    });
+
+    // Iterate over rooms and attach children to parents
+    data.rooms.forEach(room => {
+        if (room.children_state) {
+            room.children_state.forEach(child => {
+                const childRoomId = child.state_key;
+                if (roomDict[childRoomId]) {
+                    room.children.push(roomDict[childRoomId]);
+                }
+            });
+            delete room.children_state;  // Remove children_state after processing
+        }
+    });
+
+    // Collect top-level rooms (those that are not children of any other room)
+    const topLevelRooms = data.rooms.filter(room => {
+        return !data.rooms.some(r => {
+            return r.children.some(child => child.room_id === room.room_id);
+        });
+    });
+
+    return topLevelRooms;
+}
+
+export function buildSpacesHierarchy(data) {
+  console.log("data is", data)
+      // Create a dictionary to store rooms by their room_id
+    const roomDict = {};
+    data.rooms.forEach(room => {
+        if (room.children_state && room.children_state.length > 0) {
+            room.children = []; // Initialize children array for rooms with children
+            roomDict[room.room_id] = room;
+        }
+    });
+
+    // Attach child rooms to their respective parent rooms
+    Object.values(roomDict).forEach(room => {
+        room.children_state.forEach(child => {
+            const childRoomId = child.state_key;
+            if (roomDict[childRoomId]) {
+                room.children.push(roomDict[childRoomId]);
+            }
+        });
+        delete room.children_state;  // Remove children_state after processing
+    });
+
+    // Collect top-level parent rooms (those that are not children of any other parent room)
+    const topLevelParentRooms = Object.values(roomDict).filter(room => {
+        return !Object.values(roomDict).some(r => r.children.includes(room));
+    });
+
+    return topLevelParentRooms;
+}
+
