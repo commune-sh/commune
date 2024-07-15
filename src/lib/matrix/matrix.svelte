@@ -22,6 +22,8 @@ let space = $derived($page.params.space)
 let space_exists = $derived($page.params.space !== undefined)
 
 
+let public_spaces_fetched = $state(false)
+
 $effect(() => {
     if(browser && authReady && credentials && !ready) {
         if(!data.is_guest) {
@@ -42,8 +44,12 @@ $effect(() => {
         store.matrix.addSpace(data.space)
     }
     */
-    if(store.app.appservice_reachable && !data.access_token_exists) {
-        console.log("fetch ")
+    if(store.app.appservice_reachable && 
+        !public_spaces_fetched &&
+        !store.auth.authenticated &&
+        !data.access_token_exists) {
+        console.log("fetching public spaces")
+        public_spaces_fetched = true
         store.matrix.fetchPublicRooms()
     }
 })

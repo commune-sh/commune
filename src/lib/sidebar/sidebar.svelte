@@ -2,6 +2,15 @@
 import { getSetting, updateSetting } from '$lib/utils/localstorage.js';
 import User from '$lib/sidebar/user/user.svelte'
 
+import RoomSidebar from './room-sidebar.svelte'
+import UserSidebar from './user-sidebar.svelte'
+
+import { page } from '$app/stores';
+
+let is_home = $derived($page.route.id == '/(app)')
+let is_space = $derived($page.params.space != undefined)
+let is_room = $derived($page.params.room != undefined)
+
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
 
@@ -54,21 +63,26 @@ $effect(() => {
 
 </script>
 
-    <div class="sidebar grid grid-rows-[1fr_70px]
-        border-solid border-r border-sidebar-border"
-        style="width: {width}px">
-        <div class="">
-        </div>
-        <User />
-    </div>
+<div class="sidebar grid grid-rows-[1fr_70px]
+    border-solid border-r border-sidebar-border"
+    style="width: {width}px">
+
+    {#if is_space || is_room}
+        <RoomSidebar />
+    {:else if is_home}
+        <UserSidebar />
+    {/if}
+
+    <User />
+</div>
 
 
-    <div class="dragger absolute grid place-items-center" 
-        class:resizing={resizing}
-        onmousedown={start}>
-        <div class="holder" >
-        </div>
+<div class="dragger absolute grid place-items-center" 
+    class:resizing={resizing}
+    onmousedown={start}>
+    <div class="holder" >
     </div>
+</div>
 
 
 <style>
