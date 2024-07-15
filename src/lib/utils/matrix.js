@@ -175,3 +175,28 @@ export function buildSpacesHierarchy(data) {
     return topLevelParentRooms;
 }
 
+export function buildPublicSpaces(rooms) {
+      const roomMap = new Map();
+    rooms.forEach(room => {
+        roomMap.set(room.room_id, {...room, children: []});
+    });
+
+    // Organize the children rooms and track the child room IDs
+    rooms.forEach(room => {
+        if (room.children && room.children.length > 0) {
+            room.children.forEach(childId => {
+                if (roomMap.has(childId) && roomMap.get(childId).children.length > 0) {
+                    roomMap.get(room.room_id).children.push(roomMap.get(childId));
+                }
+            });
+        }
+    });
+
+    // Filter out rooms that are children of other rooms
+    const topLevelParents = Array.from(roomMap.values()).filter(room => {
+        return rooms.every(r => !(r.children && r.children.includes(room.room_id)));
+    });
+
+    return topLevelParents;
+}
+

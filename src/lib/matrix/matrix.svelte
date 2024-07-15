@@ -42,6 +42,10 @@ $effect(() => {
         store.matrix.addSpace(data.space)
     }
     */
+    if(store.app.appservice_reachable && !data.access_token_exists) {
+        console.log("fetch ")
+        store.matrix.fetchPublicRooms()
+    }
 })
 
 onMount(() => {

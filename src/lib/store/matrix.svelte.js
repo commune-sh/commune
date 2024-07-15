@@ -6,8 +6,9 @@ import {
 import { browser } from '$app/environment';
 import * as sdk from 'matrix-js-sdk';
 
-import { processRooms, buildHierarchy, buildSpacesHierarchy } from '$lib/utils/matrix';
+import { processRooms, buildPublicSpaces, buildSpacesHierarchy } from '$lib/utils/matrix';
 import { syncGuest } from '$lib/matrix/requests.js';
+import { getPublicRooms } from '$lib/appservice/requests'
 
 import { createAppStore } from './app.svelte.js';
 const app = createAppStore();
@@ -234,6 +235,19 @@ export function createMatrixStore() {
     }
   }
 
+  async function fetchPublicRooms() {
+      const resp = await getPublicRooms()
+      if(resp?.rooms) {
+          //items = rooms
+          //store.matrix.updateSpaces(resp.chunk)
+        console.log(resp.rooms)
+        rooms = resp.rooms
+
+        let parents = buildPublicSpaces(resp.rooms)
+        spaces = parents
+      }
+  }
+
   async function registerGuest() {
     try {
       let response = await client.registerGuest()
@@ -291,6 +305,7 @@ export function createMatrixStore() {
     updateTheme,
     saveAccountData,
     getHierarchy,
+    fetchPublicRooms,
     registerGuest,
   };
 
