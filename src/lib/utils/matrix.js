@@ -57,7 +57,7 @@ function getRoomInfo(room) {
   };
 }
 
-export function processRooms(rooms) {
+export function processSpaces(rooms) {
   let spacesMap = {};
 
   rooms.forEach(room => {
@@ -117,6 +117,24 @@ export function processRooms(rooms) {
 
   return hierarchy;
 }
+
+export function processRooms(rooms) {
+  let items = []
+  rooms.forEach(room => {
+    let item = getRoomInfo(room);
+    const childEvents = room.currentState.getStateEvents('m.space.child');
+    if(childEvents.length > 0) {
+      item.children = [];
+      childEvents.forEach(event => {
+        const childId = event.getStateKey();
+        item.children.push(childId);
+      })
+    }
+    items.push(item);
+  })
+  return items;
+}
+
 
 export function buildHierarchy(data) {
   console.log("data is", data)

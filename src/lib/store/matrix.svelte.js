@@ -6,7 +6,7 @@ import {
 import { browser } from '$app/environment';
 import * as sdk from 'matrix-js-sdk';
 
-import { processRooms, buildPublicSpaces, buildSpacesHierarchy } from '$lib/utils/matrix';
+import { processRooms, processSpaces, buildPublicSpaces, buildSpacesHierarchy } from '$lib/utils/matrix';
 import { syncGuest } from '$lib/matrix/requests.js';
 import { getPublicRooms } from '$lib/appservice/requests'
 
@@ -107,14 +107,14 @@ export function createMatrixStore() {
       if(state === "PREPARED") {
 
         const items = client.getRooms();
-        rooms = items
+        rooms = processRooms(items)
         console.log(rooms)
 
         if(spaces?.length > 0) {
           console.log("removing existing public spaces")
           spaces = []
         }
-        spaces = processRooms(items)
+        spaces = processSpaces(items)
 
 
         buildRoomEvents()
