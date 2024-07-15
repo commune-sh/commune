@@ -24,6 +24,10 @@ export function get_local_part(room_id_or_alias) {
   return room_id_or_alias.replace(/^[\#!](.*?):.*$/, '$1');
 }
 
+export function full_alias(room_alias) {
+  return `#${room_alias}:${PUBLIC_HOMESERVER_NAME}`;
+}
+
 export function is_local_room(room_id) {
   if(!room_id) return false;
   const parts = room_id.split(':');

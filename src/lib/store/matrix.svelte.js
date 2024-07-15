@@ -108,6 +108,7 @@ export function createMatrixStore() {
 
         const items = client.getRooms();
         rooms = items
+        console.log(rooms)
 
         if(spaces?.length > 0) {
           console.log("removing existing public spaces")
@@ -247,6 +248,7 @@ export function createMatrixStore() {
           //items = rooms
           //store.matrix.updateSpaces(resp.chunk)
         rooms = resp.rooms
+      console.log(rooms)
 
         let parents = buildPublicSpaces(resp.rooms)
         spaces = parents

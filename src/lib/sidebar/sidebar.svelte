@@ -2,8 +2,8 @@
 import { getSetting, updateSetting } from '$lib/utils/localstorage.js';
 import User from '$lib/sidebar/user/user.svelte'
 
-import RoomSidebar from './room-sidebar.svelte'
-import UserSidebar from './user-sidebar.svelte'
+import RoomSidebar from '$lib/sidebar/room/room-sidebar.svelte'
+import UserSidebar from '$lib/sidebar/user/user-sidebar.svelte'
 
 import { page } from '$app/stores';
 
