@@ -239,12 +239,11 @@ export function createMatrixStore() {
       let response = await client.registerGuest()
       if(response?.access_token) {
         console.log("Guest registered:", response)
-        auth.saveSession({
+        auth.saveGuestSession({
           access_token: response.access_token,
           user_id: response.user_id,
           device_id: response.device_id,
           home_server: response.home_server,
-          is_guest: true,
         })
       }
     } catch(err) {

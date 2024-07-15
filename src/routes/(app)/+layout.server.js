@@ -9,11 +9,10 @@ import { redirect } from "@sveltejs/kit";
 export async function load( { fetch, params, url, cookies, request } ) {
 
   const access_token = cookies.get('mx_access_token');
-  const is_guest = cookies.get('mx_is_guest');
+  const client_id = cookies.get('client_id');
 
   let data = {
     access_token_exists: !!access_token,
-    is_guest: is_guest == 'true',
     native_mode: false,
   };
 
@@ -21,7 +20,7 @@ export async function load( { fetch, params, url, cookies, request } ) {
     redirect(302, '/login');
   }
 
-  if(!access_token && params.space != undefined ) {
+  if(!access_token && !client_id && params.space != undefined ) {
 
     try {
       let url = `${PUBLIC_HOMESERVER_BASE_URL}/.well-known/matrix/client`

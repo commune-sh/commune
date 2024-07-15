@@ -51,6 +51,9 @@ $effect(() => {
             device_id: data?.device_id || null,
         })
     }
+})
+
+$effect.pre(() =>{
     if(data) {
         console.log($state.snapshot(data))
     }
@@ -84,8 +87,8 @@ async function setup() {
 }
 
 onMount(() => {
-
-    if(!data?.access_token_exists) {
+    store.app.isReady()
+    if(!data?.guest_access_token_exists) {
         //store.matrix.registerGuest()
     }
 
@@ -96,8 +99,8 @@ onMount(() => {
 })
 
 async function prepareSpace() {
-    store.matrix.addSpace(data.space)
-    store.matrix.getHierarchy(data.space.room_id)
+    //store.matrix.addSpace(data.space)
+    //store.matrix.getHierarchy(data.space.room_id)
 }
 
 let is_home = $derived($page.route.id == '/(app)')

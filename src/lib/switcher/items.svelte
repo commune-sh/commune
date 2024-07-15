@@ -76,6 +76,10 @@ function update(cy) {
     clientY = cy;
 }
 
+function scroll(e) {
+    console.log(e)
+}
+
 </script>
 
 <div class="grid grid-rows-[1fr_auto] overflow-hidden">

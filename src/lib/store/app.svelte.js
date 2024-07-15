@@ -8,6 +8,8 @@ import {
 import { browser } from '$app/environment';
 import { getCookie, createCookie } from '$lib/utils/cookie'
 
+import { v4 as uuidv4 } from 'uuid';
+
 let homeserver = $state(PUBLIC_HOMESERVER);
 let homeserver_name = $state(PUBLIC_HOMESERVER_NAME);
 let appservice = $state(null);
@@ -33,13 +35,21 @@ if(browser) {
   }
 }
 
+if(browser) {
+  let client = getCookie("client_id");
+  if(!client) {
+    let id = uuidv4();
+    createCookie('client_id', id)
+  }
+}
+
 
 let ready = $state(false);
 
 
 export function createAppStore() {
 
-  function setAppReady() {
+  function isReady() {
     ready = true
   }
 
@@ -136,7 +146,7 @@ export function createAppStore() {
 
     updateHomeserver,
     updateAppservice,
-    setAppReady,
+    isReady,
     isNativeMode,
     updateSpace,
     updateCapabilities,
