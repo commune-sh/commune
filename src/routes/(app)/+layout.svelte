@@ -54,7 +54,7 @@ $effect(() => {
     if(data) {
         console.log($state.snapshot(data))
     }
-    if(data?.space && store.matrix.spaces.length == 0 && store.app.appservice_reachable) {
+    if(data?.space && store.app.appservice_reachable) {
         prepareSpace()
     }
 })
@@ -96,8 +96,8 @@ onMount(() => {
 })
 
 async function prepareSpace() {
-    store.matrix.getHierarchy(data.space.room_id)
     store.matrix.addSpace(data.space)
+    store.matrix.getHierarchy(data.space.room_id)
 }
 
 let is_home = $derived($page.route.id == '/(app)')

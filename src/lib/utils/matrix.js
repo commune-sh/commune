@@ -147,7 +147,6 @@ export function buildHierarchy(data) {
 }
 
 export function buildSpacesHierarchy(data) {
-  console.log("data is", data)
       // Create a dictionary to store rooms by their room_id
     const roomDict = {};
     data.rooms.forEach(room => {

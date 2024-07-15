@@ -21,6 +21,7 @@ import ToggleTheme from '$lib/theme/toggle.svelte'
 <style>
 .switcher {
     width: 72px;
+    height: 100dvh;
 }
 .sep {
     height: 2px;

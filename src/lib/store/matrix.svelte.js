@@ -224,8 +224,6 @@ export function createMatrixStore() {
         if(!exists) {
           hierarchy[room_id] = data.rooms
         }
-        console.log("Hierarchy:", hierarchy)
-
         //let sorted = buildHierarchy(clone)
         //console.log(sorted)
         let parents = buildSpacesHierarchy(data)
