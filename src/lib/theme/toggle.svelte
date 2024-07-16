@@ -7,6 +7,8 @@ import { createStore } from '$lib/store/store.svelte.js'
 
 const store = createStore()
 
+const authenticated = $derived(store.auth.authenticated)
+
 let local = $state(null);
 
 $effect(() => {
@@ -19,7 +21,9 @@ const isLight = $derived(theme == 'light')
 
 let toggle = () => {
     store.app.toggleTheme()
-    store.matrix.updateTheme(theme)
+    if(authenticated) {
+        store.matrix.updateTheme(theme)
+    }
 }
 
 let el;

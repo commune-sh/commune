@@ -23,14 +23,15 @@ $effect(() => {
     }
 })
 
-let ready = $state(false);
+const rooms = $derived.by(() => {
+    return store.matrix.rooms
+})
+
+let ready = $derived(rooms?.length > 0);
 
 let container;
 
 onMount(() => {
-    setTimeout(() => {
-        ready = true;
-    }, 1000)
 })
 
 const thread_exists = $derived.by(() => {

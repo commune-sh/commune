@@ -14,25 +14,24 @@ const is_alias = $derived.by(() => {
 })
 
 const items = $derived.by(() => {
-    if(is_alias) {
-        const alias = full_alias($page.params.space)
-        let i = rooms.filter(room => room.canonical_alias == alias)[0]
-        if(i?.children?.length > 0) {
-            let items = []
-            i.children.forEach(child => {
-                let item = rooms.find(room => room.room_id == child)
-                if(!item?.children) {
-                    items.push(item)
-                }
-            })
-            return items
-        }
+    let key = is_alias ? 'canonical_alias' : 'room_id'
+    let val = is_alias ? full_alias($page.params.space) : $page.params.space
+    let i = rooms?.filter(room => room[key] == val)[0]
+    if(i?.children?.length > 0) {
+        let items = []
+        i.children.forEach(child => {
+            let item = rooms?.find(room => room.room_id == child)
+            if(!item?.children) {
+                items.push(item)
+            }
+        })
+        return items
     }
 })
 
 </script>
 
-<div class="sidebar-container">
+<div class="sidebar-container m-4">
 {#each items as item}
     <div>{item.name}</div>
 {/each}

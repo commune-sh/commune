@@ -2,6 +2,8 @@
 import { getSetting, updateSetting } from '$lib/utils/localstorage.js';
 import User from '$lib/sidebar/user/user.svelte'
 
+import RoomSidebarHeader from '$lib/sidebar/room/room-sidebar-header.svelte'
+import UserSidebarHeader from '$lib/sidebar/user/user-sidebar-header.svelte'
 import RoomSidebar from '$lib/sidebar/room/room-sidebar.svelte'
 import UserSidebar from '$lib/sidebar/user/user-sidebar.svelte'
 
@@ -63,13 +65,16 @@ $effect(() => {
 
 </script>
 
-<div class="sidebar grid grid-rows-[1fr_70px]
+<div class="sidebar grid grid-rows-[52px_1fr_70px]
     border-solid border-r border-sidebar-border"
     style="width: {width}px">
 
+
     {#if is_space || is_room}
+        <RoomSidebarHeader />
         <RoomSidebar />
     {:else if is_home}
+        <UserSidebarHeader />
         <UserSidebar />
     {/if}
 
