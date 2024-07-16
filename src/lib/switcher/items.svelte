@@ -2,6 +2,9 @@
 import Item from './item.svelte'
 import { onMount } from 'svelte'
 import SkeletonItems from '$lib/skeleton/switcher-items.svelte'
+import { buildSpaces, strayRooms } from '$lib/utils/matrix'
+
+import MoreRooms from '$lib/switcher/more-rooms.svelte'
 
 // app store
 import { createStore } from '$lib/store/store.svelte.js'
@@ -15,11 +18,18 @@ const appservice_reachable = $derived(store.app.appservice_reachable)
 const authReady = $derived(store.auth.ready)
 const authenticated = $derived(store.auth.authenticated)
 
-let spaces = $derived(store.matrix.spaces)
 
-let no_items = $derived(spaces?.length === 0)
 
-let items = $derived(spaces)
+//let items = $derived(spaces)
+
+let items = $derived.by(() => {
+    return store.matrix.rooms ? buildSpaces(store.matrix.rooms) : null
+})
+
+let stray_rooms = $derived.by(() => {
+    return store.matrix.rooms ? strayRooms(store.matrix.rooms) : null
+})
+
 
 $effect(() => {
     if(authReady && !authenticated) {
@@ -28,14 +38,6 @@ $effect(() => {
     }
 })
 
-async function fetchPublicRooms() {
-    const resp = await getPublicRooms()
-    if(resp?.chunk?.length > 0) {
-        //items = rooms
-        store.matrix.updateSpaces(resp.chunk)
-    }
-    public_rooms_fetched = true
-}
 
 let public_rooms_fetched = $state(false)
 
@@ -86,7 +88,7 @@ function scroll(e) {
 
     <div class="items overflow-hidden">
         <div class="overflow-y-auto h-full hide-scroll pt-[10px]">
-        {#if !no_items}
+        {#if items}
             {#each Object.values(items) as space, index (space?.id ?? index)}
                 <Item {space} {dragged_over} {dragged} {index} {clientY}
                 move={move} 
@@ -95,10 +97,16 @@ function scroll(e) {
                 update={update}
                 end={end} />
             {/each}
+
+            {#if stray_rooms?.length > 0}
+                    <MoreRooms />
+            {/if}
+
         {:else if homeserver_reachable}
             <SkeletonItems />
         {/if}
         </div>
+
 
     </div>
 

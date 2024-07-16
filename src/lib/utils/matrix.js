@@ -44,12 +44,14 @@ export function naiveRoomIDCheck(room_id) {
 
 function getRoomInfo(room) {
   if (!room) return {};
+  const roomEvent = room.currentState.getStateEvents('m.room.create')[0];
   const nameEvent = room.currentState.getStateEvents('m.room.name')[0];
   const avatarEvent = room.currentState.getStateEvents('m.room.avatar')[0];
   const aliasEvent = room.currentState.getStateEvents('m.room.canonical_alias')[0];
   const topicEvent = room.currentState.getStateEvents('m.room.topic')[0];
   return {
     room_id: room.roomId,
+    type: roomEvent ? roomEvent.getContent().type : '',
     name: nameEvent ? nameEvent.getContent().name : room.name,
     avatar_url: avatarEvent ? avatarEvent.getContent().url : '',
     canonical_alias: aliasEvent ? aliasEvent.getContent().alias : '',
@@ -138,87 +140,132 @@ export function processRooms(rooms) {
 
 export function buildHierarchy(data) {
   console.log("data is", data)
-    // Create a dictionary to store rooms by their room_id
-    const roomDict = {};
-    data.rooms.forEach(room => {
-        room.children = []; // Initialize children array
-        roomDict[room.room_id] = room;
-    });
+  // Create a dictionary to store rooms by their room_id
+  const roomDict = {};
+  data.rooms.forEach(room => {
+    room.children = []; // Initialize children array
+    roomDict[room.room_id] = room;
+  });
 
-    // Iterate over rooms and attach children to parents
-    data.rooms.forEach(room => {
-        if (room.children_state) {
-            room.children_state.forEach(child => {
-                const childRoomId = child.state_key;
-                if (roomDict[childRoomId]) {
-                    room.children.push(roomDict[childRoomId]);
-                }
-            });
-            delete room.children_state;  // Remove children_state after processing
+  // Iterate over rooms and attach children to parents
+  data.rooms.forEach(room => {
+    if (room.children_state) {
+      room.children_state.forEach(child => {
+        const childRoomId = child.state_key;
+        if (roomDict[childRoomId]) {
+          room.children.push(roomDict[childRoomId]);
         }
-    });
+      });
+      delete room.children_state;  // Remove children_state after processing
+    }
+  });
 
-    // Collect top-level rooms (those that are not children of any other room)
-    const topLevelRooms = data.rooms.filter(room => {
-        return !data.rooms.some(r => {
-            return r.children.some(child => child.room_id === room.room_id);
-        });
+  // Collect top-level rooms (those that are not children of any other room)
+  const topLevelRooms = data.rooms.filter(room => {
+    return !data.rooms.some(r => {
+      return r.children.some(child => child.room_id === room.room_id);
     });
+  });
 
-    return topLevelRooms;
+  return topLevelRooms;
 }
 
 export function buildSpacesHierarchy(data) {
-      // Create a dictionary to store rooms by their room_id
-    const roomDict = {};
-    data.rooms.forEach(room => {
-        if (room.children_state && room.children_state.length > 0) {
-            room.children = []; // Initialize children array for rooms with children
-            roomDict[room.room_id] = room;
-        }
-    });
+  // Create a dictionary to store rooms by their room_id
+  const roomDict = {};
+  data.rooms.forEach(room => {
+    if (room.children_state && room.children_state.length > 0) {
+      room.children = []; // Initialize children array for rooms with children
+      roomDict[room.room_id] = room;
+    }
+  });
 
-    // Attach child rooms to their respective parent rooms
-    Object.values(roomDict).forEach(room => {
-        room.children_state.forEach(child => {
-            const childRoomId = child.state_key;
-            if (roomDict[childRoomId]) {
-                room.children.push(roomDict[childRoomId]);
-            }
-        });
-        delete room.children_state;  // Remove children_state after processing
+  // Attach child rooms to their respective parent rooms
+  Object.values(roomDict).forEach(room => {
+    room.children_state.forEach(child => {
+      const childRoomId = child.state_key;
+      if (roomDict[childRoomId]) {
+        room.children.push(roomDict[childRoomId]);
+      }
     });
+    delete room.children_state;  // Remove children_state after processing
+  });
 
-    // Collect top-level parent rooms (those that are not children of any other parent room)
-    const topLevelParentRooms = Object.values(roomDict).filter(room => {
-        return !Object.values(roomDict).some(r => r.children.includes(room));
-    });
+  // Collect top-level parent rooms (those that are not children of any other parent room)
+  const topLevelParentRooms = Object.values(roomDict).filter(room => {
+    return !Object.values(roomDict).some(r => r.children.includes(room));
+  });
 
-    return topLevelParentRooms;
+  return topLevelParentRooms;
 }
 
 export function buildPublicSpaces(rooms) {
-      const roomMap = new Map();
-    rooms.forEach(room => {
-        roomMap.set(room.room_id, {...room, children: []});
-    });
+  const roomMap = new Map();
+  rooms.forEach(room => {
+    roomMap.set(room.room_id, {...room, children: []});
+  });
 
-    // Organize the children rooms and track the child room IDs
-    rooms.forEach(room => {
-        if (room.children && room.children.length > 0) {
-            room.children.forEach(childId => {
-                if (roomMap.has(childId) && roomMap.get(childId).children.length > 0) {
-                    roomMap.get(room.room_id).children.push(roomMap.get(childId));
-                }
-            });
+  // Organize the children rooms and track the child room IDs
+  rooms.forEach(room => {
+    if (room.children && room.children.length > 0) {
+      room.children.forEach(childId => {
+        if (roomMap.has(childId) && roomMap.get(childId).children.length > 0) {
+          roomMap.get(room.room_id).children.push(roomMap.get(childId));
         }
-    });
+      });
+    }
+  });
 
-    // Filter out rooms that are children of other rooms
-    const topLevelParents = Array.from(roomMap.values()).filter(room => {
-        return rooms.every(r => !(r.children && r.children.includes(room.room_id)));
-    });
+  // Filter out rooms that are children of other rooms
+  const topLevelParents = Array.from(roomMap.values()).filter(room => {
+    return rooms.every(r => !(r.children && r.children.includes(room.room_id)));
+  });
 
-    return topLevelParents;
+  return topLevelParents;
 }
 
+
+export function buildSpaces(rooms) {
+    const roomMap = new Map();
+    rooms.forEach(room => {
+        roomMap.set(room.room_id, { ...room, children: [] });
+    });
+
+    const childrenRoomIds = new Set();
+
+    rooms.forEach(room => {
+        room?.children?.forEach(childId => {
+            if (roomMap.has(childId)) {
+                const childRoom = roomMap.get(childId);
+                roomMap.get(room.room_id).children.push(childRoom);
+                childrenRoomIds.add(childId);
+            }
+        });
+    });
+
+    const parents = rooms.filter(room => !childrenRoomIds.has(room.room_id)).map(room => roomMap.get(room.room_id));
+    return parents.filter(room => room.type == 'm.space');
+}
+
+
+export function strayRooms(rooms) {
+  const roomMap = new Map();
+  rooms.forEach(room => {
+    roomMap.set(room.room_id, { ...room, children: [] });
+  });
+
+  const childrenRoomIds = new Set();
+
+  rooms.forEach(room => {
+    room?.children?.forEach(childId => {
+      if (roomMap.has(childId)) {
+        const childRoom = roomMap.get(childId);
+        roomMap.get(room.room_id).children.push(childRoom);
+        childrenRoomIds.add(childId);
+      }
+    });
+  });
+
+  const parents = rooms.filter(room => !childrenRoomIds.has(room.room_id)).map(room => roomMap.get(room.room_id));
+  return parents.filter(room => room.type != 'm.space');
+}

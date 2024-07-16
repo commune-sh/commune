@@ -8,7 +8,7 @@ import * as sdk from 'matrix-js-sdk';
 
 import { processRooms, processSpaces, buildPublicSpaces, buildSpacesHierarchy } from '$lib/utils/matrix';
 import { syncGuest } from '$lib/matrix/requests.js';
-import { getPublicRooms } from '$lib/appservice/requests'
+import { getPublicRooms, getRoomState } from '$lib/appservice/requests'
 
 import { createAppStore } from './app.svelte.js';
 const app = createAppStore();
@@ -190,17 +190,6 @@ export function createMatrixStore() {
   }
 
 
-  function updateSpaces(items) {
-    console.log("Storing spaces.", items)
-    //spaces = items;
-    items.forEach((item) => {
-      const exists = spaces.find((space) => space.room_id === item.room_id)
-      if(!exists) {
-        spaces.push(item)
-      }
-    })
-  }
-
   function saveAccountData(type, content) {
     console.log("Storing account data:", type, content)
     client.setAccountData(type, content).then(() => {
@@ -243,16 +232,23 @@ export function createMatrixStore() {
   }
 
   async function fetchPublicRooms() {
-      const resp = await getPublicRooms()
-      if(resp?.rooms) {
-          //items = rooms
-          //store.matrix.updateSpaces(resp.chunk)
-        rooms = resp.rooms
+    const resp = await getPublicRooms()
+    if(resp?.rooms) {
+      //items = rooms
+      //store.matrix.updateSpaces(resp.chunk)
+      rooms = resp.rooms
       console.log(rooms)
 
-        let parents = buildPublicSpaces(resp.rooms)
-        spaces = parents
-      }
+      let parents = buildPublicSpaces(resp.rooms)
+      spaces = parents
+    }
+  }
+
+  async function fetchRoomState(room_id) {
+    const resp = await getRoomState(room_id)
+    if(resp) {
+      console.log(resp)
+    }
   }
 
   async function registerGuest() {
@@ -308,7 +304,6 @@ export function createMatrixStore() {
     setupGuest,
     addRoom,
     addSpace,
-    updateSpaces,
     updateTheme,
     saveAccountData,
     getHierarchy,
