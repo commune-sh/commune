@@ -9,6 +9,7 @@ const store = createStore()
 const client = $derived(store.matrix.client)
 
 const authReady = $derived(store.auth.ready)
+const authenticated = $derived(store.auth.authenticated)
 
 const credentials = $derived($state.snapshot(store.auth.credentials))
 
@@ -48,10 +49,15 @@ $effect(() => {
         !public_spaces_fetched &&
         !store.auth.authenticated &&
         !data.access_token_exists) {
-        console.log("fetching public spaces")
+        console.log("Fetching public spaces.")
         public_spaces_fetched = true
         store.matrix.fetchPublicRooms()
     }
+
+})
+
+const room_state = $derived.by(() => {
+    return store.matrix.room_state[$page.params.room]
 })
 
 onMount(() => {

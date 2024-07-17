@@ -31,6 +31,8 @@ let rooms = $state(null)
 
 let spaces = $state([])
 
+let room_state = $state({})
+
 let hierarchy = $state({})
 
 let events = $state({})
@@ -247,7 +249,8 @@ export function createMatrixStore() {
   async function fetchRoomState(room_id) {
     const resp = await getRoomState(room_id)
     if(resp) {
-      console.log(resp)
+      console.log("Storing room state:", room_id, resp)
+      room_state[room_id] = resp
     }
   }
 
@@ -284,6 +287,10 @@ export function createMatrixStore() {
     get spaces() {
       return spaces;
     },
+    get room_state() {
+      return room_state;
+    },
+
 
     get login_flows() {
       return login_flows;
@@ -308,6 +315,7 @@ export function createMatrixStore() {
     saveAccountData,
     getHierarchy,
     fetchPublicRooms,
+    fetchRoomState,
     registerGuest,
   };
 

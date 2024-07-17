@@ -167,9 +167,19 @@ $effect(() => {
     if(item) {
         mounted = true;
     }
+
 })
 
+const authReady = $derived(store.auth.ready)
+const authenticated = $derived(store.auth.authenticated)
+
 $effect(() => {
+    if(active && space && authReady && !authenticated) {
+        const state = store.matrix.room_state[space.room_id]
+        if(!state) {
+            store.matrix.fetchRoomState(space.room_id)
+        }
+    }
     /*
     if(active) {
         store.app.updateSpace(space.alias)

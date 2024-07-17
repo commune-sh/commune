@@ -53,7 +53,7 @@ export const getRoomHierarchy = async (room_id) => {
 }
 
 export const getRoomState = async (room_id) => {
-  const url = `${PUBLIC_APPSERVICE}/rooms/${room_id}/state`;
+  const url = `${PUBLIC_APPSERVICE}/_matrix/client/v3/rooms/${room_id}/state`;
   let options = {
       headers: {
         'Content-Type': 'application/json',
