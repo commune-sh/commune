@@ -189,7 +189,15 @@ function goToSpace() {
     document.title = title
     */
 
+
     let location = alias ? alias : space.room_id
+
+    const route = store.ui.getRoute(location)
+
+    if(route) {
+        goto(route)
+        return
+    }
 
     goto(`/${location}`)
 }

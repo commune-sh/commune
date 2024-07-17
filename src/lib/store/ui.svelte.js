@@ -13,6 +13,8 @@ let alert = $state({
 
 let theme = $state(null);
 
+let routes = $state({})
+
 export function createUIStore() {
 
 	function openAuth() {
@@ -49,6 +51,14 @@ export function createUIStore() {
     alert.type = opts?.type;
   }
 
+  function getRoute(key) {
+    return routes[key];
+  }
+
+  function updateRoute(key, val) {
+    routes[key] = val;
+  }
+
 
 	return {
 
@@ -72,6 +82,10 @@ export function createUIStore() {
       return ui_state.menu_active;
     },
 
+    get routes() {
+      return routes;
+    },
+
     publicRoomsFetched,
     openAuth,
     closeAuth,
@@ -80,5 +94,7 @@ export function createUIStore() {
     toggleMenu,
     killMenu,
     newAlert,
+    getRoute,
+    updateRoute,
 	};
 }
