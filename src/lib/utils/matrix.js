@@ -45,15 +45,20 @@ export function naiveRoomIDCheck(room_id) {
 function getRoomInfo(room) {
   if (!room) return {};
   const roomEvent = room.currentState.getStateEvents('m.room.create')[0];
+  const roomTypeEvent = room.currentState.getStateEvents('commune.room.type')[0];
   const nameEvent = room.currentState.getStateEvents('m.room.name')[0];
   const avatarEvent = room.currentState.getStateEvents('m.room.avatar')[0];
+  const bannerEvent = room.currentState.getStateEvents('commune.room.banner')[0];
   const aliasEvent = room.currentState.getStateEvents('m.room.canonical_alias')[0];
   const topicEvent = room.currentState.getStateEvents('m.room.topic')[0];
   return {
     room_id: room.roomId,
     type: roomEvent ? roomEvent.getContent().type : '',
+    room_type: roomTypeEvent ? roomTypeEvent.getContent().type : '',
+    origin_server_ts: roomEvent ? roomEvent.getTs() : '',
     name: nameEvent ? nameEvent.getContent().name : room.name,
     avatar_url: avatarEvent ? avatarEvent.getContent().url : '',
+    banner_url: bannerEvent ? bannerEvent.getContent().url : '',
     canonical_alias: aliasEvent ? aliasEvent.getContent().alias : '',
     topic: topicEvent ? topicEvent.getContent().topic : '',
   };

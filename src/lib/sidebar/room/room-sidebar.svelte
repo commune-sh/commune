@@ -2,6 +2,8 @@
 import { page } from '$app/stores';
 import { naiveRoomIDCheck, full_alias } from '$lib/utils/matrix'
 
+import RoomItems from '$lib/sidebar/room/room-items.svelte'
+
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
 
@@ -32,8 +34,8 @@ const items = $derived.by(() => {
 </script>
 
 <div class="sidebar-container m-4">
-{#each items as item}
-    <div>{item.name}</div>
-{/each}
+
+    <RoomItems {items} />
+
 </div>
 
