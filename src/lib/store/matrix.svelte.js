@@ -6,8 +6,15 @@ import {
 import { browser } from '$app/environment';
 import * as sdk from 'matrix-js-sdk';
 
-import { processRooms, processSpaces, buildPublicSpaces, buildSpacesHierarchy } from '$lib/utils/matrix';
+import { 
+  processRooms, 
+  processRoomStates,
+  processSpaces, 
+  buildPublicSpaces, 
+  buildSpacesHierarchy } from '$lib/utils/matrix';
+
 import { syncGuest } from '$lib/matrix/requests.js';
+
 import { getPublicRooms, getRoomState } from '$lib/appservice/requests'
 
 import { createAppStore } from './app.svelte.js';
@@ -110,7 +117,8 @@ export function createMatrixStore() {
 
         const items = client.getRooms();
         rooms = processRooms(items)
-        console.log(rooms)
+
+        room_state = processRoomStates(items)
 
         if(spaces?.length > 0) {
           console.log("removing existing public spaces")

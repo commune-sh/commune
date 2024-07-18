@@ -44,18 +44,38 @@ $effect(() => {
     }
 })
 
+function getState() {
+    if(item?.room_id && authReady && !authenticated) {
+        const state = store.matrix.room_state[item.room_id]
+        if(!state) {
+            store.matrix.fetchRoomState(item.room_id)
+        }
+    }
+}
+
 onMount(() => {
     if(active) {
         store.ui.updateRoute($page.params.space, path)
     }
 })
 
+const title = $derived.by(() => {
+    if(item?.name) {
+        return item.name
+    }
+    if(item?.canonical_alias) {
+        return get_local_part(item.canonical_alias)
+    }
+    return `Untitled Room`
+})
+
 </script>
 
 <div class="cursor-pointer"
     class:active={active}
+    onmousedown={getState}
     onclick={goToRoom} oncontextmenu={log}>
-    {item.name}
+    {title}
 </div>
 
 <style>

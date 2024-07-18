@@ -8,6 +8,13 @@ import Sidebar from '$lib/sidebar/sidebar.svelte'
 import Header from '$lib/header/header.svelte'
 import Thread from '$lib/thread/thread.svelte'
 
+import NotFound from '$lib/errors/not-found.svelte'
+
+import { 
+    canonical_alias,
+    naiveRoomIDCheck
+} from '$lib/utils/matrix'
+
 // app store
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
@@ -29,6 +36,20 @@ const rooms = $derived.by(() => {
 
 let ready = $derived(rooms?.length > 0);
 
+let is_space = $derived($page.params.space != undefined)
+let is_room = $derived($page.params.room != undefined)
+
+let not_found = $derived.by(() => {
+    const is_room_id = naiveRoomIDCheck($page.params.space)
+    if(is_room_id) {
+        return rooms?.length > 0 && 
+            rooms?.filter(r => r.room_id == $page.params.space)[0] == null
+    }
+    const alias =  canonical_alias($page.params.space)
+    return rooms?.length > 0 && 
+        rooms?.filter(r => r.canonical_alias == alias)[0]  == null
+})
+
 let container;
 
 onMount(() => {
@@ -44,6 +65,8 @@ const menu_active = $derived(store.ui.menu_active)
 
 {#if !ready}
     <Loading />
+{:else if not_found && is_space}
+    <NotFound />
 {:else}
 <div class="view-root grid grid-cols-[auto_1fr]" 
     class:has-thread={thread_exists}

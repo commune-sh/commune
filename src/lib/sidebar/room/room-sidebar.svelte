@@ -1,6 +1,6 @@
 <script>
 import { page } from '$app/stores';
-import { naiveRoomIDCheck, full_alias } from '$lib/utils/matrix'
+import { naiveRoomIDCheck, canonical_alias } from '$lib/utils/matrix'
 
 import RoomItems from '$lib/sidebar/room/room-items.svelte'
 
@@ -17,7 +17,7 @@ const is_alias = $derived.by(() => {
 
 const items = $derived.by(() => {
     let key = is_alias ? 'canonical_alias' : 'room_id'
-    let val = is_alias ? full_alias($page.params.space) : $page.params.space
+    let val = is_alias ? canonical_alias($page.params.space) : $page.params.space
     let i = rooms?.filter(room => room[key] == val)[0]
     if(i?.children?.length > 0) {
         let items = []

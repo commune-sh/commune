@@ -1,6 +1,6 @@
 <script>
 import { page } from '$app/stores';
-import { naiveRoomIDCheck, full_alias } from '$lib/utils/matrix'
+import { naiveRoomIDCheck, canonical_alias, get_local_part } from '$lib/utils/matrix'
 
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
@@ -15,14 +15,20 @@ const is_alias = $derived.by(() => {
 
 const room = $derived.by(() => {
     if(is_alias) {
-        const alias = full_alias($page.params.space)
+        const alias = canonical_alias($page.params.space)
         return rooms?.find(room => room.canonical_alias == alias)
     }
     return rooms?.find(room => room.room_id == $page.params.space)
 })
 
 const name = $derived.by(() => {
-    return room?.name ? room.name : room?.room_id
+    if(room?.name) {
+        return room.name
+    }
+    if(room?.canonical_alias) {
+        return get_local_part(room.canonical_alias)
+    }
+    return room?.room_id
 })
 
 </script>

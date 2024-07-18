@@ -180,29 +180,29 @@ $effect(() => {
             store.matrix.fetchRoomState(space.room_id)
         }
     }
-    /*
-    if(active) {
-        store.app.updateSpace(space.alias)
-        //getHierarchy()
-        let title = `${PUBLIC_META_TITLE} - ${space.name}`
-        document.title = title
+
+    if(active && name) {
+        document.title = name
     }
-    */
+
 })
 
 
 function goToSpace() {
     tooltip.hide()
 
-    /*
-    let title = `${PUBLIC_META_TITLE} - ${space.name}`
-    document.title = title
-    */
-
+    if(name) {
+        document.title = name
+    }
 
     let location = alias ? alias : space.room_id
 
     const route = store.ui.getRoute(location)
+
+    if($page.url.pathname == route) {
+        goto(`/${location}`)
+        return
+    }
 
     if(route) {
         goto(route)
@@ -235,7 +235,7 @@ let size = $state(46)
 
 <div class="hidden" bind:this={content}>
     <div class="font-bold">
-        {space.name}
+        {name}
     </div>
 </div>
 

@@ -24,7 +24,7 @@ export function get_local_part(room_id_or_alias) {
   return room_id_or_alias.replace(/^[\#!](.*?):.*$/, '$1');
 }
 
-export function full_alias(room_alias) {
+export function canonical_alias(room_alias) {
   return `#${room_alias}:${PUBLIC_HOMESERVER_NAME}`;
 }
 
@@ -273,4 +273,19 @@ export function strayRooms(rooms) {
 
   const parents = rooms.filter(room => !childrenRoomIds.has(room.room_id)).map(room => roomMap.get(room.room_id));
   return parents.filter(room => room.type != 'm.space');
+}
+
+export function processRoomStates(rooms) {
+  let room_state = {}
+  rooms.forEach(room => {
+    let items = []
+    room.currentState.events.forEach(events => {
+      events.forEach(event => {
+        items.push(event.event)
+      })
+    })
+    room_state[room.roomId] = items
+  });
+
+  return room_state
 }
