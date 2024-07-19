@@ -65,5 +65,19 @@ export const getRoomState = async (room_id) => {
   } catch (error) {
     throw error
   }
+}
 
+export const getRoomMessages = async (room_id) => {
+  const url = `${PUBLIC_APPSERVICE}/_matrix/client/v3/rooms/${room_id}/messages?limit=50&dir=b`;
+  let options = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+  }
+  try {
+    const response = await fetch(url, options)
+    return response.json();
+  } catch (error) {
+    throw error
+  }
 }

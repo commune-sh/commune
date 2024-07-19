@@ -42,6 +42,11 @@ let native_mode = $derived(store.app.native_mode)
 
 let homeserver_reachable = $derived(data.homeserver_reachable)
 
+const room_id = $derived.by(() => {
+    return store.matrix.rooms?.filter(r => r.origin_server_ts ==
+        $page.params.room)[0]?.room_id
+})
+
 $effect(() => {
     if(browser && !authReady) {
         store.auth.setup({
@@ -50,6 +55,13 @@ $effect(() => {
             user_id: data?.user_id || null,
             device_id: data?.device_id || null,
         })
+    }
+    if(!data.access_token_exists && $page.params.room && room_id) {
+        const messages = store.matrix.messages[room_id]
+        if(!messages) {
+            console.log("Fetching room messages...")
+            store.matrix.fetchRoomMessages(room_id)
+        }
     }
 })
 

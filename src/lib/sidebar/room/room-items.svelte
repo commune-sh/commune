@@ -13,7 +13,9 @@ const sorted = $derived.by(() => {
 </script>
 
 {#if sorted}
-{#each sorted as item}
-    <RoomItem {item} />
-{/each}
+<div class="room-items mt-2">
+    {#each sorted as item}
+        <RoomItem {item} />
+    {/each}
+</div>
 {/if}

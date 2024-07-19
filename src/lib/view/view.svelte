@@ -77,9 +77,9 @@ const menu_active = $derived(store.ui.menu_active)
         <Sidebar />
     </div>
 
-    <div class="view bg-view grid grid-rows-[52px_1fr] h-full">
+    <div class="view bg-view grid grid-rows-[52px_1fr] h-dvh">
         <Header />
-        <section class="view select-text">
+        <section class="view select-text overflow-hidden">
             {@render content()}
         </section>
     </div>
@@ -92,6 +92,10 @@ const menu_active = $derived(store.ui.menu_active)
 
 
 <style>
+
+.sidebar-container {
+    border-radius: 20px 0 0 0;
+}
 .has-thread {
     grid-template-columns: auto 1fr auto;
 }

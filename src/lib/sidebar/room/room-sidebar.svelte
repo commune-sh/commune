@@ -33,7 +33,7 @@ const items = $derived.by(() => {
 
 </script>
 
-<div class="sidebar-container m-4">
+<div class="sidebar-container">
 
     <RoomItems {items} />
 

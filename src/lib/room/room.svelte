@@ -1,6 +1,8 @@
 <script>
 import { page } from '$app/stores';
 
+import Loading from '$lib/loading/loading.svelte'
+
 import { 
     canonical_alias,
     naiveRoomIDCheck
@@ -22,6 +24,26 @@ const state = $derived.by(() => {
     return room_state[room?.room_id]
 })
 
+const messages = $derived.by(() => {
+    return store.matrix.messages[room?.room_id]?.events
+})
+
+$effect(() => {
+})
+
 </script>
 
-{JSON.stringify(state)}
+
+{#if messages}
+<div class="h-full overflow-y-auto overflow-x-hidden">
+    <div class="m-4">
+        {#each messages as message, event_id (message.event_id)}
+            <div class="mb-4">
+                {JSON.stringify(message)}
+            </div>
+        {/each}
+    </div>
+</div>
+{:else}
+    <Loading />
+{/if}

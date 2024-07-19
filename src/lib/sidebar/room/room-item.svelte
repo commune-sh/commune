@@ -71,7 +71,7 @@ const title = $derived.by(() => {
 
 </script>
 
-<div class="room-item cursor-pointer"
+<div class="room-item cursor-pointer text-light mx-2 my-[2px] p-2"
     class:active={active}
     onmousedown={getState}
     onclick={goToRoom} oncontextmenu={log}>
@@ -80,8 +80,19 @@ const title = $derived.by(() => {
 
 <style>
 .active {
-    color: red;
+    color: var(--text);
+    background: var(--shade-3);
 }
+
 .room-item {
+    font-size: 0.9rem;
+    border-radius: 4px;
 }
+.room-item:hover {
+    background: var(--shade-2);
+}
+.active:hover {
+    background: var(--shade-3);
+}
+
 </style>

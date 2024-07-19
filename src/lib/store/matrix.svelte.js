@@ -15,7 +15,11 @@ import {
 
 import { syncGuest } from '$lib/matrix/requests.js';
 
-import { getPublicRooms, getRoomState } from '$lib/appservice/requests'
+import { 
+  getPublicRooms, 
+  getRoomState,
+  getRoomMessages,
+} from '$lib/appservice/requests'
 
 import { createAppStore } from './app.svelte.js';
 const app = createAppStore();
@@ -39,6 +43,8 @@ let rooms = $state(null)
 let spaces = $state([])
 
 let room_state = $state({})
+
+let messages = $state({})
 
 let hierarchy = $state({})
 
@@ -153,6 +159,8 @@ export function createMatrixStore() {
   function watchRoomEvents() {
     client.on(sdk.RoomEvent.Timeline, (event, room, toStartOfTimeline) => {
 
+      console.log("New event: ", event)
+
       if (!toStartOfTimeline) {
         const roomId = room.roomId;
         if (!events[roomId]) {
@@ -262,6 +270,24 @@ export function createMatrixStore() {
     }
   }
 
+  async function fetchRoomMessages(room_id) {
+    const resp = await getRoomMessages(room_id)
+    if(resp) {
+      let items = {events:[], start: '', end: ''}
+      resp?.chunk.forEach(e => {
+        items["events"].push(e)
+      })
+      items["events"]?.sort((a, b) => {
+          return a.origin_server_ts - b.origin_server_ts
+      })
+      items.start = resp.start
+      items.end = resp.end
+      messages[room_id] = items
+      console.log("Stored room messages:", messages[room_id])
+    }
+  }
+
+
   async function registerGuest() {
     try {
       let response = await client.registerGuest()
@@ -299,6 +325,10 @@ export function createMatrixStore() {
       return room_state;
     },
 
+    get messages() {
+      return messages;
+    },
+
 
     get login_flows() {
       return login_flows;
@@ -324,6 +354,7 @@ export function createMatrixStore() {
     getHierarchy,
     fetchPublicRooms,
     fetchRoomState,
+    fetchRoomMessages,
     registerGuest,
   };
 
