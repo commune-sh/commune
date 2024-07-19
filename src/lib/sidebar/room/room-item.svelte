@@ -71,7 +71,7 @@ const title = $derived.by(() => {
 
 </script>
 
-<div class="cursor-pointer"
+<div class="room-item cursor-pointer"
     class:active={active}
     onmousedown={getState}
     onclick={goToRoom} oncontextmenu={log}>
@@ -81,5 +81,7 @@ const title = $derived.by(() => {
 <style>
 .active {
     color: red;
+}
+.room-item {
 }
 </style>

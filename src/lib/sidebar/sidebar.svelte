@@ -66,17 +66,25 @@ $effect(() => {
 </script>
 
 <div class="sidebar grid grid-rows-[52px_1fr_70px]
-    border-solid border-r border-sidebar-border"
+    border-solid border-r border-sidebar-border h-dvh"
     style="width: {width}px">
 
 
     {#if is_space || is_room}
         <RoomSidebarHeader />
-        <RoomSidebar />
     {:else if is_home}
         <UserSidebarHeader />
-        <UserSidebar />
     {/if}
+
+    <div class="sidebar-content overflow-hidden">
+        <div class="rooms overflow-y-auto h-full">
+            {#if is_space || is_room}
+                <RoomSidebar />
+            {:else if is_home}
+                <UserSidebar />
+            {/if}
+        </div>
+    </div>
 
     <User />
 </div>
@@ -119,6 +127,22 @@ $effect(() => {
     background: var(--dragger);
     margin-left: -1px;
     z-index: 12;
+}
+
+::-webkit-scrollbar {
+    width: 3px;
+}
+::-webkit-scrollbar-thumb {
+    background: transparent;
+    transition: 0.2s;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+    transition: 0.2s;
+}
+
+.rooms:hover::-webkit-scrollbar-thumb {
+    background: var(--shade-10);
 }
 </style>
 
