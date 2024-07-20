@@ -25,16 +25,11 @@ let {
     content
 } = $props();
 
-$effect(() => {
-    if(data) {
-    }
-})
-
 const rooms = $derived.by(() => {
     return store.matrix.rooms
 })
 
-let ready = $derived(rooms?.length > 0);
+let ready = $state(false);
 
 let is_space = $derived($page.params.space != undefined)
 let is_room = $derived($page.params.room != undefined)
@@ -54,6 +49,27 @@ let container;
 
 onMount(() => {
 })
+
+const room_state = $derived(store.matrix.room_state)
+
+const room = $derived.by(() => {
+    const is_room_id = naiveRoomIDCheck($page.params.room)
+    const key = is_room_id ? `room_id` : `origin_server_ts`
+    return rooms?.filter(r => r[key] == $page.params.room)[0]
+})
+
+$effect(() => {
+    if(is_space && is_room) {
+        const messages = store.matrix.messages[room?.room_id]?.events
+        if(messages) {
+            ready = true
+        }
+    }
+    if(is_space && !is_room) {
+        ready = true
+    }
+})
+
 
 const thread_exists = $derived.by(() => {
     return $page.params.thread != undefined

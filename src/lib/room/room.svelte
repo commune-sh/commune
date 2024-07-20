@@ -11,6 +11,9 @@ import {
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
 
+let is_space = $derived($page.params.space != undefined)
+let is_room = $derived($page.params.room != undefined)
+
 const rooms = $derived(store.matrix.rooms)
 const room_state = $derived(store.matrix.room_state)
 
@@ -34,7 +37,7 @@ $effect(() => {
 </script>
 
 
-{#if messages}
+{#if is_room && messages}
 <div class="h-full overflow-y-auto overflow-x-hidden">
     <div class="m-4">
         {#each messages as message, event_id (message.event_id)}
@@ -44,6 +47,8 @@ $effect(() => {
         {/each}
     </div>
 </div>
-{:else}
+{:else if is_room && !messages}
     <Loading />
+{:else if !is_room}
+    room summary
 {/if}
