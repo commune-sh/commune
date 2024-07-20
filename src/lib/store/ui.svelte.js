@@ -15,6 +15,8 @@ let theme = $state(null);
 
 let routes = $state({})
 
+let scrollPosition = $state({});
+
 export function createUIStore() {
 
 	function openAuth() {
@@ -59,6 +61,11 @@ export function createUIStore() {
     routes[key] = val;
   }
 
+  function updateScrollPosition(key, val) {
+    scrollPosition[key] = val;
+    console.log("Updated scroll position:", key, val)
+  }
+
 
 	return {
 
@@ -86,6 +93,10 @@ export function createUIStore() {
       return routes;
     },
 
+    get scrollPosition() {
+      return scrollPosition;
+    },
+
     publicRoomsFetched,
     openAuth,
     closeAuth,
@@ -96,5 +107,6 @@ export function createUIStore() {
     newAlert,
     getRoute,
     updateRoute,
+    updateScrollPosition,
 	};
 }

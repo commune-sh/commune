@@ -56,7 +56,7 @@ $effect(() => {
             device_id: data?.device_id || null,
         })
     }
-    if(!data.access_token_exists && $page.params.room && room_id) {
+    if($page.params.room && room_id) {
         const messages = store.matrix.messages[room_id]
         if(!messages) {
             console.log("Fetching room messages...")

@@ -161,6 +161,14 @@ export function createMatrixStore() {
 
       console.log("New event: ", event)
 
+
+      const items = messages[event.event.room_id]?.events
+      const exists = items?.find(e => e.event_id == event.event.event_id)
+      if(!exists) {
+        messages[event.event.room_id]?.events.push(event.event)
+        console.log(messages[event.event.room_id])
+      }
+
       if (!toStartOfTimeline) {
         const roomId = room.roomId;
         if (!events[roomId]) {

@@ -3,6 +3,7 @@ import { page } from '$app/stores';
 
 import ChatView from '$lib/room/chat/chat.svelte'
 import ForumView from '$lib/room/forum/forum.svelte'
+import RoomOverView from '$lib/room/overview/overview.svelte'
 
 import Loading from '$lib/loading/loading.svelte'
 
@@ -51,5 +52,5 @@ $effect(() => {
         <ForumView />
     {/if}
 {:else}
-    room summary
+    <RoomOverView />
 {/if}

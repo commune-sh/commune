@@ -75,7 +75,9 @@ const title = $derived.by(() => {
     class:active={active}
     onmousedown={getState}
     onclick={goToRoom} oncontextmenu={log}>
-    {title}
+    <div class="font-normal">
+        {title}
+    </div>
 </div>
 
 <style>

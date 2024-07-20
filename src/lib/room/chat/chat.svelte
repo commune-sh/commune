@@ -1,7 +1,13 @@
 <script>
 import { page } from '$app/stores';
+import { tick } from 'svelte'
 
 import Loading from '$lib/loading/loading.svelte'
+import Composer from '$lib/composer/composer.svelte'
+
+import ChatEvent from '$lib/room/chat/chat-event.svelte'
+
+import { debounce } from '$lib/utils/utils'
 
 import { 
     naiveRoomIDCheck
@@ -27,21 +33,91 @@ const messages = $derived.by(() => {
     return store.matrix.messages[room?.room_id]?.events
 })
 
-$effect(() => {
+let count = $state(0)
+let lastScrollTop = $state(0)
+
+let init = $state(false);
+
+$effect(async () => {
+    if(vp && messages && (count != messages.length)) {
+        /*
+        count = messages.length
+        const s = vp.scrollHeight - (vp.scrollTop + vp.clientHeight)
+        console.log(s)
+        if(s < 100) {
+            await tick();
+            vp.scrollTop = vp.scrollHeight
+        }
+        */
+    }
+
+    // set initial scroll position 
+    if(messages && vp && count == 0) {
+        await tick();
+        vp.scrollTop = vp.scrollHeight
+        count = messages.length
+    }
+
+    // reset position when room changed
+    if(messages && vp && count == messages.length) {
+        const scrollPosition = store.ui.scrollPosition[room.room_id]
+        if(scrollPosition) {
+            await tick();
+            vp.scrollTop = scrollPosition
+        }
+    }
+
+    if(messages && vp && count != messages.length) {
+        console.log("calc")
+        const s = vp.scrollHeight - (vp.scrollTop + vp.clientHeight)
+        if(s < 100) {
+            await tick();
+            vp.scrollTop = vp.scrollHeight
+        }
+        count = messages.length
+    }
 })
+
+
+let vp;
+
+function log(e) {
+    e.preventDefault()
+}
+
+function setScrollPosition(e) {
+    debounce(() => {
+        let st = vp.scrollTop
+        if(st == 0) { st = 1 }
+        store.ui.updateScrollPosition(room.room_id, st)
+    }, 300)
+}
 
 </script>
 
 {#if messages}
-<div class="h-full overflow-y-auto overflow-x-hidden">
-    <div class="m-4">
-        {#each messages as message, event_id (message.event_id)}
-            <div class="mb-4">
-                {JSON.stringify(message)}
+
+
+<div class="chat-view grid grid-rows-[1fr_auto] overflow-hidden h-full">
+    <div class="chat-content h-full overflow-y-auto overflow-x-hidden"
+        oncontextmenu={log}
+        onscroll={setScrollPosition}
+        bind:this={vp}>
+        <div class="chat-events p-4 flex flex-col h-full">
+            <div class="filler flex-grow">
             </div>
-        {/each}
+            {#each messages as event, event_id (event.event_id)}
+
+                <ChatEvent {event} {event_id}/>
+
+            {/each}
+        </div>
     </div>
+
+    <Composer />
+
 </div>
+
 {:else}
     <Loading />
 {/if}
