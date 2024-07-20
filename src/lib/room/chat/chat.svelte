@@ -33,29 +33,15 @@ const messages = $derived.by(() => {
     return store.matrix.messages[room?.room_id]?.events
 })
 
-let count = $state(0)
-let lastScrollTop = $state(0)
-
-let init = $state(false);
+let count = $derived(store.ui.getMessageCount(room?.room_id))
 
 $effect(async () => {
-    if(vp && messages && (count != messages.length)) {
-        /*
-        count = messages.length
-        const s = vp.scrollHeight - (vp.scrollTop + vp.clientHeight)
-        console.log(s)
-        if(s < 100) {
-            await tick();
-            vp.scrollTop = vp.scrollHeight
-        }
-        */
-    }
 
     // set initial scroll position 
-    if(messages && vp && count == 0) {
+    if(messages && vp && !count) {
         await tick();
         vp.scrollTop = vp.scrollHeight
-        count = messages.length
+        store.ui.setMessageCount(room.room_id, messages.length)
     }
 
     // reset position when room changed
@@ -74,7 +60,9 @@ $effect(async () => {
             await tick();
             vp.scrollTop = vp.scrollHeight
         }
-        count = messages.length
+        setTimeout(() => {
+            store.ui.setMessageCount(room.room_id, messages.length)
+        }, 700)
     }
 })
 
@@ -89,11 +77,19 @@ function setScrollPosition(e) {
     debounce(() => {
         let st = vp.scrollTop
         if(st == 0) { st = 1 }
-        store.ui.updateScrollPosition(room.room_id, st)
+        if(count != messages.length) {
+            setTimeout(() => {
+                store.ui.updateScrollPosition(room.room_id, st)
+            }, 100)
+        } else {
+            store.ui.updateScrollPosition(room.room_id, st)
+        }
     }, 300)
 }
 
 </script>
+
+{count}
 
 {#if messages}
 

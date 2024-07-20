@@ -17,6 +17,8 @@ let routes = $state({})
 
 let scrollPosition = $state({});
 
+let messageCount = $state({});
+
 export function createUIStore() {
 
 	function openAuth() {
@@ -66,6 +68,15 @@ export function createUIStore() {
     console.log("Updated scroll position:", key, val)
   }
 
+  function getMessageCount(key) {
+    return messageCount[key]
+  }
+
+  function setMessageCount(key, val) {
+    messageCount[key] = val;
+    console.log("Setting message count:", key, val)
+  }
+
 
 	return {
 
@@ -97,6 +108,11 @@ export function createUIStore() {
       return scrollPosition;
     },
 
+    get messageCount() {
+      return messageCount;
+    },
+
+
     publicRoomsFetched,
     openAuth,
     closeAuth,
@@ -108,5 +124,7 @@ export function createUIStore() {
     getRoute,
     updateRoute,
     updateScrollPosition,
+    getMessageCount,
+    setMessageCount
 	};
 }
