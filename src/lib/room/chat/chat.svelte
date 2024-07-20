@@ -1,21 +1,14 @@
 <script>
 import { page } from '$app/stores';
 
-import ChatView from '$lib/room/chat/chat.svelte'
-import ForumView from '$lib/room/forum/forum.svelte'
-
 import Loading from '$lib/loading/loading.svelte'
 
 import { 
-    canonical_alias,
     naiveRoomIDCheck
 } from '$lib/utils/matrix'
 
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
-
-let is_space = $derived($page.params.space != undefined)
-let is_room = $derived($page.params.room != undefined)
 
 const rooms = $derived(store.matrix.rooms)
 const room_state = $derived(store.matrix.room_state)
@@ -25,11 +18,6 @@ const room = $derived.by(() => {
     const key = is_room_id ? `room_id` : `origin_server_ts`
     return rooms?.filter(r => r[key] == $page.params.room)[0]
 })
-
-const room_type = $derived(room?.room_type)
-
-const is_chat = $derived(!room_type)
-const is_forum = $derived(room_type == 'forum')
 
 const state = $derived.by(() => {
     return room_state[room?.room_id]
@@ -44,12 +32,17 @@ $effect(() => {
 
 </script>
 
-{#if is_room}
-    {#if is_chat}
-        <ChatView />
-    {:else if is_forum}
-        <ForumView />
-    {/if}
+{#if messages}
+<div class="h-full overflow-y-auto overflow-x-hidden">
+    <div class="m-4">
+        {#each messages as message, event_id (message.event_id)}
+            <div class="mb-4">
+                {JSON.stringify(message)}
+            </div>
+        {/each}
+    </div>
+</div>
 {:else}
-    room summary
+    <Loading />
 {/if}
+
