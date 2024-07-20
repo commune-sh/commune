@@ -1,4 +1,5 @@
-import { PUBLIC_APPSERVICE } from '$env/static/public';
+import { PUBLIC_APPSERVICE, PUBLIC_HOMESERVER } from '$env/static/public';
+import { getCookie } from '$lib/utils/cookie'
 
 export const getCapabilities = async () => {
   const url = `${PUBLIC_APPSERVICE}/capabilities`;
@@ -67,12 +68,21 @@ export const getRoomState = async (room_id) => {
   }
 }
 
-export const getRoomMessages = async (room_id) => {
-  const url = `${PUBLIC_APPSERVICE}/_matrix/client/v3/rooms/${room_id}/messages?limit=50&dir=b`;
+export const getRoomMessages = async (opts) => {
+  if(!opts.room_id) return
+  let base = PUBLIC_APPSERVICE
+  if(opts.authenticated) {
+    base = PUBLIC_HOMESERVER
+  }
+  const url = `${base}/_matrix/client/v3/rooms/${opts.room_id}/messages?limit=50&dir=b`;
   let options = {
       headers: {
         'Content-Type': 'application/json',
       },
+  }
+  if(opts.authenticated) {
+    const token = getCookie("mx_access_token")
+    options['headers']['Authorization'] = `Bearer ${token}`
   }
   try {
     const response = await fetch(url, options)

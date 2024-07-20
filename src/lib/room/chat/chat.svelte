@@ -69,14 +69,9 @@ $effect(async () => {
 
 let vp;
 
-function log(e) {
-    e.preventDefault()
-}
-
 function setScrollPosition(e) {
     debounce(() => {
         let st = vp.scrollTop
-        if(st == 0) { st = 1 }
         if(count != messages.length) {
             setTimeout(() => {
                 store.ui.updateScrollPosition(room.room_id, st)
@@ -87,21 +82,24 @@ function setScrollPosition(e) {
     }, 300)
 }
 
+const new_room = $derived.by(() => {
+    return messages[0].type == 'm.room.create'
+})
+
 </script>
 
-{count}
 
 {#if messages}
 
 
 <div class="chat-view grid grid-rows-[1fr_auto] overflow-hidden h-full">
     <div class="chat-content h-full overflow-y-auto overflow-x-hidden"
-        oncontextmenu={log}
         onscroll={setScrollPosition}
         bind:this={vp}>
         <div class="chat-events p-4 flex flex-col h-full">
             <div class="filler flex-grow">
             </div>
+
             {#each messages as event, event_id (event.event_id)}
 
                 <ChatEvent {event} {event_id}/>

@@ -65,7 +65,6 @@ export function createUIStore() {
 
   function updateScrollPosition(key, val) {
     scrollPosition[key] = val;
-    console.log("Updated scroll position:", key, val)
   }
 
   function getMessageCount(key) {
@@ -74,7 +73,6 @@ export function createUIStore() {
 
   function setMessageCount(key, val) {
     messageCount[key] = val;
-    console.log("Setting message count:", key, val)
   }
 
 

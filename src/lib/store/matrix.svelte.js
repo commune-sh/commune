@@ -279,7 +279,10 @@ export function createMatrixStore() {
   }
 
   async function fetchRoomMessages(room_id) {
-    const resp = await getRoomMessages(room_id)
+    const resp = await getRoomMessages({
+      room_id: room_id,
+      authenticated: auth.authenticated,
+    })
     if(resp) {
       let items = {events:[], start: '', end: ''}
       resp?.chunk.forEach(e => {
