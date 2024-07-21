@@ -1,16 +1,17 @@
 <script>
 import { page } from '$app/stores';
-import { tick } from 'svelte'
+import { onMount, tick } from 'svelte'
 
 import Loading from '$lib/loading/loading.svelte'
 import Composer from '$lib/composer/composer.svelte'
 
-import ChatEvent from '$lib/room/chat/chat-event.svelte'
+import Event from '$lib/room/chat/events/event.svelte'
 
 import { debounce } from '$lib/utils/utils'
 
 import { 
-    naiveRoomIDCheck
+    naiveRoomIDCheck,
+    naiveOSTCheck,
 } from '$lib/utils/matrix'
 
 import { createStore } from '$lib/store/store.svelte.js'
@@ -21,7 +22,9 @@ const room_state = $derived(store.matrix.room_state)
 
 const room = $derived.by(() => {
     const is_room_id = naiveRoomIDCheck($page.params.room)
-    const key = is_room_id ? `room_id` : `origin_server_ts`
+    const is_origin_server_ts = naiveOSTCheck($page.params.room)
+    const key = is_room_id ? `room_id` : is_origin_server_ts ?
+    `origin_server_ts` : `commune_alias` 
     return rooms?.filter(r => r[key] == $page.params.room)[0]
 })
 
@@ -86,6 +89,39 @@ const new_room = $derived.by(() => {
     return messages[0].type == 'm.room.create'
 })
 
+let ob;
+let scrollHeight = $state(0);
+
+function setupObserver() {
+    scrollHeight = vp?.scrollHeight;
+
+    let sc = scrollHeight / 2
+
+    let options = {
+        root: vp,
+        rootMargin: `400px`,
+    };
+
+    let callback = (entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && messages?.length >= 50) {
+                store.matrix.fetchRoomMessages({
+                    room_id: room.room_id,
+                })
+            }
+        });
+    };
+
+    let observer = new IntersectionObserver(callback, options);
+    observer.observe(ob);
+}
+
+onMount(() => {
+    setTimeout(() => {
+        setupObserver()
+    }, 1000)
+})
+
 </script>
 
 
@@ -100,9 +136,11 @@ const new_room = $derived.by(() => {
             <div class="filler flex-grow">
             </div>
 
+            <div class="ob" bind:this={ob}></div>
+
             {#each messages as event, event_id (event.event_id)}
 
-                <ChatEvent {event} {event_id}/>
+                <Event {event} {event_id}/>
 
             {/each}
         </div>

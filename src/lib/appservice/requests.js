@@ -74,7 +74,20 @@ export const getRoomMessages = async (opts) => {
   if(opts.authenticated) {
     base = PUBLIC_HOMESERVER
   }
-  const url = `${base}/_matrix/client/v3/rooms/${opts.room_id}/messages?limit=50&dir=b`;
+
+  let dir = `b`
+
+  if(opts?.dir) {
+    dir = opts.dir
+  }
+
+  let url = `${base}/_matrix/client/v3/rooms/${opts.room_id}/messages?limit=50&dir=${dir}`;
+
+  if(opts?.end) {
+    url = `${base}/_matrix/client/v3/rooms/${opts.room_id}/messages?limit=50&dir=${dir}&from=${opts.end}`;
+  }
+
+
   let options = {
       headers: {
         'Content-Type': 'application/json',

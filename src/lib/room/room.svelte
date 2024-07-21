@@ -9,7 +9,8 @@ import Loading from '$lib/loading/loading.svelte'
 
 import { 
     canonical_alias,
-    naiveRoomIDCheck
+    naiveRoomIDCheck,
+    naiveOSTCheck
 } from '$lib/utils/matrix'
 
 import { createStore } from '$lib/store/store.svelte.js'
@@ -23,7 +24,9 @@ const room_state = $derived(store.matrix.room_state)
 
 const room = $derived.by(() => {
     const is_room_id = naiveRoomIDCheck($page.params.room)
-    const key = is_room_id ? `room_id` : `origin_server_ts`
+    const is_origin_server_ts = naiveOSTCheck($page.params.room)
+    const key = is_room_id ? `room_id` : is_origin_server_ts ?
+    `origin_server_ts` : `commune_alias` 
     return rooms?.filter(r => r[key] == $page.params.room)[0]
 })
 

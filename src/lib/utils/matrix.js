@@ -42,10 +42,16 @@ export function naiveRoomIDCheck(room_id) {
   return room_id.includes('!') || room_id.includes(':');
 }
 
-function getRoomInfo(room) {
+export function naiveOSTCheck(origin_server_ts) {
+  const regex = /[0-9]/;
+  return regex.test(origin_server_ts)
+}
+
+function buildRoom(room) {
   if (!room) return {};
   const roomEvent = room.currentState.getStateEvents('m.room.create')[0];
   const roomTypeEvent = room.currentState.getStateEvents('commune.room.type')[0];
+  const communeAliasEvent = room.currentState.getStateEvents('commune.room.alias')[0];
   const nameEvent = room.currentState.getStateEvents('m.room.name')[0];
   const avatarEvent = room.currentState.getStateEvents('m.room.avatar')[0];
   const bannerEvent = room.currentState.getStateEvents('commune.room.banner')[0];
@@ -55,6 +61,7 @@ function getRoomInfo(room) {
     room_id: room.roomId,
     type: roomEvent ? roomEvent.getContent().type : '',
     room_type: roomTypeEvent ? roomTypeEvent.getContent().type : '',
+    commune_alias: communeAliasEvent ? communeAliasEvent.getContent().alias : '',
     origin_server_ts: roomEvent ? roomEvent.getTs() : '',
     name: nameEvent ? nameEvent.getContent().name : room.name,
     avatar_url: avatarEvent ? avatarEvent.getContent().url : '',
@@ -96,7 +103,7 @@ export function processSpaces(rooms) {
       }
     });
 
-    spacesMap[roomId].roomInfo = getRoomInfo(room);
+    spacesMap[roomId].roomInfo = buildRoom(room);
 
   });
 
@@ -128,7 +135,7 @@ export function processSpaces(rooms) {
 export function processRooms(rooms) {
   let items = []
   rooms.forEach(room => {
-    let item = getRoomInfo(room);
+    let item = buildRoom(room);
     const childEvents = room.currentState.getStateEvents('m.space.child');
     if(childEvents.length > 0) {
       item.children = [];

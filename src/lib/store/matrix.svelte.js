@@ -278,23 +278,33 @@ export function createMatrixStore() {
     }
   }
 
-  async function fetchRoomMessages(room_id) {
+  async function fetchRoomMessages(opts) {
+
+    const start = messages[opts?.room_id]?.start
+    const end = messages[opts?.room_id]?.end
+
     const resp = await getRoomMessages({
-      room_id: room_id,
+      room_id: opts.room_id,
       authenticated: auth.authenticated,
+      start: start,
+      end: end,
     })
-    if(resp) {
-      let items = {events:[], start: '', end: ''}
-      resp?.chunk.forEach(e => {
+
+    if(resp && !end && !start) {
+      let items = {events:[], start: resp.start, end: resp.end}
+      resp?.chunk?.reverse().forEach(e => {
         items["events"].push(e)
       })
-      items["events"]?.sort((a, b) => {
-          return a.origin_server_ts - b.origin_server_ts
-      })
-      items.start = resp.start
-      items.end = resp.end
-      messages[room_id] = items
-      console.log("Stored room messages:", messages[room_id])
+      messages[opts.room_id] = items
+      console.log("Stored room messages:", messages[opts.room_id])
+    }
+
+    if(resp && end) {
+      let items = {events:[], start: resp.start, end: resp.end}
+      messages[opts.room_id].events.unshift(...resp.chunk.reverse())
+      messages[opts.room_id].start = resp.start
+      messages[opts.room_id].end = resp.end
+      console.log("Stored more room messages:", messages[opts.room_id])
     }
   }
 
