@@ -23,30 +23,20 @@ const is_local = $derived.by(() => {
     return is_local_room(item?.room_id)
 })
 
-const alias_or_ots = $derived(item?.commune_alias ? item?.commune_alias :
-    item?.origin_server_ts)
+const alias_or_id = $derived(item?.commune_alias ? item?.commune_alias :
+    item?.room_id)
 
-const path = $derived(`/${$page.params.space}/${alias_or_ots}`)
+const path = $derived(`/${$page.params.space}/${alias_or_id}`)
 
 function goToRoom() {
     goto(path)
     store.ui.updateRoute($page.params.space, path)
 }
 
-import { 
-    naiveRoomIDCheck,
-    naiveOSTCheck
-} from '$lib/utils/matrix'
+const room = $derived(store.matrix.active_room)
 
-const key = $derived.by(() => {
-    const is_room_id = naiveRoomIDCheck($page.params.room)
-    const is_origin_server_ts = naiveOSTCheck($page.params.room)
-    const is_commune_alias = !naiveOSTCheck($page.params.room)
-    return is_room_id ? `room_id` : is_origin_server_ts ?
-    `origin_server_ts` : is_commune_alias ? `commune_alias` : ``
-})
 const active = $derived.by(() => {
-    return item?.[key] == $page.params.room
+    return room && item?.room_id == room?.room_id
 })
 
 $effect(() => {
@@ -90,7 +80,7 @@ const title = $derived.by(() => {
     onmousedown={getState}
     onclick={goToRoom} oncontextmenu={log}>
     <div class="">
-        {title}
+        {title} 
     </div>
 </div>
 

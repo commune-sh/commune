@@ -173,6 +173,9 @@ $effect(() => {
 const authReady = $derived(store.auth.ready)
 const authenticated = $derived(store.auth.authenticated)
 
+let is_space = $derived($page.params.space != undefined)
+let is_room = $derived($page.params.room != undefined)
+
 $effect(() => {
     if(active && space && authReady && !authenticated) {
         const state = store.matrix.room_state[space.room_id]

@@ -42,20 +42,7 @@ let native_mode = $derived(store.app.native_mode)
 
 let homeserver_reachable = $derived(data.homeserver_reachable)
 
-import { 
-    naiveRoomIDCheck,
-    naiveOSTCheck
-} from '$lib/utils/matrix'
-
-const room_id = $derived.by(() => {
-    const is_room_id = naiveRoomIDCheck($page.params.room)
-    const is_origin_server_ts = naiveOSTCheck($page.params.room)
-    const is_commune_alias = !naiveOSTCheck($page.params.room)
-    const key = is_room_id ? `room_id` : is_origin_server_ts ?
-    `origin_server_ts` : is_commune_alias ? `commune_alias` : ``
-    return store.matrix.rooms?.filter(r => r[key] ==
-        $page.params.room)[0]?.room_id
-})
+const room_id = $derived(store.matrix.active_room?.room_id)
 
 $effect(() => {
     if(browser && !authReady) {

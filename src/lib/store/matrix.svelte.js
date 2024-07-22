@@ -7,13 +7,21 @@ import { browser } from '$app/environment';
 import * as sdk from 'matrix-js-sdk';
 
 import { 
+  aliasFromName,
   processRooms, 
   processRoomStates,
   processSpaces, 
   buildPublicSpaces, 
   buildSpacesHierarchy } from '$lib/utils/matrix';
 
-import { syncGuest } from '$lib/matrix/requests.js';
+import { 
+  syncGuest,
+} from '$lib/matrix/requests.js';
+
+import { 
+    naiveRoomIDCheck,
+    naiveOSTCheck
+} from '$lib/utils/matrix'
 
 import { 
   getPublicRooms, 
@@ -55,6 +63,8 @@ if(browser) {
     baseUrl: homeserver,
   });
 }
+
+let active_room = $state(null);
 
 export function createMatrixStore() {
 
@@ -260,10 +270,34 @@ export function createMatrixStore() {
   async function fetchPublicRooms() {
     const resp = await getPublicRooms()
     if(resp?.rooms) {
-      //items = rooms
-      //store.matrix.updateSpaces(resp.chunk)
+
+      resp.rooms.forEach(room => {
+        let name = room?.name ? room.name : `Untitled Room`
+        room.commune_alias = aliasFromName(name)
+      })
+
+      resp.rooms.forEach(room => {
+        if(room?.children?.length > 0) {
+          let items = [];
+          room.children.forEach( c => {
+            let item = resp.rooms.find(r => r.room_id == c)
+            if(item) {
+              items.push(item)
+            }
+          })
+          items?.sort((a, b) => {
+              return a.origin_server_ts - b.origin_server_ts
+          })
+          items.forEach(c => {
+            let b = items.filter(r => r.room_id != c.room_id && r.commune_alias == c.commune_alias)
+            b.forEach(x => {
+              x.commune_alias = `${x.commune_alias}-${x.origin_server_ts}`
+            })
+          })
+        }
+      })
+
       rooms = resp.rooms
-      console.log(rooms)
 
       let parents = buildPublicSpaces(resp.rooms)
       spaces = parents
@@ -326,6 +360,10 @@ export function createMatrixStore() {
     }
   }
 
+  function updateActiveRoom(room) {
+    active_room = room
+  }
+
   return {
     get client() {
       return client;
@@ -363,6 +401,9 @@ export function createMatrixStore() {
       return registration_disabled;
     },
 
+    get active_room() {
+      return active_room;
+    },
 
     newClient,
     getFlows,
@@ -377,6 +418,7 @@ export function createMatrixStore() {
     fetchRoomState,
     fetchRoomMessages,
     registerGuest,
+    updateActiveRoom
   };
 
 }

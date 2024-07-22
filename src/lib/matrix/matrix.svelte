@@ -3,6 +3,11 @@ import { browser  } from '$app/environment'
 import { onMount } from 'svelte'
 import { page } from '$app/stores';
 
+import { 
+    naiveRoomIDCheck,
+    naiveOSTCheck
+} from '$lib/utils/matrix'
+
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
 
@@ -53,7 +58,15 @@ $effect(() => {
         public_spaces_fetched = true
         store.matrix.fetchPublicRooms()
     }
+    if(room) {
+        store.matrix.updateActiveRoom(room)
+    }
+})
 
+const room = $derived.by(() => {
+    const is_room_id = naiveRoomIDCheck($page.params.room)
+    const key = is_room_id ? `room_id` : `commune_alias`
+    return store.matrix.rooms?.filter(r => r[key] == $page.params.room)[0]
 })
 
 const room_state = $derived.by(() => {

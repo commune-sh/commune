@@ -43,32 +43,51 @@ export function naiveRoomIDCheck(room_id) {
 }
 
 export function naiveOSTCheck(origin_server_ts) {
+  if(!origin_server_ts) return false
   const regex = /[0-9]/;
   return regex.test(origin_server_ts)
+}
+
+export function naiveAliasCheck(alias) {
+  if(!alias) return false
+  const regex = /[a-zA-Z-0-9]/;
+  return regex.test(alias)
+}
+
+export function aliasFromName(name) {
+  let slug = name.replace(' ', '-')
+  return slug.toLowerCase()
 }
 
 function buildRoom(room) {
   if (!room) return {};
   const roomEvent = room.currentState.getStateEvents('m.room.create')[0];
   const roomTypeEvent = room.currentState.getStateEvents('commune.room.type')[0];
-  const communeAliasEvent = room.currentState.getStateEvents('commune.room.alias')[0];
   const nameEvent = room.currentState.getStateEvents('m.room.name')[0];
   const avatarEvent = room.currentState.getStateEvents('m.room.avatar')[0];
   const bannerEvent = room.currentState.getStateEvents('commune.room.banner')[0];
   const aliasEvent = room.currentState.getStateEvents('m.room.canonical_alias')[0];
   const topicEvent = room.currentState.getStateEvents('m.room.topic')[0];
-  return {
+
+  let item = {
     room_id: room.roomId,
     type: roomEvent ? roomEvent.getContent().type : '',
     room_type: roomTypeEvent ? roomTypeEvent.getContent().type : '',
-    commune_alias: communeAliasEvent ? communeAliasEvent.getContent().alias : '',
     origin_server_ts: roomEvent ? roomEvent.getTs() : '',
     name: nameEvent ? nameEvent.getContent().name : room.name,
     avatar_url: avatarEvent ? avatarEvent.getContent().url : '',
     banner_url: bannerEvent ? bannerEvent.getContent().url : '',
     canonical_alias: aliasEvent ? aliasEvent.getContent().alias : '',
     topic: topicEvent ? topicEvent.getContent().topic : '',
-  };
+  }
+
+  if(item.name) {
+    item.commune_alias = aliasFromName(item.name)
+  } else {
+    item.commune_alias = aliasFromName(`Untitled Room`)
+  }
+
+  return item;
 }
 
 export function processSpaces(rooms) {
@@ -132,9 +151,9 @@ export function processSpaces(rooms) {
   return hierarchy;
 }
 
-export function processRooms(rooms) {
-  let items = []
-  rooms.forEach(room => {
+export function processRooms(unprocessed) {
+  let processed = []
+  unprocessed.forEach(room => {
     let item = buildRoom(room);
     const childEvents = room.currentState.getStateEvents('m.space.child');
     if(childEvents.length > 0) {
@@ -144,9 +163,31 @@ export function processRooms(rooms) {
         item.children.push(childId);
       })
     }
-    items.push(item);
+    processed.push(item);
   })
-  return items;
+
+      processed.forEach(room => {
+        if(room?.children?.length > 0) {
+          let items = [];
+          room.children.forEach( c => {
+            let item = processed.find(r => r.room_id == c)
+            if(item) {
+              items.push(item)
+            }
+          })
+          items?.sort((a, b) => {
+              return a.origin_server_ts - b.origin_server_ts
+          })
+          items.forEach(c => {
+            let b = items.filter(r => r.room_id != c.room_id && r.commune_alias == c.commune_alias)
+            b.forEach(x => {
+              x.commune_alias = `${x.commune_alias}-${x.origin_server_ts}`
+            })
+          })
+        }
+      })
+
+  return processed;
 }
 
 
