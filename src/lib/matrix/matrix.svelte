@@ -49,17 +49,5 @@ $effect(() => {
     }
 })
 
-const active_space = $derived.by(() => {
-    const is_room_id = naiveRoomIDCheck($page.params.space)
-    const key = is_room_id ? `room_id` : `commune_alias`
-    return store.matrix.rooms?.filter(r => r[key] == $page.params.room)[0]
-})
-
-
-
-
-onMount(() => {
-})
-
-
 </script>
+

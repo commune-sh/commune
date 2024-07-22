@@ -13,7 +13,6 @@ const store = createStore()
 
 import { 
     room_alias_from_ID, 
-    get_local_part,
     thumbnail_from_MXC,
 } from '$lib/utils/matrix'
 
@@ -184,9 +183,11 @@ $effect(() => {
         }
     }
 
+    /*
     if(active && name) {
         document.title = name
     }
+    */
 
 })
 
@@ -194,9 +195,11 @@ $effect(() => {
 function goToSpace() {
     tooltip.hide()
 
+    /*
     if(name) {
         document.title = name
     }
+    */
 
     let location = alias ? alias : space.room_id
 

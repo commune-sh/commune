@@ -13,7 +13,6 @@ import NotFound from '$lib/errors/not-found.svelte'
 import { 
     canonical_alias,
     naiveRoomIDCheck,
-    naiveOSTCheck
 } from '$lib/utils/matrix'
 
 // app store

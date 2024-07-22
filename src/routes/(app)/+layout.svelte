@@ -121,12 +121,27 @@ let is_home = $derived($page.route.id == '/(app)')
 let is_space = $derived($page.params.space != undefined)
 let is_room = $derived($page.params.room != undefined)
 
+let active_space = $derived(store.matrix.active_space)
+let active_room = $derived(store.matrix.active_room)
+
 let title = $derived.by(() => {
+    if(data?.room?.name) {
+        return data.room.name
+    } else if(data?.room?.canonical_alias) {
+        const alias = get_local_part(data.room.canonical_alias)
+        return alias
+    }
     if(data?.space?.name) {
         return data.space.name
     } else if(data?.space?.canonical_alias) {
-        const alias =  get_local_part(data.space.canonical_alias)
+        const alias = get_local_part(data.space.canonical_alias)
         return alias
+    }
+    if(active_room?.name) {
+        return active_room?.name
+    }
+    if(active_space?.name) {
+        return active_space?.name
     }
     return PUBLIC_META_TITLE
 })

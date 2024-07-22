@@ -34,6 +34,14 @@ export async function load( { fetch, params, url, cookies, request } ) {
         const r = await fetch(url)
         const space =  await r.json()
         data.space = space
+
+        if(params.rooms != undefined) {
+          let url = `${u}/_matrix/client/v3/rooms/${params.room}/info`
+          const r = await fetch(url)
+          const room =  await r.json()
+          data.room = room
+        }
+
       }
     } catch(_) {
     }

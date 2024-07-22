@@ -5,11 +5,6 @@ import ChatView from '$lib/room/chat/chat.svelte'
 import ForumView from '$lib/room/forum/forum.svelte'
 import RoomOverView from '$lib/room/overview/overview.svelte'
 
-import { 
-    naiveRoomIDCheck,
-    naiveOSTCheck
-} from '$lib/utils/matrix'
-
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
 

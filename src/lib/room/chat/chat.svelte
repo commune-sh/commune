@@ -9,11 +9,6 @@ import Event from '$lib/room/chat/events/event.svelte'
 
 import { debounce } from '$lib/utils/utils'
 
-import { 
-    naiveRoomIDCheck,
-    naiveOSTCheck,
-} from '$lib/utils/matrix'
-
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
 
