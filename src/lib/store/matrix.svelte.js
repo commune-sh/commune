@@ -19,8 +19,8 @@ import {
 } from '$lib/matrix/requests.js';
 
 import { 
-    naiveRoomIDCheck,
-    naiveOSTCheck
+  naiveRoomIDCheck,
+  canonical_alias,
 } from '$lib/utils/matrix'
 
 import { 
@@ -64,7 +64,22 @@ if(browser) {
   });
 }
 
-let active_room = $state(null);
+let page = $state(null);
+
+const active_room = $derived.by(() => {
+  if(!page?.params?.room) return
+    const is_room_id = naiveRoomIDCheck(page.params.room)
+    const key = is_room_id ? `room_id` : `commune_alias`
+    return rooms?.filter(r => r[key] == page.params.room)[0]
+})
+
+const active_space = $derived.by(() => {
+  if(!page?.params?.space) return
+    const is_room_id = naiveRoomIDCheck(page.params.space)
+    const key = is_room_id ? `room_id` : `canonical_alias`
+    const val = is_room_id ? page.params.space : canonical_alias(page.params.space)
+    return rooms?.filter(r => r[key] == val)[0]
+})
 
 export function createMatrixStore() {
 
@@ -360,8 +375,9 @@ export function createMatrixStore() {
     }
   }
 
-  function updateActiveRoom(room) {
-    active_room = room
+
+  function updatePage(p) {
+    page = p
   }
 
   return {
@@ -401,6 +417,10 @@ export function createMatrixStore() {
       return registration_disabled;
     },
 
+    get active_space() {
+      return active_space;
+    },
+
     get active_room() {
       return active_room;
     },
@@ -418,7 +438,7 @@ export function createMatrixStore() {
     fetchRoomState,
     fetchRoomMessages,
     registerGuest,
-    updateActiveRoom
+    updatePage
   };
 
 }

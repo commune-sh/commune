@@ -51,7 +51,8 @@ let container;
 onMount(() => {
 })
 
-const room_state = $derived(store.matrix.room_state)
+const active_space = $derived(store.matrix.active_space)
+const active_room = $derived(store.matrix.active_room)
 
 const room = $derived(store.matrix.active_room)
 

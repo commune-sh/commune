@@ -39,17 +39,6 @@ $effect(() => {
         }
         ready = true
     }
-    /*
-    if(space_exists) {
-        let h = store.matrix.hierarchy?.[space]
-        if(!h && store.app.appservice_reachable) {
-            //store.matrix.getHierarchy(space)
-        }
-    }
-    if(data?.space && store.app.appservice_reachable) {
-        store.matrix.addSpace(data.space)
-    }
-    */
     if(store.app.appservice_reachable && 
         !public_spaces_fetched &&
         !store.auth.authenticated &&
@@ -58,20 +47,16 @@ $effect(() => {
         public_spaces_fetched = true
         store.matrix.fetchPublicRooms()
     }
-    if(room) {
-        store.matrix.updateActiveRoom(room)
-    }
 })
 
-const room = $derived.by(() => {
-    const is_room_id = naiveRoomIDCheck($page.params.room)
+const active_space = $derived.by(() => {
+    const is_room_id = naiveRoomIDCheck($page.params.space)
     const key = is_room_id ? `room_id` : `commune_alias`
     return store.matrix.rooms?.filter(r => r[key] == $page.params.room)[0]
 })
 
-const room_state = $derived.by(() => {
-    return store.matrix.room_state[$page.params.room]
-})
+
+
 
 onMount(() => {
 })

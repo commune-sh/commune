@@ -45,6 +45,9 @@ let homeserver_reachable = $derived(data.homeserver_reachable)
 const room_id = $derived(store.matrix.active_room?.room_id)
 
 $effect(() => {
+    if($page) {
+        store.matrix.updatePage($page)
+    }
     if(browser && !authReady) {
         store.auth.setup({
             authenticated: data?.authenticated,
