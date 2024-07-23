@@ -49,5 +49,35 @@ $effect(() => {
     }
 })
 
+const active_space = $derived(store.matrix.active_space)
+let _active_space = $state(null);
+
+const active_room = $derived(store.matrix.active_room)
+let _active_room = $state(null);
+
+$effect(() =>{
+    if(active_space && !_active_space) {
+        _active_space = active_space.room_id
+
+        store.matrix.fetchRoomState(active_space.room_id)
+    }
+
+    if(active_space && (_active_space != active_space.room_id)) {
+        // do things here when active space changes
+        console.log("space changed")
+        _active_space = active_space.room_id
+
+        store.matrix.fetchRoomState(active_space.room_id)
+    }
+
+    if(active_room && !_active_room) {
+        _active_room = active_room.room_id
+    }
+    if(active_room && (_active_room != active_room.room_id)) {
+        // do things here when active room changes
+        console.log("room changed")
+        _active_room = active_room.room_id
+    }
+})
 </script>
 

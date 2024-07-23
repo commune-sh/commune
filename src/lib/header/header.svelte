@@ -13,20 +13,26 @@ function toggleMenu() {
     store.ui.toggleMenu()
 }
 
+const is_space = $derived($page.params.space != undefined)
+const is_room = $derived($page.params.room != undefined)
 
-const room_state = $derived(store.matrix.room_state)
-
-const room = $derived(store.matrix.active_room)
+const active_space = $derived(store.matrix.active_space)
+const active_room = $derived(store.matrix.active_room)
 
 const state = $derived.by(() => {
-    return room_state[room?.room_id]
+    return store.matrix.room_state[active_room?.room_id]
 })
 
 const name = $derived.by(() => {
-    if(room?.name) {
-        return room.name
+    if(is_room && active_room?.name) {
+        return active_room.name
     }
-    return `Untitled Room`
+    if(is_space && !is_room && active_space?.name) {
+        return active_space.name
+    }
+    if(is_room && !active_room?.name) {
+        return `Untitled Room`
+    }
 })
 
 const topic = $derived.by(() => {
@@ -47,7 +53,7 @@ $effect(() => {
         </div>
     </div>
     <div class="grid grid-cols-[auto_1fr_auto] mx-4 items-center justify-items-start">
-        <div class="">
+        <div class="font-semibold text-sm">
             {name}
         </div>
         {#if topic}

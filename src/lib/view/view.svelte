@@ -55,15 +55,21 @@ const active_room = $derived(store.matrix.active_room)
 
 const room = $derived(store.matrix.active_room)
 
+const messages = $derived(store.matrix.messages[room?.room_id]?.events)
+const space_state = $derived.by(() => {
+    return store.matrix.room_state[active_space?.room_id]
+})
+
 $effect(() => {
     if(is_space && is_room && room) {
-        const messages = store.matrix.messages[room?.room_id]?.events
-        if(messages) {
+        if(space_state && messages) {
             ready = true
         }
     }
     if(is_space && !is_room) {
-        ready = true
+        if(space_state) {
+            ready = true
+        }
     }
 })
 
@@ -76,9 +82,15 @@ const menu_active = $derived(store.ui.menu_active)
 
 </script>
 
+
 {#if !ready}
-    <Loading />
-{:else if not_found && is_space}
+    <div class="overlay-loading">
+        <Loading />
+    </div>
+{/if}
+
+
+{#if not_found && is_space}
     <NotFound />
 {:else}
 <div class="view-root grid grid-cols-[auto_1fr]" 
@@ -105,6 +117,15 @@ const menu_active = $derived(store.ui.menu_active)
 
 
 <style>
+.overlay-loading {
+    z-index: 1000;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--view);
+}
 
 .sidebar-container {
     border-radius: 20px 0 0 0;

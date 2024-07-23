@@ -41,19 +41,13 @@ const active = $derived.by(() => {
 
 $effect(() => {
     if(active && item?.room_id && authReady && !authenticated) {
-        const state = store.matrix.room_state[item.room_id]
-        if(!state) {
-            store.matrix.fetchRoomState(item.room_id)
-        }
+        store.matrix.fetchRoomState(item.room_id)
     }
 })
 
 function getState() {
     if(item?.room_id && authReady && !authenticated) {
-        const state = store.matrix.room_state[item.room_id]
-        if(!state) {
-            store.matrix.fetchRoomState(item.room_id)
-        }
+        store.matrix.fetchRoomState(item.room_id)
     }
 }
 
@@ -79,7 +73,7 @@ const title = $derived.by(() => {
     class:active={active}
     onmousedown={getState}
     onclick={goToRoom} oncontextmenu={log}>
-    <div class="">
+    <div class="room-name">
         {title} 
     </div>
 </div>
@@ -91,7 +85,7 @@ const title = $derived.by(() => {
 }
 
 .room-item {
-    font-size: 0.9rem;
+    font-size: 0.94rem;
     border-radius: 4px;
 }
 .room-item:hover {
@@ -99,6 +93,10 @@ const title = $derived.by(() => {
 }
 .active:hover {
     background: var(--shade-3);
+}
+
+.room-name {
+    line-height: 1.3;
 }
 
 </style>

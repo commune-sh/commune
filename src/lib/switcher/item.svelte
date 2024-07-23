@@ -176,10 +176,6 @@ let is_room = $derived($page.params.room != undefined)
 
 $effect(() => {
     if(active && space && authReady && !authenticated) {
-        const state = store.matrix.room_state[space.room_id]
-        if(!state) {
-            store.matrix.fetchRoomState(space.room_id)
-        }
     }
 
     /*

@@ -1,14 +1,15 @@
 <script>
 import RoomCreated from '$lib/room/chat/events/m.room.create.svelte'
+import MessageEvent from '$lib/room/chat/events/m.room.message.svelte'
+
+import { createStore } from '$lib/store/store.svelte.js'
+const store = createStore()
+
+const authenticated = $derived(store.auth.authenticated)
 
 let {
     event,
 } = $props();
-
-function logEvent(e) {
-    e.preventDefault()
-    console.log(event)
-}
 
 const m_room_create = $derived(event?.type == 'm.room.create')
 
@@ -22,19 +23,19 @@ const is_message = $derived.by(() => {
     return m_room_message && !is_thread_message
 })
 
+function logEvent(e) {
+    e.preventDefault()
+    console.log(event)
+}
+
 </script>
 
+<div class="event" oncontextmenu={logEvent}>
 {#if m_room_create}
     <RoomCreated {event} />
+{:else if m_room_message && !is_thread_message}
+    <MessageEvent {event} />
+{:else if !is_thread_message}
+    {JSON.stringify(event?.content)}
 {/if}
-
-{#if !is_thread_message}
-<div oncontextmenu={logEvent}
-    class="chat-event text-sm pb-4 hover:bg-shade-1 pb-20" >
-        {#if event?.content?.body}
-        {@html event.content.body}
-            {:else}
-            {JSON.stringify(event?.content)}
-        {/if}
 </div>
-{/if}

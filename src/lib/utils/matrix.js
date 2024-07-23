@@ -69,7 +69,10 @@ export function naiveAliasCheck(alias) {
 }
 
 export function aliasFromName(name) {
-  let slug = name.replace(' ', '-')
+  let slug = name.replaceAll(' ', '-')
+  if(slug.includes('#')){
+    slug = slug.replaceAll('#', '')
+  }
   return slug.toLowerCase()
 }
 

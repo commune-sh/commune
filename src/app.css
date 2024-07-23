@@ -36,7 +36,7 @@
     --background: hsla(0, 0%, 2%, 1);;
     --switcher: transparent;
     --sidebar: hsla(0, 0%, 5%, 1);
-    --view: transparent;
+    --view: hsla(0, 0%, 2%, 1);;
     --border: hsla(0, 0%, 9%, 1);;
     --sidebar-border: transparent;
     --switcher-border: transparent;
@@ -98,7 +98,7 @@
     --background: white;
     --switcher: transparent;
     --sidebar: transparent;
-    --view: transparent;
+    --view: white;
     --border: hsla(0, 0%, 90%, 1);;
     --sidebar-border: hsla(0, 0%, 90%, 1);;
     --switcher-border: hsla(0, 0%, 90%, 1);;

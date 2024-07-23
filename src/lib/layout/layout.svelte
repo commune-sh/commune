@@ -48,7 +48,7 @@ const menu_active = $derived(store.ui.menu_active)
         <Switcher />
     </div>
 
-    <div class="content-container grid h-full">
+    <div class="content-container grid h-full relative">
 
         {#if show_view}
             <View {content} />

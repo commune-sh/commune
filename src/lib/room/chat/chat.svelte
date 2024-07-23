@@ -75,7 +75,7 @@ function setScrollPosition(e) {
 }
 
 const new_room = $derived.by(() => {
-    return messages[0].type == 'm.room.create'
+    return messages?.[0].type == 'm.room.create'
 })
 
 let ob;
@@ -113,25 +113,35 @@ onMount(() => {
     }, 1000)
 })
 
+let composer;
+
 $effect(() =>{
     if(room && !_active_room) {
         _active_room = room.room_id
+        focusComposer()
     }
     if(room && (_active_room != room.room_id)) {
         // do things here when active room changes
-        console.log("room changed")
         _active_room = room.room_id
+        composer.focus()
     }
 })
 
+function focusComposer() {
+    console.log("ok")
+    if(composer) {
+        composer.focus()
+    }
+}
+
+
 </script>
 
-{_active_room}
 
 {#if messages}
 
 
-<div class="chat-view grid grid-rows-[1fr_auto] overflow-hidden h-full">
+<div class="chat-view relative grid grid-rows-[1fr_auto] overflow-hidden h-full">
     <div class="chat-content h-full overflow-y-auto overflow-x-hidden"
         onscroll={setScrollPosition}
         bind:this={vp}>
@@ -149,7 +159,7 @@ $effect(() =>{
         </div>
     </div>
 
-    <Composer />
+    <Composer bind:this={composer} />
 
 </div>
 
@@ -157,3 +167,12 @@ $effect(() =>{
     <Loading />
 {/if}
 
+<style>
+::-webkit-scrollbar-thumb {
+    background: transparent;
+    transition: 0.2s;
+}
+.chat-content:hover::-webkit-scrollbar-thumb {
+    background: var(--shade-10);
+}
+</style>

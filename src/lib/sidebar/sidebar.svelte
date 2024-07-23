@@ -40,7 +40,7 @@ const start = (e) => {
 const resize = (e) => {
     if(resizing) {
         const deltaX = e.clientX - startX;
-        if(deltaX > 0 && width >= 300) return;
+        if(deltaX > 0 && width >= 400) return;
         if(deltaX < 0 && width <= 232) return;
         width += deltaX;
         startX = e.clientX;
@@ -62,6 +62,10 @@ $effect(() => {
     }
 })
 
+function showContextMenu(e) {
+    e.preventDefault()
+}
+
 
 </script>
 
@@ -77,7 +81,9 @@ $effect(() => {
     {/if}
 
     <div class="sidebar-content overflow-hidden">
-        <div class="rooms overflow-y-auto h-full">
+        <div class="rooms overflow-y-auto h-full"
+            oncontextmenu={showContextMenu}
+        >
             {#if is_space || is_room}
                 <RoomSidebar />
             {:else if is_home}

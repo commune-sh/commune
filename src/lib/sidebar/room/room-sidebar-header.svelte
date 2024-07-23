@@ -35,7 +35,7 @@ const banner = $derived.by(() => {
 </script>
 
 <div class="sidebar-header grid 
-    bg-header border-solid border-b border-border"
+    bg-header border-solid border-b border-border bg-img"
     class:h-[52px]={!banner}
     class:h-[130px]={banner}
     style="background-image: url({banner})"
@@ -57,5 +57,6 @@ const banner = $derived.by(() => {
 
 <style>
 .sidebar-header {
+    border-radius: 20px 0 0 0;
 }
 </style>

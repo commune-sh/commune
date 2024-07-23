@@ -82,12 +82,17 @@ function scroll(e) {
     console.log(e)
 }
 
+function showContextMenu(e) {
+    e.preventDefault()
+}
+
 </script>
 
 <div class="grid grid-rows-[1fr_auto] overflow-hidden">
 
     <div class="items overflow-hidden">
-        <div class="overflow-y-auto h-full hide-scroll pt-[10px]">
+        <div class="space-items overflow-y-auto h-full hide-scroll pt-[10px]"
+        oncontextmenu={showContextMenu}>
         {#if items}
             {#each Object.values(items) as space, index (space?.id ?? index)}
                 <Item {space} {dragged_over} {dragged} {index} {clientY}

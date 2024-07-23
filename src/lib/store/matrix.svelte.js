@@ -320,11 +320,17 @@ export function createMatrixStore() {
   }
 
   async function fetchRoomState(room_id) {
+    const state = room_state[room_id]
+    if(state) {
+      console.log("Room state exists, not fetching.")
+      return
+    }
     const resp = await getRoomState(room_id)
     if(resp) {
-      console.log("Storing room state:", room_id, resp)
       room_state[room_id] = resp
+      console.log("Stored room state:", room_id, resp)
     }
+
   }
 
   async function fetchRoomMessages(opts) {
