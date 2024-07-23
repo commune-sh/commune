@@ -5,9 +5,23 @@ export function convertFromMXC(url) {
   return `${PUBLIC_HOMESERVER}/_matrix/media/r0/download/${stripped}`;
 }
 
+export function processURL(url) {
+  if(url.includes('mxc://')) {
+    return convertFromMXC(url)
+  }
+  return url
+}
+
 export function thumbnail_from_MXC(url, height, width) {
   let stripped = url.replace('mxc://', '');
   return `${PUBLIC_HOMESERVER}/_matrix/media/v3/thumbnail/${stripped}?width=${width}&height=${height}&method=crop`;
+}
+
+export function thumbnailURL(url, height, width) {
+  if(url.includes('mxc://')) {
+    return thumbnail_from_MXC(url, height, width)
+  }
+  return url
 }
 
 export function room_alias_from_ID(room_id) {

@@ -1,42 +1,51 @@
 <script>
 import { page } from '$app/stores';
-import { naiveRoomIDCheck, canonical_alias, get_local_part } from '$lib/utils/matrix'
+import { 
+    get_local_part,
+    processURL,
+} from '$lib/utils/matrix'
 
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
 
-const rooms = $derived.by(() => {
-    return store.matrix.rooms
-})
-
-const is_alias = $derived.by(() => {
-    return !naiveRoomIDCheck($page.params.space)
-})
-
-const room = $derived.by(() => {
-    if(is_alias) {
-        const alias = canonical_alias($page.params.space)
-        return rooms?.find(room => room.canonical_alias == alias)
-    }
-    return rooms?.find(room => room.room_id == $page.params.space)
-})
+const space = $derived(store.matrix.active_space)
 
 const name = $derived.by(() => {
-    if(room?.name) {
-        return room.name
+    if(space?.name) {
+        return space.name
     }
-    if(room?.canonical_alias) {
-        return get_local_part(room.canonical_alias)
+    if(space?.canonical_alias) {
+        return get_local_part(space.canonical_alias)
     }
-    return room?.room_id
+    return space?.room_id
+})
+
+const space_state = $derived.by(() => {
+    return store.matrix.room_state[space?.room_id]
+})
+
+const banner = $derived.by(() => {
+    const url = space_state?.find(r => r.type == 'commune.room.banner')?.content?.url
+    if(url) {
+        return processURL(url)
+    }
+    return null
 })
 
 </script>
 
 <div class="sidebar-header grid 
-    bg-header border-solid border-b border-border">
-    <div class="grid grid-cols-[auto_1fr_auto] mx-4 items-center justify-items-start">
-        <div class="font-semibold">
+    bg-header border-solid border-b border-border"
+    class:h-[52px]={!banner}
+    class:h-[130px]={banner}
+    style="background-image: url({banner})"
+>
+    <div class="grid grid-cols-[auto_1fr_auto] mx-2 justify-items-start"
+    class:items-center={!banner}
+    class:mb-2={banner}
+    class:items-end={banner}>
+        <div class="font-semibold px-2 py-1"
+        class:bg-shade-1={banner}>
             {name}
         </div>
         <div class="">
@@ -45,3 +54,8 @@ const name = $derived.by(() => {
         </div>
     </div>
 </div>
+
+<style>
+.sidebar-header {
+}
+</style>

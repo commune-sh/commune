@@ -22,6 +22,20 @@ const state = $derived.by(() => {
     return room_state[room?.room_id]
 })
 
+const name = $derived.by(() => {
+    if(room?.name) {
+        return room.name
+    }
+    return `Untitled Room`
+})
+
+const topic = $derived.by(() => {
+    return state?.find(r => r.type == 'm.room.topic')?.content?.topic
+})
+
+$effect(() => {
+})
+
 </script>
 
 <div class="header grid 
@@ -32,12 +46,15 @@ const state = $derived.by(() => {
             {@html bars}
         </div>
     </div>
-    <div class="grid grid-cols-[auto_1fr_auto] mx-8 items-center justify-items-start">
+    <div class="grid grid-cols-[auto_1fr_auto] mx-4 items-center justify-items-start">
         <div class="">
-            {room?.name}
+            {name}
         </div>
-        <div class="">
-        </div>
+        {#if topic}
+            <div class="ml-4 text-sm text-light">
+                {topic}
+            </div>
+        {/if}
         <div class="">
         </div>
     </div>

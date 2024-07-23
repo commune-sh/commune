@@ -1,5 +1,4 @@
 <script>
-import { PUBLIC_META_TITLE } from '$env/static/public';
 
 import { onMount } from 'svelte';
 import { isInViewport } from '$lib/utils/ui';
@@ -13,7 +12,7 @@ const store = createStore()
 
 import { 
     room_alias_from_ID, 
-    thumbnail_from_MXC,
+    thumbnailURL,
 } from '$lib/utils/matrix'
 
 import { getRoomHierarchy } from '$lib/appservice/requests'
@@ -226,7 +225,7 @@ async function getHierarchy() {
 
 let avatar = $derived.by(() => {
     if(space?.avatar_url) {
-        return thumbnail_from_MXC(space.avatar_url, 46, 46)
+        return thumbnailURL(space.avatar_url, 46, 46)
     }
 })
 

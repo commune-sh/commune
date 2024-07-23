@@ -105,14 +105,28 @@ function setupObserver() {
     observer.observe(ob);
 }
 
+let _active_room = $state(null);
+
 onMount(() => {
     setTimeout(() => {
         setupObserver()
     }, 1000)
 })
 
+$effect(() =>{
+    if(room && !_active_room) {
+        _active_room = room.room_id
+    }
+    if(room && (_active_room != room.room_id)) {
+        // do things here when active room changes
+        console.log("room changed")
+        _active_room = room.room_id
+    }
+})
+
 </script>
 
+{_active_room}
 
 {#if messages}
 

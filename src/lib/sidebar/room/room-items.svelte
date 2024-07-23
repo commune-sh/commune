@@ -10,12 +10,20 @@ const sorted = $derived.by(() => {
     })
 })
 
+let processed = $state(null);
+
+$effect(() => {
+    if(sorted) {
+        processed = sorted
+    }
+})
+
 </script>
 
-{#if sorted}
-<div class="room-items mt-2">
-    {#each sorted as item}
-        <RoomItem {item} />
-    {/each}
-</div>
+{#if processed}
+    <div class="room-items mt-2">
+        {#each processed as item}
+            <RoomItem {item} />
+        {/each}
+    </div>
 {/if}

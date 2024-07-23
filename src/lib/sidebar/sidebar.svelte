@@ -65,7 +65,7 @@ $effect(() => {
 
 </script>
 
-<div class="sidebar grid grid-rows-[52px_1fr_70px]
+<div class="sidebar grid grid-rows-[auto_1fr_70px]
     border-solid border-r border-sidebar-border h-dvh"
     style="width: {width}px">
 
