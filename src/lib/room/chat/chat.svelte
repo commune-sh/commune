@@ -79,6 +79,7 @@ const new_room = $derived.by(() => {
 })
 
 let ob;
+let observer = null;
 let scrollHeight = $state(0);
 
 function setupObserver() {
@@ -101,16 +102,14 @@ function setupObserver() {
         });
     };
 
-    let observer = new IntersectionObserver(callback, options);
+    observer = new IntersectionObserver(callback, options);
     observer.observe(ob);
+    console.log("set up observer")
 }
 
 let _active_room = $state(null);
 
 onMount(() => {
-    setTimeout(() => {
-        setupObserver()
-    }, 1000)
 })
 
 let composer;
@@ -124,6 +123,16 @@ $effect(() =>{
         // do things here when active room changes
         _active_room = room.room_id
         composer.focus()
+    }
+
+    if(messages && ob && observer == null) {
+        setTimeout(() => {
+            setupObserver()
+        }, 1000)
+    }
+    if(!messages && observer) {
+        observer.disconnect()
+        observer = null
     }
 })
 

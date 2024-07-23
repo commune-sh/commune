@@ -4,6 +4,8 @@ import { goto } from '$app/navigation';
 import { page } from '$app/stores';
 import { is_local_room, get_local_part } from '$lib/utils/matrix'
 
+import { debounce } from '$lib/utils/utils'
+
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
 
@@ -51,6 +53,20 @@ function getState() {
     }
 }
 
+let hovered = $state(false);
+
+function startHover() {
+    hovered = true
+    debounce(() => {
+        if(hovered) {
+            getState()
+        }
+    }, 300)
+}
+function stopHover() {
+    hovered = false
+}
+
 onMount(() => {
     if(active) {
         store.ui.updateRoute($page.params.space, path)
@@ -71,6 +87,8 @@ const title = $derived.by(() => {
 
 <div class="room-item cursor-pointer text-light mx-2 my-[2px] p-2"
     class:active={active}
+    onmouseover={startHover}
+    onmouseout={stopHover}
     onmousedown={getState}
     onclick={goToRoom} oncontextmenu={log}>
     <div class="room-name">

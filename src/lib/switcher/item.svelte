@@ -186,6 +186,10 @@ $effect(() => {
 
 })
 
+function fetchState() {
+    store.matrix.fetchRoomState(space.room_id)
+}
+
 
 function goToSpace() {
     tooltip.hide()
@@ -243,6 +247,7 @@ let size = $state(46)
 
 
 <div bind:this={item} onclick={goToSpace}
+    onmousedown={fetchState}
     oncontextmenu={logItem}
     ondrop={drop}
     ondragover={dragover}

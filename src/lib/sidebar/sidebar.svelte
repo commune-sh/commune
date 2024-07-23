@@ -67,6 +67,11 @@ function showContextMenu(e) {
 }
 
 
+const active_space = $derived(store.matrix.active_space)
+const space_state = $derived.by(() => {
+    return store.matrix.room_state[active_space?.room_id]
+})
+
 </script>
 
 <div class="sidebar grid grid-rows-[auto_1fr_70px]
@@ -74,7 +79,7 @@ function showContextMenu(e) {
     style="width: {width}px">
 
 
-    {#if is_space || is_room}
+    {#if (is_space || is_room) && space_state}
         <RoomSidebarHeader />
     {:else if is_home}
         <UserSidebarHeader />

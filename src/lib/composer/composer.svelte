@@ -10,7 +10,9 @@ let textInput;
 
 export async function focus() {
     await tick();
-    textInput.focus()
+    if(textInput != null) {
+        textInput.focus()
+    }
 }
 
 </script>

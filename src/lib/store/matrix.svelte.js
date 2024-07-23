@@ -322,13 +322,12 @@ export function createMatrixStore() {
   async function fetchRoomState(room_id) {
     const state = room_state[room_id]
     if(state) {
-      console.log("Room state exists, not fetching.")
       return
     }
     const resp = await getRoomState(room_id)
     if(resp) {
       room_state[room_id] = resp
-      console.log("Stored room state:", room_id, resp)
+      console.log("Stored room state for:", room_id)
     }
 
   }
@@ -351,7 +350,7 @@ export function createMatrixStore() {
         items["events"].push(e)
       })
       messages[opts.room_id] = items
-      console.log("Stored room messages:", messages[opts.room_id])
+      console.log("Stored room messages for:", opts.room_id)
     }
 
     if(resp && end) {
