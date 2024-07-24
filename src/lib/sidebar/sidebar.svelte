@@ -79,7 +79,7 @@ const space_state = $derived.by(() => {
     style="width: {width}px">
 
 
-    {#if (is_space || is_room) && space_state}
+    {#if (is_space || is_room)}
         <RoomSidebarHeader />
     {:else if is_home}
         <UserSidebarHeader />

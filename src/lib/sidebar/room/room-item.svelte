@@ -4,6 +4,8 @@ import { goto } from '$app/navigation';
 import { page } from '$app/stores';
 import { is_local_room, get_local_part } from '$lib/utils/matrix'
 
+import { hash } from '$lib/assets/icons'
+
 import { debounce } from '$lib/utils/utils'
 
 import { createStore } from '$lib/store/store.svelte.js'
@@ -74,6 +76,9 @@ onMount(() => {
 })
 
 const title = $derived.by(() => {
+    if(item?.commune_alias) {
+        return item.commune_alias
+    }
     if(item?.name) {
         return item.name
     }
@@ -91,8 +96,15 @@ const title = $derived.by(() => {
     onmouseout={stopHover}
     onmousedown={getState}
     onclick={goToRoom} oncontextmenu={log}>
-    <div class="room-name">
-        {title} 
+    <div class="item grid grid-cols-[auto_1fr]">
+        <div class="">
+            <div class="r-i h-[16px] w-[16px] h-full grid items-center">
+                {@html hash}
+            </div>
+        </div>
+        <div class="room-name ml-2">
+            {title} 
+        </div>
     </div>
 </div>
 
@@ -115,6 +127,10 @@ const title = $derived.by(() => {
 
 .room-name {
     line-height: 1.3;
+}
+
+.r-i {
+    fill: var(--light);
 }
 
 </style>
