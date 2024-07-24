@@ -32,10 +32,11 @@ $effect(async () => {
     // set initial scroll position 
     if(messages && vp && !count) {
         await tick();
-        vp.scrollTop = vp.scrollHeight
+        vp.scrollTop = vp.scrollHeight - vp.clientHeight
         store.ui.setMessageCount(room.room_id, messages.length)
     }
 
+    /*
     // reset position when room changed
     if(messages && vp && count == messages.length) {
         const scrollPosition = store.ui.scrollPosition[room.room_id]
@@ -56,12 +57,43 @@ $effect(async () => {
             store.ui.setMessageCount(room.room_id, messages.length)
         }, 700)
     }
+    */
+
+    if(fetchingMore) {
+        store.matrix.fetchRoomMessages({
+            room_id: room.room_id,
+        })
+        fetchingMore = false
+    }
+
+    if(messages && count != messages.length) {
+        const pos = store.ui.scrollPosition[room.room_id]
+            console.log("pos is", pos)
+        if(pos) {
+            await tick();
+            vp.scrollTop = vp.scrollHeight - pos.scrollHeight 
+        }
+
+        store.ui.setMessageCount(room.room_id, messages.length)
+    }
 })
 
 
 let vp;
 
 function setScrollPosition(e) {
+    let opts = {
+        scrollTop: vp.scrollTop,
+        scrollHeight: vp.scrollHeight
+    }
+    store.ui.updateScrollPosition(room.room_id, opts)
+    /*
+    debounce(() => {
+        let st = vp.scrollTop
+        if(!fetchingMore) {
+        store.ui.updateScrollPosition(room.room_id, st)
+        }
+    }, 350)
     debounce(() => {
         let st = vp.scrollTop
         if(count != messages.length) {
@@ -72,6 +104,7 @@ function setScrollPosition(e) {
             store.ui.updateScrollPosition(room.room_id, st)
         }
     }, 300)
+    */
 }
 
 const new_room = $derived.by(() => {
@@ -82,6 +115,8 @@ let ob;
 let observer = null;
 let scrollHeight = $state(0);
 
+let fetchingMore = $state(false);
+
 function setupObserver() {
     scrollHeight = vp?.scrollHeight;
 
@@ -89,15 +124,18 @@ function setupObserver() {
 
     let options = {
         root: vp,
-        rootMargin: `400px`,
+        rootMargin: `0px`,
     };
 
     let callback = (entries, observer) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting && messages?.length >= 50) {
+            if (entry.isIntersecting && !fetchingMore) {
+                fetchingMore = true
+                /*
                 store.matrix.fetchRoomMessages({
                     room_id: room.room_id,
                 })
+                */
             }
         });
     };
@@ -110,6 +148,9 @@ function setupObserver() {
 let _active_room = $state(null);
 
 onMount(() => {
+        setTimeout(() => {
+            setupObserver()
+        }, 1000)
 })
 
 let composer;
@@ -125,15 +166,6 @@ $effect(() =>{
         composer.focus()
     }
 
-    if(messages && ob && observer == null) {
-        setTimeout(() => {
-            setupObserver()
-        }, 1000)
-    }
-    if(!messages && observer) {
-        observer.disconnect()
-        observer = null
-    }
 })
 
 function focusComposer() {
@@ -155,10 +187,17 @@ function focusComposer() {
         onscroll={setScrollPosition}
         bind:this={vp}>
         <div class="chat-events p-4 flex flex-col h-full">
+
             <div class="filler flex-grow">
             </div>
 
             <div class="ob" bind:this={ob}></div>
+
+            {#if fetchingMore}
+                <div class="fetching grid justify-center items-center">
+                    <div class="spinner spinner-lg"></div>
+                </div>
+            {/if}
 
             {#each messages as event, event_id (event.event_id)}
 
@@ -177,11 +216,7 @@ function focusComposer() {
 {/if}
 
 <style>
-::-webkit-scrollbar-thumb {
-    background: transparent;
-    transition: 0.2s;
-}
-.chat-content:hover::-webkit-scrollbar-thumb {
-    background: var(--shade-10);
+.fetching {
+    min-height: 60px;
 }
 </style>

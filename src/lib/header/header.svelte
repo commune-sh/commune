@@ -67,9 +67,9 @@ $effect(() => {
         </div>
         {/if}
 
-        {#if !is_room && is_space && space_topic}
+        {#if !is_room && is_space}
         <div class="font-semibold text-sm">
-            {space_topic}
+            Overview
         </div>
         {/if}
 

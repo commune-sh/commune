@@ -334,8 +334,13 @@ export function createMatrixStore() {
 
   async function fetchRoomMessages(opts) {
 
+    const events = messages[opts?.room_id]?.start
     const start = messages[opts?.room_id]?.start
     const end = messages[opts?.room_id]?.end
+
+    if(events?.length > 0 && end == undefined)  {
+      return
+    }
 
     const resp = await getRoomMessages({
       room_id: opts.room_id,
