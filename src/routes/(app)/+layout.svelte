@@ -8,7 +8,7 @@ import {
 } from '$env/static/public';
 
 import { page } from '$app/stores';
-import { get_local_part, convertFromMXC } from '$lib/utils/matrix'
+import { get_local_part, processURL } from '$lib/utils/matrix'
 
 import { onMount } from 'svelte'
 import { browser } from '$app/environment';
@@ -144,13 +144,19 @@ let title = $derived.by(() => {
 })
 
 let image = $derived.by(() => {
+    if(data?.room?.avatar_url) {
+        return processURL(data.room.avatar_url)
+    }
     if(data?.space?.avatar_url) {
-        return convertFromMXC(data.space.avatar_url)
+        return processURL(data.space.avatar_url)
     }
     return PUBLIC_META_IMAGE
 })
 
 let description = $derived.by(() => {
+    if(data?.room?.topic) {
+        return data.room.topic
+    }
     if(data?.space?.topic) {
         return data.space.topic
     }

@@ -25,6 +25,10 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@tiptap/core": "^2.5.5",
+		"@tiptap/pm": "^2.5.5",
+		"@tiptap/starter-kit": "^2.5.5",
+		"dayjs": "^1.11.12",
 		"matrix-js-sdk": "^32.4.0",
 		"tippy.js": "^6.3.7",
 		"uuid": "^10.0.0"
