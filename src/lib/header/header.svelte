@@ -74,7 +74,7 @@ $effect(() => {
         {/if}
 
         {#if is_room && room_topic}
-            <div class="ml-4 text-sm text-light">
+            <div class="ml-4 text-sm text-light truncate">
                 {room_topic}
             </div>
         {/if}

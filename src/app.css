@@ -33,10 +33,10 @@
 }
 
 :root.dark {
-    --background: hsla(0, 0%, 2%, 1);;
+    --background: hsla(0, 0%, 0%, 1);;
     --switcher: transparent;
     --sidebar: hsla(0, 0%, 5%, 1);
-    --view: hsla(0, 0%, 2%, 1);;
+    --view: hsla(0, 0%, 0%, 1);;
     --border: hsla(0, 0%, 9%, 1);;
     --sidebar-border: transparent;
     --switcher-border: transparent;
@@ -91,7 +91,8 @@
 
     --dragger: hsla(0, 0%, 25%, 1);
 
-    --scrollbar-thumb: hsla(0, 0%, 25%, 1);
+    --scrollbar-thumb: hsla(0, 0%, 20%, 1);
+    --scrollbar-track: hsla(0, 0%, 7%, 1);
 }
 
 :root.light {
@@ -154,6 +155,7 @@
     --dragger: hsla(0, 0%, 65%, 1);
 
     --scrollbar-thumb: hsla(0, 0%, 71%, 1);
+    --scrollbar-track: hsla(0, 0%, 90%, 1);
 }
 
 html {
@@ -190,15 +192,16 @@ input:-webkit-autofill:active  {
 }
 
 ::-webkit-scrollbar {
-    width: 4px;
+    width: 5px;
 }
 ::-webkit-scrollbar-thumb {
     background: var(--scrollbar-thumb);
-    transition: 0.2s;
+    border-radius: 5px;
 }
 ::-webkit-scrollbar-track {
     background: transparent;;
-    transition: 0.2s;
+    background: var(--scrollbar-track);
+    border-radius: 5px;
 }
 
 .container {

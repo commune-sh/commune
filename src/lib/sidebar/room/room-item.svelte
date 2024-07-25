@@ -103,7 +103,7 @@ const title = $derived.by(() => {
                 {@html hash}
             </div>
         </div>
-        <div class="room-name ml-2">
+        <div class="room-name ml-2 font-normal truncate">
             {title} 
         </div>
     </div>

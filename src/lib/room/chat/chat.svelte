@@ -183,7 +183,7 @@ function focusComposer() {
 
 
 <div class="chat-view relative grid grid-rows-[1fr_auto] overflow-hidden h-full">
-    <div class="chat-content h-full overflow-y-auto overflow-x-hidden"
+    <div class="chat-content h-full overflow-y-auto overflow-x-hidden mr-1"
         onscroll={setScrollPosition}
         bind:this={vp}>
         <div class="chat-events p-4 flex flex-col h-full">
