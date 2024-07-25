@@ -125,9 +125,6 @@ let active_space = $derived(store.matrix.active_space)
 let active_room = $derived(store.matrix.active_room)
 
 let title = $derived.by(() => {
-    if(data?.room?.name && data?.space?.name) {
-        return `${data.room.name} - ${data.space.name}`
-    }
     if(data?.space?.name) {
         return data.space.name
     } else if(data?.space?.canonical_alias) {
@@ -144,9 +141,6 @@ let title = $derived.by(() => {
 })
 
 let image = $derived.by(() => {
-    if(data?.room?.avatar_url) {
-        return processURL(data.room.avatar_url)
-    }
     if(data?.space?.avatar_url) {
         return processURL(data.space.avatar_url)
     }
@@ -154,9 +148,6 @@ let image = $derived.by(() => {
 })
 
 let description = $derived.by(() => {
-    if(data?.room?.topic) {
-        return data.room.topic
-    }
     if(data?.space?.topic) {
         return data.space.topic
     }

@@ -90,7 +90,8 @@ const title = $derived.by(() => {
 
 </script>
 
-<div class="room-item cursor-pointer text-light mx-2 my-[2px] p-2"
+<div class="room-item cursor-pointer text-light hover:text-text
+    mx-2 my-[2px] p-2"
     class:active={active}
     onmouseover={startHover}
     onmouseout={stopHover}
