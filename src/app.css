@@ -35,7 +35,7 @@
 :root.dark {
     --background: hsla(0, 0%, 0%, 1);;
     --switcher: transparent;
-    --sidebar: hsla(0, 0%, 5%, 1);
+    --sidebar: hsla(0, 0%, 4%, 1);
     --view: hsla(0, 0%, 0%, 1);;
     --border: hsla(0, 0%, 9%, 1);;
     --sidebar-border: transparent;

@@ -2,12 +2,12 @@
 import { page } from '$app/stores';
 import { onMount, tick } from 'svelte'
 
-import Loading from '$lib/loading/loading.svelte'
 import Composer from '$lib/composer/composer.svelte'
 
 import Event from '$lib/room/chat/events/event.svelte'
 
-import { debounce } from '$lib/utils/utils'
+import SkeletonChatEvents from '$lib/skeleton/chat-events.svelte'
+
 
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
@@ -179,6 +179,7 @@ function focusComposer() {
 </script>
 
 
+
 {#if messages}
 
 
@@ -212,7 +213,7 @@ function focusComposer() {
 </div>
 
 {:else}
-    <Loading />
+    <SkeletonChatEvents />
 {/if}
 
 <style>
