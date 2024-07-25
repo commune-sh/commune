@@ -11,6 +11,15 @@ let {
     event,
 } = $props();
 
+const events = $derived.by(() => {
+    return store.matrix.events.get(event?.room_id)?.events
+})
+
+const next_event = $derived.by(() => {
+    const index = events[event.event_id]
+    return index
+})
+
 const m_room_create = $derived(event?.type == 'm.room.create')
 
 const m_room_message = $derived(event?.type == 'm.room.message')
@@ -29,6 +38,7 @@ function logEvent(e) {
 }
 
 </script>
+
 
 <div class="event" oncontextmenu={logEvent}>
 {#if m_room_create}

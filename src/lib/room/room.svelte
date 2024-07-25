@@ -25,10 +25,6 @@ const state = $derived.by(() => {
     return room_state[room?.room_id]
 })
 
-const messages = $derived.by(() => {
-    return store.matrix.messages[room?.room_id]?.events
-})
-
 $effect(() => {
 })
 

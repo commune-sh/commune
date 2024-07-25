@@ -2,6 +2,8 @@
 import { page } from '$app/stores';
 import { onMount, tick } from 'svelte'
 
+import ViewPort from '$lib/room/chat/viewport.svelte'
+
 import Composer from '$lib/composer/composer.svelte'
 
 import Event from '$lib/room/chat/events/event.svelte'
@@ -21,24 +23,22 @@ const state = $derived.by(() => {
     return room_state[room?.room_id]
 })
 
-const messages = $derived.by(() => {
-    return store.matrix.messages[room?.room_id]?.events
-})
+const events = $derived(store.matrix.active_room_events)
 
 let count = $derived(store.ui.getMessageCount(room?.room_id))
 
 $effect(async () => {
 
     // set initial scroll position 
-    if(messages && vp && !count) {
+    if(events && vp && !count) {
         await tick();
         vp.scrollTop = vp.scrollHeight - vp.clientHeight
-        store.ui.setMessageCount(room.room_id, messages.length)
+        store.ui.setMessageCount(room.room_id, events.length)
     }
 
     /*
     // reset position when room changed
-    if(messages && vp && count == messages.length) {
+    if(events && vp && count == events.length) {
         const scrollPosition = store.ui.scrollPosition[room.room_id]
         if(scrollPosition) {
             await tick();
@@ -46,7 +46,7 @@ $effect(async () => {
         }
     }
 
-    if(messages && vp && count != messages.length) {
+    if(events && vp && count != events.length) {
         console.log("calc")
         const s = vp.scrollHeight - (vp.scrollTop + vp.clientHeight)
         if(s < 100) {
@@ -54,7 +54,7 @@ $effect(async () => {
             vp.scrollTop = vp.scrollHeight
         }
         setTimeout(() => {
-            store.ui.setMessageCount(room.room_id, messages.length)
+            store.ui.setMessageCount(room.room_id, events.length)
         }, 700)
     }
     */
@@ -66,7 +66,7 @@ $effect(async () => {
         fetchingMore = false
     }
 
-    if(messages && count != messages.length) {
+    if(events && count != events.length) {
         const pos = store.ui.scrollPosition[room.room_id]
             console.log("pos is", pos)
         if(pos) {
@@ -74,7 +74,7 @@ $effect(async () => {
             vp.scrollTop = vp.scrollHeight - pos.scrollHeight 
         }
 
-        store.ui.setMessageCount(room.room_id, messages.length)
+        store.ui.setMessageCount(room.room_id, events.length)
     }
 })
 
@@ -96,7 +96,7 @@ function setScrollPosition(e) {
     }, 350)
     debounce(() => {
         let st = vp.scrollTop
-        if(count != messages.length) {
+        if(count != events.length) {
             setTimeout(() => {
                 store.ui.updateScrollPosition(room.room_id, st)
             }, 100)
@@ -108,7 +108,7 @@ function setScrollPosition(e) {
 }
 
 const new_room = $derived.by(() => {
-    return messages?.[0].type == 'm.room.create'
+    return events?.[0].type == 'm.room.create'
 })
 
 let ob;
@@ -166,6 +166,9 @@ $effect(() =>{
         composer.focus()
     }
 
+    if(events) {
+        //console.log("active room events are ", events)
+    }
 })
 
 function focusComposer() {
@@ -180,7 +183,7 @@ function focusComposer() {
 
 
 
-{#if messages}
+{#if events}
 
 
 <div class="chat-view relative grid grid-rows-[1fr_auto] overflow-hidden h-full">
@@ -200,9 +203,9 @@ function focusComposer() {
                 </div>
             {/if}
 
-            {#each messages as event, event_id (event.event_id)}
+            {#each events as event (event.event_id)}
 
-                <Event {event} {event_id}/>
+                <Event {event}/>
 
             {/each}
         </div>
@@ -215,6 +218,7 @@ function focusComposer() {
 {:else}
     <SkeletonChatEvents />
 {/if}
+
 
 <style>
 .fetching {

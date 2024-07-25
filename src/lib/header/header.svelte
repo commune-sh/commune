@@ -60,7 +60,7 @@ $effect(() => {
             {@html bars}
         </div>
     </div>
-    <div class="grid grid-cols-[auto_1fr_auto] mx-4 items-center justify-items-start">
+    <div class="overflow-hidden flex mx-4 items-center justify-items-start">
         {#if is_room}
         <div class="font-semibold text-sm">
             {name}
@@ -74,7 +74,7 @@ $effect(() => {
         {/if}
 
         {#if is_room && room_topic}
-            <div class="ml-4 text-sm text-light truncate">
+            <div class="my-4 text-sm text-light truncate">
                 {room_topic}
             </div>
         {/if}

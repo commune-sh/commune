@@ -192,16 +192,16 @@ input:-webkit-autofill:active  {
 }
 
 ::-webkit-scrollbar {
-    width: 5px;
+    width: 6px;
 }
 ::-webkit-scrollbar-thumb {
     background: var(--scrollbar-thumb);
-    border-radius: 5px;
+    border-radius: 6px;
 }
 ::-webkit-scrollbar-track {
     background: transparent;;
     background: var(--scrollbar-track);
-    border-radius: 5px;
+    border-radius: 6px;
 }
 
 .container {

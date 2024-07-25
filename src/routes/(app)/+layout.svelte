@@ -57,9 +57,9 @@ $effect(() => {
         })
     }
     if($page.params.room && room_id) {
-        const messages = store.matrix.messages[room_id]
-        if(!messages) {
-            console.log("Fetching room messages...")
+        const events = store.matrix.events[room_id]
+        if(!events) {
+            console.log("Fetching room events...")
             store.matrix.fetchRoomMessages({
                 room_id: room_id,
             })

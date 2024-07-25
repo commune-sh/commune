@@ -3,6 +3,9 @@ export default {
   content: ['./src/**/*.{html,js,svelte,ts}'],
   theme: {
     extend: {
+      gridTemplateColumns: {
+        //'auto-fit': 'repeat(auto-fit, minmax(auto, 1fr))',
+      },
       colors: {
         'primary': 'var(--primary)',
         'secondary': 'var(--secondary)',

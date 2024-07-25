@@ -1,3 +1,5 @@
+import { SvelteMap } from 'svelte/reactivity';
+
 import { 
   PUBLIC_APP_NAME, 
   PUBLIC_HOMESERVER,
@@ -81,6 +83,12 @@ const active_space = $derived.by(() => {
     return rooms?.filter(r => r[key] == val)[0]
 })
 
+const active_room_events = $derived.by(() => {
+  return events[active_room?.room_id]?.events
+})
+
+
+
 export function createMatrixStore() {
 
   // temporary throaway client for single requests
@@ -158,7 +166,7 @@ export function createMatrixStore() {
         spaces = processSpaces(items)
 
 
-        buildRoomEvents()
+        //buildRoomEvents()
 
         watchRoomEvents()
 
@@ -194,6 +202,7 @@ export function createMatrixStore() {
         console.log(messages[event.event.room_id])
       }
 
+      /*
       if (!toStartOfTimeline) {
         const roomId = room.roomId;
         if (!events[roomId]) {
@@ -206,10 +215,13 @@ export function createMatrixStore() {
           events[roomId].push(event.event);
         }
       }
+      */
+
     });
 
   }
 
+  /*
   function buildRoomEvents() {
     const rooms = client.getRooms();
     rooms.forEach(room => {
@@ -219,6 +231,7 @@ export function createMatrixStore() {
       events[roomId] = roomEvents.map(event => event.event);
     });
   }
+  */
 
   function addRoom(room) {
     console.log("Adding room.", room)
@@ -334,11 +347,13 @@ export function createMatrixStore() {
 
   async function fetchRoomMessages(opts) {
 
-    const events = messages[opts?.room_id]?.start
-    const start = messages[opts?.room_id]?.start
-    const end = messages[opts?.room_id]?.end
+    const stored = events[opts.room_id]
 
-    if(events?.length > 0 && end == undefined)  {
+    const items = stored?.events
+    const start = stored?.start
+    const end = stored?.end
+
+    if(items?.length > 0 && end == undefined)  {
       return
     }
 
@@ -350,20 +365,28 @@ export function createMatrixStore() {
     })
 
     if(resp && !end && !start) {
-      let items = {events:[], start: resp.start, end: resp.end}
+
+      let r = {
+        events: [],
+        events_map: new Map(), 
+        start: resp.start, 
+        end: resp.end,
+      }
       resp?.chunk?.reverse().forEach(e => {
-        items["events"].push(e)
+        r.events.push(e)
+        r["events_map"].set(e.event_id, e)
       })
-      messages[opts.room_id] = items
-      console.log("Stored room messages for:", opts.room_id)
+      events[opts.room_id] = r
+      console.log("Stored room events for:", opts.room_id, events[opts.room_id])
     }
 
     if(resp && end) {
-      let items = {events:[], start: resp.start, end: resp.end}
-      messages[opts.room_id].events.unshift(...resp.chunk.reverse())
-      messages[opts.room_id].start = resp.start
-      messages[opts.room_id].end = resp.end
-      console.log("Stored more room messages:", messages[opts.room_id])
+      stored.events.unshift(...resp.chunk.reverse())
+      stored.start = resp.start
+      stored.end = resp.end
+
+      console.log("Stored more room messages:", events[opts.room_id])
+
     }
   }
 
@@ -414,6 +437,9 @@ export function createMatrixStore() {
       return messages;
     },
 
+    get events() {
+      return events;
+    },
 
     get login_flows() {
       return login_flows;
@@ -433,6 +459,10 @@ export function createMatrixStore() {
 
     get active_room() {
       return active_room;
+    },
+
+    get active_room_events() {
+      return active_room_events;
     },
 
     newClient,

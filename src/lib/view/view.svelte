@@ -55,14 +55,14 @@ const active_room = $derived(store.matrix.active_room)
 
 const room = $derived(store.matrix.active_room)
 
-const messages = $derived(store.matrix.messages[room?.room_id]?.events)
+const events = $derived(store.matrix.events[room?.room_id]?.events)
 const space_state = $derived.by(() => {
     return store.matrix.room_state[active_space?.room_id]
 })
 
 $effect(() => {
     if(is_space && is_room && room) {
-        if(space_state && messages) {
+        if(space_state && events) {
             ready = true
         }
     }
