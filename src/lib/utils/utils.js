@@ -1,3 +1,5 @@
+import emojiRegex from 'emoji-regex';
+
 export const debounce = function () {
   var timeoutId = null;
   return function (func, timeout, context) {
@@ -16,3 +18,17 @@ export function naiveEmailCheck(email) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 }
+
+export function justEmoji(body) {
+  if(!body) {
+    return false
+  }
+  const emojiMatcher = emojiRegex();
+  const matches = body.match(emojiMatcher);
+  const alp = /[\p{L}\p{N}]+/u;
+
+  let hasEmoji = matches !== null && matches.length > 0
+  let hasText = alp.test(body) === true
+  return !hasText && hasEmoji
+}
+

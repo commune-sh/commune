@@ -1,4 +1,6 @@
 <script>
+import { dayOfMonth, formatTS } from '$lib/utils/time.js'
+
 import RoomCreated from '$lib/room/chat/events/m.room.create.svelte'
 import MessageEvent from '$lib/room/chat/events/m.room.message.svelte'
 
@@ -7,17 +9,21 @@ const store = createStore()
 
 const authenticated = $derived(store.auth.authenticated)
 
+const events = $derived(store.matrix.active_room_events)
+
 let {
     event,
+    index
 } = $props();
 
-const events = $derived.by(() => {
-    return store.matrix.events.get(event?.room_id)?.events
+const prev_event = $derived.by(() => {
+    if(index == 0) return
+    return events?.[index - 1]
 })
 
 const next_event = $derived.by(() => {
-    const index = events[event.event_id]
-    return index
+    if(index == events.length - 1) return
+    return events?.[index + 1]
 })
 
 const m_room_create = $derived(event?.type == 'm.room.create')
@@ -34,8 +40,23 @@ const is_message = $derived.by(() => {
 
 function logEvent(e) {
     e.preventDefault()
-    console.log(event)
+    console.log("next event is", next_event)
 }
+
+const formattedTS = $derived(formatTS(event?.origin_server_ts))
+
+const ts_diff = $derived.by(() => {
+    if(!prev_event) return
+    return (event?.origin_server_ts - prev_event?.origin_server_ts) / 1000
+})
+
+const isNewDay = $derived.by(() => {
+    return dayOfMonth(event?.origin_server_ts) > dayOfMonth(prev_event?.origin_server_ts)
+})
+
+const prevSenderSame = $derived.by(() => {
+    return prev_event?.sender == event?.sender
+})
 
 </script>
 
@@ -49,3 +70,4 @@ function logEvent(e) {
     {JSON.stringify(event?.content)}
 {/if}
 </div>
+

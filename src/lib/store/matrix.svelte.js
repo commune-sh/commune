@@ -382,6 +382,9 @@ export function createMatrixStore() {
 
     if(resp && end) {
       stored.events.unshift(...resp.chunk.reverse())
+      resp?.chunk?.forEach(e => {
+        stored["events_map"].set(e.event_id, e)
+      })
       stored.start = resp.start
       stored.end = resp.end
 

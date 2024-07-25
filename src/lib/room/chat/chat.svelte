@@ -203,9 +203,9 @@ function focusComposer() {
                 </div>
             {/if}
 
-            {#each events as event (event.event_id)}
+            {#each events as event, index (event.event_id)}
 
-                <Event {event}/>
+                <Event {event} {index}/>
 
             {/each}
         </div>
