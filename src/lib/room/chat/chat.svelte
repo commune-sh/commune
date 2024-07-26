@@ -64,11 +64,13 @@ $effect(async () => {
             room_id: room.room_id,
         })
         fetchingMore = false
+        setTimeout(() => {
+            setScrollPosition()
+        }, 1000)
     }
 
     if(events && count != events.length) {
         const pos = store.ui.scrollPosition[room.room_id]
-            console.log("pos is", pos)
         if(pos) {
             await tick();
             vp.scrollTop = vp.scrollHeight - pos.scrollHeight 
@@ -113,11 +115,20 @@ const new_room = $derived.by(() => {
 
 let ob;
 let observer = null;
+let observer_active = $state(false);
+
+
 let scrollHeight = $state(0);
 
 let fetchingMore = $state(false);
 
 function setupObserver() {
+
+    if(observer) {
+        observer.disconnect()
+        observer = null
+    }
+
     scrollHeight = vp?.scrollHeight;
 
     let sc = scrollHeight / 2
@@ -131,27 +142,16 @@ function setupObserver() {
         entries.forEach(entry => {
             if (entry.isIntersecting && !fetchingMore) {
                 fetchingMore = true
-                /*
-                store.matrix.fetchRoomMessages({
-                    room_id: room.room_id,
-                })
-                */
             }
         });
     };
 
     observer = new IntersectionObserver(callback, options);
     observer.observe(ob);
-    console.log("set up observer")
+    console.log("Viewport observer set.")
 }
 
 let _active_room = $state(null);
-
-onMount(() => {
-        setTimeout(() => {
-            setupObserver()
-        }, 3000)
-})
 
 let composer;
 
@@ -163,16 +163,26 @@ $effect(() =>{
     if(room && (_active_room != room.room_id)) {
         // do things here when active room changes
         _active_room = room.room_id
+
+        setTimeout(() => {
+            setupObserver()
+        }, 1000)
+
         composer.focus()
     }
 
     if(events) {
         //console.log("active room events are ", events)
     }
+    if(ob && !observer_active) {
+        observer_active = true
+        setTimeout(() => {
+            setupObserver()
+        }, 500)
+    }
 })
 
 function focusComposer() {
-    console.log("ok")
     if(composer) {
         composer.focus()
     }
