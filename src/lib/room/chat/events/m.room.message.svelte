@@ -1,5 +1,6 @@
 <script>
-import { justEmoji } from '$lib/utils/utils.js'
+import Date from '$lib/room/common/date.svelte'
+import { justEmoji, processBody } from '$lib/utils/utils.js'
 
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
@@ -11,10 +12,8 @@ let {
 } = $props();
 
 const content = $derived.by(() => {
-    if(event?.content?.formatted_body) {
-        return event?.content?.formatted_body
-    }
-    return event?.content?.body
+    let data = event?.content?.formatted_body ? event?.content?.formatted_body : event?.content?.body
+    return processBody(data)
 })
 
 const has_thread = $derived.by(() => {
@@ -27,7 +26,24 @@ const just_emoji = $derived.by(() => {
 
 </script>
 
-<div class="chat-event text-sm pb-4 hover:bg-shade-1"
-    class:text-4xl={just_emoji}>
+
+<div class="chat-event lg:pr-[5rem] sm:mr-[3rem]"
+    class:just-emoji={just_emoji}>
     {@html content}
 </div>
+
+<style>
+
+.chat-event { 
+}
+
+:global(.chat-event .emoji) {
+    font-size: 1.3rem;
+    vertical-align: bottom;
+}
+:global(.just-emoji .emoji) {
+    font-size: 2.4rem;
+    vertical-align: text-bottom;
+    line-height: 1;
+}
+</style>

@@ -40,12 +40,10 @@ const banner = $derived.by(() => {
     class:h-[130px]={banner}
     style="background-image: url({banner})"
 >
-    <div class="grid grid-cols-[auto_1fr_auto] mx-2 justify-items-start"
+    <div class="flex mx-2 "
     class:items-center={!banner}
-    class:mb-2={banner}
-    class:items-end={banner}>
-        <div class="font-semibold px-2 py-1"
-        class:bg-shade-1={banner}>
+    class:mt-2={banner}>
+        <div class="font-bold px-2 py-1">
             {name}
         </div>
         <div class="">

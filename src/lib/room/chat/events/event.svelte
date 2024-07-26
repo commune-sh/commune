@@ -1,5 +1,6 @@
 <script>
 import { dayOfMonth, formatTS } from '$lib/utils/time.js'
+import Time from '$lib/room/common/time.svelte'
 
 import RoomCreated from '$lib/room/chat/events/m.room.create.svelte'
 import MessageEvent from '$lib/room/chat/events/m.room.message.svelte'
@@ -58,16 +59,56 @@ const prevSenderSame = $derived.by(() => {
     return prev_event?.sender == event?.sender
 })
 
+const showSender = $derived.by(() => {
+    return !prevSenderSame || isNewDay || ts_diff > 300
+})
+
+const id = $derived.by(() => {
+    return event?.event_id
+})
+
 </script>
 
+<div 
+    data-event-id={id}
+    class="event-container grid grid-cols-[72px_1fr] 
+    hover:bg-shade-1 p-1 mr-1" 
+>
 
-<div class="event" oncontextmenu={logEvent}>
-{#if m_room_create}
-    <RoomCreated {event} />
-{:else if m_room_message && !is_thread_message}
-    <MessageEvent {event} />
-{:else if !is_thread_message}
-    {JSON.stringify(event?.content)}
-{/if}
+    <div class="event-context">
+        {#if showSender }
+
+            <div class="event-sender">
+            </div>
+
+        {:else}
+            <div class="time text-xs text-light ">
+                <Time date={event.origin_server_ts} />
+            </div>
+        {/if}
+
+    </div>
+
+    <div class="event" 
+        oncontextmenu={logEvent}>
+    {#if m_room_create}
+        <RoomCreated {event} />
+    {:else if m_room_message && !is_thread_message}
+        <MessageEvent {event} />
+    {:else if !is_thread_message}
+        {JSON.stringify(event?.content)}
+    {/if}
+    </div>
+
+
 </div>
 
+<style>
+.event-container {
+    font-size: 0.875rem;
+    line-height: 1.375rem;
+}
+.event-container:hover .time {
+    opacity: 1;
+}
+</style>
