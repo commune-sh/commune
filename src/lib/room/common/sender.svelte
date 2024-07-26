@@ -3,17 +3,13 @@ import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
 
 let {
-    sender
+    event
 } = $props();
 
-const room_state = $derived(store.matrix.room_state)
-const room = $derived(store.matrix.active_room)
-const state = $derived.by(() => {
-    return room_state[room?.room_id]
-})
+const state = $derived(store.matrix.active_room_state)
 
 const user = $derived.by(() => {
-    return state?.find(x => x.state_key === sender)
+    return state?.find(x => x.state_key === event?.sender)
 })
 
 const displayname = $derived.by(() => {

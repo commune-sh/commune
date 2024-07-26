@@ -24,6 +24,12 @@ const just_emoji = $derived.by(() => {
     return justEmoji(event?.content?.body)
 })
 
+const events = $derived(store.matrix.active_room_events)
+const reactions = $derived.by(() => {
+    return events.filter(e => e.type == 'm.reaction' && 
+    e.content?.['m.relates_to']?.event_id == event.event_id)
+})
+
 </script>
 
 
@@ -31,6 +37,13 @@ const just_emoji = $derived.by(() => {
     class:just-emoji={just_emoji}>
     {@html content}
 </div>
+
+{#if reactions?.length > 0 }
+<div class="reactions">
+    {reactions?.length}
+</div>
+{/if}
+
 
 <style>
 

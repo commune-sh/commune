@@ -6,7 +6,21 @@ import {
 } from '$env/static/public';
 
 import { browser } from '$app/environment';
-import * as sdk from 'matrix-js-sdk';
+//import * as sdk from 'matrix-js-sdk';
+let sdk;
+let loaded = $state(false);
+
+
+if(browser && !loaded) {
+  setTimeout(async () => {
+    sdk = await import('matrix-js-sdk');
+    loaded = true;
+    client =  sdk.createClient({
+      baseUrl: homeserver,
+    });
+    console.log("sdk loaded")
+  }, 7000)
+}
 
 import { 
   aliasFromName,
@@ -17,6 +31,8 @@ import {
   buildSpacesHierarchy } from '$lib/utils/matrix';
 
 import { 
+  login,
+  register,
   syncGuest,
 } from '$lib/matrix/requests.js';
 
@@ -61,9 +77,11 @@ let hierarchy = $state({})
 let events = $state({})
 
 if(browser) {
+  /*
   client =  sdk.createClient({
     baseUrl: homeserver,
   });
+  */
 }
 
 let page = $state(null);
@@ -87,6 +105,10 @@ const active_room_events = $derived.by(() => {
   return events[active_room?.room_id]?.events
 })
 
+const active_room_state = $derived.by(() => {
+  return room_state[active_room?.room_id]
+})
+
 
 
 export function createMatrixStore() {
@@ -101,6 +123,7 @@ export function createMatrixStore() {
   // fetch login and registration flows from homeserver
   async function getFlows() {
 
+    /*
     if(!client) {
       client = newClient()
     }
@@ -116,7 +139,7 @@ export function createMatrixStore() {
         app.homeserverUnreachable()
       }
     }
-
+    //
     // registration flows
     try {
       let response = await client.register()
@@ -133,11 +156,37 @@ export function createMatrixStore() {
       }
       console.log("Registration flows:", register_flows)
     }
+    */
+
+    try {
+      let response = await login()
+      if(response?.flows) {
+        login_flows = response.flows
+      }
+    } catch (_){
+      app.homeserverUnreachable()
+    }
+
+
+    // registration flows
+    try {
+      let response = await register()
+      if(response?.flows) {
+        console.log("Register flows:", response.flows)
+        register_flows = response.flows
+      }
+    } catch(err) {
+      if(err.errcode == "M_FORBIDDEN") {
+        registration_disabled = true
+      }
+      if(err?.data?.flows) {
+        register_flows = err.data.flows
+      }
+      console.log("Registration flows:", register_flows)
+    }
 
   }
 
-  async function recheckHomeserver() {
-  }
 
   async function setup(credentials) {
 
@@ -466,6 +515,10 @@ export function createMatrixStore() {
 
     get active_room_events() {
       return active_room_events;
+    },
+
+    get active_room_state() {
+      return active_room_state;
     },
 
     newClient,
