@@ -14,14 +14,14 @@ export function processURL(url) {
   }
 }
 
-export function thumbnail_from_MXC(url, height, width) {
+export function thumbnail_from_MXC(url, width, height, method) {
   let stripped = url.replace('mxc://', '');
-  return `${PUBLIC_HOMESERVER}/_matrix/media/v3/thumbnail/${stripped}?width=${width}&height=${height}&method=crop`;
+  return `${PUBLIC_HOMESERVER}/_matrix/media/v3/thumbnail/${stripped}?width=${width}&height=${height}&method=${method}`;
 }
 
-export function thumbnailURL(url, height, width) {
+export function thumbnailURL(url, width, height, method) {
   if(url.includes('mxc://')) {
-    return thumbnail_from_MXC(url, height, width)
+    return thumbnail_from_MXC(url, width, height, method)
   }
   return url
 }

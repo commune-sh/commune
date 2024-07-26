@@ -1,5 +1,5 @@
 <script>
-import Date from '$lib/room/common/date.svelte'
+import Image from '$lib/room/common/m.image.svelte'
 import { justEmoji, processBody } from '$lib/utils/utils.js'
 
 import { createStore } from '$lib/store/store.svelte.js'
@@ -38,14 +38,23 @@ const reactions = $derived.by(() => {
     e.content?.['m.relates_to']?.event_id == event.event_id)
 })
 
+const is_img = $derived.by(() => {
+    return event?.content?.msgtype == 'm.image' && 
+        event?.content?.url
+})
 </script>
 
 
 <div class="chat-event lg:pr-[5rem] sm:mr-[3rem]"
     class:just-emoji={just_emoji}>
-    {@html content}
-    {#if new_content}
-        <span class="text-xs text-light">edited</span>
+    {#if !is_img}
+        {@html content}
+        {#if new_content}
+            <span class="text-xs text-light">edited</span>
+        {/if}
+    {/if}
+    {#if is_img}
+        <Image {event} />
     {/if}
 </div>
 
@@ -60,6 +69,11 @@ const reactions = $derived.by(() => {
 
 .chat-event { 
 }
+
+:global(.chat-event a) {
+    color: var(--link);
+}
+
 
 :global(.chat-event .emoji) {
     font-size: 1.3rem;

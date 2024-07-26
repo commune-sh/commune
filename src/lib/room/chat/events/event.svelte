@@ -128,7 +128,7 @@ const id = $derived.by(() => {
     data-event-id={id}
     class="event-container grid grid-cols-[72px_1fr] 
     hover:bg-shade-1 p-1 mr-1" 
-    class:mt-2={showSender}
+    class:mt-1={showSender}
     class:pt-2={showSender}
 >
 
@@ -177,6 +177,8 @@ const id = $derived.by(() => {
 .time {
     font-size: 10px;
 }
+
+
 @media (max-width: 768px) {
     .event-container {
         padding: 0;

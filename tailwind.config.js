@@ -31,6 +31,7 @@ export default {
         'border': 'var(--border)',
         'sidebar-border': 'var(--sidebar-border)',
         'switcher-border': 'var(--switcher-border)',
+        'link': 'var(--link)',
         'text': 'var(--text)',
         'light': 'var(--light)',
         'pill': 'var(--pill)',

@@ -225,7 +225,7 @@ async function getHierarchy() {
 
 let avatar = $derived.by(() => {
     if(space?.avatar_url) {
-        return thumbnailURL(space.avatar_url, 46, 46)
+        return thumbnailURL(space.avatar_url, 46, 46, 'crop')
     }
 })
 

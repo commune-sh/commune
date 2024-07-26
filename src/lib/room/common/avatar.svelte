@@ -24,7 +24,7 @@ const user = $derived.by(() => {
 
 const avatar = $derived.by(() => {
     if(user?.content?.avatar_url) {
-        return thumbnailURL(user.content.avatar_url, 32, 32)
+        return thumbnailURL(user.content.avatar_url, 32, 32, 'crop')
     }
 })
 

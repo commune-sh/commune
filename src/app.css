@@ -50,6 +50,7 @@
     --shade-8: hsla(0, 0%, 21%, 1);
     --shade-9: hsla(0, 0%, 23%, 1);
     --shade-10: hsla(0, 0%, 25%, 1);
+    --link: hsla(0, 99%, 33%, 1);
     --text: hsla(0, 0%, 90%, 1);
     --light: hsla(0, 0%, 70%, 1);
     --primary: hsla(0, 99%, 33%, 1);
@@ -57,7 +58,7 @@
     --logo-fill: hsla(0, 0%, 0%, 1);
     --logo-fill-inactive: hsla(0, 100%, 41.6%, 1);
     --pill: hsla(0, 99%, 33%, 1);
-    --mask: hsla(0, 0%, 0%, 0.5);
+    --mask: hsla(0, 0%, 0%, 0.7);
     --tooltip: hsla(0, 0%, 9%, 1);
     --icon: hsla(0, 0%, 35%, 1);
     --icon-hover: hsla(0, 0%, 45%, 1);
@@ -115,6 +116,7 @@
     --shade-8: hsla(0, 0%, 77%, 1);
     --shade-9: hsla(0, 0%, 74%, 1);
     --shade-10: hsla(0, 0%, 71%, 1);
+    --link: hsla(0, 99%, 33%, 1);
     --text: hsla(0, 0%, 10%, 1);
     --light: hsla(0, 0%, 25%, 1);
     --primary: hsla(0, 99%, 33%, 1);
@@ -451,4 +453,27 @@ input.success {
     cursor: ew-resize;
 }
 
+blockquote {
+    margin: 0;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-left: 3px solid var(--primary);
+}
 
+blockquote p {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+code {
+    font-family: monospace;
+    background: var(--shade-3);
+    border-radius: 3px;
+    padding: 0.1rem 0.2rem;
+    font-size: 0.875rem;
+}
+
+
+.modal {
+    z-index: 1000;
+}
