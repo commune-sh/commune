@@ -35,14 +35,14 @@ const displayname = $derived.by(() => {
 const initial = $derived(createInitials(displayname))
 </script>
 
-<div class="avatar bg-avatar bg-avatar grid place-items-center cursor-pointer"
-    class:bg-img={avatar}
-    style="background-image: url({avatar})">
-
+<div class="avatar bg-avatar bg-avatar grid place-items-center cursor-pointer">
+    {#if avatar}
+        <img src={avatar} alt={displayname} class="avatar" loading="lazy" />
+    {/if}
     {#if !avatar}
-    <div class="initial font-semibold">
-        {initial} 
-    </div>
+        <div class="initial font-semibold">
+            {initial} 
+        </div>
     {/if}
 </div>
 

@@ -150,7 +150,7 @@ let _active_room = $state(null);
 onMount(() => {
         setTimeout(() => {
             setupObserver()
-        }, 1000)
+        }, 3000)
 })
 
 let composer;
@@ -214,7 +214,9 @@ function focusComposer() {
         </div>
     </div>
 
+    <div class="composer-container">
     <Composer bind:this={composer} />
+    </div>
 
 </div>
 

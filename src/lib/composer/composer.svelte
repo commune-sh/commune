@@ -1,9 +1,13 @@
 <script>
 import { tick, onMount } from 'svelte'
 
+import { createStore } from '$lib/store/store.svelte.js'
+const store = createStore()
+
+const authenticated = $derived(store.auth.authenticated)
 
 onMount(() => {
-    focus()
+    //focus()
 })
 
 let textInput;
@@ -17,6 +21,8 @@ export async function focus() {
 
 </script>
 
+{#if authenticated}
 <div>
-<input bind:this={textInput} type="text"/>
+    <input bind:this={textInput} type="text"/>
 </div>
+{/if}
