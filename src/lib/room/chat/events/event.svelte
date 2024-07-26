@@ -1,6 +1,10 @@
 <script>
 import { dayOfMonth, formatTS } from '$lib/utils/time.js'
 import Time from '$lib/room/common/time.svelte'
+import Date from '$lib/room/common/date.svelte'
+
+import Avatar from '$lib/room/common/avatar.svelte'
+import Sender from '$lib/room/common/sender.svelte'
 
 import RoomCreated from '$lib/room/chat/events/m.room.create.svelte'
 import MessageEvent from '$lib/room/chat/events/m.room.message.svelte'
@@ -16,6 +20,8 @@ let {
     event,
     index
 } = $props();
+
+const sender = $derived(event?.sender)
 
 const prev_event = $derived.by(() => {
     if(index == 0) return
@@ -75,14 +81,13 @@ const id = $derived.by(() => {
     hover:bg-shade-1 p-1 mr-1" 
 >
 
-    <div class="event-context">
+    <div class="event-context grid justify-center">
         {#if showSender }
-
             <div class="event-sender">
+                <Avatar {sender} />
             </div>
-
         {:else}
-            <div class="time text-xs text-light ">
+            <div class="time text-light justify-center opacity-0">
                 <Time date={event.origin_server_ts} />
             </div>
         {/if}
@@ -91,13 +96,23 @@ const id = $derived.by(() => {
 
     <div class="event" 
         oncontextmenu={logEvent}>
-    {#if m_room_create}
-        <RoomCreated {event} />
-    {:else if m_room_message && !is_thread_message}
-        <MessageEvent {event} />
-    {:else if !is_thread_message}
-        {JSON.stringify(event?.content)}
-    {/if}
+
+        {#if showSender }
+            <div class="event-sender">
+                <Sender {sender} />
+                <span class="time ml-2 text-light">
+                   <Date date={event?.origin_server_ts} />
+                </span>
+            </div>
+        {/if}
+
+        {#if m_room_create}
+            <RoomCreated {event} />
+        {:else if m_room_message && !is_thread_message}
+            <MessageEvent {event} />
+        {:else if !is_thread_message}
+            {JSON.stringify(event?.content)}
+        {/if}
     </div>
 
 
@@ -110,5 +125,8 @@ const id = $derived.by(() => {
 }
 .event-container:hover .time {
     opacity: 1;
+}
+.time {
+    font-size: 10px;
 }
 </style>

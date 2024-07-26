@@ -208,6 +208,9 @@ function focusComposer() {
                 <Event {event} {index}/>
 
             {/each}
+
+            <div class="sep py-2">
+            </div>
         </div>
     </div>
 

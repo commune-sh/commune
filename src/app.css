@@ -93,6 +93,8 @@
 
     --scrollbar-thumb: hsla(0, 0%, 20%, 1);
     --scrollbar-track: hsla(0, 0%, 7%, 1);
+
+    --avatar: hsla(0, 0%, 19%, 1);
 }
 
 :root.light {
@@ -156,6 +158,8 @@
 
     --scrollbar-thumb: hsla(0, 0%, 71%, 1);
     --scrollbar-track: hsla(0, 0%, 90%, 1);
+
+    --avatar: hsla(0, 0%, 89%, 1);
 }
 
 html {

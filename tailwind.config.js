@@ -39,6 +39,8 @@ export default {
 
         'icon': 'var(--icon)',
         'icon-hover': 'var(--icon-hover)',
+
+        'avatar': 'var(--avatar)',
       }
     },
   },

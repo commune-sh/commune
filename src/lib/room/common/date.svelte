@@ -56,9 +56,7 @@ const title = $derived.by(() => {
 
 </script>
 
-<div class="date text-sm" title={title}>
-    {isThisWeek ? when : created}
-</div>
+{isThisWeek ? when : created}
 
 <style>
 </style>

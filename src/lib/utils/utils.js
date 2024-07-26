@@ -34,6 +34,7 @@ export function justEmoji(body) {
 
 
 export function processBody(text) {
+  if(!text) return
   const regex = emojiRegex();
-  return text.replace(regex, '<span class="emoji">$&</span>');
+  return text?.replace(regex, '<span class="emoji">$&</span>');
 }
