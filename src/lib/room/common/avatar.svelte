@@ -24,7 +24,7 @@ const user = $derived.by(() => {
 
 const avatar = $derived.by(() => {
     if(user?.content?.avatar_url) {
-        return thumbnailURL(user.content.avatar_url, 46, 46)
+        return thumbnailURL(user.content.avatar_url, 32, 32)
     }
 })
 
@@ -49,7 +49,7 @@ const initial = $derived(createInitials(displayname))
 <style>
 .avatar {
     border-radius: 50%;
-    height: 34px;
-    width: 34px;
+    height: 32px;
+    width: 32px;
 }
 </style>

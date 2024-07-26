@@ -263,13 +263,14 @@ let size = $state(46)
         class:text-[12px]={initial?.length > 4}
         class:text-[10px]={initial?.length > 5}
         class:text-[9px]={initial?.length > 6}
-        class:bg-img={avatar}
         draggable="true"
         ondrag={drag}
         ondragend={dragend}
-        ondragstart={dragstart}
-        style="background-image: url({avatar})">
+        ondragstart={dragstart}>
 
+        {#if avatar}
+            <img src={avatar} alt={name} class="avatar" loading="lazy" />
+        {/if}
         {#if !avatar}
         <div class="initial font-semibold">
             {initial} 

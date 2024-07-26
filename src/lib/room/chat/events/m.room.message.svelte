@@ -11,8 +11,16 @@ let {
     event,
 } = $props();
 
+const new_content = $derived.by(() => {
+    return event?.unsigned?.['m.relations']?.['m.replace']?.content?.['m.new_content']
+})
+
 const content = $derived.by(() => {
     let data = event?.content?.formatted_body ? event?.content?.formatted_body : event?.content?.body
+
+    if(new_content) {
+        data = new_content?.formatted_body ? new_content?.formatted_body : new_content?.body
+    }
     return processBody(data)
 })
 
@@ -36,6 +44,9 @@ const reactions = $derived.by(() => {
 <div class="chat-event lg:pr-[5rem] sm:mr-[3rem]"
     class:just-emoji={just_emoji}>
     {@html content}
+    {#if new_content}
+        <span class="text-xs text-light">edited</span>
+    {/if}
 </div>
 
 {#if reactions?.length > 0 }

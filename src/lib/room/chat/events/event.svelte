@@ -49,6 +49,11 @@ const is_message = $derived.by(() => {
     return m_room_message && !is_thread_message
 })
 
+const is_replacement = $derived.by(() => {
+    return event?.content?.['m.new_content'] != undefined && 
+        event?.content?.['m.relates_to']?.['rel_type'] == 'm.replace'
+})
+
 const display_events = $state([
     {type: 'm.room.create', show: true },
     {type: 'm.room.message', show: true },
@@ -83,7 +88,8 @@ const component = $derived.by(() => {
 })
 
 const showEvent = $derived.by(() => {
-    return display_events.find(e => e.type == event?.type)?.show
+    return display_events.find(e => e.type == event?.type)?.show &&
+        !is_replacement
 })
 
 function logEvent(e) {
@@ -122,6 +128,8 @@ const id = $derived.by(() => {
     data-event-id={id}
     class="event-container grid grid-cols-[72px_1fr] 
     hover:bg-shade-1 p-1 mr-1" 
+    class:mt-2={showSender}
+    class:pt-2={showSender}
 >
 
     <div class="event-context grid justify-center">
@@ -168,5 +176,11 @@ const id = $derived.by(() => {
 }
 .time {
     font-size: 10px;
+}
+@media (max-width: 768px) {
+    .event-container {
+        padding: 0;
+        padding-right: 1rem;
+    }
 }
 </style>
