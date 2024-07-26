@@ -35,6 +35,10 @@ export function justEmoji(body) {
 
 export function processBody(text) {
   if(!text) return
+
+  const mx_reg = /<mx-reply>[\s\S]*?<\/mx-reply>/;
+  text = text.replace(mx_reg, '').trim();
+
   const regex = emojiRegex();
   return text?.replace(regex, '<span class="emoji">$&</span>');
 }

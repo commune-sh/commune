@@ -42,6 +42,18 @@ const is_img = $derived.by(() => {
     return event?.content?.msgtype == 'm.image' && 
         event?.content?.url
 })
+
+const is_reply = $derived.by(() => {
+    return event?.content?.['m.relates_to']?.['m.in_reply_to']?.event_id != undefined
+})
+
+const reply_to_event_id = $derived.by(() => {
+    return event?.content?.['m.relates_to']?.['m.in_reply_to']?.event_id
+})
+
+const reply_to_event = $derived.by(() => {
+    return events.find(e => e.event_id == reply_to_event_id)
+})
 </script>
 
 
@@ -50,7 +62,7 @@ const is_img = $derived.by(() => {
     {#if !is_img}
         {@html content}
         {#if new_content}
-            <span class="text-xs text-light">edited</span>
+            <span class="text-xs text-light">(edited)</span>
         {/if}
     {/if}
     {#if is_img}

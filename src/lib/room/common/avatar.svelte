@@ -9,7 +9,8 @@ import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
 
 let {
-    sender
+    sender,
+    small
 } = $props();
 
 const room_state = $derived(store.matrix.room_state)
@@ -33,11 +34,19 @@ const displayname = $derived.by(() => {
 })
 
 const initial = $derived(createInitials(displayname))
+
+const d = $derived.by(() => {
+    return small ? 16 : 32
+})
+
 </script>
 
-<div class="avatar bg-avatar bg-avatar grid place-items-center cursor-pointer">
+<div class="avatar bg-avatar bg-avatar grid place-items-center cursor-pointer"
+    class:small={small} >
     {#if avatar}
-        <img src={avatar} alt={displayname} class="avatar" loading="lazy" />
+        <img src={avatar} 
+            width={d} height={d}
+            alt={displayname} class="" loading="lazy" />
     {/if}
     {#if !avatar}
         <div class="initial font-semibold">
@@ -51,5 +60,15 @@ const initial = $derived(createInitials(displayname))
     border-radius: 50%;
     height: 32px;
     width: 32px;
+    line-height: 1;
+}
+
+.small {
+    width: 16px;
+    height: 16px;
+    font-size: 10px;
+}
+img {
+    border-radius: 50%;
 }
 </style>

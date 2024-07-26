@@ -6,6 +6,8 @@ import Date from '$lib/room/common/date.svelte'
 import Avatar from '$lib/room/common/avatar.svelte'
 import Sender from '$lib/room/common/sender.svelte'
 
+import ReplyToEvent from '$lib/room/chat/events/reply-to-event.svelte'
+
 import RoomCreated from '$lib/room/chat/events/m.room.create.svelte'
 import MessageEvent from '$lib/room/chat/events/m.room.message.svelte'
 import MembershipEvent from '$lib/room/chat/events/m.room.member.svelte'
@@ -112,9 +114,13 @@ const prevSenderSame = $derived.by(() => {
     return prev_event?.sender == event?.sender
 })
 
+const is_reply = $derived.by(() => {
+    return event?.content?.['m.relates_to']?.['m.in_reply_to']?.event_id != undefined
+})
+
 const showSender = $derived.by(() => {
     return m_room_message && 
-        (!prevSenderSame || isNewDay || ts_diff > 300)
+        (!prevSenderSame || isNewDay || ts_diff > 300 || is_reply)
 })
 
 const id = $derived.by(() => {
@@ -124,17 +130,27 @@ const id = $derived.by(() => {
 </script>
 
 {#if showEvent}
+
 <div 
     data-event-id={id}
-    class="event-container grid grid-cols-[72px_1fr] 
-    hover:bg-shade-1 p-1 mr-1" 
-    class:mt-1={showSender}
-    class:pt-2={showSender}
->
+    class="event-container grid
+    hover:bg-shade-1 p-[0.2rem] mr-1" 
+    class:mt-2={showSender}>
+
+
+        {#if is_reply}
+            <div class="reply-to-event grid grid-cols-[72px_1fr]">
+                <div class="spine">
+                </div>
+                <ReplyToEvent {event} />
+            </div>
+        {/if}
+
+<div class="event-body grid grid-cols-[72px_1fr]" >
 
     <div class="event-context grid justify-center">
         {#if showSender}
-            <div class="event-sender">
+            <div class="event-sender mt-1">
                 <Avatar {sender} />
             </div>
         {:else}
@@ -164,6 +180,7 @@ const id = $derived.by(() => {
 
 
 </div>
+</div>
 {/if}
 
 <style>
@@ -184,5 +201,23 @@ const id = $derived.by(() => {
         padding: 0;
         padding-right: 1rem;
     }
+}
+
+.spine { 
+    position: relative;
+}
+
+.spine::before {
+    content: '';
+    border-left: 2px solid var(--shade-9);
+    border-top: 2px solid var(--shade-9);
+    border-radius: 6px 0 0 0;
+    position: absolute;
+    box-sizing: border-box;
+    top: 50%;
+    right: 4px;
+    bottom: 0;
+    left: 34px;
+    min-height: 0.5rem;
 }
 </style>

@@ -14,6 +14,8 @@ const store = createStore()
 const authReady = $derived(store.auth.ready)
 const authenticated = $derived(store.auth.authenticated)
 
+const menu_active = $derived(store.ui.menu_active)
+
 let {
     item
 } = $props();
@@ -35,6 +37,7 @@ const path = $derived(`/${$page.params.space}/${alias_or_id}`)
 function goToRoom() {
     goto(path)
     store.ui.updateRoute($page.params.space, path)
+    if(menu_active) store.ui.toggleMenu()
 }
 
 const room = $derived(store.matrix.active_room)
