@@ -4,23 +4,15 @@ export function createInitials(text, maxLength = 8) {
   return initials?.join('').slice(0, maxLength);
 }
 
-export function getFirstParagraph(input) {
+export function getFirstLine(input) {
   if(!input) return
-  const isHTML = /<\/?[a-z][\s\S]*>/i.test(input);
+    const isHTML = /<\/?[a-z][\s\S]*>/i.test(input);
 
-  if (isHTML) {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(input, 'text/html');
-    const firstParagraph = doc.querySelector('p');
-
-    return firstParagraph ? firstParagraph.outerHTML : '';
-  } else {
-
-    const firstNewlineIndex = input.indexOf('\n');
-    if (firstNewlineIndex !== -1) {
-      return input.substring(0, firstNewlineIndex);
+    if (isHTML) {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(input, 'text/html');
+        return doc.body.textContent.trim();
     } else {
-      return input; 
+        return input.replace(/\n/g, ' ');
     }
-  }
 }

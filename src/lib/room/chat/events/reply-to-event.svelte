@@ -1,7 +1,7 @@
 <script>
 import { onMount } from 'svelte'
 import { getEvent } from '$lib/appservice/requests'
-import { getFirstParagraph } from '$lib/utils/string'
+import { getFirstLine } from '$lib/utils/string'
 
 import Avatar from '$lib/room/common/avatar.svelte'
 import Sender from '$lib/room/common/sender.svelte'
@@ -42,7 +42,8 @@ const content = $derived.by(() => {
         data = new_content?.formatted_body ? new_content?.formatted_body : new_content?.body
     }
     const processed = processBody(data)
-    return getFirstParagraph(processed)
+    return processed
+    //return getFirstLine(processed)
 })
 
 onMount(() => {
@@ -83,7 +84,9 @@ class:animate-pulse={!reply_to_event}>
 
     <div class="flex items-center truncate ">
         {#if content}
-            {@html content}
+            <div class="reply-to-content">
+                {@html content}
+            </div>
         {:else}
             <div class="h-full w-[200px] py-[0.2rem]">
             <SkeletonSpan />
@@ -103,8 +106,19 @@ class:animate-pulse={!reply_to_event}>
     color: var(--text);
 }
 
-::global(.event-content p) {
-    margin: 0;
-    padding: 0;
+::global(.reply-to-content ) {
+    white-space: nowrap;
+}
+::global(.reply-to-content p) {
+    display: inline;
+}
+::global(.reply-to-content ul) {
+    display: inline;
+}
+::global(.reply-to-content li) {
+    display: inline;
+}
+::global(.reply-to-content div) {
+    display: inline;
 }
 </style>
