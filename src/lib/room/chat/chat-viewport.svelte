@@ -43,6 +43,7 @@ $effect(() => {
     if(viewport && count && count != events?.length) {
         tick().then(() => {
             viewport.scrollTop = viewport.scrollHeight - position.scrollHeight
+            store.ui.setMessageCount(room.room_id, events.length)
         });
     }
 
