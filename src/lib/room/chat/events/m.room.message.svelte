@@ -1,5 +1,6 @@
 <script>
 import Image from '$lib/room/common/m.image.svelte'
+import Reactions from '$lib/room/common/reactions.svelte'
 import { justEmoji, processBody } from '$lib/utils/utils.js'
 
 import { createStore } from '$lib/store/store.svelte.js'
@@ -71,8 +72,8 @@ const reply_to_event = $derived.by(() => {
 </div>
 
 {#if reactions?.length > 0 }
-<div class="reactions">
-    {reactions?.length}
+<div class="reactions mt-1">
+    <Reactions {reactions} {event} />
 </div>
 {/if}
 
