@@ -406,40 +406,50 @@ export function createMatrixStore() {
       return
     }
 
-    const resp = await getRoomMessages({
-      room_id: opts.room_id,
-      authenticated: auth.authenticated,
-      start: start,
-      end: end,
-    })
+    try {
 
-    if(resp && !end && !start) {
+      const resp = await getRoomMessages({
+        room_id: opts.room_id,
+        authenticated: auth.authenticated,
+        start: start,
+        end: end,
+      })
 
-      let r = {
-        events: [],
-        events_map: new Map(), 
-        start: resp.start, 
-        end: resp.end,
+      if(resp && !end && !start) {
+
+        let r = {
+          events: [],
+          events_map: new Map(), 
+          start: resp.start, 
+          end: resp.end,
+        }
+        resp?.chunk?.reverse().forEach(e => {
+          r.events.push(e)
+          r["events_map"].set(e.event_id, e)
+        })
+        events[opts.room_id] = r
+        console.log("Stored room events for:", opts.room_id, events[opts.room_id])
       }
-      resp?.chunk?.reverse().forEach(e => {
-        r.events.push(e)
-        r["events_map"].set(e.event_id, e)
-      })
-      events[opts.room_id] = r
-      console.log("Stored room events for:", opts.room_id, events[opts.room_id])
+
+      if(resp && end) {
+        stored.events.unshift(...resp.chunk.reverse())
+        resp?.chunk?.forEach(e => {
+          stored["events_map"].set(e.event_id, e)
+        })
+        stored.start = resp.start
+        stored.end = resp.end
+
+        console.log("Stored more room messages:", events[opts.room_id])
+      }
+
+      return true;
+
+    } catch(err) {
+      return err;
     }
 
-    if(resp && end) {
-      stored.events.unshift(...resp.chunk.reverse())
-      resp?.chunk?.forEach(e => {
-        stored["events_map"].set(e.event_id, e)
-      })
-      stored.start = resp.start
-      stored.end = resp.end
 
-      console.log("Stored more room messages:", events[opts.room_id])
 
-    }
   }
 
 

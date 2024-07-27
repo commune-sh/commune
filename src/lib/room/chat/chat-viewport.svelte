@@ -4,6 +4,7 @@ import Event from '$lib/room/chat/events/event.svelte'
 import { debounce } from '$lib/utils/utils'
 import { onMount, tick } from 'svelte'
 
+
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
 
@@ -32,7 +33,9 @@ $effect(() => {
 
     if(viewport && count && count == events?.length && !fetchingMore) {
         tick().then(() => {
-            viewport.scrollTop = position.scrollTop
+            if(position?.scrollTop) {
+                viewport.scrollTop = position.scrollTop
+            }
         });
     }
 
@@ -64,20 +67,31 @@ $effect(() => {
     }
     */
 
-    if(fetchingMore) {
-        observer.unobserve(ob)
-        fetchingMore = false
-        store.matrix.fetchRoomMessages({
+})
+
+async function fetchMore() {
+    observer.unobserve(ob)
+    fetchingMore = false
+
+    try {
+        const done = store.matrix.fetchRoomMessages({
             room_id: room.room_id,
         })
-            store.ui.setMessageCount(room.room_id, events.length)
-        setTimeout(() => {
-            setScrollPosition()
-            observer.observe(ob)
-        }, 200)
-    }
 
-})
+        store.ui.setMessageCount(room.room_id, events.length)
+
+        if(done) {
+            setTimeout(() => {
+                setScrollPosition()
+                if(ob && observer) {
+                    observer.observe(ob)
+                }
+            }, 3000)
+        }
+    } catch(e) {
+        console.error(e)
+    }
+}
 
 
 
@@ -120,6 +134,7 @@ function setupObserver() {
         entries.forEach(entry => {
             if (entry.isIntersecting && !fetchingMore) {
                 fetchingMore = true
+                fetchMore()
             }
         });
     };
@@ -160,7 +175,8 @@ $effect(() =>{
         <div class="filler flex-grow">
         </div>
 
-        <div class="ob" bind:this={ob}></div>
+        <div class="ob" bind:this={ob}>
+        </div>
 
         {#if fetchingMore}
             <div class="fetching grid justify-center items-center">
