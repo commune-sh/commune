@@ -104,3 +104,21 @@ export const getRoomMessages = async (opts) => {
     throw error
   }
 }
+
+export const getEvent = async (opts) => {
+  if(!opts.room_id || !opts.event_id) return
+  let { room_id, event_id } = opts
+  const url = `${PUBLIC_APPSERVICE}/_matrix/client/v3/rooms/${room_id}/event/${event_id}`;
+  let options = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+  }
+  try {
+    const response = await fetch(url, options)
+    return response.json();
+  } catch (error) {
+    throw error
+  }
+}
+

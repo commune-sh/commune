@@ -1,6 +1,11 @@
 <script>
+import { onMount } from 'svelte'
+import { getEvent } from '$lib/appservice/requests'
+
 import Avatar from '$lib/room/common/avatar.svelte'
 import Sender from '$lib/room/common/sender.svelte'
+
+import SkeletonSpan from '$lib/skeleton/span.svelte'
 
 import { processBody } from '$lib/utils/utils.js'
 
@@ -11,13 +16,15 @@ let {
     event,
 } = $props();
 
+let _event = $state(null);
+
 const events = $derived(store.matrix.active_room_events)
 const reply_to_event_id = $derived.by(() => {
     return event?.content?.['m.relates_to']?.['m.in_reply_to']?.event_id
 })
 
 const reply_to_event = $derived.by(() => {
-    return events.find(e => e.event_id == reply_to_event_id)
+    return _event || events.find(e => e.event_id == reply_to_event_id)
 })
 
 const sender = $derived(reply_to_event?.sender)
@@ -35,10 +42,34 @@ const content = $derived.by(() => {
     }
     return processBody(data)
 })
+
+onMount(() => {
+    if(!reply_to_event) {
+        fetchEvent()
+    }
+})
+
+async function fetchEvent() {
+
+    try {
+        const resp = await getEvent({
+            event_id: reply_to_event_id,
+            room_id: event.room_id,
+        })
+        if(resp) {
+            console.log("fetched reply to event", resp)
+            _event = resp
+        }
+    } catch(e) {
+        console.error(e)
+    }
+
+}
 </script>
 
 <div class="reply-to grid grid-cols-[auto_auto_1fr] gap-x-1
-    cursor-pointer justify-center mr-10">
+    cursor-pointer justify-center mr-10"
+class:animate-pulse={!reply_to_event}>
 
     <div class="grid place-items-center">
         <Avatar {sender} small={true} />
@@ -47,7 +78,13 @@ const content = $derived.by(() => {
     <Sender event={reply_to_event} />
 
     <div class="truncate justify-center">
-        {@html content}
+        {#if content}
+            {@html content}
+        {:else}
+            <div class="h-full w-[200px] py-[0.2rem]">
+            <SkeletonSpan />
+            </div>
+        {/if}
     </div>
 </div>
 
@@ -55,6 +92,7 @@ const content = $derived.by(() => {
 .reply-to {
     font-size: 12px;
     color: var(--light);
+    min-height: 22px;
 }
 
 .reply-to:hover {
