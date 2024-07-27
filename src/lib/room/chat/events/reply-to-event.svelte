@@ -1,6 +1,7 @@
 <script>
 import { onMount } from 'svelte'
 import { getEvent } from '$lib/appservice/requests'
+import { getFirstParagraph } from '$lib/utils/string'
 
 import Avatar from '$lib/room/common/avatar.svelte'
 import Sender from '$lib/room/common/sender.svelte'
@@ -40,7 +41,8 @@ const content = $derived.by(() => {
     if(new_content) {
         data = new_content?.formatted_body ? new_content?.formatted_body : new_content?.body
     }
-    return processBody(data)
+    const processed = processBody(data)
+    return getFirstParagraph(processed)
 })
 
 onMount(() => {
@@ -75,9 +77,11 @@ class:animate-pulse={!reply_to_event}>
         <Avatar {sender} small={true} />
     </div>
 
-    <Sender event={reply_to_event} />
+    <div class="grid place-items-center">
+        <Sender event={reply_to_event} />
+    </div>
 
-    <div class="truncate justify-center">
+    <div class="flex items-center truncate ">
         {#if content}
             {@html content}
         {:else}
@@ -92,10 +96,15 @@ class:animate-pulse={!reply_to_event}>
 .reply-to {
     font-size: 12px;
     color: var(--light);
-    min-height: 22px;
+    min-height: 26px;
 }
 
 .reply-to:hover {
     color: var(--text);
+}
+
+::global(.event-content p) {
+    margin: 0;
+    padding: 0;
 }
 </style>

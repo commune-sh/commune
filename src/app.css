@@ -477,3 +477,11 @@ code {
 .modal {
     z-index: 1000;
 }
+
+ul {
+    list-style-type: disc; 
+}
+
+li {
+    margin-left: 1rem;
+}
