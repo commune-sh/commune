@@ -34,10 +34,6 @@ const just_emoji = $derived.by(() => {
 })
 
 const events = $derived(store.matrix.active_room_events)
-const reactions = $derived.by(() => {
-    return events.filter(e => e.type == 'm.reaction' && 
-    e.content?.['m.relates_to']?.event_id == event.event_id)
-})
 
 const is_img = $derived.by(() => {
     return event?.content?.msgtype == 'm.image' && 
@@ -71,11 +67,6 @@ const reply_to_event = $derived.by(() => {
     {/if}
 </div>
 
-{#if reactions?.length > 0 }
-<div class="reactions mt-1">
-    <Reactions {reactions} {event} />
-</div>
-{/if}
 
 
 <style>

@@ -3,6 +3,8 @@ import { dayOfMonth, formatTS } from '$lib/utils/time.js'
 import Time from '$lib/room/common/time.svelte'
 import Date from '$lib/room/common/date.svelte'
 
+import Reactions from '$lib/room/common/reactions.svelte'
+
 import Avatar from '$lib/room/common/avatar.svelte'
 import Sender from '$lib/room/common/sender.svelte'
 
@@ -56,10 +58,10 @@ const is_replacement = $derived.by(() => {
         event?.content?.['m.relates_to']?.['rel_type'] == 'm.replace'
 })
 
-const display_events = $state([
+const event_options = $state([
     {type: 'm.room.create', show: true },
-    {type: 'm.room.message', show: true },
-    {type: 'm.room.member', show: true },
+    {type: 'm.room.message', show: true, reactions: true },
+    {type: 'm.room.member', show: true, reactions: true },
     {type: 'm.room.topic', show: true },
     {type: 'm.room.avatar', show: true },
     {type: 'm.reaction', show: false},
@@ -90,8 +92,17 @@ const component = $derived.by(() => {
 })
 
 const showEvent = $derived.by(() => {
-    return display_events.find(e => e.type == event?.type)?.show &&
+    return event_options.find(e => e.type == event?.type)?.show &&
         !is_replacement
+})
+
+const showReactions = $derived.by(() => {
+    return event_options.find(e => e.type == event?.type)?.reactions
+})
+
+const reactions = $derived.by(() => {
+    return events.filter(e => e.type == 'm.reaction' && 
+    e.content?.['m.relates_to']?.event_id == event.event_id)
 })
 
 function logEvent(e) {
@@ -114,13 +125,17 @@ const prevSenderSame = $derived.by(() => {
     return prev_event?.sender == event?.sender
 })
 
+const prevEventTypeSame = $derived.by(() => {
+    return prev_event?.type == event?.type
+})
+
 const is_reply = $derived.by(() => {
     return event?.content?.['m.relates_to']?.['m.in_reply_to']?.event_id != undefined
 })
 
 const showSender = $derived.by(() => {
     return m_room_message && 
-        (!prevSenderSame || isNewDay || ts_diff > 300 || is_reply)
+        (!prevSenderSame || !prevEventTypeSame || isNewDay || ts_diff > 300 || is_reply)
 })
 
 const id = $derived.by(() => {
@@ -176,6 +191,11 @@ const id = $derived.by(() => {
         <svelte:component this={component} {event} />
 
 
+            {#if showReactions && reactions?.length > 0 }
+                <div class="reactions mt-1">
+                    <Reactions {reactions} {event} />
+                </div>
+            {/if}
     </div>
 
 
