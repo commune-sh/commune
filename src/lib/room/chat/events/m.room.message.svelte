@@ -74,6 +74,12 @@ const reply_to_event = $derived.by(() => {
 .chat-event { 
 }
 
+@media (max-width: 768px) {
+    .chat-event {
+        font-size: 13px;
+    }
+}
+
 :global(.chat-event a) {
     color: var(--link);
 }

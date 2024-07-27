@@ -81,10 +81,10 @@ export const getRoomMessages = async (opts) => {
     dir = opts.dir
   }
 
-  let url = `${base}/_matrix/client/v3/rooms/${opts.room_id}/messages?limit=50&dir=${dir}`;
+  let url = `${base}/_matrix/client/v3/rooms/${opts.room_id}/messages?limit=100&dir=${dir}`;
 
   if(opts?.end) {
-    url = `${base}/_matrix/client/v3/rooms/${opts.room_id}/messages?limit=50&dir=${dir}&from=${opts.end}`;
+    url = `${base}/_matrix/client/v3/rooms/${opts.room_id}/messages?limit=100&dir=${dir}&from=${opts.end}`;
   }
 
 

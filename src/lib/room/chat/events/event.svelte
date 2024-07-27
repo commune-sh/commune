@@ -65,7 +65,7 @@ const event_options = $state([
     {type: 'm.room.topic', show: true },
     {type: 'm.room.avatar', show: true },
     {type: 'm.reaction', show: false},
-    {type: 'm.room.redaction', show: true},
+    {type: 'm.room.redaction', show: false},
     {type: 'm.room.encryption', show: true},
     {type: 'm.room.history_visibility', show: true},
     {type: 'm.room.join_rules', show: true},
