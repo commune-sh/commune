@@ -138,7 +138,9 @@ const nextEventTypeSame = $derived.by(() => {
 })
 
 const hideEvent = $derived.by(() => {
-    return nextSenderSame && nextEventTypeSame
+    return nextSenderSame && nextEventTypeSame &&
+        event?.type != 'm.room.message' && 
+        next_event?.type != 'm.room.message'
 })
 
 const is_reply = $derived.by(() => {
