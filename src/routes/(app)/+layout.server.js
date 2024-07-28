@@ -31,9 +31,18 @@ export async function load( { fetch, params, url, cookies, request } ) {
         const u = resp["commune.appservice"].url
 
         let url = `${u}/_matrix/client/v3/rooms/${params.space}/info`
+        if(params.room != undefined) {
+          url = `${u}/_matrix/client/v3/rooms/${params.space}/info?room=${params.room}`
+        }
+
         const r = await fetch(url)
-        const space =  await r.json()
-        data.space = space
+        const info = await r.json()
+        if(info?.info) {
+          data.space = info.info
+        }
+        if(info?.room) {
+          data.room = info.room
+        }
 
         /*
         if(params.room != undefined) {
