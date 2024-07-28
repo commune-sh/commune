@@ -54,16 +54,10 @@ const action = $derived.by(() => {
 
 </script>
 
-<div class="grid grid-cols-[auto_auto_1fr] text-xs h-full select-none">
-    <div class="grid items-center">
-        <Avatar {sender} small={true} />
-    </div>
-
-    <div class="grid items-center ml-1">
-        <Sender event={event} />
-    </div>
-
-    <div class="flex items-center ml-1 text-light">
+<div class="content-center text-xs mt-[0.2rem]">
+    <Avatar {sender} small={true} inline={true} />
+    <Sender event={event} />
+    <span class="text-light">
         {#if joined || left}
             {action} the room
         {:else if invited}
@@ -73,5 +67,5 @@ const action = $derived.by(() => {
         {:else if new_avatar_url}
             changed their profile picture
         {/if}
-    </div>
+    </span>
 </div>

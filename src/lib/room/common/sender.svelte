@@ -5,7 +5,8 @@ const store = createStore()
 import { aliasFromSender } from '$lib/utils/matrix';
 
 let {
-    event
+    event,
+    inline
 } = $props();
 
 const state = $derived(store.matrix.active_room_state)

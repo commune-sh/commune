@@ -26,17 +26,11 @@ const action = $derived.by(() => {
 
 </script>
 
-<div class="grid grid-cols-[auto_auto_1fr] text-xs h-full">
-    <div class="grid items-center">
-        <Avatar {sender} small={true} />
-    </div>
-
-    <div class="grid items-center ml-1">
-        <Sender event={event} />
-    </div>
-
-    <div class="flex items-center ml-1">
-        <span class="mr-1 text-light">{action} the room topic to </span>
+<div class="content-center text-xs mt-[0.2rem]">
+    <Avatar {sender} small={true} inline={true} />
+    <Sender event={event} />
+    <span class="">
+        <span class="text-light">{action} the room topic to </span>
         <span class="font-semibold">{topic}</span>
-    </div>
+    </span>
 </div>

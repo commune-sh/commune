@@ -11,7 +11,8 @@ const store = createStore()
 
 let {
     sender,
-    small
+    small,
+    inline
 } = $props();
 
 const room_state = $derived(store.matrix.room_state)
@@ -44,8 +45,7 @@ const d = $derived.by(() => {
 
 </script>
 
-<div class="avatar bg-avatar bg-avatar grid place-items-center cursor-pointer"
-    class:small={small} >
+{#snippet content()}
     {#if avatar}
         <img src={avatar} 
             width={d} height={d}
@@ -56,20 +56,35 @@ const d = $derived.by(() => {
             {initial} 
         </div>
     {/if}
+{/snippet}
+
+{#if inline}
+    <div class="inline-block align-text-bottom avatar bg-avatar" class:small={small}>
+        {@render content()}
+    </div>
+{:else}
+<div class="avatar bg-avatar bg-avatar grid place-items-center cursor-pointer"
+    class:small={small} >
+        {@render content()}
 </div>
+{/if}
 
 <style>
 .avatar {
     border-radius: 50%;
     height: 32px;
     width: 32px;
-    line-height: 1;
 }
 
 .small {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
     font-size: 10px;
+}
+
+.initial {
+    line-height: normal;
+    text-align: center;
 }
 
 img {

@@ -185,6 +185,7 @@ const showEvent = $derived.by(() => {
     class="event-container grid
     hover:bg-shade-1 p-[0.2rem] mr-1" 
     class:highligt={highlight}
+    class:mb-2={is_message && !nextEventTypeSame}
     class:mt-2={showSender}>
 
 
