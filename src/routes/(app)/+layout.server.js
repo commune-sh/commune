@@ -53,7 +53,6 @@ export async function load( { fetch, params, url, cookies, request } ) {
         }
         if(info?.sender) {
           data.sender = info.sender
-          console.log(info.sender)
         }
 
         /*

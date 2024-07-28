@@ -44,6 +44,12 @@ export function canonical_alias(room_alias) {
   return `#${room_alias}:${PUBLIC_HOMESERVER_NAME}`;
 }
 
+export function cleanDisplayname(name) {
+  if(name.includes('__ooye__')) {
+    return name.replace('_ooye_', '')
+  }
+}
+
 export function is_local_room(room_id) {
   if(!room_id) return false;
   const parts = room_id.split(':');

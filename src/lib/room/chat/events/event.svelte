@@ -1,4 +1,5 @@
 <script>
+import { page } from '$app/stores';
 import { dayOfMonth, formatTS } from '$lib/utils/time.js'
 import Time from '$lib/room/common/time.svelte'
 import Date from '$lib/room/common/date.svelte'
@@ -142,6 +143,12 @@ const id = $derived.by(() => {
     return event?.event_id
 })
 
+const highlight = $derived.by(() => {
+    const url_event = $page.url.searchParams.get('event');
+    if(url_event == id) return true
+    return false
+})
+
 </script>
 
 {#if showEvent}
@@ -150,6 +157,7 @@ const id = $derived.by(() => {
     data-event-id={id}
     class="event-container grid
     hover:bg-shade-1 p-[0.2rem] mr-1" 
+    class:highligt={highlight}
     class:mt-2={showSender}>
 
 
@@ -239,5 +247,10 @@ const id = $derived.by(() => {
     bottom: 0;
     left: 34px;
     min-height: 0.5rem;
+}
+
+.highligt {
+    background-color: var(--shade-2);
+    border-left: 2px solid var(--primary);
 }
 </style>

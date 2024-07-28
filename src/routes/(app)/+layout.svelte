@@ -8,12 +8,17 @@ import {
 } from '$env/static/public';
 
 import { page } from '$app/stores';
-import { get_local_part, processURL } from '$lib/utils/matrix'
 
 import { onMount } from 'svelte'
 import { browser } from '$app/environment';
 
 import { wellKnownClient, getVersions } from '$lib/matrix/requests'
+
+import { 
+    get_local_part,
+    cleanDisplayname,
+    processURL
+} from '$lib/utils/matrix'
 
 import Listeners from '$lib/listeners/listeners.svelte'
 
@@ -171,10 +176,11 @@ let description = $derived.by(() => {
 
 let author = $derived.by(() => {
     if(data?.sender?.displayname) {
-        return data.sender.displayname
+        return cleanDisplayname(data.sender.displayname)
     }
     if(data?.event?.sender) {
-        return data.event.sender
+        const local = get_local_part(data.event.sender)
+        return cleanDisplayname(local)
     }
     return PUBLIC_APP_NAME
 })
