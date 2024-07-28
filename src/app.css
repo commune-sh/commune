@@ -490,29 +490,5 @@ li::marker {
     color: var(--light);
 }
 
-.reply-to-content {
-    display: flex; 
-    flex-wrap: nowrap; 
-    white-space: nowrap; 
-    align-items: center;
-}
-
-.reply-to-content p,
-.reply-to-content div {
-    margin: 0; 
-    padding-right: 0.25rem;
-}
-
-.reply-to-content ul {
-    display: flex; 
-    padding: 0; 
-    margin: 0; 
-    list-style-type: disc; 
-    align-items: center; 
-}
-
-.reply-to-content ul li {
-    margin-right: 0.125rem;
-}
 
 

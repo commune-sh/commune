@@ -35,14 +35,13 @@ const new_content = $derived.by(() => {
 })
 
 const content = $derived.by(() => {
-    let data = reply_to_event?.content?.formatted_body ?
-        reply_to_event?.content?.formatted_body : reply_to_event?.content?.body
+    let data = reply_to_event?.content?.body
 
     if(new_content) {
-        data = new_content?.formatted_body ? new_content?.formatted_body : new_content?.body
+        data = new_content?.body
     }
-    const processed = processBody(data)
-    return processed
+    //const processed = processBody(data)
+    return data
     //return getFirstLine(processed)
 })
 
@@ -68,57 +67,31 @@ async function fetchEvent() {
     }
 
 }
+
+function goToEvent() {
+    console.log(reply_to_event)
+}
 </script>
 
-<div class="reply-to grid grid-cols-[auto_auto_1fr] gap-x-1
-    cursor-pointer justify-center mr-10"
-class:animate-pulse={!reply_to_event}>
 
-    <div class="grid place-items-center">
-        <Avatar {sender} small={true} />
-    </div>
-
-    <div class="grid place-items-center">
-        <Sender event={reply_to_event} />
-    </div>
-
-    <div class="flex items-center truncate ">
-        {#if content}
-            <div class="reply-to-content">
-                {@html content}
-            </div>
-        {:else}
-            <div class="h-full w-[200px] py-[0.2rem]">
-            <SkeletonSpan />
-            </div>
-        {/if}
-    </div>
+<div onclick={goToEvent}
+    class="content-body content-center text-xs mt-[0.2rem] 
+    truncate mr-10 cursor-pointer">
+    <Avatar {sender} small={true} inline={true} />
+    <Sender event={reply_to_event} />
+    {#if content}
+        <span class="reply-content text-light align-middle">
+            {@html content}
+        </span>
+    {:else}
+        <span class="h-full w-[200px] py-[0.2rem]">
+        <SkeletonSpan />
+        </span>
+    {/if}
 </div>
 
 <style>
-.reply-to {
-    font-size: 12px;
-    color: var(--light);
-    min-height: 26px;
-}
-
-.reply-to:hover {
+.content-body:hover .reply-content {
     color: var(--text);
-}
-
-::global(.reply-to-content ) {
-    white-space: nowrap;
-}
-::global(.reply-to-content p) {
-    display: inline;
-}
-::global(.reply-to-content ul) {
-    display: inline;
-}
-::global(.reply-to-content li) {
-    display: inline;
-}
-::global(.reply-to-content div) {
-    display: inline;
 }
 </style>
