@@ -16,6 +16,7 @@ import { wellKnownClient, getVersions } from '$lib/matrix/requests'
 
 import { 
     get_local_part,
+    aliasFromSender,
     cleanDisplayname,
     processURL
 } from '$lib/utils/matrix'
@@ -130,10 +131,10 @@ let active_space = $derived(store.matrix.active_space)
 let active_room = $derived(store.matrix.active_room)
 
 let title = $derived.by(() => {
-    if(data?.event?.sender && data?.room?.name) {
-        const local = get_local_part(data.event.sender)
-        const clean = cleanDisplayname(local)
-        return `${clean} (${data.event.sender}) - ${data.room.name}`
+    if(data?.event?.sender && data?.sender?.displayname) {
+        const alias = cleanDisplayname(data.sender.displayname)
+        const sender = cleanDisplayname(data.event.sender)
+        return `${alias} (${sender})`
     }
     if(data?.room?.name && data?.space?.name) {
         return `${data.room.name} - ${data.space.name}`

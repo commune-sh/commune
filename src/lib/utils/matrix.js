@@ -84,6 +84,10 @@ export function aliasFromName(name) {
   return slug.toLowerCase()
 }
 
+export function aliasFromSender(sender) {
+  return sender.replace(/^[\@](.*?):.*$/, '$1');
+}
+
 function buildRoom(room) {
   if (!room) return {};
   const roomEvent = room.currentState.getStateEvents('m.room.create')[0];
