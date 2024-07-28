@@ -45,7 +45,7 @@ export function canonical_alias(room_alias) {
 }
 
 export function cleanDisplayname(name) {
-  if(name.includes('__ooye__')) {
+  if(name.includes('_ooye_')) {
     return name.replace('_ooye_', '')
   }
 }
