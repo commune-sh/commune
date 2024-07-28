@@ -87,6 +87,12 @@ export const getRoomMessages = async (opts) => {
     url = `${base}/_matrix/client/v3/rooms/${opts.room_id}/messages?limit=100&dir=${dir}&from=${opts.end}`;
   }
 
+  if(opts?.filter) {
+    const filter = JSON.stringify(opts.filter)
+    const encoded = encodeURIComponent(filter);
+    //url = `${url}&filter=${encoded}`
+  }
+
 
   let options = {
       headers: {

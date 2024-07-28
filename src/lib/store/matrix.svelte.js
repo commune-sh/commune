@@ -408,11 +408,16 @@ export function createMatrixStore() {
 
     try {
 
+      const filter = {
+        lazy_load_members: true,
+      }
+
       const resp = await getRoomMessages({
         room_id: opts.room_id,
         authenticated: auth.authenticated,
         start: start,
         end: end,
+        filter: filter,
       })
 
       if(resp && !end && !start) {

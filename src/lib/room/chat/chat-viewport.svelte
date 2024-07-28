@@ -88,6 +88,10 @@ $effect(() => {
 
 })
 
+let last_reached = $derived.by(() => {
+    return events[0]?.type == 'm.room.create'
+})
+
 async function fetchMore() {
     observer.unobserve(ob)
     fetchingMore = false
@@ -151,7 +155,7 @@ function setupObserver() {
 
     let callback = (entries, observer) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting && !fetchingMore) {
+            if (entry.isIntersecting && !fetchingMore && !last_reached) {
                 fetchingMore = true
                 fetchMore()
             }

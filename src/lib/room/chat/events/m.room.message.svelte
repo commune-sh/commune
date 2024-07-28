@@ -1,6 +1,6 @@
 <script>
 import Image from '$lib/room/common/m.image.svelte'
-import Reactions from '$lib/room/common/reactions.svelte'
+import { trash } from '$lib/assets/icons'
 import { justEmoji, processBody } from '$lib/utils/utils.js'
 
 import { createStore } from '$lib/store/store.svelte.js'
@@ -51,9 +51,23 @@ const reply_to_event_id = $derived.by(() => {
 const reply_to_event = $derived.by(() => {
     return events.find(e => e.event_id == reply_to_event_id)
 })
+
+const redacted = $derived.by(() => {
+    return event?.unsigned?.['redacted_because']?.type == 'm.room.redaction'
+})
 </script>
 
 
+{#if redacted}
+<div class="chat-event pointer-events-none ">
+    <span class="inline-block align-middle text-light opacity-70 text-xs font-semibold">
+        Message Deleted.
+    </span>
+    <span class="inline-block align-middle icon h-[15px] w-[15px] ml-1">
+        {@html trash}
+    </span>
+</div>
+{:else}
 <div class="chat-event lg:pr-[5rem] sm:mr-[3rem]"
     class:just-emoji={just_emoji}>
     {#if !is_img}
@@ -66,6 +80,7 @@ const reply_to_event = $derived.by(() => {
         <Image {event} />
     {/if}
 </div>
+{/if}
 
 
 
