@@ -20,7 +20,8 @@ const displayname = $derived.by(() => {
     return user?.content?.displayname
 })
 
-const name = $derived(displayname ? displayname : aliasFromSender(sender))
+const name = $derived(displayname ? displayname : sender ?
+aliasFromSender(sender) : ``)
 
 </script>
 

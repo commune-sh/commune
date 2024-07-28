@@ -2,6 +2,8 @@
 import Avatar from '$lib/room/common/avatar.svelte'
 import Sender from '$lib/room/common/sender.svelte'
 
+import { aliasFromSender } from '$lib/utils/matrix';
+
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
 
@@ -41,6 +43,10 @@ const invited = $derived.by(() => {
     return event?.content?.membership == 'invite' 
 })
 
+const invited_user = $derived.by(() => {
+    return aliasFromSender(event?.state_key)
+})
+
 const action = $derived.by(() => {
     if(joined) return 'joined'
     if(left) return 'left'
@@ -57,17 +63,14 @@ const action = $derived.by(() => {
         <Sender event={event} />
     </div>
 
-    <div class="grid items-center ml-1 text-light">
+    <div class="flex items-center ml-1 text-light">
         {#if joined || left}
             {action} the room
-        {/if}
-        {#if invited}
-            invited {event?.state_key} to the room
-        {/if}
-        {#if new_displayname}
+        {:else if invited}
+            invited <span class="font-semibold mx-1 text-text">{invited_user}</span> to the room
+        {:else if new_displayname}
             changed their name
-        {/if}
-        {#if new_avatar_url}
+        {:else if new_avatar_url}
             changed their profile picture
         {/if}
     </div>

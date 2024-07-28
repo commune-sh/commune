@@ -85,6 +85,7 @@ export function aliasFromName(name) {
 }
 
 export function aliasFromSender(sender) {
+  if(!sender) return 
   return sender.replace(/^[\@](.*?):.*$/, '$1');
 }
 
