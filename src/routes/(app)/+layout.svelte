@@ -130,6 +130,11 @@ let active_space = $derived(store.matrix.active_space)
 let active_room = $derived(store.matrix.active_room)
 
 let title = $derived.by(() => {
+    if(data?.event?.sender && data?.room?.name) {
+        const local = get_local_part(data.event.sender)
+        const clean = cleanDisplayname(local)
+        return `${clean} (${data.event.sender}) - ${data.room.name}`
+    }
     if(data?.room?.name && data?.space?.name) {
         return `${data.room.name} - ${data.space.name}`
     }
