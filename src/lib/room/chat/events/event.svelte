@@ -12,8 +12,10 @@ import Sender from '$lib/room/common/sender.svelte'
 import ReplyToEvent from '$lib/room/chat/events/reply-to-event.svelte'
 
 import RoomCreated from '$lib/room/chat/events/m.room.create.svelte'
+import RoomNameEvent from '$lib/room/chat/events/m.room.name.svelte'
 import MessageEvent from '$lib/room/chat/events/m.room.message.svelte'
 import MembershipEvent from '$lib/room/chat/events/m.room.member.svelte'
+import TopicEvent from '$lib/room/chat/events/m.room.topic.svelte'
 
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
@@ -67,34 +69,31 @@ const event_options = $state([
     {type: 'm.room.avatar', show: true },
     {type: 'm.reaction', show: false},
     {type: 'm.room.redaction', show: false},
-    {type: 'm.room.encryption', show: true},
-    {type: 'm.room.history_visibility', show: true},
-    {type: 'm.room.join_rules', show: true},
+    {type: 'm.room.encryption', show: false},
+    {type: 'm.room.history_visibility', show: false},
+    {type: 'm.room.join_rules', show: false},
     {type: 'm.room.name', show: true},
     {type: 'm.room.power_levels', show: false},
-    {type: 'm.room.guest_access', show: true},
-    {type: 'm.room.canonical_alias', show: true},
-    {type: 'm.room.pinned_events', show: true},
-    {type: 'm.room.tombstone', show: true},
-    {type: 'm.room.third_party_invite', show: true},
-    {type: 'm.room.server_acl', show: true},
-    {type: 'm.room.aliases', show: true},
-    {type: 'm.room.related_groups', show: true},
+    {type: 'm.room.guest_access', show: false},
+    {type: 'm.room.canonical_alias', show: false},
+    {type: 'm.room.pinned_events', show: false},
+    {type: 'm.room.tombstone', show: false},
+    {type: 'm.room.third_party_invite', show: false},
+    {type: 'm.room.server_acl', show: false},
+    {type: 'm.room.aliases', show: false},
+    {type: 'm.room.related_groups', show: false},
 ])
 
 const components = $state([
     {type: 'm.room.create', component: RoomCreated },
+    {type: 'm.room.name', component: RoomNameEvent },
     {type: 'm.room.message', component: MessageEvent },
     {type: 'm.room.member', component: MembershipEvent },
+    {type: 'm.room.topic', component: TopicEvent },
 ])
 
 const component = $derived.by(() => {
     return components.find(c => c.type == event?.type)?.component
-})
-
-const showEvent = $derived.by(() => {
-    return event_options.find(e => e.type == event?.type)?.show &&
-        !is_replacement
 })
 
 const showReactions = $derived.by(() => {
@@ -108,7 +107,7 @@ const reactions = $derived.by(() => {
 
 function logEvent(e) {
     e.preventDefault()
-    console.log(event)
+    console.log($state.snapshot(event))
 }
 
 const formattedTS = $derived(formatTS(event?.origin_server_ts))
@@ -128,6 +127,18 @@ const prevSenderSame = $derived.by(() => {
 
 const prevEventTypeSame = $derived.by(() => {
     return prev_event?.type == event?.type
+})
+
+const nextSenderSame = $derived.by(() => {
+    return next_event?.sender == event?.sender
+})
+
+const nextEventTypeSame = $derived.by(() => {
+    return next_event?.type == event?.type
+})
+
+const hideEvent = $derived.by(() => {
+    return nextSenderSame && nextEventTypeSame
 })
 
 const is_reply = $derived.by(() => {
@@ -156,12 +167,18 @@ $effect(() => {
     }
 })
 
+const showEvent = $derived.by(() => {
+    return event_options.find(e => e.type == event?.type)?.show &&
+        !is_replacement && !hideEvent
+})
+
 </script>
 
 {#if showEvent}
 
 <div 
     bind:this={el}
+    ondblclick={logEvent}
     data-event-id={id}
     class="event-container grid
     hover:bg-shade-1 p-[0.2rem] mr-1" 
@@ -192,8 +209,7 @@ $effect(() => {
 
     </div>
 
-    <div class="event" 
-        oncontextmenu={logEvent}>
+    <div class="event-content"> 
 
         {#if showSender }
             <div class="event-sender">

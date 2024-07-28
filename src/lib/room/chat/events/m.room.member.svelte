@@ -1,4 +1,7 @@
 <script>
+import Avatar from '$lib/room/common/avatar.svelte'
+import Sender from '$lib/room/common/sender.svelte'
+
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
 
@@ -6,28 +9,66 @@ let {
     event,
 } = $props();
 
-const state = $derived(store.matrix.active_room_state)
 
-const user = $derived.by(() => {
-    return state?.find(x => x.state_key === event?.sender)
+const sender = $derived(event?.sender)
+
+const same_membership = $derived.by(() => {
+    return event?.content?.membership == event?.['prev_content']?.membership 
 })
 
-const displayname = $derived.by(() => {
-    return user?.content?.displayname
+const new_displayname = $derived.by(() => {
+    return event?.content?.displayname != event?.['prev_content']?.displayname 
+})
+
+const new_avatar_url = $derived.by(() => {
+    return event?.content?.avatar_url != event?.['prev_content']?.avatar_url 
 })
 
 const joined = $derived.by(() => {
-    return event?.content?.membership == 'join' && 
-        !event?.['prev_content'] && 
-        !event?.['replaces_state']
+    const new_join = event?.content?.membership == 'join' && !event?.['prev_content'] 
+    const invite_join = event?.content?.membership == 'join' && 
+        event?.['prev_content']?.membership == 'invite'
+
+    return new_join || invite_join
+})
+
+const left = $derived.by(() => {
+    return event?.content?.membership == 'leave' && 
+        event?.['prev_content']?.membership == 'join'
+})
+
+const invited = $derived.by(() => {
+    return event?.content?.membership == 'invite' 
+})
+
+const action = $derived.by(() => {
+    if(joined) return 'joined'
+    if(left) return 'left'
 })
 
 </script>
 
-<div class="text-xs justify-center">
-    <span>
-    {#if joined}
-        {displayname} joined the room
-    {/if}
-    </span>
+<div class="grid grid-cols-[auto_auto_1fr] text-xs h-full select-none">
+    <div class="grid items-center">
+        <Avatar {sender} small={true} />
+    </div>
+
+    <div class="grid items-center ml-1">
+        <Sender event={event} />
+    </div>
+
+    <div class="grid items-center ml-1 text-light">
+        {#if joined || left}
+            {action} the room
+        {/if}
+        {#if invited}
+            invited {event?.state_key} to the room
+        {/if}
+        {#if new_displayname}
+            changed their name
+        {/if}
+        {#if new_avatar_url}
+            changed their profile picture
+        {/if}
+    </div>
 </div>

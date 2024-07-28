@@ -4,6 +4,7 @@ import {
 } from '$lib/utils/matrix'
 
 import { createInitials } from '$lib/utils/string';
+import { aliasFromSender } from '$lib/utils/matrix';
 
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
@@ -33,7 +34,9 @@ const displayname = $derived.by(() => {
     return user?.content?.displayname?.toUpperCase()
 })
 
-const initial = $derived(createInitials(displayname))
+const name = $derived(displayname ? displayname : aliasFromSender(sender))
+
+const initial = $derived(createInitials(name))
 
 const d = $derived.by(() => {
     return small ? 16 : 32
@@ -49,7 +52,7 @@ const d = $derived.by(() => {
             alt={displayname} class="" loading="lazy" />
     {/if}
     {#if !avatar}
-        <div class="initial font-semibold">
+        <div class="initial font-semibold uppercase">
             {initial} 
         </div>
     {/if}
@@ -68,6 +71,7 @@ const d = $derived.by(() => {
     height: 16px;
     font-size: 10px;
 }
+
 img {
     border-radius: 50%;
 }

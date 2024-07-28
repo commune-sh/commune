@@ -2,6 +2,8 @@
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
 
+import { aliasFromSender } from '$lib/utils/matrix';
+
 let {
     event
 } = $props();
@@ -12,14 +14,18 @@ const user = $derived.by(() => {
     return state?.find(x => x.state_key === event?.sender)
 })
 
+const sender = $derived(event?.sender)
+
 const displayname = $derived.by(() => {
     return user?.content?.displayname
 })
 
+const name = $derived(displayname ? displayname : aliasFromSender(sender))
+
 </script>
 
 <span class="sender font-semibold">
-    {displayname}
+    {name}
 </span>
 
 <style>

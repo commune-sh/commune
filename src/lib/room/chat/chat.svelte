@@ -24,6 +24,7 @@ const events = $derived(store.matrix.active_room_events)
 let composer;
 
 
+let ready = $state(false)
 
 </script>
 

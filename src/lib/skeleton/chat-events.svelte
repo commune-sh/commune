@@ -19,13 +19,13 @@ function tp() {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 let el;
-onMount(() => {
+$effect(() => {
     el.scrollTop = el.scrollHeight;
 })
 </script>
 
-<section class="events animate-pulse" class:h={embed}>
-    <div class="co" bind:this={el}>
+<section class="skeleton-events h-full" class:h={embed}>
+    <div class="co overflow-y-auto" bind:this={el}>
     {#each Array(num) as _, i}
         <div class="event p-3">
             <div class="img "></div>
@@ -42,11 +42,10 @@ onMount(() => {
 </section>
 
 <style>
-.events {
+.skeleton-events {
     display: grid;
     grid-template-rows: repeat(auto-fill, auto);
     overflow: hidden;
-    pointer-events: none;
     position: relative;
 }
 
@@ -55,7 +54,6 @@ onMount(() => {
 }
 
 .co {
-    overflow: hidden;
 }
 
 .event {
