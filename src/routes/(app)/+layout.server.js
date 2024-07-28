@@ -23,25 +23,37 @@ export async function load( { fetch, params, url, cookies, request } ) {
   if(!access_token && !client_id && params.space != undefined ) {
 
     try {
-      let url = `${PUBLIC_HOMESERVER_BASE_URL}/.well-known/matrix/client`
-      const response = await fetch(url)
+      let curl = `${PUBLIC_HOMESERVER_BASE_URL}/.well-known/matrix/client`
+      const response = await fetch(curl)
       const resp =  await response.json()
       if(resp?.["commune.appservice"]?.url) {
 
         const u = resp["commune.appservice"].url
 
-        let url = `${u}/_matrix/client/v3/rooms/${params.space}/info`
+        let iurl = `${u}/_matrix/client/v3/rooms/${params.space}/info`
         if(params.room != undefined) {
-          url = `${u}/_matrix/client/v3/rooms/${params.space}/info?room=${params.room}`
+          iurl = `${u}/_matrix/client/v3/rooms/${params.space}/info?room=${params.room}`
+          let event = url.searchParams.get('event');
+          if(event) {
+            iurl = `${u}/_matrix/client/v3/rooms/${params.space}/info?room=${params.room}&event=${event}`
+          }
         }
 
-        const r = await fetch(url)
+
+        const r = await fetch(iurl)
         const info = await r.json()
         if(info?.info) {
           data.space = info.info
         }
         if(info?.room) {
           data.room = info.room
+        }
+        if(info?.event) {
+          data.event = info.event
+        }
+        if(info?.sender) {
+          data.sender = info.sender
+          console.log(info.sender)
         }
 
         /*

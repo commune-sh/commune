@@ -69,7 +69,7 @@ $effect(() => {
 
 $effect.pre(() =>{
     if(data) {
-        console.log($state.snapshot(data))
+        //console.log($state.snapshot(data))
     }
     if(data?.space && store.app.appservice_reachable) {
         prepareSpace()
@@ -144,6 +144,9 @@ let title = $derived.by(() => {
 })
 
 let image = $derived.by(() => {
+    if(data?.sender?.avatar_url) {
+        return processURL(data.sender.avatar_url)
+    }
     if(data?.room?.avatar_url) {
         return processURL(data.room.avatar_url)
     }
@@ -154,6 +157,9 @@ let image = $derived.by(() => {
 })
 
 let description = $derived.by(() => {
+    if(data?.event?.content?.body) {
+        return data.event.content.body
+    }
     if(data?.room?.topic) {
         return data.room.topic
     }
@@ -161,6 +167,16 @@ let description = $derived.by(() => {
         return data.space.topic
     }
     return PUBLIC_META_DESCRIPTION
+})
+
+let author = $derived.by(() => {
+    if(data?.sender?.displayname) {
+        return data.sender.displayname
+    }
+    if(data?.event?.sender) {
+        return data.event.sender
+    }
+    return PUBLIC_APP_NAME
 })
 
 </script>
@@ -180,6 +196,10 @@ let description = $derived.by(() => {
     {#if description}
         <meta name="description" content={description}>
         <meta property="og:description" content={description}>
+    {/if}
+    {#if author}
+        <meta name="author" content={author}>
+        <meta property="og:author" content={author}>
     {/if}
 </svelte:head>
 
