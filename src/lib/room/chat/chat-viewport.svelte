@@ -1,4 +1,6 @@
 <script>
+import { page } from '$app/stores';
+
 import Event from '$lib/room/chat/events/event.svelte'
 
 import { debounce } from '$lib/utils/utils'
@@ -21,9 +23,25 @@ const position = $derived.by(() => {
 
 let viewport;
 
+const context_event = $derived.by(() => {
+    const url_event = $page.url.searchParams.get('event');
+    if(url_event) return events.find(e => e.event_id == url_event)
+    return null
+})
+
 $effect(() => {
 
     if(viewport && !count) {
+        if(context_event) {
+            tick().then(() => {
+                const el = document.querySelector(`[data-event-id="${context_event.event_id}"]`)
+                console.log(el)
+                if(el) {
+                    el.scrollIntoView({block: "center", inline: "nearest"})
+                }
+            });
+            return
+        }
         console.log("Setting initial scroll position")
         tick().then(() => {
             viewport.scrollTop = viewport.scrollHeight - viewport.clientHeight

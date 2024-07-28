@@ -149,11 +149,19 @@ const highlight = $derived.by(() => {
     return false
 })
 
+let el;
+
+$effect(() => {
+    if(highlight) {
+    }
+})
+
 </script>
 
 {#if showEvent}
 
 <div 
+    bind:this={el}
     data-event-id={id}
     class="event-container grid
     hover:bg-shade-1 p-[0.2rem] mr-1" 
