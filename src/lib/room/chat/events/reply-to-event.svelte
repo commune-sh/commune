@@ -8,7 +8,7 @@ import Sender from '$lib/room/common/sender.svelte'
 
 import SkeletonSpan from '$lib/skeleton/span.svelte'
 
-import { processBody } from '$lib/utils/utils.js'
+import { processBody, textContent } from '$lib/utils/utils.js'
 
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
@@ -35,13 +35,14 @@ const new_content = $derived.by(() => {
 })
 
 const content = $derived.by(() => {
-    let data = reply_to_event?.content?.body
+    let data = reply_to_event?.content?.formatted_body ?
+        reply_to_event?.content?.formatted_body : reply_to_event?.content?.body
 
     if(new_content) {
-        data = new_content?.body
+        data = new_content?.formatted_body ? new_content?.formatted_body : new_content?.body
     }
-    //const processed = processBody(data)
-    return data
+    const processed = processBody(data)
+    return textContent(processed)
     //return getFirstLine(processed)
 })
 

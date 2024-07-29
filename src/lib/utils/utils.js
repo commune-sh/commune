@@ -42,3 +42,10 @@ export function processBody(text) {
   const regex = emojiRegex();
   return text?.replace(regex, '<span class="emoji">$&</span>');
 }
+
+export function textContent(text) {
+  if(!text) return
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(text, 'text/html');
+  return doc.body.textContent || "";
+}

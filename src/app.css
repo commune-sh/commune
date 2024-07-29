@@ -469,8 +469,13 @@ code {
     font-family: monospace;
     background: var(--shade-3);
     border-radius: 3px;
-    padding: 0.1rem 0.2rem;
-    font-size: 0.875rem;
+    padding: 0 0.2rem;
+    font-size: 13.5px;
+}
+@media (max-width: 768px) {
+    code {
+        font-size: 12.5px;
+    }
 }
 
 
