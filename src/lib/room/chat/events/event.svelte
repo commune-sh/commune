@@ -297,6 +297,7 @@ const showEvent = $derived.by(() => {
     .event-container {
         padding: 0;
         padding-right: 1rem;
+        line-height: 1rem;
     }
     .spine::before {
         left: 26px;

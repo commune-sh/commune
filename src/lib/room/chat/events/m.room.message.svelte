@@ -73,7 +73,7 @@ const redacted = $derived.by(() => {
     {#if !is_img}
         {@html content}
         {#if new_content}
-            <span class="text-xs text-light">(edited)</span>
+            <span class="text-light">(edited)</span>
         {/if}
     {/if}
     {#if is_img}
@@ -91,8 +91,7 @@ const redacted = $derived.by(() => {
 
 @media (max-width: 768px) {
     .chat-event {
-        font-size: 12px;
-        line-height: 1rem;
+        font-size: 11px;
     }
 }
 
