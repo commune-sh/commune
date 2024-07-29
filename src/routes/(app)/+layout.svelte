@@ -18,7 +18,7 @@ import {
     get_local_part,
     aliasFromSender,
     cleanDisplayname,
-    processURL
+    processURL,
 } from '$lib/utils/matrix'
 
 import Listeners from '$lib/listeners/listeners.svelte'
@@ -155,6 +155,9 @@ let title = $derived.by(() => {
 })
 
 let image = $derived.by(() => {
+    if(data?.event?.content?.url) {
+        return processURL(event.content.url)
+    }
     if(data?.sender?.avatar_url) {
         return processURL(data.sender.avatar_url)
     }

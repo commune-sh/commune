@@ -181,16 +181,16 @@ const showEvent = $derived.by(() => {
 
 </script>
 
-{#if isNewDay}
-    <NewDay {event} />
-{/if}
-
-
 {#if m_room_create}
     <RoomCreated />
 {/if}
 
 {#if showEvent}
+
+{#if isNewDay}
+    <NewDay {event} />
+{/if}
+
 
 <div 
     bind:this={el}
