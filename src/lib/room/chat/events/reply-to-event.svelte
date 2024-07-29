@@ -81,7 +81,7 @@ function goToEvent() {
     <Avatar {sender} small={true} inline={true} />
     <Sender event={reply_to_event} />
     {#if content}
-        <span class="reply-content text-light align-middle">
+        <span class="reply-content text-light ">
             {@html content}
         </span>
     {:else}

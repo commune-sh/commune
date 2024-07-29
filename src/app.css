@@ -52,7 +52,7 @@
     --shade-10: hsla(0, 0%, 25%, 1);
     --link: hsla(0, 99%, 33%, 1);
     --text: hsla(0, 0%, 90%, 1);
-    --light: hsla(0, 0%, 70%, 1);
+    --light: hsla(0, 0%, 50%, 1);
     --primary: hsla(0, 99%, 33%, 1);
     --logo-background: hsla(0, 99%, 33%, 1);
     --logo-fill: hsla(0, 0%, 0%, 1);
@@ -474,7 +474,7 @@ code {
 }
 @media (max-width: 768px) {
     code {
-        font-size: 12.5px;
+        font-size: 11.5px;
     }
 }
 

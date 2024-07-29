@@ -202,14 +202,14 @@ const showEvent = $derived.by(() => {
 
 
         {#if is_reply}
-            <div class="reply-to-event grid grid-cols-[72px_1fr]">
+            <div class="reply-to-event grid grid-pad">
                 <div class="spine">
                 </div>
                 <ReplyToEvent {event} />
             </div>
         {/if}
 
-<div class="event-body grid grid-cols-[72px_1fr]" >
+<div class="event-body grid grid-pad" >
 
     <div class="event-context grid justify-center">
         {#if showSender}
@@ -229,7 +229,7 @@ const showEvent = $derived.by(() => {
         {#if showSender }
             <div class="event-sender">
                 <Sender {event} />
-                <span class="time ml-2 text-light">
+                <span class="time ml-1 text-light">
                    <Date event={event} />
                 </span>
             </div>
@@ -251,6 +251,11 @@ const showEvent = $derived.by(() => {
 {/if}
 
 <style>
+
+.grid-pad {
+    grid-template-columns: 72px 1fr;
+}
+
 .event-container {
     font-size: 0.875rem;
     line-height: 1.375rem;
@@ -262,13 +267,6 @@ const showEvent = $derived.by(() => {
     font-size: 10px;
 }
 
-
-@media (max-width: 768px) {
-    .event-container {
-        padding: 0;
-        padding-right: 1rem;
-    }
-}
 
 .spine { 
     position: relative;
@@ -287,6 +285,24 @@ const showEvent = $derived.by(() => {
     left: 34px;
     min-height: 0.5rem;
 }
+
+.reply-to-event {
+    min-height: 2rem;
+}
+
+@media (max-width: 768px) {
+    .grid-pad {
+        grid-template-columns: 52px 1fr;
+    }
+    .event-container {
+        padding: 0;
+        padding-right: 1rem;
+    }
+    .spine::before {
+        left: 26px;
+    }
+}
+
 
 .highligt {
     background-color: var(--shade-2);

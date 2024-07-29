@@ -91,8 +91,8 @@ const redacted = $derived.by(() => {
 
 @media (max-width: 768px) {
     .chat-event {
-        font-size: 13px;
-        line-height: 1.175rem;
+        font-size: 12px;
+        line-height: 1rem;
     }
 }
 
