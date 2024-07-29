@@ -64,7 +64,7 @@ const alt = $derived(event?.content?.body)
 
 
 let image = $derived.by(() => {
-    return thumbnailURL(url, 320, 320, 'scale')
+    return thumbnailURL(url, width, height, 'scale')
 })
 
 let full_image = $derived.by(() => {
