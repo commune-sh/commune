@@ -1,4 +1,6 @@
 <script>
+import { decode } from "blurhash";
+
 import { 
     thumbnailURL,
 } from '$lib/utils/matrix'
@@ -15,11 +17,6 @@ const h = $derived(img_info?.h)
 const w = $derived(img_info?.w)
 const ratio = $derived(h/w)
 
-const size = $derived(img_info?.size)
-const mimetype = $derived(img_info?.mimetype)
-const url = $derived(event?.content?.url)
-const alt = $derived(event?.content?.body)
-
 const width = $derived.by(() => {
     if(w > 320) {
         return 320
@@ -30,6 +27,37 @@ const width = $derived.by(() => {
 const height = $derived.by(() => {
     return width * ratio
 })
+
+const blurhash = $derived(img_info?.['xyz.amorgan.blurhash'])
+
+let el;
+
+const decoded = $derived.by(() => {
+    if(blurhash) {
+        return decode(blurhash, width, height);
+    }
+})
+
+let blurhash_url = $state(null);
+
+$effect(() => {
+    if(el && decoded && width && height) {
+        const canvas = document.createElement("canvas");
+        canvas.width = width
+        canvas.height = height
+        const ctx = canvas.getContext("2d");
+        const imageData = ctx.createImageData(width, height);
+        imageData.data.set(decoded);
+        ctx.putImageData(imageData, 0, 0);
+        blurhash_url = canvas.toDataURL()
+    }
+})
+
+const size = $derived(img_info?.size)
+const mimetype = $derived(img_info?.mimetype)
+const url = $derived(event?.content?.url)
+const alt = $derived(event?.content?.body)
+
 
 let image = $derived.by(() => {
     return thumbnailURL(url, 320, 240, 'scale')
@@ -48,9 +76,11 @@ function expand() {
 function kill(e) {
     expanded = false
 }
+
 </script>
 
-<div class="image relative">
+<div bind:this={el} class="image relative mb-1 bg-img"
+style="background-image: url({blurhash_url}); --width: {width}; --height: {height}">
     <img 
         onclick={expand}
         src={image} 
@@ -78,6 +108,9 @@ function kill(e) {
 <style>
 .image {
     overflow: hidden;
+    width: calc(var(--width) * 1px);
+    height: calc(var(--height) * 1px);
+    border-radius: 8px;
 }
 
 .image img {

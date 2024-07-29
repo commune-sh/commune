@@ -28,6 +28,7 @@
 		"@tiptap/core": "^2.5.5",
 		"@tiptap/pm": "^2.5.5",
 		"@tiptap/starter-kit": "^2.5.5",
+		"blurhash": "^2.0.5",
 		"dayjs": "^1.11.12",
 		"emoji-regex": "^10.3.0",
 		"matrix-js-sdk": "^32.4.0",

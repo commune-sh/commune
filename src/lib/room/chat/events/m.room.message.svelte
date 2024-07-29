@@ -73,7 +73,7 @@ const redacted = $derived.by(() => {
     {#if !is_img}
         {@html content}
         {#if new_content}
-            <span class="text-light">(edited)</span>
+            <span class="text-light text-[0.8em]">(edited)</span>
         {/if}
     {/if}
     {#if is_img}

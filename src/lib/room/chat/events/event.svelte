@@ -19,6 +19,7 @@ import RoomNameEvent from '$lib/room/chat/events/m.room.name.svelte'
 import MessageEvent from '$lib/room/chat/events/m.room.message.svelte'
 import MembershipEvent from '$lib/room/chat/events/m.room.member.svelte'
 import TopicEvent from '$lib/room/chat/events/m.room.topic.svelte'
+import AvatarEvent from '$lib/room/chat/events/m.room.avatar.svelte'
 
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
@@ -93,6 +94,7 @@ const components = $state([
     {type: 'm.room.message', component: MessageEvent },
     {type: 'm.room.member', component: MembershipEvent },
     {type: 'm.room.topic', component: TopicEvent },
+    {type: 'm.room.avatar', component: AvatarEvent },
 ])
 
 const component = $derived.by(() => {
@@ -295,12 +297,16 @@ const showEvent = $derived.by(() => {
         grid-template-columns: 52px 1fr;
     }
     .event-container {
+        font-size: 0.8rem;
         padding: 0;
         padding-right: 1rem;
         line-height: 1rem;
     }
     .spine::before {
         left: 26px;
+    }
+    .reply-to-event {
+        min-height: 1.8rem;
     }
 }
 

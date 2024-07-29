@@ -6,6 +6,7 @@ export function convertFromMXC(url) {
 }
 
 export function processURL(url) {
+  if(!url) return
   if(url.startsWith('mxc://')) {
     return convertFromMXC(url)
   }
@@ -20,6 +21,7 @@ export function thumbnail_from_MXC(url, width, height, method) {
 }
 
 export function thumbnailURL(url, width, height, method) {
+  if(!url) return
   if(url.includes('mxc://')) {
     return thumbnail_from_MXC(url, width, height, method)
   }

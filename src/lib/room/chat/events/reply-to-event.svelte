@@ -76,12 +76,12 @@ function goToEvent() {
 
 
 <div onclick={goToEvent}
-    class="content-body content-center text-xs mt-[0.2rem] 
-    truncate mr-10 cursor-pointer">
+    class="content-body content-center mt-[0.2rem] 
+    truncate text-light mr-10 cursor-pointer">
     <Avatar {sender} small={true} inline={true} />
     <Sender event={reply_to_event} />
     {#if content}
-        <span class="reply-content text-light ">
+        <span class="reply-content">
             {@html content}
         </span>
     {:else}
@@ -92,7 +92,15 @@ function goToEvent() {
 </div>
 
 <style>
-.content-body:hover .reply-content {
+.content-body {
+    font-size: 12px;
+}
+@media (max-width: 768px) {
+    .content-body {
+        font-size: 10px;
+    }
+}
+.content-body:hover {
     color: var(--text);
 }
 </style>
