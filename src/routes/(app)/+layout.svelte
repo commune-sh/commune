@@ -156,7 +156,7 @@ let title = $derived.by(() => {
 
 let image = $derived.by(() => {
     if(data?.event?.content?.url) {
-        return thumbnailURL(data.event.content.url, 320, 320, 'crop')
+        return processURL(data?.event.content.url)
     }
     if(data?.sender?.avatar_url) {
         return processURL(data.sender.avatar_url)
