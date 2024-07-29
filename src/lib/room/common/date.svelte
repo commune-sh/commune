@@ -4,59 +4,54 @@ import utc from 'dayjs/plugin/utc'
 import tz from 'dayjs/plugin/timezone'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import updateLocale from 'dayjs/plugin/updateLocale'
+import advancedFormat from 'dayjs/plugin/advancedFormat'
+import isToday from 'dayjs/plugin/isToday'
+import isYesterday from 'dayjs/plugin/isYesterday'
 
 dayjs.extend(utc);
 dayjs.utc()
 dayjs.extend(tz)
-dayjs.extend(relativeTime)
-dayjs.extend(updateLocale)
-
-dayjs.updateLocale('en', {
-  relativeTime: {
-    future: "in %s",
-    past: "%s ago",
-    s: 'just now',
-    m: "1m",
-    mm: "%dm",
-    h: "1h",
-    hh: "%dh",
-    d: "1d",
-    dd: "%dd",
-    M: "a month",
-    MM: "%d months",
-    y: "a year",
-    yy: "%d years"
-  }
-})
+dayjs.extend(advancedFormat)
+dayjs.extend(isToday)
+dayjs.extend(isYesterday)
 
 let {
-    date
+    event
 } = $props();
 
-const isToday = $derived.by(() => {
-    return dayjs().isSame(dayjs(date), 'day')
+const ots = $derived(event?.origin_server_ts)
+
+const today = $derived.by(() => {
+    return dayjs(ots).isToday()
 })
 
-const isThisWeek = $derived.by(() => {
-    return dayjs().diff(dayjs(date), 'day') < 7
+const yesterday = $derived.by(() => {
+    return dayjs(ots).isYesterday()
 })
 
-const when = $derived.by(() => {
-    return dayjs(date)?.fromNow(true)
+const this_week = $derived.by(() => {
+    return dayjs().diff(dayjs(ots), 'day') < 7
 })
 
-const created = $derived.by(() => {
-    return dayjs(date)?.format('MMM D')
+const date = $derived.by(() => {
+    return dayjs(ots)?.format('ddd, MMMM, Do')
 })
 
-const title = $derived.by(() => {
-    return dayjs(date)?.format()
+const time = $derived.by(() => {
+    return dayjs(ots)?.format('h:mm A')
 })
-
 
 </script>
 
-{isThisWeek ? when : created}
+{#if today}
+    Today at
+{:else if yesterday}
+    Yesterday at
+{:else}
+    {date}
+{/if}
+
+{time}
 
 <style>
 </style>

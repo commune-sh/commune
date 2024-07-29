@@ -7,23 +7,18 @@ dayjs.extend(utc);
 dayjs.utc()
 dayjs.extend(tz)
 
-
 let {
-    date
+    event
 } = $props();
 
-const created = $derived.by(() => {
-    return dayjs(date)?.format('h:mm A')
+const ots = $derived(event?.origin_server_ts)
+
+const time = $derived.by(() => {
+    return dayjs(ots)?.format('h:mm A')
 })
-
-const title = $derived.by(() => {
-    return dayjs(date)?.format()
-})
-
-
 </script>
 
-{created}
+{time}
 
 <style>
 </style>

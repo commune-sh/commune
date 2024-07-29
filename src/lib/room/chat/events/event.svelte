@@ -9,9 +9,12 @@ import Reactions from '$lib/room/common/reactions.svelte'
 import Avatar from '$lib/room/common/avatar.svelte'
 import Sender from '$lib/room/common/sender.svelte'
 
+import NewDay from '$lib/room/chat/components/new-day.svelte'
+import RoomCreated from '$lib/room/chat/components/room-created.svelte'
+
 import ReplyToEvent from '$lib/room/chat/events/reply-to-event.svelte'
 
-import RoomCreated from '$lib/room/chat/events/m.room.create.svelte'
+import RoomCreateEvent from '$lib/room/chat/events/m.room.create.svelte'
 import RoomNameEvent from '$lib/room/chat/events/m.room.name.svelte'
 import MessageEvent from '$lib/room/chat/events/m.room.message.svelte'
 import MembershipEvent from '$lib/room/chat/events/m.room.member.svelte'
@@ -85,7 +88,7 @@ const event_options = $state([
 ])
 
 const components = $state([
-    {type: 'm.room.create', component: RoomCreated },
+    {type: 'm.room.create', component: RoomCreateEvent },
     {type: 'm.room.name', component: RoomNameEvent },
     {type: 'm.room.message', component: MessageEvent },
     {type: 'm.room.member', component: MembershipEvent },
@@ -176,6 +179,15 @@ const showEvent = $derived.by(() => {
 
 </script>
 
+{#if isNewDay}
+    <NewDay {event} />
+{/if}
+
+
+{#if m_room_create}
+    <RoomCreated />
+{/if}
+
 {#if showEvent}
 
 <div 
@@ -206,7 +218,7 @@ const showEvent = $derived.by(() => {
             </div>
         {:else}
             <div class="time text-light justify-center opacity-0">
-                <Time date={event.origin_server_ts} />
+                <Time event={event} />
             </div>
         {/if}
 
@@ -218,7 +230,7 @@ const showEvent = $derived.by(() => {
             <div class="event-sender">
                 <Sender {event} />
                 <span class="time ml-2 text-light">
-                   <Date date={event?.origin_server_ts} />
+                   <Date event={event} />
                 </span>
             </div>
         {/if}
