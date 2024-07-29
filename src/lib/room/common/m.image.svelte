@@ -49,7 +49,6 @@ $effect(() => {
         canvas.height = h
         const ctx = canvas.getContext("2d");
         const imageData = ctx.createImageData(w, h);
-        console.log(imageData)
         if(imageData) {
             imageData.data.set(decoded);
             ctx.putImageData(imageData, 0, 0);

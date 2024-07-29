@@ -18,8 +18,16 @@ const store = createStore()
 const room = $derived(store.matrix.active_room)
 const state = $derived(store.matrix.active_room_state)
 
-const events = $derived(store.matrix.active_room_events)
+//const events = $derived(store.matrix.active_room_events)
 
+const events = $derived.by(() => {
+  return store.matrix.events[room?.room_id]?.events
+})
+
+$effect(() => {
+    if(events) {
+    }
+})
 
 let composer;
 
