@@ -34,22 +34,27 @@ let el;
 
 const decoded = $derived.by(() => {
     if(blurhash) {
-        return decode(blurhash, width, height);
+        return decode(blurhash, w, h);
     }
 })
 
 let blurhash_url = $state(null);
+let blurhash_set = $state(false);
 
 $effect(() => {
-    if(el && decoded && width && height) {
+    if(!blurhash_set && decoded && w && h) {
+        blurhash_set = true
         const canvas = document.createElement("canvas");
-        canvas.width = width
-        canvas.height = height
+        canvas.width = w
+        canvas.height = h
         const ctx = canvas.getContext("2d");
-        const imageData = ctx.createImageData(width, height);
-        imageData.data.set(decoded);
-        ctx.putImageData(imageData, 0, 0);
-        blurhash_url = canvas.toDataURL()
+        const imageData = ctx.createImageData(w, h);
+        console.log(imageData)
+        if(imageData) {
+            imageData.data.set(decoded);
+            ctx.putImageData(imageData, 0, 0);
+            blurhash_url = canvas.toDataURL()
+        }
     }
 })
 
@@ -60,7 +65,7 @@ const alt = $derived(event?.content?.body)
 
 
 let image = $derived.by(() => {
-    return thumbnailURL(url, 320, 240, 'scale')
+    return thumbnailURL(url, 320, 320, 'scale')
 })
 
 let full_image = $derived.by(() => {
@@ -115,8 +120,6 @@ style="background-image: url({blurhash_url}); --width: {width}; --height: {heigh
 
 .image img {
     cursor: pointer;
-    max-width: 320px;
-    max-height: 240px;
     border-radius: 8px;
 }
 
