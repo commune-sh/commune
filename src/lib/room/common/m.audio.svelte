@@ -31,4 +31,7 @@ const src = $derived.by(() => {
 
 
 <style>
+audio {
+    height: 2rem;
+}
 </style>

@@ -106,16 +106,9 @@ const redacted = $derived.by(() => {
 .chat-event { 
 }
 
-@media (max-width: 768px) {
-    .chat-event {
-        font-size: 11px;
-    }
-}
-
 :global(.chat-event a) {
     color: var(--link);
 }
-
 
 :global(.chat-event .emoji) {
     font-size: 1.3rem;
@@ -126,4 +119,17 @@ const redacted = $derived.by(() => {
     vertical-align: text-bottom;
     line-height: 1;
 }
+
+@media (max-width: 768px) {
+    .chat-event {
+        font-size: 11px;
+    }
+    :global(.chat-event .emoji) {
+        font-size: 0.8rem;
+    }
+    :global(.just-emoji .emoji) {
+        font-size: 1.4rem;
+    }
+}
+
 </style>
