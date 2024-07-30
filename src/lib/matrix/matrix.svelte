@@ -2,6 +2,8 @@
 import { browser  } from '$app/environment'
 import { onMount } from 'svelte'
 import { page } from '$app/stores';
+import { SvelteMap } from 'svelte/reactivity';
+import { v4 as uuidv4 } from 'uuid';
 
 import { 
     naiveRoomIDCheck,
@@ -76,8 +78,68 @@ $effect(() =>{
     if(active_room && (_active_room != active_room.room_id)) {
         // do things here when active room changes
         console.log("room changed")
+        //subscribe()
         _active_room = active_room.room_id
     }
+
+    if(room_id && !connected) {
+        if(authReady && !authenticated) {
+            //sync()
+        }
+    }
 })
+
+onMount(() => {
+    //sync()
+})
+
+let room_id = $derived(active_room?.room_id)
+
+let connected = $state(false);
+let socket;
+
+let subscribed = $state(new Set([room_id]));
+let events = $state([]);
+
+let client_id = $state(null);
+
+async function sync() {
+    connected = true
+    client_id = uuidv4();
+    socket = new WebSocket(`ws://localhost:8989/sync?client_id=${client_id}&room_id=${room_id}`);
+
+    socket.onopen = function() {
+        console.log('WebSocket connection opened');
+    };
+
+    socket.onmessage = function(event) {
+        const matrixEvent = JSON.parse(event.data);
+        console.log('New Matrix event:', matrixEvent);
+        events = [...events, matrixEvent];
+    };
+
+    socket.onclose = function() {
+        console.log('WebSocket connection closed');
+    };
+
+    socket.onerror = function(error) {
+        console.error('WebSocket error:', error);
+    };
+}
+
+function subscribe() {
+    if (socket && socket.readyState === WebSocket.OPEN) {
+        socket.send(JSON.stringify({ room_id: room_id }));
+        subscribed.add(room_id);
+    } else {
+        console.error('WebSocket connection is not open');
+    }
+}
+
+function disconnect() {
+    if (socket) {
+        socket.close();
+    }
+}
 </script>
 

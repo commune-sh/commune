@@ -49,3 +49,11 @@ export function textContent(text) {
   const doc = parser.parseFromString(text, 'text/html');
   return doc.body.textContent || "";
 }
+
+
+export function formatTime(milliseconds) {
+  const totalSeconds = Math.floor(milliseconds / 1000);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+};

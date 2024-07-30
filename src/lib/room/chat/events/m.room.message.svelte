@@ -1,7 +1,20 @@
 <script>
-import Image from '$lib/room/common/m.image.svelte'
 import { trash } from '$lib/assets/icons'
 import { justEmoji, processBody } from '$lib/utils/utils.js'
+
+import Image from '$lib/room/common/m.image.svelte'
+import Audio from '$lib/room/common/m.audio.svelte'
+import Video from '$lib/room/common/m.video.svelte'
+
+const components = $state([
+    {msgtype: 'm.image', component: Image },
+    {msgtype: 'm.audio', component: Audio },
+    {msgtype: 'm.video', component: Video },
+])
+
+const component = $derived.by(() => {
+    return components.find(c => c.msgtype == event?.content?.msgtype)?.component
+})
 
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
@@ -35,9 +48,8 @@ const just_emoji = $derived.by(() => {
 
 const events = $derived(store.matrix.active_room_events)
 
-const is_img = $derived.by(() => {
-    return event?.content?.msgtype == 'm.image' && 
-        event?.content?.url
+const m_text = $derived.by(() => {
+    return event?.content?.msgtype == 'm.text'
 })
 
 const is_reply = $derived.by(() => {
@@ -69,16 +81,19 @@ const redacted = $derived.by(() => {
 </div>
 {:else}
 <div class="chat-event lg:pr-[5rem] sm:mr-[3rem]"
+    class:my-1={!m_text}
     class:just-emoji={just_emoji}>
-    {#if !is_img}
+    {#if m_text}
         {@html content}
         {#if new_content}
             <span class="text-light text-[0.8em]">(edited)</span>
         {/if}
     {/if}
-    {#if is_img}
-        <Image {event} />
+
+    {#if !m_text}
+        <svelte:component this={component} {event} />
     {/if}
+
 </div>
 {/if}
 
