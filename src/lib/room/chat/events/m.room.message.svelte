@@ -5,11 +5,13 @@ import { justEmoji, processBody } from '$lib/utils/utils.js'
 import Image from '$lib/room/common/m.image.svelte'
 import Audio from '$lib/room/common/m.audio.svelte'
 import Video from '$lib/room/common/m.video.svelte'
+import File from '$lib/room/common/m.file.svelte'
 
 const components = $state([
     {msgtype: 'm.image', component: Image },
     {msgtype: 'm.audio', component: Audio },
     {msgtype: 'm.video', component: Video },
+    {msgtype: 'm.file', component: File },
 ])
 
 const component = $derived.by(() => {
