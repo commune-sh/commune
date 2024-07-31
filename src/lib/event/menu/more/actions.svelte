@@ -1,5 +1,15 @@
 <script>
-import { code } from "$lib/assets/icons";
+import { 
+  PUBLIC_BASE_URL,
+} from '$env/static/public';
+
+import { page } from '$app/stores';
+
+import { 
+    code, 
+    link,
+} from "$lib/assets/icons";
+
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
 
@@ -12,6 +22,13 @@ function logEvent() {
     store.ui.updateEventSource(event)
 }
 
+function copyLink() {
+    const space = $page.params.space
+    const room = $page.params.room
+    const url = `${PUBLIC_BASE_URL}/${space}/${room}?event=${event.event_id}`
+    navigator.clipboard.writeText(url)
+}
+
 function click() {
     store.ui.killEventMenu()
 }
@@ -20,12 +37,21 @@ function click() {
 
 <div class="actions text-xs" onclick={click}>
     <div class="action-item grid grid-cols-[auto_1fr] gap-2 items-center"
+    onclick={copyLink}>
+        <div class="ico h-[18px] w-[18px] ml-1">
+            {@html link}
+        </div>
+        <div class="">
+            Copy Link
+        </div>
+    </div>
+    <div class="action-item grid grid-cols-[auto_1fr] gap-2 items-center"
     onclick={logEvent}>
-        <div class="icon h-[18px] w-[18px] ml-1">
+        <div class="ico h-[18px] w-[18px] ml-1">
             {@html code}
         </div>
         <div class="">
-            Show source
+            Show Source
         </div>
     </div>
 </div>
@@ -46,9 +72,19 @@ function click() {
     padding: 0.1rem;
 }
 .action-item {
-    padding: 0.2rem 0.1rem;
+    padding: 0.3rem 0.1rem;
 }
 .action-item:hover {
     background: var(--shade-1);
 }
+
+.ico {
+    fill: var(--text);
+    padding: 0.1rem;
+}
+
+.ico:hover {
+    fill: var(--icon-hover);
+}
+
 </style>
