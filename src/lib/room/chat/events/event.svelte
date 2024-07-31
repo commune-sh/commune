@@ -183,6 +183,10 @@ const showEvent = $derived.by(() => {
 
 let hovered = $state(false);
 
+function killHover() {
+    hovered = false
+}
+
 let menu_active = $derived.by(() => {
     return store.ui.event_menu?.active &&
         store.ui.event_menu?.event?.event_id == id
@@ -215,7 +219,7 @@ let menu_active = $derived.by(() => {
     class:mt-2={showSender}>
 
     {#if hovered || menu_active}
-        <Menu {event} />
+        <Menu {event} killHover={killHover} />
     {/if}
 
 

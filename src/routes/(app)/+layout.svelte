@@ -29,6 +29,7 @@ import HomeserverDown from '$lib/alert/homeserver-down.svelte'
 
 import Matrix from '$lib/matrix/matrix.svelte'
 import Settings from '$lib/settings/settings.svelte'
+import EventSource from '$lib/event/source.svelte'
 
 
 // app store
@@ -225,6 +226,7 @@ let author = $derived.by(() => {
 
 <Matrix {data} />
 
+<EventSource />
 
 {#snippet content()}
     {@render children()}

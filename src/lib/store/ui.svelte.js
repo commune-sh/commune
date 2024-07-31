@@ -24,6 +24,11 @@ let event_menu = $state({
   event: null,
 })
 
+let event_source = $state({
+  active: false,
+  event: null,
+})
+
 export function createUIStore() {
 
 	function openAuth() {
@@ -95,6 +100,21 @@ export function createUIStore() {
   }
 
 
+  function updateEventSource(event) {
+    event_source = {
+      active: true,
+      event: event,
+    }
+  }
+
+  function killEventSource() {
+    event_source = {
+      active: false,
+      event: null,
+    }
+  }
+
+
 	return {
 
 		get alert() {
@@ -133,6 +153,10 @@ export function createUIStore() {
       return event_menu;
     },
 
+    get event_source() {
+      return event_source;
+    },
+
     publicRoomsFetched,
     openAuth,
     closeAuth,
@@ -148,5 +172,7 @@ export function createUIStore() {
     setMessageCount,
     updateEventMenu,
     killEventMenu,
+    updateEventSource,
+    killEventSource
 	};
 }

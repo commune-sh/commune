@@ -8,13 +8,19 @@ let {
 } = $props();
 
 
-function kill() {
+function logEvent() {
+    store.ui.updateEventSource(event)
+}
+
+function click() {
+    store.ui.killEventMenu()
 }
 
 </script>
 
-<div class="actions text-xs">
-    <div class="action-item grid grid-cols-[auto_1fr] gap-2 items-center">
+<div class="actions text-xs" onclick={click}>
+    <div class="action-item grid grid-cols-[auto_1fr] gap-2 items-center"
+    onclick={logEvent}>
         <div class="icon h-[18px] w-[18px] ml-1">
             {@html code}
         </div>
@@ -40,7 +46,7 @@ function kill() {
     padding: 0.1rem;
 }
 .action-item {
-    padding: 0.1rem;
+    padding: 0.2rem 0.1rem;
 }
 .action-item:hover {
     background: var(--shade-1);

@@ -8,6 +8,7 @@ const store = createStore()
 
 let {
     event,
+    killHover,
 } = $props();
 
 const m_file = $derived.by(() => {
@@ -19,10 +20,15 @@ let more_active = $derived.by(() => {
         store.ui.event_menu?.event?.event_id == event?.event_id
 })
 
+function click() {
+    store.ui.killEventMenu()
+    killHover()
+}
 
 </script>
 
-<div class="event-menu flex bg-view relative select-none">
+<div class="event-menu flex bg-view relative select-none"
+onclick={click}>
     {#if m_file}
         <Download {event}/>
     {/if}
@@ -45,6 +51,7 @@ let more_active = $derived.by(() => {
     cursor: pointer;
     margin-right: 1rem;
     padding: 0.15rem;
+    z-index: 1200;
 }
 
 .event-menu:hover {
