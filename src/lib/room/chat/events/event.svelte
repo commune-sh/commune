@@ -21,6 +21,8 @@ import MembershipEvent from '$lib/room/chat/events/m.room.member.svelte'
 import TopicEvent from '$lib/room/chat/events/m.room.topic.svelte'
 import AvatarEvent from '$lib/room/chat/events/m.room.avatar.svelte'
 
+import Menu from '$lib/event/menu/menu.svelte'
+
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
 
@@ -179,6 +181,13 @@ const showEvent = $derived.by(() => {
         !is_replacement && !hideEvent
 })
 
+let hovered = $state(false);
+
+let menu_active = $derived.by(() => {
+    return store.ui.event_menu?.active &&
+        store.ui.event_menu?.event?.event_id == id
+})
+
 </script>
 
 {#if m_room_create}
@@ -195,61 +204,70 @@ const showEvent = $derived.by(() => {
 <div 
     bind:this={el}
     ondblclick={logEvent}
+    onmouseover={() => hovered = true}
+    onmouseleave={() => hovered = false}
     data-event-id={id}
-    class="event-container grid
+    class="event-container grid relative
     hover:bg-shade-1 p-[0.2rem] mr-1" 
     class:highligt={highlight}
+    class:bg-shade-1={menu_active}
     class:mb-2={is_message && !nextEventTypeSame}
     class:mt-2={showSender}>
 
+    {#if hovered || menu_active}
+        <Menu {event} />
+    {/if}
 
-        {#if is_reply}
-            <div class="reply-to-event grid grid-pad">
-                <div class="spine">
+
+    {#if is_reply}
+        <div class="reply-to-event grid grid-pad">
+            <div class="spine">
+            </div>
+            <ReplyToEvent {event} />
+        </div>
+    {/if}
+
+    <div class="event-body grid grid-pad" >
+
+        <div class="event-context grid justify-center">
+            {#if showSender}
+                <div class="event-sender mt-1">
+                    <Avatar {sender} />
                 </div>
-                <ReplyToEvent {event} />
-            </div>
-        {/if}
-
-<div class="event-body grid grid-pad" >
-
-    <div class="event-context grid justify-center">
-        {#if showSender}
-            <div class="event-sender mt-1">
-                <Avatar {sender} />
-            </div>
-        {:else}
-            <div class="time text-light justify-center opacity-0">
-                <Time event={event} />
-            </div>
-        {/if}
-
-    </div>
-
-    <div class="event-content"> 
-
-        {#if showSender }
-            <div class="event-sender">
-                <Sender {event} />
-                <span class="time ml-1 text-light">
-                   <Date event={event} />
-                </span>
-            </div>
-        {/if}
-
-        <svelte:component this={component} {event} />
-
-
-            {#if showReactions && reactions?.length > 0 }
-                <div class="reactions mt-1">
-                    <Reactions {reactions} {event} />
+            {:else}
+                <div class="time text-light justify-center opacity-0">
+                    <Time event={event} />
                 </div>
             {/if}
+
+        </div>
+
+        <div class="event-content"> 
+
+            {#if showSender }
+                <div class="event-sender">
+                    <Sender {event} />
+                    <span class="time ml-1 text-light">
+                       <Date event={event} />
+                    </span>
+                </div>
+            {/if}
+
+            <svelte:component this={component} {event} />
+
+
+                {#if showReactions && reactions?.length > 0 }
+                    <div class="reactions mt-1">
+                        <Reactions {reactions} {event} />
+                    </div>
+                {/if}
+        </div>
+
+
     </div>
+</div>
 
 
-</div>
-</div>
 {/if}
 
 <style>

@@ -60,3 +60,21 @@ export function formatTime(milliseconds) {
 
 export const formatBytes = (a,b) => {if(0==a)return"0 Bytes";var c=1024,d=b||2,e=["Bytes","KB","MB","GB","TB","PB","EB","ZB","YB"],f=Math.floor(Math.log(a)/Math.log(c));return parseFloat((a/Math.pow(c,f)).toFixed(d))+" "+e[f]}
 
+
+export function clickOutside(node, callback) {
+  return outside(node, "click", callback)
+}
+
+function outside(node, listener, callback) {
+  const handleClick = (event) => {
+    if (node && !node.contains(event.target) && !event.defaultPrevented) {
+      callback(event)
+    }
+  }
+  document.addEventListener(listener, handleClick)
+  return {
+    destroy() {
+      document.removeEventListener(listener, handleClick)
+    }
+  }
+}

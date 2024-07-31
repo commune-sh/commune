@@ -19,6 +19,11 @@ let scrollPosition = $state({});
 
 let messageCount = $state({});
 
+let event_menu = $state({
+  active: false,
+  event: null,
+})
+
 export function createUIStore() {
 
 	function openAuth() {
@@ -75,6 +80,20 @@ export function createUIStore() {
     messageCount[key] = val;
   }
 
+  function updateEventMenu(event) {
+    event_menu = {
+      active: true,
+      event: event,
+    }
+  }
+
+  function killEventMenu() {
+    event_menu = {
+      active: false,
+      event: null,
+    }
+  }
+
 
 	return {
 
@@ -110,6 +129,9 @@ export function createUIStore() {
       return messageCount;
     },
 
+    get event_menu() {
+      return event_menu;
+    },
 
     publicRoomsFetched,
     openAuth,
@@ -123,6 +145,8 @@ export function createUIStore() {
     updateRoute,
     updateScrollPosition,
     getMessageCount,
-    setMessageCount
+    setMessageCount,
+    updateEventMenu,
+    killEventMenu,
 	};
 }
