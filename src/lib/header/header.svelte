@@ -47,6 +47,29 @@ const room_topic = $derived.by(() => {
     return room_state?.find(r => r.type == 'm.room.topic')?.content?.topic
 })
 
+const bridge_types = [
+    'm.bridge', 
+    'm.room.bridged', 
+    'm.room.discord', 
+    'm.room.irc', 
+    'uk.half-shot.bridge',
+];
+
+const is_bridge = $derived.by(() => {
+    return room_state?.filter(e => bridge_types.some(t => e.type === t))?.length
+    > 0
+})
+
+const bridge_event = $derived.by(() => {
+    return room_state?.filter(e => bridge_types.some(t => e.type === t))[0]
+})
+
+const bridge_name = $derived.by(() => {
+    return bridge_event?.content?.protocol?.displayname || 
+        bridge_event?.content?.protocol?.id ||
+        `Bridge`
+})
+
 $effect(() => {
 })
 
@@ -62,15 +85,21 @@ $effect(() => {
     </div>
     <div class="overflow-hidden flex mx-4 items-center justify-items-start">
         {#if is_room}
-        <div class="font-semibold text-sm">
-            {name}
-        </div>
+            <div class="font-semibold text-sm">
+                {name}
+            </div>
+        {/if}
+
+        {#if is_bridge}
+            <div class="label ml-2">
+                {bridge_name}
+            </div>
         {/if}
 
         {#if !is_room && is_space}
-        <div class="font-semibold text-sm">
-            Overview
-        </div>
+            <div class="font-semibold text-sm">
+                Overview
+            </div>
         {/if}
 
         {#if is_room && room_topic}
@@ -87,6 +116,9 @@ $effect(() => {
 .menu {
     display: none;
 }
+
+
+
 @media (max-width: 768px) {
     .header {
         grid-template-columns: 52px 1fr;

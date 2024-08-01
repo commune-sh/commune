@@ -70,6 +70,7 @@ function click() {
     min-width: 130px;
     box-shadow: 0px 2px 0px 0px rgba(0,0,0,0.1);
     padding: 0.1rem;
+    z-index: 1300;
 }
 .action-item {
     padding: 0.3rem 0.1rem;

@@ -54,6 +54,10 @@ const m_text = $derived.by(() => {
     return event?.content?.msgtype == 'm.text'
 })
 
+const m_notice = $derived.by(() => {
+    return event?.content?.msgtype == 'm.notice'
+})
+
 const is_reply = $derived.by(() => {
     return event?.content?.['m.relates_to']?.['m.in_reply_to']?.event_id != undefined
 })
@@ -85,7 +89,7 @@ const redacted = $derived.by(() => {
 <div class="chat-event lg:pr-[5rem] sm:mr-[3rem]"
     class:my-1={!m_text}
     class:just-emoji={just_emoji}>
-    {#if m_text}
+    {#if m_text || m_notice}
         {@html content}
         {#if new_content}
             <span class="text-light text-[0.8em]">(edited)</span>

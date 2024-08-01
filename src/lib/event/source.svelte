@@ -18,8 +18,12 @@ let event = $derived.by(() => {
 })
 
 let pretty = $derived.by(() => {
-    let p = JSON.stringify(event, null, 2)
-    return hljs.highlight('json', p).value;
+    let content = JSON.stringify(event, null, 2)
+    let opts = {
+        language: 'json',
+        ignoreIllegals: true,
+    }
+    return hljs.highlight(content, opts).value;
 })
 
 function kill(e) {

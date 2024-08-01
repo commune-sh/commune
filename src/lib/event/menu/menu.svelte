@@ -51,7 +51,6 @@ onclick={click}>
     cursor: pointer;
     margin-right: 1rem;
     padding: 0.15rem;
-    z-index: 1200;
 }
 
 .event-menu:hover {

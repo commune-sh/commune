@@ -496,4 +496,14 @@ li::marker {
 }
 
 
+.label {
+    text-transform: uppercase;
+    background: var(--shade-5);
+    padding: 0.15rem 0.2rem;
+    border-radius: 3px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 0.5px;
+}
 
