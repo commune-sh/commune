@@ -47,6 +47,12 @@ const next_event = $derived.by(() => {
     return events?.[index + 1]
 })
 
+const has_msg_event_after = $derived.by(() => {
+    if(index == events.length - 1) return
+    return events?.slice(index + 1).find(e => e.type == 'm.room.message') != undefined
+})
+
+
 const m_room_create = $derived(event?.type == 'm.room.create')
 const m_room_message = $derived(event?.type == 'm.room.message')
 const m_room_member = $derived(event?.type == 'm.room.member')
@@ -125,7 +131,7 @@ const ts_diff = $derived.by(() => {
 })
 
 const isNewDay = $derived.by(() => {
-    return dayOfMonth(event?.origin_server_ts) > dayOfMonth(prev_event?.origin_server_ts)
+    return dayOfMonth(event?.origin_server_ts) != dayOfMonth(prev_event?.origin_server_ts)
 })
 
 const prevSenderSame = $derived.by(() => {
@@ -194,15 +200,18 @@ let menu_active = $derived.by(() => {
 
 </script>
 
+
+
+{#if isNewDay && has_msg_event_after}
+    <NewDay {event} />
+{/if}
+
+
 {#if m_room_create}
     <RoomCreated />
 {/if}
 
 {#if showEvent}
-
-{#if isNewDay}
-    <NewDay {event} />
-{/if}
 
 
 <div 

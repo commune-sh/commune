@@ -76,4 +76,10 @@ const date = $derived.by(() => {
     padding-right: 0.5rem;
     background: var(--view);
 }
+@media (max-width: 768px) {
+    .new-day {
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
+    }
+}
 </style>
