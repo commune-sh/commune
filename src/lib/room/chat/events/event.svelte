@@ -296,6 +296,7 @@ let menu_active = $derived.by(() => {
 .event-container:hover .time {
     opacity: 1;
 }
+
 .time {
     font-size: 10px;
 }

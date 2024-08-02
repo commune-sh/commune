@@ -507,3 +507,10 @@ li::marker {
     letter-spacing: 0.5px;
 }
 
+
+@media (max-width: 768px) {
+    .label {
+        padding: 0.1rem 0.18rem;
+        font-size: 0.6rem;
+    }
+}

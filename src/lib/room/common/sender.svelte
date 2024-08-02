@@ -24,11 +24,27 @@ const displayname = $derived.by(() => {
 const name = $derived(displayname ? displayname : sender ?
 aliasFromSender(sender) : ``)
 
+const is_discord = $derived.by(() => {
+    return user?.content && 
+        Object.values(user?.content).some(v => typeof v === 'string' && 
+        v.includes(`discord`));
+})
+
 </script>
 
-<span class="sender font-semibold">
-    {name}
+<span class="sender font-semibold align-middle">
+    {name} 
 </span>
 
+{#if is_discord}
+<span class="label ml-1 discord">
+    discord
+</span>
+{/if}
+
 <style>
+.discord { 
+    background-color: #5865f2;
+    color: white;
+}
 </style>

@@ -24,6 +24,22 @@ function setupThemeListener() {
     })
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
     })
+
+
+    document.body.addEventListener('click', function(event) {
+        const target = event.target;
+        if (target.tagName.toLowerCase() === 'a' && target.hasAttribute('data-type')) {
+            const type = target.getAttribute('data-type');
+            const identifier = target.getAttribute('data-id');
+
+            if (type === 'user') {
+                console.log(`User clicked: ${identifier}`);
+            } else if (type === 'room') {
+                console.log(`Room clicked: ${identifier}`);
+            }
+        }
+    });
+
 }
 
 </script>

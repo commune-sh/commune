@@ -1,3 +1,8 @@
+import { 
+  PUBLIC_BASE_URL,
+  PUBLIC_HOMESERVER_NAME
+} from '$env/static/public';
+
 import emojiRegex from 'emoji-regex';
 
 export const debounce = function () {
@@ -32,15 +37,72 @@ export function justEmoji(body) {
   return !hasText && hasEmoji
 }
 
-
-export function processBody(text) {
-  if(!text) return
-
+function processReplies(body) {
   const mx_reg = /<mx-reply>[\s\S]*?<\/mx-reply>/;
-  text = text.replace(mx_reg, '').trim();
+  return body.replace(mx_reg, '').trim();
+}
 
+
+function processEmoji(body) {
   const regex = emojiRegex();
-  return text?.replace(regex, '<span class="emoji">$&</span>');
+  return body?.replace(regex, '<span class="emoji">$&</span>');
+}
+
+function cleanID(id) {
+  if(id.includes(PUBLIC_HOMESERVER_NAME)) {
+    return id.split(`:${PUBLIC_HOMESERVER_NAME}`)[0]
+  }
+}
+
+function processLinks(formatted_body) {
+  const tempElement = document.createElement('div');
+  tempElement.innerHTML = formatted_body;
+
+  const links = tempElement.querySelectorAll('a');
+
+  links.forEach(link => {
+    const text = link.textContent;
+    const href = link.href;
+
+    let newHref, newText;
+
+    if (href.startsWith('https://matrix.to/#/')) {
+      const part = href.split('/#/')[1];
+
+      if (part.startsWith('@')) {
+        newHref = `${PUBLIC_BASE_URL}/user/${part}`;
+        newText = `${cleanID(part)}`;
+        link.setAttribute('data-type', 'user');
+      } else if (part.startsWith('#')) {
+        newHref = `${PUBLIC_BASE_URL}/room/${part}`;
+        newText = `${cleanID(part)}`;
+        link.setAttribute('data-type', 'room');
+      }
+
+      link.className = `mx-link`
+      link.setAttribute('data-id', part);
+      //link.href = newHref;
+      link.removeAttribute('href');
+      link.textContent = newText;
+      //link.id = newId;
+    } else {
+      link.setAttribute('target', '_blank');
+      link.setAttribute('rel', 'noopener noreferrer');
+    }
+
+  });
+  return tempElement.innerHTML;
+}
+
+
+export function processBody(body) {
+  if(!body) return
+
+  body = processReplies(body);
+  body = processEmoji(body);
+  body = processLinks(body);
+
+  return body;
 }
 
 export function textContent(text) {

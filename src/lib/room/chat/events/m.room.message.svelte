@@ -108,10 +108,12 @@ const redacted = $derived.by(() => {
 <style>
 
 .chat-event { 
+    word-break: break-word;
 }
 
 :global(.chat-event a) {
     color: var(--link);
+    cursor: pointer;
 }
 
 :global(.chat-event .emoji) {
