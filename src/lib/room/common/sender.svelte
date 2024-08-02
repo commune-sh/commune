@@ -26,13 +26,13 @@ aliasFromSender(sender) : ``)
 
 const is_discord = $derived.by(() => {
     return user?.content && 
-        Object.values(user?.content).some(v => typeof v === 'string' && 
-        v.includes(`discord`));
+        Object.keys(user?.content).some(key => key.includes(`discord`));
 })
 
 </script>
 
-<span class="sender font-semibold align-middle">
+<span class="sender font-semibold" 
+class:align-middle={is_discord}>
     {name} 
 </span>
 
