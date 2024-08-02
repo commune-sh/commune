@@ -79,7 +79,7 @@ function goToEvent() {
     class="content-body content-center mt-[0.2rem] 
     truncate text-light mr-10 cursor-pointer">
     <Avatar {sender} small={true} inline={true} />
-    <Sender event={reply_to_event} />
+    <Sender event={reply_to_event} inline={true} />
     {#if content}
         <span class="reply-content">
             {@html content}

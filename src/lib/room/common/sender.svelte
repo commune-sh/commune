@@ -36,7 +36,7 @@ class:align-middle={is_discord}>
     {name} 
 </span>
 
-{#if is_discord}
+{#if is_discord && !inline}
 <span class="label ml-1 discord">
     discord
 </span>
