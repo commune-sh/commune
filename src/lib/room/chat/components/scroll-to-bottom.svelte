@@ -23,7 +23,7 @@ let {
     background: var(--shade-10);
     border-radius: 50%;
     cursor: pointer;
-    z-index: 10000;
+    z-index: 1000;
 }
 .scroll-to-bottom:hover {
     opacity: 0.8;

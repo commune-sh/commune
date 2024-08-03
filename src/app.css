@@ -58,7 +58,7 @@
     --logo-fill: hsla(0, 0%, 0%, 1);
     --logo-fill-inactive: hsla(0, 100%, 41.6%, 1);
     --pill: hsla(0, 99%, 33%, 1);
-    --mask: hsla(0, 0%, 0%, 0.7);
+    --mask: hsla(0, 0%, 0%, 0.9);
     --tooltip: hsla(0, 0%, 9%, 1);
     --icon: hsla(0, 0%, 35%, 1);
     --icon-hover: hsla(0, 0%, 45%, 1);
@@ -124,7 +124,7 @@
     --logo-fill: hsla(0, 99%, 44%, 1);
     --logo-fill-inactive: hsla(0, 100%, 41.6%, 1);
     --pill: hsla(0, 0%, 20%, 1);
-    --mask: hsla(0, 0%, 0%, 0.5);
+    --mask: hsla(0, 0%, 0%, 0.85);
     --tooltip: hsla(0, 0%, 90%, 1);
     --icon: hsla(0, 0%, 25%, 1);
     --icon-hover: hsla(0, 0%, 45%, 1);
@@ -480,7 +480,14 @@ code {
 
 
 .modal {
-    z-index: 1000;
+    height: 100dvh;
+    position: fixed;
+    z-index: 10000;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: var(--mask);
 }
 
 ul {
@@ -513,4 +520,9 @@ li::marker {
         padding: 0.1rem 0.18rem;
         font-size: 0.6rem;
     }
+}
+
+.discord-brand { 
+    background-color: #5865f2;
+    color: white;
 }

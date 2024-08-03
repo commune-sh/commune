@@ -2,6 +2,8 @@
 import { page } from '$app/stores';
 import { bars } from '$lib/assets/icons'
 
+import { hash } from '$lib/assets/icons'
+
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
 
@@ -70,6 +72,10 @@ const bridge_name = $derived.by(() => {
         `Bridge`
 })
 
+const is_discord = $derived.by(() => {
+    return bridge_name?.toLowerCase().includes('discord')
+})
+
 $effect(() => {
 })
 
@@ -85,13 +91,17 @@ $effect(() => {
     </div>
     <div class="overflow-hidden flex mx-4 items-center justify-items-start">
         {#if is_room}
+            <div class="hash h-[20px] w-[20px] mr-2">
+                {@html hash}
+            </div>
             <div class="font-semibold text-sm">
                 {name}
             </div>
         {/if}
 
         {#if is_bridge}
-            <div class="label ml-2">
+            <div class="label ml-2"
+            class:discord-brand={is_discord}>
                 {bridge_name}
             </div>
         {/if}
@@ -118,7 +128,6 @@ $effect(() => {
 }
 
 
-
 @media (max-width: 768px) {
     .header {
         grid-template-columns: 52px 1fr;
@@ -130,4 +139,8 @@ $effect(() => {
         display: none;
     }
 }
+.hash {
+    fill: var(--light);
+}
+
 </style>

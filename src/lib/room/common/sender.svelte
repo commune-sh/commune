@@ -37,14 +37,10 @@ class:align-middle={is_discord && !inline}>
 </span>
 
 {#if is_discord && !inline}
-<span class="label ml-1 discord">
+<span class="label ml-1 discord-brand">
     discord
 </span>
 {/if}
 
 <style>
-.discord { 
-    background-color: #5865f2;
-    color: white;
-}
 </style>

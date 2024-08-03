@@ -1,8 +1,10 @@
 <script>
-import { decode } from "blurhash";
+//import { decode } from "blurhash";
+import ExpandImage from '$lib/room/common/expand-image.svelte'
 
 import { 
     thumbnailURL,
+    processURL,
 } from '$lib/utils/matrix'
 
 let {
@@ -15,18 +17,26 @@ const img_info = $derived.by(() => {
 
 const h = $derived(img_info?.h)
 const w = $derived(img_info?.w)
-const ratio = $derived(h/w)
+const whr = $derived(h/w)
+const hwr = $derived(w/h)
+
+const height = $derived.by(() => {
+    if(h > w && w >= 320) {
+        return 320
+    }
+    return width * whr
+})
 
 const width = $derived.by(() => {
-    if(w > 320) {
+    if(h > w && w >= 320) {
+        return height * hwr
+    }
+    if(w >= 320) {
         return 320
     }
     return w
 })
 
-const height = $derived.by(() => {
-    return width * ratio
-})
 
 const blurhash = $derived(img_info?.['xyz.amorgan.blurhash'])
 
@@ -34,7 +44,7 @@ let el;
 
 const decoded = $derived.by(() => {
     if(blurhash) {
-        return decode(blurhash, w, h);
+        //return decode(blurhash, w, h);
     }
 })
 
@@ -42,6 +52,7 @@ let blurhash_url = $state(null);
 let blurhash_set = $state(false);
 
 $effect(() => {
+    /*
     if(!blurhash_set && decoded && w && h) {
         blurhash_set = true
         const canvas = document.createElement("canvas");
@@ -55,6 +66,7 @@ $effect(() => {
             blurhash_url = canvas.toDataURL()
         }
     }
+    */
 })
 
 const size = $derived(img_info?.size)
@@ -64,11 +76,20 @@ const alt = $derived(event?.content?.body)
 
 
 let image = $derived.by(() => {
-    return thumbnailURL(url, 320, 240, 'scale')
+    let tw = 320
+    let th = 240
+
+    if(height >= 320) { 
+        tw = 640
+        th = 480
+    }
+
+    return thumbnailURL(url, tw, th, 'scale')
 })
 
-let full_image = $derived.by(() => {
-    return thumbnailURL(url, w, h, 'scale')
+let src = $derived.by(() => {
+    return processURL(url)
+
 })
 
 let expanded = $state(false)
@@ -95,19 +116,8 @@ style="background-image: url({blurhash_url}); --width: {width}; --height: {heigh
 </div>
 
 {#if expanded}
-<div class="modal fixed inset-x-0 inset-y-0 bg-mask grid h-full place-items-center" 
-    onclick={kill}>
-        <div class="p-8">
-            <img 
-                src={full_image} 
-                alt={alt} 
-                width={w} 
-                height={h} 
-                loading="lazy" />
-        </div>
-</div>
+    <ExpandImage {src} {w} {h} {alt} {kill} />
 {/if}
-
 
 <style>
 .image {
@@ -115,6 +125,7 @@ style="background-image: url({blurhash_url}); --width: {width}; --height: {heigh
     width: calc(var(--width) * 1px);
     height: calc(var(--height) * 1px);
     border-radius: 8px;
+    background: var(--shade-1);
 }
 
 .image img {
