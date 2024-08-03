@@ -21,7 +21,7 @@ const reaction = $derived.by(() => {
 
 </script>
 
-<div class="grid grid-cols-[auto_auto] px-1 place-items-center
+<div class="reaction grid grid-cols-[auto_auto] px-1 place-items-center
     cursor-pointer bg-shade-3 text-light mr-1 rounded-[4px]">
     <div class="emoji">
         {#if is_custom}
@@ -34,3 +34,9 @@ const reaction = $derived.by(() => {
         {events?.length}
     </div>
 </div>
+
+<style>
+:global(.reaction .emoji) {
+    font-family: 'Twemoji', 'Noto Color Emoji', 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif;
+}
+</style>
