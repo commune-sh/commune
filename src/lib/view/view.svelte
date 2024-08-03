@@ -80,6 +80,14 @@ const thread_exists = $derived.by(() => {
 
 const menu_active = $derived(store.ui.menu_active)
 
+let viewport;
+
+function clickThrough() {
+    if(menu_active) {
+        store.ui.toggleMenu()
+    }
+}
+
 </script>
 
 
@@ -102,10 +110,14 @@ const menu_active = $derived(store.ui.menu_active)
         <Sidebar />
     </div>
 
-    <div class="view bg-view grid grid-rows-[52px_1fr] h-dvh">
+    <div class="view bg-view grid grid-rows-[52px_1fr] h-dvh"
+        class:full-width={menu_active}>
         <Header />
-        <section class="view select-text overflow-hidden">
-            {@render content()}
+        <section class="view select-text overflow-hidden"
+            onclick={clickThrough}
+            bind:this={viewport}
+            class:mask-view={menu_active}>
+                {@render content()}
         </section>
     </div>
     {#if thread_exists}
@@ -151,6 +163,13 @@ const menu_active = $derived(store.ui.menu_active)
 
 .menu-active .sidebar-container {
     display: grid;
+}
+
+.full-width {
+    width: 100dvw;
+}
+.mask-view {
+    opacity: 0.5;
 }
 </style>
 
