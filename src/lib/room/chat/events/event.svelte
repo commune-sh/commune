@@ -23,6 +23,8 @@ import AvatarEvent from '$lib/room/chat/events/m.room.avatar.svelte'
 
 import Menu from '$lib/event/menu/menu.svelte'
 
+
+
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
 
@@ -248,7 +250,7 @@ let menu_active = $derived.by(() => {
                     <Avatar {sender} />
                 </div>
             {:else}
-                <div class="time text-light justify-center opacity-0">
+                <div class="time text-light justify-center opacity-0" title={formattedTS}>
                     <Time event={event} />
                 </div>
             {/if}
@@ -260,7 +262,7 @@ let menu_active = $derived.by(() => {
             {#if showSender }
                 <div class="event-sender">
                     <Sender {event} />
-                    <span class="time ml-1 text-light">
+                    <span class="time ml-1 text-light" title={formattedTS}>
                        <Date event={event} />
                     </span>
                 </div>

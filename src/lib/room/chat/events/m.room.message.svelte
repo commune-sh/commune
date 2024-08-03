@@ -117,10 +117,12 @@ const redacted = $derived.by(() => {
 }
 
 :global(.chat-event .emoji) {
+    font-family: 'Twemoji', 'Noto Color Emoji', 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif;
     font-size: 1.3rem;
     vertical-align: bottom;
 }
 :global(.just-emoji .emoji) {
+    font-family: 'Twemoji', 'Noto Color Emoji', 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif;
     font-size: 2.4rem;
     vertical-align: text-bottom;
     line-height: 1;

@@ -1,13 +1,12 @@
 <script>
-
-import { onMount } from 'svelte';
 import { isInViewport } from '$lib/utils/ui';
 import { goto } from '$app/navigation';
 import { page } from '$app/stores';
 import { createInitials } from '$lib/utils/string';
 
-import { createStore } from '$lib/store/store.svelte.js'
+import { tooltip } from '$lib/tooltip/tooltip'
 
+import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
 
 import { 
@@ -16,25 +15,6 @@ import {
 } from '$lib/utils/matrix'
 
 import { getRoomHierarchy } from '$lib/appservice/requests'
-
-import tippy from 'tippy.js';
-
-let tooltip;
-let el;
-let content;
-
-onMount(() => {
-    tooltip = tippy(el, {
-        content: content,
-        placement: 'right',
-        arrow: true,
-        duration: 1,
-        offset: [0, 26],
-        theme: 'inline',
-    });
-    content.style.display = 'block'
-})
-
 
 let { space, 
     index,
@@ -192,7 +172,6 @@ function fetchState() {
 
 
 function goToSpace() {
-    tooltip.hide()
 
     /*
     if(name) {
@@ -236,24 +215,26 @@ function logItem(e) {
 
 let size = $state(46)
 
+const options = $derived.by(() => {
+    return {
+        content: name,
+        placement: 'right',
+        offset: [0, 16]
+    }
+})
+
 </script>
-
-<div class="hidden" bind:this={content}>
-    <div class="font-bold">
-        {name}
-    </div>
-</div>
-
 
 
 <div bind:this={item} onclick={goToSpace}
+    use:tooltip={options}
     onmousedown={fetchState}
     oncontextmenu={logItem}
     ondrop={drop}
     ondragover={dragover}
     class="grid relative place-items-center mb-[10px]">
 
-    <div bind:this={el} class:dragging={dragging} 
+    <div class:dragging={dragging} 
         class:bg-shade-7={active}
         class:active={active}
         class="space bg-shade-4 w-[{size}px] h-[{size}px] grid
