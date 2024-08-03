@@ -125,7 +125,6 @@ style="background-image: url({blurhash_url}); --width: {width}; --height: {heigh
     width: calc(var(--width) * 1px);
     height: calc(var(--height) * 1px);
     border-radius: 8px;
-    background: var(--shade-1);
 }
 
 .image img {

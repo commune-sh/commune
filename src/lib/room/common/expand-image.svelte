@@ -7,13 +7,17 @@ let {
     kill
 } = $props();
 
-let img;
+let el;
 
 function close(e) {
     e.preventDefault()
-    if(e.target != img) {
+    if(e.target == el) {
         kill()
     }
+}
+
+function open() {
+    window.open(src, '_blank')
 }
 
 </script>
@@ -21,13 +25,17 @@ function close(e) {
 <div class="modal grid" 
     onclick={close}>
 
-        <div class="image-view place-items-center">
+        <div class="image-view place-items-center"
+            bind:this={el}>
             <img 
-                bind:this={img}
                 src={src} 
                 alt={alt} 
                 loading="lazy" />
         </div>
+
+    <div class="tools">
+        <button onclick={open} class="px-1">Open in Browser</button>
+    </div>
 
 </div>
 
@@ -37,11 +45,26 @@ function close(e) {
     display: flex;
     justify-content: center;
     align-items: center;
+    max-height: 100dvh;
 }
 
 .image-view img {
     max-height: calc(100% - 4rem); 
     max-width: calc(100% - 4rem);
     object-fit: contain;
+}
+.tools {
+    position: fixed;
+    top: 1rem;
+    right: 2rem;
+}
+button {
+    background: none;
+    border: none;
+    color: var(--light);
+}
+button:hover {
+    color: var(--text);
+    text-decoration: underline;
 }
 </style>
