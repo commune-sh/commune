@@ -93,7 +93,6 @@ export const getRoomMessages = async (opts) => {
     //url = `${url}&filter=${encoded}`
   }
 
-
   let options = {
       headers: {
         'Content-Type': 'application/json',
@@ -110,6 +109,41 @@ export const getRoomMessages = async (opts) => {
     throw error
   }
 }
+
+export const getEventContext = async (opts) => {
+  if(!opts.room_id || !opts.event_id) return
+  let base = PUBLIC_APPSERVICE
+
+  if(opts.authenticated) {
+    base = PUBLIC_HOMESERVER
+  }
+
+  let url = `${base}/_matrix/client/v3/rooms/${opts.room_id}/context/${opts.event_id}?limit=100`;
+
+  if(opts?.filter) {
+    const filter = JSON.stringify(opts.filter)
+    const encoded = encodeURIComponent(filter);
+    //url = `${url}&filter=${encoded}`
+  }
+
+  let options = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+  }
+  if(opts.authenticated) {
+    const token = getCookie("mx_access_token")
+    options['headers']['Authorization'] = `Bearer ${token}`
+  }
+
+  try {
+    const response = await fetch(url, options)
+    return response.json();
+  } catch (error) {
+    throw error
+  }
+}
+
 
 export const getEvent = async (opts) => {
   if(!opts.room_id || !opts.event_id) return

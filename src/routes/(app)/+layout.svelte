@@ -51,6 +51,10 @@ let homeserver_reachable = $derived(data.homeserver_reachable)
 
 const room_id = $derived(store.matrix.active_room?.room_id)
 
+const context_event = $derived.by(() => {
+    return $page.url.searchParams.get('event')
+})
+
 $effect(() => {
     if($page) {
         store.matrix.updatePage($page)
@@ -63,7 +67,8 @@ $effect(() => {
             device_id: data?.device_id || null,
         })
     }
-    if($page.params.room && room_id) {
+
+    if($page.params.room && room_id && !context_event) {
         const events = store.matrix.events[room_id]
         if(!events) {
             console.log("Fetching room events...")
@@ -71,6 +76,13 @@ $effect(() => {
                 room_id: room_id,
             })
         }
+    }
+    if($page.params.room && room_id && context_event) {
+        console.log("Fetching context event...")
+        store.matrix.fetchEventContext({
+            room_id: room_id,
+            event_id: context_event,
+        })
     }
 })
 

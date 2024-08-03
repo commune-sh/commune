@@ -246,7 +246,7 @@ let menu_active = $derived.by(() => {
 
         <div class="event-context grid justify-center">
             {#if showSender}
-                <div class="event-sender mt-1">
+                <div class="event-sender lg:mt-1">
                     <Avatar {sender} />
                 </div>
             {:else}
@@ -294,6 +294,7 @@ let menu_active = $derived.by(() => {
 .event-container {
     font-size: 0.875rem;
     line-height: 1.375rem;
+    border-left: solid 1px transparent;
 }
 .event-container:hover .time {
     opacity: 1;
@@ -347,6 +348,6 @@ let menu_active = $derived.by(() => {
 
 .highligt {
     background-color: var(--shade-2);
-    border-left: 2px solid var(--primary);
+    border-left: 1px solid var(--primary);
 }
 </style>

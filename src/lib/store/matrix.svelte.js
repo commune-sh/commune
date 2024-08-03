@@ -45,6 +45,7 @@ import {
   getPublicRooms, 
   getRoomState,
   getRoomMessages,
+  getEventContext,
 } from '$lib/appservice/requests'
 
 import { createAppStore } from './app.svelte.js';
@@ -457,6 +458,68 @@ export function createMatrixStore() {
 
   }
 
+  async function fetchEventContext(opts) {
+
+    try {
+      const filter = {
+        lazy_load_members: true,
+      }
+
+      const resp = await getEventContext({
+        room_id: opts.room_id,
+        event_id: opts.event_id,
+        authenticated: auth.authenticated,
+        filter: filter,
+      })
+
+      if(resp) {
+
+        let r = {
+          events: [],
+          events_map: new Map(), 
+          start: resp.start, 
+          end: resp.end,
+        }
+
+        /*
+        resp?.chunk?.reverse().forEach(e => {
+          r.events.push(e)
+          r["events_map"].set(e.event_id, e)
+        })
+        events[opts.room_id] = r
+        */
+
+        if(resp?.events_before?.length > 0) {
+          resp.events_before.reverse().forEach(e => {
+            r.events.push(e)
+            r["events_map"].set(e.event_id, e)
+          })
+        }
+        if(resp?.event) {
+          r.events.push(resp.event)
+          r["events_map"].set(resp.event.event_id, resp.event)
+        }
+        if(resp?.events_after?.length > 0) {
+          resp.events_after.forEach(e => {
+            r.events.push(e)
+            r["events_map"].set(e.event_id, e)
+          })
+        }
+        events[opts.room_id] = r
+
+        console.log("Stored event context messages:", events[opts.room_id])
+      }
+
+      return true;
+
+    } catch(err) {
+      return err;
+    }
+
+
+
+  }
+
 
   async function registerGuest() {
     try {
@@ -548,6 +611,7 @@ export function createMatrixStore() {
     fetchPublicRooms,
     fetchRoomState,
     fetchRoomMessages,
+    fetchEventContext,
     registerGuest,
     updatePage
   };

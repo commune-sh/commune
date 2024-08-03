@@ -45,7 +45,6 @@ $effect(() => {
         if(context_event) {
             tick().then(() => {
                 const el = document.querySelector(`[data-event-id="${context_event.event_id}"]`)
-                console.log(el)
                 if(el) {
                     el.scrollIntoView({block: "center", inline: "nearest"})
                 }
