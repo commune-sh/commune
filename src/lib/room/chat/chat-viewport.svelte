@@ -6,6 +6,7 @@ import Event from '$lib/room/chat/events/event.svelte'
 import { debounce } from '$lib/utils/utils'
 import { onMount, tick } from 'svelte'
 
+import ScrollToBottom from '$lib/room/chat/components/scroll-to-bottom.svelte'
 
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
@@ -28,6 +29,15 @@ const context_event = $derived.by(() => {
     if(url_event) return events.find(e => e.event_id == url_event)
     return null
 })
+
+const showScrollToBottom = $derived.by(() => {
+    return position && (position?.scrollHeight - (position?.scrollTop +
+    position?.clientHeight) > 200)
+})
+
+function scrollToBottom() {
+    viewport.scrollTop = viewport.scrollHeight
+}
 
 $effect(() => {
 
@@ -125,7 +135,8 @@ function setScrollPosition(e) {
     debounce(() => {
         let opts = {
             scrollTop: viewport.scrollTop,
-            scrollHeight: viewport.scrollHeight
+            scrollHeight: viewport.scrollHeight,
+            clientHeight: viewport.clientHeight
         }
         tick().then(() => {
             store.ui.updateScrollPosition(room.room_id, opts)
@@ -190,6 +201,7 @@ $effect(() =>{
 })
 </script>
 
+
 <div class="chat-content h-full overflow-y-auto overflow-x-hidden lg:mr-1"
     onscroll={setScrollPosition}
     bind:this={viewport}>
@@ -216,4 +228,9 @@ $effect(() =>{
         <div class="sep py-2">
         </div>
     </div>
+
+    {#if showScrollToBottom}
+        <ScrollToBottom {scrollToBottom} />
+    {/if}
 </div>
+
