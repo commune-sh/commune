@@ -22,13 +22,14 @@ let is_home = $derived($page.route.id == '/(app)')
 let is_space = $derived($page.params.space != undefined)
 let is_room = $derived($page.params.room != undefined)
 
-let is_rooms = $derived($page.route.id == '/(app)/rooms')
+let is_rooms = $derived($page.route.id?.includes('/(app)/rooms'))
 
 let show_view = $derived(is_space || is_room || is_rooms)
 
 let root;
 
 $effect(() => {
+    console.log($page)
 })
 
 const menu_active = $derived(store.ui.menu_active)

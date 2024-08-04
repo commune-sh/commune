@@ -56,7 +56,7 @@ const action = $derived.by(() => {
 
 <div class="content-center text-xs mt-[0.2rem]">
     <Avatar {sender} small={true} inline={true} />
-    <Sender event={event} />
+    <Sender event={event} inline={true} />
     <span class="text-light">
         {#if joined || left}
             {action} the room
