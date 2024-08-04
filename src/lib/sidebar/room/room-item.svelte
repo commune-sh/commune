@@ -32,7 +32,13 @@ const is_local = $derived.by(() => {
 const alias_or_id = $derived(item?.commune_alias ? item?.commune_alias :
     item?.room_id)
 
-const path = $derived(`/${$page.params.space}/${alias_or_id}`)
+//const path = $derived(`/${$page.params.space}/${alias_or_id}`)
+const path = $derived.by(() => {
+    if(is_rooms) {
+        return `/rooms/${alias_or_id}`
+    }
+    return `/${$page.params.space}/${alias_or_id}`
+})
 
 function goToRoom() {
     goto(path)
@@ -41,6 +47,8 @@ function goToRoom() {
 }
 
 const room = $derived(store.matrix.active_room)
+
+let is_rooms = $derived($page.route.id?.includes('/(app)/rooms'))
 
 const active = $derived.by(() => {
     return room && item?.room_id == room?.room_id

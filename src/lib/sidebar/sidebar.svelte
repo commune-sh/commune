@@ -4,6 +4,7 @@ import User from '$lib/sidebar/user/user.svelte'
 
 import RoomSidebarHeader from '$lib/sidebar/room/room-sidebar-header.svelte'
 import UserSidebarHeader from '$lib/sidebar/user/user-sidebar-header.svelte'
+import RoomsSidebarHeader from '$lib/sidebar/rooms/rooms-sidebar-header.svelte'
 import RoomSidebar from '$lib/sidebar/room/room-sidebar.svelte'
 import UserSidebar from '$lib/sidebar/user/user-sidebar.svelte'
 
@@ -12,6 +13,7 @@ import { page } from '$app/stores';
 let is_home = $derived($page.route.id == '/(app)')
 let is_space = $derived($page.params.space != undefined)
 let is_room = $derived($page.params.room != undefined)
+let is_rooms = $derived($page.route.id?.includes('/(app)/rooms'))
 
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
@@ -79,7 +81,9 @@ const space_state = $derived.by(() => {
     style="width: {width}px">
 
 
-    {#if (is_space || is_room)}
+    {#if is_rooms}
+        <RoomsSidebarHeader />
+    {:else if (is_space || is_room)}
         <RoomSidebarHeader />
     {:else if is_home}
         <UserSidebarHeader />
