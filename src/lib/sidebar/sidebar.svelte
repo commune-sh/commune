@@ -93,7 +93,7 @@ const space_state = $derived.by(() => {
         <div class="rooms overflow-y-auto h-full"
             oncontextmenu={showContextMenu}
         >
-            {#if is_space || is_room}
+            {#if is_space || is_room || is_rooms}
                 <RoomSidebar />
             {:else if is_home}
                 <UserSidebar />

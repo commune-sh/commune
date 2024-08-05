@@ -133,7 +133,7 @@ const redacted = $derived.by(() => {
         font-size: 11px;
     }
     :global(.chat-event .emoji) {
-        font-size: 0.8rem;
+        font-size: 1.1rem;
     }
     :global(.just-emoji .emoji) {
         font-size: 1.4rem;

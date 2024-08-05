@@ -104,7 +104,7 @@ function showContextMenu(e) {
             {/each}
 
             {#if stray_rooms?.length > 0}
-                    <MoreRooms />
+                <MoreRooms />
             {/if}
 
         {:else if homeserver_reachable}

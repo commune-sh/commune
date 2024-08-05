@@ -49,6 +49,10 @@ const next_event = $derived.by(() => {
     return events?.[index + 1]
 })
 
+const has_event_before = $derived.by(() => {
+    if(index > 0) return true
+})
+
 const has_msg_event_after = $derived.by(() => {
     if(index == events.length - 1) return
     return events?.slice(index + 1).find(e => e.type == 'm.room.message') != undefined
@@ -204,7 +208,7 @@ let menu_active = $derived.by(() => {
 
 
 
-{#if isNewDay && has_msg_event_after}
+{#if isNewDay && has_event_before}
     <NewDay {event} />
 {/if}
 

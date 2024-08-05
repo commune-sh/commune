@@ -103,7 +103,6 @@ async function startLogin() {
         }
     }
 
-
     try {
         let resp = await store.matrix.client.login("m.login.password", body)
         console.log(resp)

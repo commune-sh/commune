@@ -40,15 +40,17 @@ const path = $derived.by(() => {
     return `/${$page.params.space}/${alias_or_id}`
 })
 
+let is_rooms = $derived($page.route.id?.includes('/(app)/rooms'))
+
 function goToRoom() {
     goto(path)
-    store.ui.updateRoute($page.params.space, path)
+    const location = is_rooms ? 'rooms' : $page.params.space
+    store.ui.updateRoute(location, path)
     if(menu_active) store.ui.toggleMenu()
 }
 
 const room = $derived(store.matrix.active_room)
 
-let is_rooms = $derived($page.route.id?.includes('/(app)/rooms'))
 
 const active = $derived.by(() => {
     return room && item?.room_id == room?.room_id

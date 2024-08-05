@@ -71,6 +71,7 @@ export function createUIStore() {
 
   function updateRoute(key, val) {
     routes[key] = val;
+    console.log("updated route", key, routes[key])
   }
 
   function updateScrollPosition(key, val) {
