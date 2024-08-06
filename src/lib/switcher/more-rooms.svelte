@@ -1,7 +1,9 @@
 <script>
-import { stack } from '$lib/assets/icons'
+import { ellipsis } from '$lib/assets/icons'
 import { goto } from '$app/navigation';
 import { page } from '$app/stores';
+
+import { tooltip } from '$lib/tooltip/tooltip'
 
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
@@ -22,11 +24,43 @@ function goToRooms() {
     goto(`/rooms`)
 }
 
+let active = $derived($page.route.id?.includes('/(app)/rooms'))
+
+const options = $derived.by(() => {
+    return {
+        content: `More Rooms`,
+        placement: 'right',
+        offset: [0, 16]
+    }
+})
+
 </script>
 
-<div class="grid relative place-items-center my-[20px]" 
-onclick={goToRooms}>
-    <div bind:this={el} class="cursor-pointer stroke w-[1.6rem] h-[1.6rem]" >
-        {@html stack}
+<div class="grid relative place-items-center my-[20px]" >
+    <div bind:this={el} 
+    onclick={goToRooms}
+    use:tooltip={options}
+        class:bg-shade-7={active}
+        class="item grid place-items-center cursor-pointer 
+        bg-shade-4 hover:bg-shade-7 rounded-[50%]
+        w-[46px] h-[46px]" >
+        <div class="more w-[1.6rem]">
+            {@html ellipsis}
+        </div>
+    </div>
+    <div class="pill opacity-0 absolute left-[0px] w-[4px] top-[16px] bottom-[16px]
+        bg-pill duration-100"
+        class:opacity-100={active}>
     </div>
 </div>
+
+<style>
+.item:hover + .pill {
+    opacity: 0.8;
+} 
+
+.pill {
+    border-radius: 0 4px 4px 0;
+}
+
+</style>
