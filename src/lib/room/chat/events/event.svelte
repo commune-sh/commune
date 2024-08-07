@@ -262,7 +262,7 @@ let menu_active = $derived.by(() => {
 
         </div>
 
-        <div class="event-content"> 
+        <div class="event-content overflow-hidden"> 
 
             {#if showSender }
                 <span class="event-sender">
@@ -341,7 +341,6 @@ let menu_active = $derived.by(() => {
         left: 26px;
     }
     .reply-to-event {
-        min-height: 1.8rem;
     }
     .time {
         font-size: 0.5rem;

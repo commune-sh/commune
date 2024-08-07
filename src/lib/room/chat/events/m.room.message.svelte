@@ -78,10 +78,11 @@ const redacted = $derived.by(() => {
 
 {#if redacted}
 <div class="chat-event pointer-events-none ">
-    <span class="inline-block align-middle text-light opacity-70 text-xs font-semibold">
+    <span class="inline-block align-middle text-light opacity-70
+            font-medium">
         Message Deleted.
     </span>
-    <span class="inline-block align-middle icon h-[15px] w-[15px] ml-1">
+    <span class="trash inline-block align-middle icon h-[14px] w-[14px] ml-1">
         {@html trash}
     </span>
 </div>
@@ -153,6 +154,10 @@ const redacted = $derived.by(() => {
     }
     :global(.just-emoji .emoji) {
         font-size: 1.4rem;
+    }
+    .trash {
+        height: 12px;
+        width: 12px;
     }
 }
 

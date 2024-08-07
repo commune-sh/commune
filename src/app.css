@@ -199,6 +199,7 @@ input:-webkit-autofill:active  {
 
 ::-webkit-scrollbar {
     width: 6px;
+    height: 6px;
 }
 ::-webkit-scrollbar-thumb {
     background: var(--scrollbar-thumb);
@@ -469,22 +470,25 @@ blockquote p {
 }
 
 pre {
-    background: transparent;
+    background: var(--shade-1);
     border-radius: 3px;
     line-height: 1.3;
     max-height: 400px;
     overflow: hidden;
     padding: 0.25rem;
     border: 1px solid var(--border);
+    margin-right: 1rem;
 }
 
 pre code {
     padding: 0.5rem;
-    background: transparent;
-    overflow: auto;
+    background: var(--shade-1);
     display: block;
     max-height: 400px;
     font-size: 0.8125rem;
+    max-width: 100%;
+    overflow-x: scroll;
+    overflow-y: auto;
 }
 
 code {
@@ -500,7 +504,7 @@ code {
         font-size: 10.5px;
     }
     pre code {
-        font-size: 0.5rem;
+        font-size: 10.5px;
     }
 }
 
