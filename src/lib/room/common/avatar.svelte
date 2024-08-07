@@ -1,9 +1,10 @@
 <script>
+import { logo } from '$lib/assets/logo.js';
+
 import { 
     thumbnailURL,
 } from '$lib/utils/matrix'
 
-import { createInitials } from '$lib/utils/string';
 import { aliasFromSender } from '$lib/utils/matrix';
 
 import { createStore } from '$lib/store/store.svelte.js'
@@ -37,7 +38,6 @@ const displayname = $derived.by(() => {
 
 const name = $derived(displayname ? displayname : aliasFromSender(sender))
 
-const initial = $derived(createInitials(name))
 
 const d = $derived.by(() => {
     return small ? 16 : 32
@@ -52,14 +52,20 @@ const d = $derived.by(() => {
             alt={displayname} class="" loading="lazy" />
     {/if}
     {#if !avatar}
-        <div class="initial font-semibold uppercase">
-            {initial} 
+        <div class="user" 
+            class:big={!inline}
+            class:small={inline}>
+            {@html logo}
         </div>
     {/if}
 {/snippet}
 
 {#if inline}
-    <div class="inline-block align-text-bottom avatar bg-avatar" class:small={small}>
+    <div class="inline-block" 
+        class:bg-avatar={avatar}
+        class:align-text-bottom={avatar}
+        class:align-middle={!avatar}
+        class:small={small}>
         {@render content()}
     </div>
 {:else}
@@ -76,18 +82,23 @@ const d = $derived.by(() => {
     width: 32px;
 }
 
-.small {
-    width: 14px;
-    height: 14px;
-    font-size: 10px;
+.big {
+    width: 22px;
+    height: 22px;
 }
 
-.initial {
-    line-height: normal;
-    text-align: center;
+.small {
+    width: 16px;
+    height: 16px;
 }
 
 img {
     border-radius: 50%;
+}
+.user {
+    fill: var(--logo-fill-inactive);
+}
+
+.user:hover {
 }
 </style>

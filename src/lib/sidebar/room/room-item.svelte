@@ -129,7 +129,6 @@ const title = $derived.by(() => {
 }
 
 .room-item {
-    font-size: 0.94rem;
     border-radius: 4px;
 }
 .room-item:hover {

@@ -254,7 +254,8 @@ let menu_active = $derived.by(() => {
                     <Avatar {sender} />
                 </div>
             {:else}
-                <div class="time text-light justify-center opacity-0" title={formattedTS}>
+                <div class="time text-3xs text-light justify-center opacity-0" 
+                        title={formattedTS}>
                     <Time event={event} />
                 </div>
             {/if}
@@ -264,12 +265,12 @@ let menu_active = $derived.by(() => {
         <div class="event-content"> 
 
             {#if showSender }
-                <div class="event-sender">
+                <span class="event-sender">
                     <Sender {event} />
-                    <span class="time ml-1 text-light" title={formattedTS}>
+                    <span class="time text-2xs ml-1 text-light" title={formattedTS}>
                        <Date event={event} />
                     </span>
-                </div>
+                </span>
             {/if}
 
             <svelte:component this={component} {event} />
@@ -296,16 +297,11 @@ let menu_active = $derived.by(() => {
 }
 
 .event-container {
-    font-size: 0.875rem;
     line-height: 1.375rem;
     border-left: solid 1px transparent;
 }
 .event-container:hover .time {
     opacity: 1;
-}
-
-.time {
-    font-size: 10px;
 }
 
 

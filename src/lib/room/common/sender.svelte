@@ -31,7 +31,10 @@ const is_discord = $derived.by(() => {
 
 </script>
 
-<span class="sender font-semibold" 
+<span class="sender" 
+class:text-light={inline}
+class:font-normal={inline}
+class:font-medium={!inline}
 class:align-middle={is_discord && !inline}>
     {name} 
 </span>

@@ -42,7 +42,7 @@ const menu_active = $derived(store.ui.menu_active)
 {/if}
 
 
-<div class="root grid grid-cols-[auto_1fr] h-full select-none" 
+<div class="root grid grid-cols-[auto_1fr] h-full text-md select-none" 
     class:menu-active={menu_active}
     bind:this={root}>
     <div class="switcher bg-switcher grid">

@@ -76,7 +76,7 @@ function goToEvent() {
 
 
 <div onclick={goToEvent}
-    class="content-body content-center mt-[0.2rem] 
+    class="content-body content-center text-2xs
     truncate text-light mr-10 cursor-pointer">
     <Avatar {sender} small={true} inline={true} />
     <Sender event={reply_to_event} inline={true} />
@@ -93,8 +93,8 @@ function goToEvent() {
 
 <style>
 .content-body {
-    font-size: 12px;
 }
+
 @media (max-width: 768px) {
     .content-body {
         font-size: 10px;

@@ -3,8 +3,18 @@ export default {
   content: ['./src/**/*.{html,js,svelte,ts}'],
   theme: {
     extend: {
-      gridTemplateColumns: {
-        //'auto-fit': 'repeat(auto-fit, minmax(auto, 1fr))',
+      fontSize: {
+        '4xs': '0.625rem',
+        '3xs': '0.6875rem',
+        '2xs': '0.75rem',
+        xs: '0.8125rem',
+        sm: '0.875rem',
+        md: '0.9375rem',
+        base: '1rem',
+        xl: '1.125rem',
+        '2xl': '1.25rem',
+        '3xl': '1.375rem',
+        '4xl': '1.5rem',
       },
       colors: {
         'primary': 'var(--primary)',

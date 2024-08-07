@@ -86,7 +86,7 @@ const redacted = $derived.by(() => {
     </span>
 </div>
 {:else}
-<div class="chat-event lg:pr-[5rem] sm:mr-[3rem]"
+<div class="chat-event lg:pr-[4rem]"
     class:my-1={!m_text}
     class:just-emoji={just_emoji}>
     {#if m_text || m_notice}
@@ -127,6 +127,18 @@ const redacted = $derived.by(() => {
     vertical-align: text-bottom;
     line-height: 1;
 }
+
+:global(.mx-link) {
+    background: var(--shade-2);
+    border-radius: 3px;
+    padding: 0 0.1rem;
+    font-weight: 500;
+}
+
+:global(.mx-link:hover) {
+    background: var(--shade-5);
+}
+
 
 @media (max-width: 768px) {
     .chat-event {

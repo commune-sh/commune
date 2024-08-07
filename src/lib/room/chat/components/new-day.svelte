@@ -53,7 +53,7 @@ const date = $derived.by(() => {
 </script>
 
 <div class="new-day">
-    <div class="date text-xs font-semibold text-light">
+    <div class="date text-xs font-medium text-light">
         {date}
     </div>
 </div>
@@ -71,7 +71,7 @@ const date = $derived.by(() => {
     user-select: none;
 }
 .date {
-    margin-top: -0.6rem;
+    margin-top: -0.5rem;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
     background: var(--view);

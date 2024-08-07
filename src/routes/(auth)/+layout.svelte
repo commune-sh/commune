@@ -58,7 +58,7 @@ $effect(() => {
 <HomeserverDown />
 
 
-<div class="mt-mid flex flex-col h-full items-center select-none">
+<div class="mt-mid flex flex-col h-full items-center select-none text-md">
     <div class="mb-4">
         <Logo is_static={true} />
     </div>

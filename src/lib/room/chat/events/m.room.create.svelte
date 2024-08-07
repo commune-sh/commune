@@ -26,9 +26,9 @@ const action = $derived.by(() => {
 
 </script>
 
-<div class="content-center text-xs mt-[0.2rem]">
+<div class="content-center text-xs">
     <Avatar {sender} small={true} inline={true} />
-    <Sender event={event} />
+    <Sender event={event} inline={true} />
     <span class="">
         <span class="text-light">created the room</span>
     </span>

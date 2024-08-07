@@ -30,7 +30,7 @@ const reaction = $derived.by(() => {
             {key}
         {/if}
     </div>
-    <div class="text-xs ml-1">
+    <div class="text-xs ml-1 font-semibold">
         {events?.length}
     </div>
 </div>
