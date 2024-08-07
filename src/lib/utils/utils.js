@@ -95,12 +95,61 @@ function processLinks(formatted_body) {
 }
 
 
+function processPlainLinks(body) {
+  const tempElement = document.createElement('div');
+  tempElement.innerHTML = body;
+
+  function convertLinks(node) {
+    if (node.nodeType === Node.TEXT_NODE) {
+      const urlPattern = /https?:\/\/[^\s/$.?#].[^\s]*/g;
+      const text = node.textContent;
+      const matches = text.match(urlPattern);
+
+      if (matches) {
+        const fragment = document.createDocumentFragment();
+        let lastIndex = 0;
+
+        matches.forEach(match => {
+          const index = text.indexOf(match, lastIndex);
+
+          if (index > lastIndex) {
+            fragment.appendChild(document.createTextNode(text.slice(lastIndex, index)));
+          }
+
+          const a = document.createElement('a');
+          a.href = match;
+          a.textContent = match;
+          a.setAttribute('target', '_blank');
+          a.setAttribute('rel', 'noopener noreferrer');
+          fragment.appendChild(a);
+
+          lastIndex = index + match.length;
+        });
+
+        if (lastIndex < text.length) {
+          fragment.appendChild(document.createTextNode(text.slice(lastIndex)));
+        }
+
+        node.parentNode.replaceChild(fragment, node);
+      }
+    } else if (node.nodeType === Node.ELEMENT_NODE && node.tagName.toLowerCase() !== 'a') {
+      Array.from(node.childNodes).forEach(convertLinks);
+    }
+  }
+
+  convertLinks(tempElement);
+
+  return tempElement.innerHTML;
+}
+
+
 export function processBody(body) {
   if(!body) return
 
   body = processReplies(body);
   body = processEmoji(body);
   body = processLinks(body);
+  body = processPlainLinks(body);
 
   return body;
 }

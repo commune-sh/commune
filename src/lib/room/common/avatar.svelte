@@ -1,5 +1,6 @@
 <script>
 import { logo } from '$lib/assets/logo.js';
+import UserLogo from '$lib/assets/logo-base.png';
 
 import { 
     thumbnailURL,
@@ -52,19 +53,14 @@ const d = $derived.by(() => {
             alt={displayname} class="" loading="lazy" />
     {/if}
     {#if !avatar}
-        <div class="user" 
-            class:big={!inline}
-            class:small={inline}>
-            {@html logo}
-        </div>
+        <img src={UserLogo} 
+            width={d} height={d}
+            alt={displayname} class="" loading="lazy" />
     {/if}
 {/snippet}
 
 {#if inline}
-    <div class="inline-block rounded-[50%]" 
-        class:bg-avatar={avatar}
-        class:align-text-bottom={avatar}
-        class:align-middle={!avatar}
+    <div class="inline-block rounded-[50%] bg-avatar align-text-bottom" 
         class:small={small}>
         {@render content()}
     </div>

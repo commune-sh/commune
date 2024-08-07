@@ -501,6 +501,11 @@ pre code {
     overflow-y: auto;
 }
 
+pre code::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+}
+
 code {
     font-family: monospace;
     background: var(--shade-3);
