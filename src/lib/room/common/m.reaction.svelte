@@ -30,7 +30,7 @@ const reaction = $derived.by(() => {
             {key}
         {/if}
     </div>
-    <div class="text-xs ml-1 font-semibold">
+    <div class="count text-2xs ml-1 font-semibold">
         {events?.length}
     </div>
 </div>
@@ -39,4 +39,11 @@ const reaction = $derived.by(() => {
 :global(.reaction .emoji) {
     font-family: 'Twemoji', 'Noto Color Emoji', 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif;
 }
+
+@media (max-width: 768px) {
+    .count {
+        font-size: 0.625rem;
+    }
+}
+
 </style>

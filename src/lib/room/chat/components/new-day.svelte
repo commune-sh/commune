@@ -81,5 +81,9 @@ const date = $derived.by(() => {
         margin-left: 0.5rem;
         margin-right: 0.5rem;
     }
+    .date {
+        font-size: 0.6875rem;
+        margin-top: -0.4rem;
+    }
 }
 </style>

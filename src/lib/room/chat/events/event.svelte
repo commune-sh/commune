@@ -267,7 +267,7 @@ let menu_active = $derived.by(() => {
             {#if showSender }
                 <span class="event-sender">
                     <Sender {event} />
-                    <span class="time text-2xs ml-1 text-light" title={formattedTS}>
+                    <span class="date text-2xs ml-1 text-light" title={formattedTS}>
                        <Date event={event} />
                     </span>
                 </span>
@@ -342,6 +342,12 @@ let menu_active = $derived.by(() => {
     }
     .reply-to-event {
         min-height: 1.8rem;
+    }
+    .time {
+        font-size: 0.5rem;
+    }
+    .date {
+        font-size: 0.625rem;
     }
 }
 

@@ -562,7 +562,7 @@ export function createMatrixStore() {
 
   function updatePage(p) {
     page = p
-    console.log("Updating page:", p)
+    //console.log("Updating page:", p)
   }
 
   return {

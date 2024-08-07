@@ -49,16 +49,30 @@ function goToRoom() {
     if(menu_active) store.ui.toggleMenu()
 }
 
-const room = $derived(store.matrix.active_room)
+const active_room = $derived(store.matrix.active_room)
 
 
 const active = $derived.by(() => {
-    return room && item?.room_id == room?.room_id
+    return $page.params.room && active_room && item?.room_id == active_room?.room_id
 })
 
 $effect(() => {
     if(active && item?.room_id && authReady && !authenticated) {
         store.matrix.fetchRoomState(item.room_id)
+    }
+    if(active) {
+        const stored = localStorage.getItem('navigation')
+        if(!stored) {
+            const nav = new Map()
+            nav.set($page.params.space, path)
+            const s = Array.from(nav.entries());
+            localStorage.setItem('navigation', JSON.stringify(s))
+        } else {
+            const s = JSON.parse(localStorage.getItem('navigation'));
+            const nav = new Map(s);
+            nav.set($page.params.space, path)
+            localStorage.setItem('navigation', JSON.stringify(Array.from(nav.entries())))
+        }
     }
 })
 
