@@ -151,10 +151,22 @@ $effect(() => {
 const authReady = $derived(store.auth.ready)
 const authenticated = $derived(store.auth.authenticated)
 
-let is_space = $derived($page.params.space != undefined)
-let is_room = $derived($page.params.room != undefined)
+const space_state = $derived.by(() => {
+    return store.matrix.room_state[store.matrix.active_space?.room_id]
+})
 
 $effect(() => {
+    // if no room is active, navigate to one
+    /*
+    if(active && space_state && !$page.params.room) {
+        const space_rooms = $derived(store.matrix.space_rooms)
+        if(space_rooms[0]?.commune_alias) {
+            goto(`/${$page.params.space}/${space_rooms[0].commune_alias}`)
+        }
+    }
+    */
+
+
     if(active && space && authReady && !authenticated) {
     }
 

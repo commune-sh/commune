@@ -89,17 +89,17 @@ let page = $state(null);
 
 const active_room = $derived.by(() => {
   if(!page?.params?.room) return
-    const is_room_id = naiveRoomIDCheck(page.params.room)
-    const key = is_room_id ? `room_id` : `commune_alias`
-    return rooms?.filter(r => r[key] == page.params.room)[0]
+  const is_room_id = naiveRoomIDCheck(page.params.room)
+  const key = is_room_id ? `room_id` : `commune_alias`
+  return rooms?.filter(r => r[key] == page.params.room)[0]
 })
 
 const active_space = $derived.by(() => {
   if(!page?.params?.space) return
-    const is_room_id = naiveRoomIDCheck(page.params.space)
-    const key = is_room_id ? `room_id` : `canonical_alias`
-    const val = is_room_id ? page.params.space : canonical_alias(page.params.space)
-    return rooms?.filter(r => r[key] == val)[0]
+  const is_room_id = naiveRoomIDCheck(page.params.space)
+  const key = is_room_id ? `room_id` : `canonical_alias`
+  const val = is_room_id ? page.params.space : canonical_alias(page.params.space)
+  return rooms?.filter(r => r[key] == val)[0]
 })
 
 const active_room_events = $derived.by(() => {
@@ -110,6 +110,27 @@ const active_room_state = $derived.by(() => {
   return room_state[active_room?.room_id]
 })
 
+const is_alias = $derived.by(() => {
+  if(!page?.params?.space) return
+  return !naiveRoomIDCheck(page.params.space)
+})
+
+const space_rooms = $derived.by(() => {
+  if(!page?.params?.space) return
+  let key = is_alias ? 'canonical_alias' : 'room_id'
+  let val = is_alias ? canonical_alias(page.params.space) : page.params.space
+  let i = rooms?.filter(room => room[key] == val)[0]
+  if(i?.children?.length > 0) {
+    let items = []
+    i.children.forEach(child => {
+      let item = rooms?.find(room => room.room_id == child)
+      if(!item?.children) {
+        items.push(item)
+      }
+    })
+    return items
+  }
+})
 
 
 export function createMatrixStore() {
@@ -364,7 +385,7 @@ export function createMatrixStore() {
             }
           })
           items?.sort((a, b) => {
-              return a.origin_server_ts - b.origin_server_ts
+            return a.origin_server_ts - b.origin_server_ts
           })
           items.forEach(c => {
             let b = items.filter(r => r.room_id != c.room_id && r.commune_alias == c.commune_alias)
@@ -541,6 +562,7 @@ export function createMatrixStore() {
 
   function updatePage(p) {
     page = p
+    console.log("Updating page:", p)
   }
 
   return {
@@ -597,6 +619,10 @@ export function createMatrixStore() {
 
     get active_room_state() {
       return active_room_state;
+    },
+
+    get space_rooms() {
+      return space_rooms;
     },
 
     newClient,

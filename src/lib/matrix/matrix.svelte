@@ -27,6 +27,7 @@ let {
 } = $props();
 
 let space = $derived($page.params.space)
+let room = $derived($page.params.room)
 let space_exists = $derived($page.params.space !== undefined)
 
 
@@ -62,6 +63,8 @@ $effect(() =>{
         _active_space = active_space.room_id
 
         store.matrix.fetchRoomState(active_space.room_id)
+    }
+    if(active_space && !active_room) {
     }
 
     if(active_space && (_active_space != active_space.room_id)) {
