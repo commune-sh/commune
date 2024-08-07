@@ -61,7 +61,7 @@ const d = $derived.by(() => {
 {/snippet}
 
 {#if inline}
-    <div class="inline-block" 
+    <div class="inline-block rounded-[50%]" 
         class:bg-avatar={avatar}
         class:align-text-bottom={avatar}
         class:align-middle={!avatar}
@@ -95,6 +95,7 @@ const d = $derived.by(() => {
 img {
     border-radius: 50%;
 }
+
 .user {
     fill: var(--logo-fill-inactive);
 }
