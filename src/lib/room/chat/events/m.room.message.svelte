@@ -78,8 +78,7 @@ const redacted = $derived.by(() => {
 
 {#if redacted}
 <div class="chat-event pointer-events-none ">
-    <span class="inline-block align-middle text-light opacity-70
-            font-medium">
+    <span class="inline-block align-middle text-light opacity-70 lg:text-xs">
         Message Deleted.
     </span>
     <span class="trash inline-block align-middle icon h-[14px] w-[14px] ml-1">

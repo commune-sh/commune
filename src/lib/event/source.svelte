@@ -31,16 +31,39 @@ function kill(e) {
         store.ui.killEventSource()
     }
 }
+
+let copied = $state(false);
+
+function copy() {
+    navigator.clipboard.writeText(JSON.stringify(event))
+    copied = true
+}
+
+$effect(() => {
+    if(!active) {
+        copied = false
+    }
+})
+
 </script>
 
 {#if active}
 <div class="event-source fixed inset-x-0 inset-y-0 bg-mask grid h-full place-items-center" 
     onclick={kill}>
-        <div class="source-container bg-view overflow-hidden">
-            <div class="font-semibold text-base px-4 py-2">
-                Event Source
+        <div class="source-container flex flex-col bg-view overflow-hidden">
+            <div class="px-4 py-3 border-b border-border flex">
+                <div class="grid place-items-center font-semibold">
+                    Event Source
+                </div>
+                <div class="flex-grow">
+                </div>
+                <div class="text-light">
+                    <button class="link" onclick={copy}>
+                        {copied ? `Copied!` : `Copy`}
+                    </button>
+                </div>
             </div>
-            <div class="source-body overflow-y-auto p-4 mb-4">
+            <div class="source-body overflow-auto p-4">
                 {@html pretty}
             </div>
         </div>
@@ -53,8 +76,10 @@ function kill(e) {
 }
 .source-container {
     border: 1px solid var(--border);
-    width: 600px;
-    height: 600px;
+    width: 100%;
+    max-width: 600px;
+    height: 100%;
+    max-height: calc(100dvh / 1.8);
     box-shadow: 0px 2px 0px 0px rgba(0,0,0,0.1);
     font-family: monospace;
     font-size: 0.9rem;
@@ -63,6 +88,18 @@ function kill(e) {
 }
 .source-body {
     height: 100%;
+}
+
+@media (max-width: 768px) {
+    .event-source {
+        padding: 1rem;
+    }
+    .source-container {
+        width: 100%;
+    }
+    .source-body {
+        font-size: 0.8125rem;
+    }
 }
 </style>
 

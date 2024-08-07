@@ -267,6 +267,16 @@ button.secondary:active {
     background-color: var(--button-secondary-active);
 }
 
+button.link {
+    background-color: transparent;
+    color: var(--text);
+}
+
+button.link:hover {
+    text-decoration: underline;
+}
+
+
 input {
     background-color: var(--input-background);
     color: var(--input-text);
