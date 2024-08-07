@@ -40,6 +40,15 @@ function setupThemeListener() {
         }
     });
 
+    document.addEventListener('mouseover', function(event) {
+        const target = event.target;
+        const codeblock = target.tagName === 'CODE' && 
+            target.parentNode.tagName === 'PRE';
+
+        if (codeblock) {
+        }
+    });
+
 }
 
 </script>

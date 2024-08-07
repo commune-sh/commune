@@ -37,7 +37,7 @@ function kill(e) {
 <div class="event-source fixed inset-x-0 inset-y-0 bg-mask grid h-full place-items-center" 
     onclick={kill}>
         <div class="source-container bg-view overflow-hidden">
-            <div class="font-semibold px-4 py-2">
+            <div class="font-semibold text-base px-4 py-2">
                 Event Source
             </div>
             <div class="source-body overflow-y-auto p-4 mb-4">

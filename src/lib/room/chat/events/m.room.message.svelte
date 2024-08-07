@@ -111,6 +111,10 @@ const redacted = $derived.by(() => {
     word-break: break-word;
 }
 
+:global(.chat-event p) {
+    margin-bottom: 0.5rem;
+}
+
 :global(.chat-event a) {
     color: var(--link);
     cursor: pointer;
