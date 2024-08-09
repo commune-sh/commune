@@ -43,6 +43,11 @@ export function get_local_part(room_id_or_alias) {
 }
 
 export function canonical_alias(room_alias) {
+  if(!room_alias) return false
+  const is_already_alias = isRoomAlias(room_alias)
+  if(is_already_alias) {
+    return room_alias
+  }
   return `#${room_alias}:${PUBLIC_HOMESERVER_NAME}`;
 }
 
@@ -84,15 +89,21 @@ export function processHash(hash) {
 }
 
 export function isRoomIDOrAlias(id_or_alias) {
+  if(!id_or_alias) return false
   return (id_or_alias.startsWith('!') || id_or_alias.startsWith('#')) &&
     id_or_alias.includes(':');
+}
+
+export function isRoomAlias(alias) {
+  if(!alias) return false
+  return alias.startsWith('#') && alias.includes(':');
 }
 
 export function naiveRoomIDCheck(room_id) {
   if (typeof room_id !== 'string') {
     return false;
   }
-  return room_id.includes('!') || room_id.includes(':');
+  return room_id.startsWith('!') && room_id.includes(':');
 }
 
 export function naiveOSTCheck(origin_server_ts) {

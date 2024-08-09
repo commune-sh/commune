@@ -28,7 +28,9 @@ import {
   processRoomStates,
   processSpaces, 
   buildPublicSpaces, 
-  buildSpacesHierarchy } from '$lib/utils/matrix';
+  buildSpacesHierarchy ,
+  processHash
+} from '$lib/utils/matrix';
 
 import { 
   login,
@@ -95,10 +97,23 @@ const active_room = $derived.by(() => {
 })
 
 const active_space = $derived.by(() => {
-  if(!page?.params?.space) return
-  const is_room_id = naiveRoomIDCheck(page.params.space)
+  if(!page?.params?.space && page?.url?.hash == null) return
+
+  let space_param;
+
+  if(page?.url?.hash) {
+    const params = processHash(page.url.hash)
+    if(params?.space) {
+      space_param = params.space
+    }
+  } else if(page?.params?.space) {
+    space_param = page.params.space
+  }
+
+  const is_room_id = naiveRoomIDCheck(space_param)
   const key = is_room_id ? `room_id` : `canonical_alias`
-  const val = is_room_id ? page.params.space : canonical_alias(page.params.space)
+  const val = is_room_id ? space_param : canonical_alias(space_param)
+  console.log(key, val)
   return rooms?.filter(r => r[key] == val)[0]
 })
 

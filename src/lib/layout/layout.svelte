@@ -3,7 +3,13 @@ import {
     PUBLIC_META_IMAGE,
 } from '$env/static/public';
 
+import { browser } from '$app/environment'
+
 import { page } from '$app/stores';
+
+import { 
+    processHash
+} from '$lib/utils/matrix'
 
 import View from '$lib/view/view.svelte'
 import Alert from '$lib/alert/alert.svelte'
@@ -19,12 +25,42 @@ let {
 } = $props();
 
 let is_home = $derived($page.route.id == '/(app)')
-let is_space = $derived($page.params.space != undefined)
-let is_room = $derived($page.params.room != undefined)
+
+const hash_params = $derived.by(() => {
+    return processHash($page.url.hash)
+})
+
+const no_hash = $derived.by(() => {
+    if(browser) {
+        return location.hash == ""
+    }
+})
+
+const space_param = $derived.by(() => {
+    if($page?.params?.space) {
+        return $page.params.space
+    }
+    if($page?.url?.hash) {
+        return hash_params?.space
+    }
+})
+
+const room_param = $derived.by(() => {
+    if($page?.params?.room) {
+        return $page.params.room
+    }
+    if($page?.url?.hash) {
+        return hash_params?.room
+    }
+})
+
+
+let is_space = $derived(space_param != undefined)
+let is_space_child_room = $derived(room_param != undefined)
 
 let non_space_room = $derived($page.route.id?.includes('/(app)/rooms'))
 
-let show_view = $derived(is_space || is_room || non_space_room)
+let show_view = $derived(is_space || is_space_child_room || non_space_room)
 
 let root;
 
@@ -53,7 +89,7 @@ const menu_active = $derived(store.ui.menu_active)
 
         {#if show_view}
             <View {content} />
-        {:else}
+        {:else if no_hash}
             {@render content()}
         {/if}
 

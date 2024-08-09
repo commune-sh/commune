@@ -41,7 +41,6 @@ const is_local = $derived.by(() => {
     return is_local_room(space?.canonical_alias)
 })
 
-
 const hash_params = $derived.by(() => {
     return processHash($page.url.hash)
 })

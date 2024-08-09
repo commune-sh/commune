@@ -60,6 +60,7 @@ let _active_room = $state(null);
 
 $effect(() =>{
     if(active_space && !_active_space) {
+        console.log("active space is", active_space)
         _active_space = active_space.room_id
 
         store.matrix.fetchRoomState(active_space.room_id)
