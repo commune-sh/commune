@@ -88,7 +88,12 @@ const menu_active = $derived(store.ui.menu_active)
     <div class="content-container grid h-full relative">
 
         {#if show_view}
-            <View {content} />
+            <View 
+                {content}
+                {is_space}
+                {is_space_child_room}
+                {non_space_room}
+            />
         {:else if no_hash}
             {@render content()}
         {/if}

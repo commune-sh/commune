@@ -90,10 +90,22 @@ if(browser) {
 let page = $state(null);
 
 const active_room = $derived.by(() => {
-  if(!page?.params?.room) return
-  const is_room_id = naiveRoomIDCheck(page.params.room)
+  if(!page?.params?.room && page?.url?.hash == null) return
+
+  let room_param;
+
+  if(page?.url?.hash) {
+    const params = processHash(page.url.hash)
+    if(params?.room) {
+      room_param = params.room
+    }
+  } else if(page?.params?.room) {
+    room_param = page.params.room
+  }
+
+  const is_room_id = naiveRoomIDCheck(room_param)
   const key = is_room_id ? `room_id` : `commune_alias`
-  return rooms?.filter(r => r[key] == page.params.room)[0]
+  return rooms?.filter(r => r[key] == room_param)[0]
 })
 
 const active_space = $derived.by(() => {
@@ -113,7 +125,6 @@ const active_space = $derived.by(() => {
   const is_room_id = naiveRoomIDCheck(space_param)
   const key = is_room_id ? `room_id` : `canonical_alias`
   const val = is_room_id ? space_param : canonical_alias(space_param)
-  console.log(key, val)
   return rooms?.filter(r => r[key] == val)[0]
 })
 

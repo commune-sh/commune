@@ -2,7 +2,11 @@
 import { onMount } from 'svelte';
 import { goto } from '$app/navigation';
 import { page } from '$app/stores';
-import { is_local_room, get_local_part } from '$lib/utils/matrix'
+import { 
+    is_local_room, 
+    get_local_part,
+    processHash,
+} from '$lib/utils/matrix'
 
 import { hash } from '$lib/assets/icons'
 
@@ -32,12 +36,25 @@ const is_local = $derived.by(() => {
 const alias_or_id = $derived(item?.commune_alias ? item?.commune_alias :
     item?.room_id)
 
+const hash_params = $derived.by(() => {
+    return processHash($page.url.hash)
+})
+
+const space_param = $derived.by(() => {
+    if($page?.params?.space) {
+        return $page.params.space
+    }
+    if($page?.url?.hash) {
+        return hash_params?.space
+    }
+})
+
 //const path = $derived(`/${$page.params.space}/${alias_or_id}`)
 const path = $derived.by(() => {
     if(non_space_room) {
         return `/rooms/${alias_or_id}`
     }
-    return `/${$page.params.space}/${alias_or_id}`
+    return `/${space_param}/${alias_or_id}`
 })
 
 let non_space_room = $derived($page.route.id?.includes('/(app)/rooms'))

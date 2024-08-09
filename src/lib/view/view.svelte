@@ -22,7 +22,10 @@ const store = createStore()
 
 let {
     data,
-    content
+    content,
+    is_space,
+    is_space_child_room,
+    non_space_room
 } = $props();
 
 const rooms = $derived.by(() => {
@@ -30,10 +33,6 @@ const rooms = $derived.by(() => {
 })
 
 let ready = $state(false);
-
-let is_space = $derived($page.params.space != undefined)
-let is_room = $derived($page.params.room != undefined)
-let non_space_room = $derived($page.route.id?.includes('/(app)/rooms'))
 
 let not_found = $derived.by(() => {
     const is_room_id = naiveRoomIDCheck($page.params.space)
@@ -54,25 +53,23 @@ onMount(() => {
 const active_space = $derived(store.matrix.active_space)
 const active_room = $derived(store.matrix.active_room)
 
-const room = $derived(store.matrix.active_room)
-
-const events = $derived(store.matrix.events[room?.room_id]?.events)
+const events = $derived(store.matrix.events[active_room?.room_id]?.events)
 const space_state = $derived.by(() => {
     return store.matrix.room_state[active_space?.room_id]
 })
 
 $effect(() => {
-    if(is_space && is_room && room) {
+    if(is_space && is_space_child_room && active_room) {
         if(space_state && events) {
             ready = true
         }
     }
-    if(is_space && !is_room) {
+    if(is_space && !is_space_child_room) {
         if(space_state) {
             ready = true
         }
     }
-    if(non_space_room && room) {
+    if(non_space_room && active_room) {
         if(events) {
             ready = true
         }
@@ -115,7 +112,11 @@ function clickThrough() {
     bind:this={container}>
 
     <div class="sidebar-container relative bg-sidebar grid">
-        <Sidebar />
+        <Sidebar
+            {is_space}
+            {is_space_child_room}
+            {non_space_room}
+        />
     </div>
 
     <div class="view bg-view grid grid-rows-[52px_1fr] h-dvh"

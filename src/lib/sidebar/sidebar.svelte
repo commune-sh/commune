@@ -10,10 +10,14 @@ import UserSidebar from '$lib/sidebar/user/user-sidebar.svelte'
 
 import { page } from '$app/stores';
 
+let {
+    is_space,
+    is_space_child_room,
+    non_space_room
+} = $props();
+
+
 let is_home = $derived($page.route.id == '/(app)')
-let is_space = $derived($page.params.space != undefined)
-let is_room = $derived($page.params.room != undefined)
-let non_space_room = $derived($page.route.id?.includes('/(app)/rooms'))
 
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
@@ -83,7 +87,7 @@ const space_state = $derived.by(() => {
 
     {#if non_space_room}
         <RoomsSidebarHeader />
-    {:else if (is_space || is_room)}
+    {:else if (is_space || is_space_child_room)}
         <RoomSidebarHeader />
     {:else if is_home}
         <UserSidebarHeader />
@@ -93,7 +97,7 @@ const space_state = $derived.by(() => {
         <div class="rooms overflow-y-auto h-full"
             oncontextmenu={showContextMenu}
         >
-            {#if is_space || is_room || non_space_room}
+            {#if is_space || is_space_child_room || non_space_room}
                 <RoomSidebar />
             {:else if is_home}
                 <UserSidebar />
