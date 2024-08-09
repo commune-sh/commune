@@ -54,9 +54,38 @@ export function cleanDisplayname(name) {
 
 export function is_local_room(room_id) {
   if(!room_id) return false;
-  const parts = room_id.split(':');
-  const domain = parts[1];
+  const domain = getDomain(room_id);
   return domain === PUBLIC_HOMESERVER_NAME;
+}
+
+export function getDomain(id_or_alias) {
+  const index = id_or_alias.indexOf(':');
+  const domain = id_or_alias.slice(index + 1);
+  return domain;
+}
+
+export function processHash(hash) {
+  if(hash.includes('/')) {
+    const parts = hash.split('/');
+    const valid = isRoomIDOrAlias(parts[0])
+    if(valid) {
+      return {
+        space: parts[0],
+        room: parts[1]
+      }
+    }
+  }
+  const valid = isRoomIDOrAlias(hash)
+  if(valid) {
+    return {
+      space: hash,
+    }
+  }
+}
+
+export function isRoomIDOrAlias(id_or_alias) {
+  return (id_or_alias.startsWith('!') || id_or_alias.startsWith('#')) &&
+    id_or_alias.includes(':');
 }
 
 export function naiveRoomIDCheck(room_id) {
@@ -198,26 +227,26 @@ export function processRooms(unprocessed) {
     processed.push(item);
   })
 
-      processed.forEach(room => {
-        if(room?.children?.length > 0) {
-          let items = [];
-          room.children.forEach( c => {
-            let item = processed.find(r => r.room_id == c)
-            if(item) {
-              items.push(item)
-            }
-          })
-          items?.sort((a, b) => {
-              return a.origin_server_ts - b.origin_server_ts
-          })
-          items.forEach(c => {
-            let b = items.filter(r => r.room_id != c.room_id && r.commune_alias == c.commune_alias)
-            b.forEach(x => {
-              x.commune_alias = `${x.commune_alias}-${x.origin_server_ts}`
-            })
-          })
+  processed.forEach(room => {
+    if(room?.children?.length > 0) {
+      let items = [];
+      room.children.forEach( c => {
+        let item = processed.find(r => r.room_id == c)
+        if(item) {
+          items.push(item)
         }
       })
+      items?.sort((a, b) => {
+        return a.origin_server_ts - b.origin_server_ts
+      })
+      items.forEach(c => {
+        let b = items.filter(r => r.room_id != c.room_id && r.commune_alias == c.commune_alias)
+        b.forEach(x => {
+          x.commune_alias = `${x.commune_alias}-${x.origin_server_ts}`
+        })
+      })
+    }
+  })
 
   return processed;
 }
@@ -311,25 +340,25 @@ export function buildPublicSpaces(rooms) {
 
 
 export function buildSpaces(rooms) {
-    const roomMap = new Map();
-    rooms.forEach(room => {
-        roomMap.set(room.room_id, { ...room, children: [] });
+  const roomMap = new Map();
+  rooms.forEach(room => {
+    roomMap.set(room.room_id, { ...room, children: [] });
+  });
+
+  const childrenRoomIds = new Set();
+
+  rooms.forEach(room => {
+    room?.children?.forEach(childId => {
+      if (roomMap.has(childId)) {
+        const childRoom = roomMap.get(childId);
+        roomMap.get(room.room_id).children.push(childRoom);
+        childrenRoomIds.add(childId);
+      }
     });
+  });
 
-    const childrenRoomIds = new Set();
-
-    rooms.forEach(room => {
-        room?.children?.forEach(childId => {
-            if (roomMap.has(childId)) {
-                const childRoom = roomMap.get(childId);
-                roomMap.get(room.room_id).children.push(childRoom);
-                childrenRoomIds.add(childId);
-            }
-        });
-    });
-
-    const parents = rooms.filter(room => !childrenRoomIds.has(room.room_id)).map(room => roomMap.get(room.room_id));
-    return parents.filter(room => room.type == 'm.space');
+  const parents = rooms.filter(room => !childrenRoomIds.has(room.room_id)).map(room => roomMap.get(room.room_id));
+  return parents.filter(room => room.type == 'm.space');
 }
 
 

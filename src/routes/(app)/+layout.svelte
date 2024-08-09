@@ -55,10 +55,13 @@ const context_event = $derived.by(() => {
     return $page.url.searchParams.get('event')
 })
 
-$effect(() => {
+$effect.pre(() => {
     if($page) {
         store.matrix.updatePage($page)
     }
+})
+
+$effect(() => {
     if(browser && !authReady) {
         store.auth.setup({
             authenticated: data?.authenticated,

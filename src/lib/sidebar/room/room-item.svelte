@@ -34,17 +34,17 @@ const alias_or_id = $derived(item?.commune_alias ? item?.commune_alias :
 
 //const path = $derived(`/${$page.params.space}/${alias_or_id}`)
 const path = $derived.by(() => {
-    if(is_rooms) {
+    if(non_space_room) {
         return `/rooms/${alias_or_id}`
     }
     return `/${$page.params.space}/${alias_or_id}`
 })
 
-let is_rooms = $derived($page.route.id?.includes('/(app)/rooms'))
+let non_space_room = $derived($page.route.id?.includes('/(app)/rooms'))
 
 function goToRoom() {
     goto(path)
-    const location = is_rooms ? 'rooms' : $page.params.space
+    const location = non_space_room ? 'rooms' : $page.params.space
     store.ui.updateRoute(location, path)
     if(menu_active) store.ui.toggleMenu()
 }

@@ -12,6 +12,8 @@ const store = createStore()
 import { 
     room_alias_from_ID, 
     thumbnailURL,
+    is_local_room,
+    processHash
 } from '$lib/utils/matrix'
 
 import { getRoomHierarchy } from '$lib/appservice/requests'
@@ -35,8 +37,29 @@ const alias = $derived.by(() => {
     }
 })
 
+const is_local = $derived.by(() => {
+    return is_local_room(space?.canonical_alias)
+})
+
+
+const hash_params = $derived.by(() => {
+    return processHash($page.url.hash)
+})
+
+const space_param = $derived.by(() => {
+    if($page?.params?.space) {
+        return $page.params.space
+    }
+    if($page?.url?.hash) {
+        return hash_params?.space
+    }
+})
+
 
 let active = $derived.by(() => {
+    if(!is_local) {
+        return space_param === space.canonical_alias
+    }
     if(alias) {
         return $page.params?.space === alias
     } else if(space?.room_id) {
@@ -190,6 +213,11 @@ function goToSpace() {
         document.title = name
     }
     */
+
+    if(!is_local) {
+        goto(`/${space.canonical_alias}`)
+        return
+    }
 
     let location = alias ? alias : space.room_id
 

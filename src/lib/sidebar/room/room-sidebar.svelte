@@ -16,7 +16,7 @@ const is_alias = $derived.by(() => {
     return !naiveRoomIDCheck($page.params.space)
 })
 
-let is_rooms = $derived($page.route.id?.includes('/(app)/rooms'))
+let non_space_room = $derived($page.route.id?.includes('/(app)/rooms'))
 
 const space_rooms = $derived.by(() => {
     let key = is_alias ? 'canonical_alias' : 'room_id'
@@ -40,7 +40,7 @@ let stray_rooms = $derived.by(() => {
 })
 
 let items = $derived.by(() => {
-    return is_rooms ? stray_rooms : space_rooms
+    return non_space_room ? stray_rooms : space_rooms
 })
 
 

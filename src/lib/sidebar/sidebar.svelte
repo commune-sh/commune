@@ -13,7 +13,7 @@ import { page } from '$app/stores';
 let is_home = $derived($page.route.id == '/(app)')
 let is_space = $derived($page.params.space != undefined)
 let is_room = $derived($page.params.room != undefined)
-let is_rooms = $derived($page.route.id?.includes('/(app)/rooms'))
+let non_space_room = $derived($page.route.id?.includes('/(app)/rooms'))
 
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
@@ -81,7 +81,7 @@ const space_state = $derived.by(() => {
     style="width: {width}px">
 
 
-    {#if is_rooms}
+    {#if non_space_room}
         <RoomsSidebarHeader />
     {:else if (is_space || is_room)}
         <RoomSidebarHeader />
@@ -93,7 +93,7 @@ const space_state = $derived.by(() => {
         <div class="rooms overflow-y-auto h-full"
             oncontextmenu={showContextMenu}
         >
-            {#if is_space || is_room || is_rooms}
+            {#if is_space || is_room || non_space_room}
                 <RoomSidebar />
             {:else if is_home}
                 <UserSidebar />

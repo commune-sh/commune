@@ -33,7 +33,7 @@ let ready = $state(false);
 
 let is_space = $derived($page.params.space != undefined)
 let is_room = $derived($page.params.room != undefined)
-let is_rooms = $derived($page.route.id?.includes('/(app)/rooms'))
+let non_space_room = $derived($page.route.id?.includes('/(app)/rooms'))
 
 let not_found = $derived.by(() => {
     const is_room_id = naiveRoomIDCheck($page.params.space)
@@ -72,11 +72,11 @@ $effect(() => {
             ready = true
         }
     }
-    if(is_rooms && room) {
+    if(non_space_room && room) {
         if(events) {
             ready = true
         }
-    } else if(is_rooms) {
+    } else if(non_space_room) {
         ready = true
     }
 })
