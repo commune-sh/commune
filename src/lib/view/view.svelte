@@ -3,6 +3,8 @@ import { PUBLIC_META_TITLE } from '$env/static/public';
 import { page } from '$app/stores';
 import { onMount } from 'svelte'
 
+import Room from '$lib/room/room.svelte'
+
 import Loading from '$lib/loading/loading.svelte'
 import Sidebar from '$lib/sidebar/sidebar.svelte'
 import Header from '$lib/header/header.svelte'
@@ -121,12 +123,20 @@ function clickThrough() {
 
     <div class="view bg-view grid grid-rows-[52px_1fr] h-dvh"
         class:full-width={menu_active}>
-        <Header />
+        <Header 
+            {is_space}
+            {is_space_child_room}
+            {non_space_room}
+            />
         <section class="view select-text overflow-hidden"
             onclick={clickThrough}
             bind:this={viewport}
             class:mask-view={menu_active}>
-                {@render content()}
+                <Room
+                    {is_space}
+                    {is_space_child_room}
+                    {non_space_room}
+                />
         </section>
     </div>
     {#if thread_exists}

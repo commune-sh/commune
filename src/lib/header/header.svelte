@@ -7,6 +7,12 @@ import { hash } from '$lib/assets/icons'
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
 
+let {
+    is_space,
+    is_space_child_room,
+    non_space_room
+} = $props();
+
 const show_auth = $derived(store.auth.ready && store.auth.authenticated)
 
 const menu_active = $derived(store.ui.menu_active)
@@ -15,8 +21,6 @@ function toggleMenu() {
     store.ui.toggleMenu()
 }
 
-const is_space = $derived($page.params.space != undefined)
-const is_room = $derived($page.params.room != undefined)
 
 const active_space = $derived(store.matrix.active_space)
 const active_room = $derived(store.matrix.active_room)
@@ -30,13 +34,13 @@ const room_state = $derived.by(() => {
 })
 
 const name = $derived.by(() => {
-    if(is_room && active_room?.name) {
+    if(is_space_child_room && active_room?.name) {
         return active_room.name
     }
-    if(is_space && !is_room && active_space?.name) {
+    if(is_space && !is_space_child_room && active_space?.name) {
         return active_space.name
     }
-    if(is_room && !active_room?.name) {
+    if(is_space_child_room && !active_room?.name) {
         return `Untitled Room`
     }
 })
@@ -90,7 +94,7 @@ $effect(() => {
         </div>
     </div>
     <div class="overflow-hidden flex mx-4 items-center justify-items-start">
-        {#if is_room}
+        {#if is_space_child_room}
             <div class="hash h-[20px] w-[20px] mr-2">
                 {@html hash}
             </div>
@@ -106,13 +110,13 @@ $effect(() => {
             </div>
         {/if}
 
-        {#if !is_room && is_space}
+        {#if !is_space_child_room && is_space}
             <div class="font-semibold text-sm">
                 Overview
             </div>
         {/if}
 
-        {#if is_room && room_topic}
+        {#if is_space_child_room && room_topic}
             <div class="topic ml-4 my-4 text-xs text-light truncate">
                 {room_topic}
             </div>

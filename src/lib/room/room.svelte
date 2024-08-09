@@ -8,8 +8,11 @@ import RoomOverView from '$lib/room/overview/overview.svelte'
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
 
-let is_space = $derived($page.params.space != undefined)
-let is_room = $derived($page.params.room != undefined)
+let {
+    is_space,
+    is_space_child_room,
+    non_space_room
+} = $props();
 
 const rooms = $derived(store.matrix.rooms)
 const room_state = $derived(store.matrix.room_state)
@@ -30,7 +33,7 @@ $effect(() => {
 
 </script>
 
-{#if is_room}
+{#if is_space_child_room}
     {#if is_chat}
         <ChatView />
     {:else if is_forum}

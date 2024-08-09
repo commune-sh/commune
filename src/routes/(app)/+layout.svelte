@@ -16,9 +16,9 @@ import { wellKnownClient, getVersions } from '$lib/matrix/requests'
 
 import { 
     get_local_part,
-    aliasFromSender,
     cleanDisplayname,
     processURL,
+    processHash
 } from '$lib/utils/matrix'
 
 import Listeners from '$lib/listeners/listeners.svelte'
@@ -61,6 +61,29 @@ $effect.pre(() => {
     }
 })
 
+const hash_params = $derived.by(() => {
+    return processHash($page.url.hash)
+})
+
+const space_param = $derived.by(() => {
+    if($page?.params?.space) {
+        return $page.params.space
+    }
+    if($page?.url?.hash) {
+        return hash_params?.space
+    }
+})
+
+const room_param = $derived.by(() => {
+    if($page?.params?.room) {
+        return $page.params.room
+    }
+    if($page?.url?.hash) {
+        return hash_params?.room
+    }
+})
+
+
 $effect(() => {
     if(browser && !authReady) {
         store.auth.setup({
@@ -71,7 +94,7 @@ $effect(() => {
         })
     }
 
-    if($page.params.room && room_id && !context_event) {
+    if(room_param && room_id && !context_event) {
         const events = store.matrix.events[room_id]
         if(!events) {
             console.log("Fetching room events...")
@@ -80,7 +103,7 @@ $effect(() => {
             })
         }
     }
-    if($page.params.room && room_id && context_event) {
+    if(room_param && room_id && context_event) {
         console.log("Fetching context event...")
         store.matrix.fetchEventContext({
             room_id: room_id,

@@ -49,6 +49,15 @@ const space_param = $derived.by(() => {
     }
 })
 
+const room_param = $derived.by(() => {
+    if($page?.params?.room) {
+        return $page.params.room
+    }
+    if($page?.url?.hash) {
+        return hash_params?.room
+    }
+})
+
 //const path = $derived(`/${$page.params.space}/${alias_or_id}`)
 const path = $derived.by(() => {
     if(non_space_room) {
@@ -70,7 +79,7 @@ const active_room = $derived(store.matrix.active_room)
 
 
 const active = $derived.by(() => {
-    return $page.params.room && active_room && item?.room_id == active_room?.room_id
+    return room_param && active_room && item?.room_id == active_room?.room_id
 })
 
 $effect(() => {
@@ -81,13 +90,13 @@ $effect(() => {
         const stored = localStorage.getItem('navigation')
         if(!stored) {
             const nav = new Map()
-            nav.set($page.params.space, path)
+            nav.set(space_param, path)
             const s = Array.from(nav.entries());
             localStorage.setItem('navigation', JSON.stringify(s))
         } else {
             const s = JSON.parse(localStorage.getItem('navigation'));
             const nav = new Map(s);
-            nav.set($page.params.space, path)
+            nav.set(space_param, path)
             localStorage.setItem('navigation', JSON.stringify(Array.from(nav.entries())))
         }
     }
@@ -115,7 +124,7 @@ function stopHover() {
 
 onMount(() => {
     if(active) {
-        store.ui.updateRoute($page.params.space, path)
+        store.ui.updateRoute(space_param, path)
     }
 })
 

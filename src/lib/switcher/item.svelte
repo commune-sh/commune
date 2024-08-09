@@ -60,9 +60,9 @@ let active = $derived.by(() => {
         return space_param === space.canonical_alias
     }
     if(alias) {
-        return $page.params?.space === alias
+        return space_param === alias
     } else if(space?.room_id) {
-        return $page.params?.space === space.room_id
+        return space_param === space.room_id
     }
 })
 
