@@ -43,7 +43,7 @@ const space_rooms = $derived.by(() => {
         let items = []
         i.children.forEach(child => {
             let item = rooms?.find(room => room.room_id == child)
-            if(!item?.children) {
+            if(item?.room_id && !item?.children) {
                 items.push(item)
             }
         })
