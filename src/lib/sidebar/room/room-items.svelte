@@ -15,6 +15,7 @@ let processed = $state(null);
 $effect(() => {
     if(sorted) {
         processed = sorted
+        console.log("Built rooms:", $state.snapshot(processed))
     }
 })
 
@@ -22,7 +23,7 @@ $effect(() => {
 
 {#if processed}
     <div class="room-items mt-2">
-        {#each processed as item}
+        {#each processed as item (item.room_id)}
             <RoomItem {item} />
         {/each}
     </div>
