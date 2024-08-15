@@ -61,7 +61,7 @@ const action = $derived.by(() => {
         {#if joined || left}
             {action} the room
         {:else if invited}
-            invited <span class="font-semibold mx-1 text-text">{invited_user}</span> to the room
+            invited <span class="text-text">{invited_user}</span> to the room
         {:else if new_displayname}
             changed their name
         {:else if new_avatar_url}

@@ -20,6 +20,7 @@ import MessageEvent from '$lib/room/chat/events/m.room.message.svelte'
 import MembershipEvent from '$lib/room/chat/events/m.room.member.svelte'
 import TopicEvent from '$lib/room/chat/events/m.room.topic.svelte'
 import AvatarEvent from '$lib/room/chat/events/m.room.avatar.svelte'
+import PowerLevelsEvent from '$lib/room/chat/events/m.room.power_levels.svelte'
 
 import Menu from '$lib/event/menu/menu.svelte'
 
@@ -91,7 +92,7 @@ const event_options = $state([
     {type: 'm.room.history_visibility', show: false},
     {type: 'm.room.join_rules', show: false},
     {type: 'm.room.name', show: true},
-    {type: 'm.room.power_levels', show: false},
+    {type: 'm.room.power_levels', show: true},
     {type: 'm.room.guest_access', show: false},
     {type: 'm.room.canonical_alias', show: false},
     {type: 'm.room.pinned_events', show: false},
@@ -109,6 +110,7 @@ const components = $state([
     {type: 'm.room.member', component: MembershipEvent },
     {type: 'm.room.topic', component: TopicEvent },
     {type: 'm.room.avatar', component: AvatarEvent },
+    {type: 'm.room.power_levels', component: PowerLevelsEvent },
 ])
 
 const component = $derived.by(() => {
