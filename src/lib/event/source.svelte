@@ -50,7 +50,7 @@ $effect(() => {
 {#if active}
 <div class="event-source fixed inset-x-0 inset-y-0 bg-mask grid h-full place-items-center" 
     onclick={kill}>
-        <div class="source-container flex flex-col bg-view overflow-hidden">
+        <div class="source-container flex flex-col bg-background overflow-hidden">
             <div class="px-4 py-3 border-b border-border flex">
                 <div class="grid place-items-center font-semibold">
                     Event Source
@@ -98,7 +98,7 @@ $effect(() => {
         width: 100%;
     }
     .source-body {
-        font-size: 0.8125rem;
+        font-size: 0.75rem;
     }
 }
 </style>

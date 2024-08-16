@@ -27,7 +27,7 @@ function click() {
 
 </script>
 
-<div class="event-menu flex bg-view relative select-none"
+<div class="event-menu flex bg-background relative select-none"
 onclick={click}>
     {#if m_file}
         <Download {event}/>

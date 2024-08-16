@@ -206,9 +206,10 @@ input:-webkit-autofill:active  {
     border-radius: 6px;
 }
 ::-webkit-scrollbar-track {
-    background: transparent;;
     background: var(--scrollbar-track);
-    border-radius: 6px;
+}
+::-webkit-scrollbar-corner {
+    background: var(--scrollbar-track);
 }
 
 .container {

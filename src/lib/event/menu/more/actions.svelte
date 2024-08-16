@@ -64,7 +64,7 @@ function click() {
     right: 0;
     border: 1px solid var(--border);
     border-radius: 4px;
-    background: var(--view);
+    background: var(--background);
     cursor: pointer;
     white-space: nowrap;
     min-width: 130px;
