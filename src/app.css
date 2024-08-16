@@ -33,13 +33,13 @@
 }
 
 :root.dark {
-    --background: hsla(0, 0%, 0%, 1);;
+    --background: hsla(0, 0%, 0%, 1);
     --switcher: transparent;
-    --sidebar: hsla(0, 0%, 4%, 1);
-    --view: hsla(0, 0%, 0%, 1);;
-    --border: hsla(0, 0%, 9%, 1);;
-    --sidebar-border: transparent;
-    --switcher-border: transparent;
+    --sidebar: transparent;
+    --view: transparent;
+    --border: hsla(0, 0%, 9%, 1);
+    --sidebar-border: hsla(0, 0%, 9%, 1);
+    --switcher-border: hsla(0, 0%, 9%, 1);
     --shade-1: hsla(0, 0%, 7%, 1);
     --shade-2: hsla(0, 0%, 9%, 1);
     --shade-3: hsla(0, 0%, 11%, 1);

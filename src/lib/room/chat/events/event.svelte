@@ -229,7 +229,7 @@ let menu_active = $derived.by(() => {
     onmouseleave={() => hovered = false}
     data-event-id={id}
     class="event-container grid relative
-    hover:bg-shade-1 p-[0.2rem] mr-1" 
+    p-[0.2rem] mr-1" 
     class:highligt={highlight}
     class:bg-shade-1={menu_active}
     class:mb-2={is_message && !nextEventTypeSame}
@@ -298,10 +298,23 @@ let menu_active = $derived.by(() => {
     grid-template-columns: 72px 1fr;
 }
 
+:global(:root.dark) {
+    --event-container-hover: hsla(0, 0%, 100%, 0.05);
+}
+
+:global(:root.light) {
+    --event-container-hover: hsla(0, 0%, 50%, 0.1);
+}
+
 .event-container {
     line-height: 1.375rem;
     border-left: solid 1px transparent;
 }
+
+.event-container:hover {
+    background: var(--event-container-hover);
+}
+
 .event-container:hover .time {
     opacity: 1;
 }
@@ -341,8 +354,6 @@ let menu_active = $derived.by(() => {
     }
     .spine::before {
         left: 26px;
-    }
-    .reply-to-event {
     }
     .time {
         font-size: 0.5rem;
