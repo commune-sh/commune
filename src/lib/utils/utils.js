@@ -50,7 +50,7 @@ function processEmoji(body) {
 
 function cleanID(id) {
   if(id.startsWith('@_ooye_')) {
-    id = id.replace('@_ooye_', '')
+    id = id.replace('@_ooye_', '@')
   }
   if(id.includes(PUBLIC_HOMESERVER_NAME)) {
     return id.split(`:${PUBLIC_HOMESERVER_NAME}`)[0]
