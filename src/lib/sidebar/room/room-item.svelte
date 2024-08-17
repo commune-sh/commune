@@ -25,11 +25,6 @@ let {
     item
 } = $props();
 
-function log(e) {
-    e.preventDefault()
-    console.log(item)
-}
-
 const is_local = $derived.by(() => {
     return is_local_room(item?.room_id)
 })
@@ -78,10 +73,15 @@ function goToRoom() {
 
 const active_room = $derived(store.matrix.active_room)
 
-
 const active = $derived.by(() => {
     return room_param && active_room && item?.room_id == active_room?.room_id
 })
+
+function log(e) {
+    e.preventDefault()
+    console.log(active_room?.room_id, item?.room_id)
+}
+
 
 $effect(() => {
     if(active && item?.room_id && authReady && !authenticated) {

@@ -107,7 +107,6 @@ const active_room = $derived.by(() => {
     return null
   }
 
-
   const is_room_id = naiveRoomIDCheck(room_param)
   const key = is_room_id ? `room_id` : `commune_alias`
   return rooms?.filter(r => r[key] == room_param)[0]
@@ -409,7 +408,9 @@ export function createMatrixStore() {
 
       resp.rooms.forEach(room => {
         let name = room?.name ? room.name : `Untitled Room`
-        room.commune_alias = aliasFromName(name)
+        if(room?.type != 'm.space') {
+          room.commune_alias = aliasFromName(name)
+        }
       })
 
       resp.rooms.forEach(room => {
