@@ -7,6 +7,8 @@ import Audio from '$lib/room/common/m.audio.svelte'
 import Video from '$lib/room/common/m.video.svelte'
 import File from '$lib/room/common/m.file.svelte'
 
+import ThreadSummary from '$lib/room/chat/events/thread-summary.svelte';
+
 const components = $state([
     {msgtype: 'm.image', component: Image },
     {msgtype: 'm.audio', component: Audio },
@@ -103,6 +105,10 @@ const redacted = $derived.by(() => {
 </div>
 {/if}
 
+
+{#if has_thread}
+    <ThreadSummary {event} />
+{/if}
 
 
 <style>

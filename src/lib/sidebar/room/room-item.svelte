@@ -56,9 +56,21 @@ const room_param = $derived.by(() => {
 
 //const path = $derived(`/${$page.params.space}/${alias_or_id}`)
 const path = $derived.by(() => {
+    // non space rooms
+
     if(non_space_room) {
+        if($page.url.search != '') {
+            return `/rooms/${alias_or_id}${$page.url.search}`
+        }
         return `/rooms/${alias_or_id}`
     }
+
+    // space rooms
+
+    if($page.url.search != '') {
+        return `/${space_param}/${alias_or_id}${$page.url.search}`
+    }
+
     return `/${space_param}/${alias_or_id}`
 })
 
