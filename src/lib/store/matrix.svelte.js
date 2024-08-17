@@ -103,6 +103,11 @@ const active_room = $derived.by(() => {
     room_param = page.params.room
   }
 
+  if(!room_param) {
+    return null
+  }
+
+
   const is_room_id = naiveRoomIDCheck(room_param)
   const key = is_room_id ? `room_id` : `commune_alias`
   return rooms?.filter(r => r[key] == room_param)[0]
@@ -110,6 +115,7 @@ const active_room = $derived.by(() => {
 
 const active_space = $derived.by(() => {
   if(!page?.params?.space && page?.url?.hash == null) return
+
 
   let space_param;
 
@@ -122,9 +128,14 @@ const active_space = $derived.by(() => {
     space_param = page.params.space
   }
 
+  if(!space_param) {
+    return null
+  }
+
   const is_room_id = naiveRoomIDCheck(space_param)
   const key = is_room_id ? `room_id` : `canonical_alias`
   const val = is_room_id ? space_param : canonical_alias(space_param)
+
   return rooms?.filter(r => r[key] == val)[0]
 })
 

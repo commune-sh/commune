@@ -59,11 +59,12 @@ export function cleanDisplayname(name) {
 
 export function is_local_room(room_id) {
   if(!room_id) return false;
-  const domain = getDomain(room_id);
+  const domain = get_domain(room_id);
   return domain === PUBLIC_HOMESERVER_NAME;
 }
 
-export function getDomain(id_or_alias) {
+export function get_domain(id_or_alias) {
+  if(!id_or_alias) return
   const index = id_or_alias.indexOf(':');
   const domain = id_or_alias.slice(index + 1);
   return domain;

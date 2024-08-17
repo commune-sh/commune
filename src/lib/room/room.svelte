@@ -14,7 +14,6 @@ let {
     non_space_room
 } = $props();
 
-const rooms = $derived(store.matrix.rooms)
 const room_state = $derived(store.matrix.room_state)
 
 const room = $derived(store.matrix.active_room)
@@ -40,5 +39,9 @@ $effect(() => {
         <ForumView />
     {/if}
 {:else}
-    <RoomOverView />
+    <RoomOverView 
+        {is_space}
+        {is_space_child_room}
+        {non_space_room}
+    />
 {/if}

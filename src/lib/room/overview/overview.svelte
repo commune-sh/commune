@@ -9,6 +9,13 @@ import {
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
 
+let {
+    is_space,
+    is_space_child_room,
+    non_space_room
+} = $props();
+
+
 const active_space = $derived(store.matrix.active_space)
 
 const space_state = $derived.by(() => {
@@ -81,12 +88,25 @@ const render_topic = $derived.by(() => {
 </div>
 {/if}
 
+{#if non_space_room}
+<div class="flex h-full justify-center items-center">
+    <div class="overview flex flex-col p-2 text-center">
+        <div class="text">
+            These rooms don't belong to any spaces.
+        </div>
+        <div class="mt-2 text-sm text-light">
+            Select a room.
+        </div>
+    </div>
+</div>
+{/if}
+
 
 <style>
 .overview {
     max-width: 400px;
     line-height: 1.375;
-    margin-top: -5rem;
+    margin-top: -6rem;
 }
 
 :global(.topic a) {

@@ -1,8 +1,7 @@
 <script>
 import { page } from '$app/stores';
-import { bars } from '$lib/assets/icons'
 
-import { hash } from '$lib/assets/icons'
+import { left, hash } from '$lib/assets/icons'
 
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
@@ -89,11 +88,11 @@ $effect(() => {
     bg-header border-solid border-b border-border">
     <div class="menu grid cursor-pointer place-items-center" 
         onclick={toggleMenu}>
-        <div class="icon h-[32px] w-[32px]">
-            {@html bars}
+        <div class="icon h-[26px] w-[26px]">
+            {@html left}
         </div>
     </div>
-    <div class="overflow-hidden flex mx-4 items-center justify-items-start">
+    <div class="header-content overflow-hidden flex items-center justify-items-start">
         {#if is_space_child_room}
             <div class="hash h-[20px] w-[20px] mr-2">
                 {@html hash}
@@ -130,10 +129,18 @@ $effect(() => {
     display: none;
 }
 
+.header-content {
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
 
 @media (max-width: 768px) {
     .header {
         grid-template-columns: 52px 1fr;
+    }
+    .header-content {
+        margin-left: 0rem;
+        margin-right: 0rem;
     }
     .menu {
         display: grid;

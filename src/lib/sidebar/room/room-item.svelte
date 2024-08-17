@@ -5,6 +5,7 @@ import { page } from '$app/stores';
 import { 
     is_local_room, 
     get_local_part,
+    get_domain,
     processHash,
 } from '$lib/utils/matrix'
 
@@ -141,6 +142,14 @@ const title = $derived.by(() => {
     return `Untitled Room`
 })
 
+const domain = $derived.by(() => {
+    return get_domain(item?.canonical_alias)
+})
+
+const show_domain = $derived.by(() => {
+    return !is_local && non_space_room
+})
+
 </script>
 
 <div class="room-item cursor-pointer text-light hover:text-text
@@ -160,6 +169,13 @@ const title = $derived.by(() => {
             {title} 
         </div>
     </div>
+
+    {#if show_domain}
+        <div class="alias mt-1 text-xs text-light">
+            {domain}
+        </div>
+    {/if}
+
 </div>
 
 <style>
@@ -184,6 +200,10 @@ const title = $derived.by(() => {
 
 .r-i {
     fill: var(--light);
+}
+
+.alias {
+    margin-left: calc(16px + 0.5rem);
 }
 
 </style>
