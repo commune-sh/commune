@@ -60,7 +60,7 @@ const date = $derived.by(() => {
 
 <style>
 .new-day {
-    border-top: 1px solid var(--shade-5);
+    border-top: 1px solid var(--border);
     margin-top: 1.5rem;
     margin-bottom: 0.75rem;
     margin-left: 1.5rem;
@@ -74,7 +74,7 @@ const date = $derived.by(() => {
     margin-top: -0.5rem;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
-    background: var(--view);
+    background: var(--background);
 }
 @media (max-width: 768px) {
     .new-day {

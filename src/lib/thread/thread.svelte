@@ -1,7 +1,7 @@
 <script>
+import { page } from '$app/stores';
+
 import { getSetting, updateSetting } from '$lib/utils/localstorage.js';
-
-
 let saved_width = $derived.by(() => {
     return getSetting('thread_width');
 });
@@ -44,13 +44,20 @@ $effect(() => {
     }
 })
 
+const thread = $derived.by(() => {
+    return $page.url.searchParams.get('thread') 
+})
+
 
 </script>
 
 <div class="thread-container relative grid bg-background">
-    <div class="thread grid border-solid border-l border-sidebar-border"
+    <div class="thread grid border-solid border-l border-border"
         style="width: {width}px">
-        thread
+
+        <div class="thread-header h-[52px] border-solid border-b border-border">
+            Thread
+        </div>
     </div>
 
     <div class="dragger absolute grid place-items-center" 

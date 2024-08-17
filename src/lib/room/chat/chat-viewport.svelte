@@ -233,3 +233,13 @@ $effect(() =>{
     {/if}
 </div>
 
+<style>
+::-webkit-scrollbar-thumb {
+    background: transparent;
+}
+
+.chat-content:hover::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+}
+
+</style>

@@ -21,6 +21,7 @@ import MembershipEvent from '$lib/room/chat/events/m.room.member.svelte'
 import TopicEvent from '$lib/room/chat/events/m.room.topic.svelte'
 import AvatarEvent from '$lib/room/chat/events/m.room.avatar.svelte'
 import PowerLevelsEvent from '$lib/room/chat/events/m.room.power_levels.svelte'
+import PinnedEvent from '$lib/room/chat/events/m.room.pinned_events.svelte'
 
 import Menu from '$lib/event/menu/menu.svelte'
 
@@ -95,7 +96,7 @@ const event_options = $state([
     {type: 'm.room.power_levels', show: true},
     {type: 'm.room.guest_access', show: false},
     {type: 'm.room.canonical_alias', show: false},
-    {type: 'm.room.pinned_events', show: false},
+    {type: 'm.room.pinned_events', show: true},
     {type: 'm.room.tombstone', show: false},
     {type: 'm.room.third_party_invite', show: false},
     {type: 'm.room.server_acl', show: false},
@@ -111,6 +112,7 @@ const components = $state([
     {type: 'm.room.topic', component: TopicEvent },
     {type: 'm.room.avatar', component: AvatarEvent },
     {type: 'm.room.power_levels', component: PowerLevelsEvent },
+    {type: 'm.room.pinned_events', component: PinnedEvent },
 ])
 
 const component = $derived.by(() => {
@@ -192,7 +194,7 @@ $effect(() => {
 
 const showEvent = $derived.by(() => {
     return event_options.find(e => e.type == event?.type)?.show &&
-        !is_replacement && !hideEvent
+        !is_replacement && !hideEvent && !is_thread_message
 })
 
 let hovered = $state(false);

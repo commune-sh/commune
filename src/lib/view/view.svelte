@@ -82,7 +82,7 @@ $effect(() => {
 
 
 const thread_exists = $derived.by(() => {
-    return $page.params.thread != undefined
+    return $page.url.searchParams.get('thread') != undefined
 })
 
 const menu_active = $derived(store.ui.menu_active)
