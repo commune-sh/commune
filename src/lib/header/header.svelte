@@ -111,8 +111,7 @@ $effect(() => {
         {/if}
 
         {#if !is_space_child_room && is_space}
-            <div class="font-semibold text-sm">
-                Overview
+            <div class="font-semibold text-sm text-light">
             </div>
         {/if}
 

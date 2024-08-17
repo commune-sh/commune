@@ -55,6 +55,5 @@ const banner = $derived.by(() => {
 
 <style>
 .sidebar-header {
-    border-radius: 20px 0 0 0;
 }
 </style>

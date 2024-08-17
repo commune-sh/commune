@@ -94,7 +94,7 @@ const menu_active = $derived(store.ui.menu_active)
                 {is_space_child_room}
                 {non_space_room}
             />
-        {:else if no_hash}
+        {:else}
             {@render content()}
         {/if}
 

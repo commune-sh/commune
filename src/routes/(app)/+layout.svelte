@@ -187,8 +187,16 @@ let title = $derived.by(() => {
     if(active_room?.name && active_space?.name) {
         return `${active_room.name} - ${active_space.name}`
     }
+    if(active_room?.commune_alias && active_space?.canonical_alias) {
+        const space_alias = get_local_part(active_space.canonical_alias)
+        return `${active_room.commune_alias} - ${space_alias}`
+    }
     if(active_space?.name) {
         return active_space?.name
+    }
+    if(active_space?.canonical_alias) {
+        const alias = get_local_part(active_space.canonical_alias)
+        return alias
     }
     return PUBLIC_META_TITLE
 })
