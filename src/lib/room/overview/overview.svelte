@@ -86,6 +86,7 @@ const render_topic = $derived.by(() => {
 .overview {
     max-width: 400px;
     line-height: 1.375;
+    margin-top: -5rem;
 }
 
 :global(.topic a) {
