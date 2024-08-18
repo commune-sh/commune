@@ -403,7 +403,7 @@ export function createMatrixStore() {
   }
 
   async function fetchPublicRooms() {
-    const resp = await getPublicRooms()
+    const resp = await getPublicRooms(app.appservice)
     if(resp?.rooms) {
 
       resp.rooms.forEach(room => {
@@ -446,7 +446,7 @@ export function createMatrixStore() {
     if(state) {
       return
     }
-    const resp = await getRoomState(room_id)
+    const resp = await getRoomState(app.appservice, room_id)
     if(resp) {
       room_state[room_id] = resp
       console.log("Stored room state for:", room_id)
@@ -472,7 +472,7 @@ export function createMatrixStore() {
         lazy_load_members: true,
       }
 
-      const resp = await getRoomMessages({
+      const resp = await getRoomMessages(app.appservice, {
         room_id: opts.room_id,
         authenticated: auth.authenticated,
         start: start,
@@ -524,7 +524,7 @@ export function createMatrixStore() {
         lazy_load_members: true,
       }
 
-      const resp = await getEventContext({
+      const resp = await getEventContext(app.appservice, {
         room_id: opts.room_id,
         event_id: opts.event_id,
         authenticated: auth.authenticated,

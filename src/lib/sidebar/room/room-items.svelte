@@ -15,7 +15,7 @@ let processed = $state(null);
 $effect(() => {
     if(sorted) {
         processed = sorted
-        console.log("Built rooms:", $state.snapshot(processed))
+        //console.log("Built rooms:", $state.snapshot(processed))
     }
 })
 

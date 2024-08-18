@@ -55,7 +55,7 @@ onMount(() => {
 async function fetchEvent() {
 
     try {
-        const resp = await getEvent({
+        const resp = await getEvent(store.app.appservice, {
             event_id: reply_to_event_id,
             room_id: event.room_id,
         })

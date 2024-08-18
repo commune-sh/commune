@@ -16,8 +16,6 @@ import {
     processHash
 } from '$lib/utils/matrix'
 
-import { getRoomHierarchy } from '$lib/appservice/requests'
-
 let { space, 
     index,
     move,
@@ -233,11 +231,6 @@ function goToSpace() {
     }
 
     goto(`/${location}`)
-}
-
-async function getHierarchy() {
-    const response = await getRoomHierarchy(space.room_id)
-    console.log(response)
 }
 
 

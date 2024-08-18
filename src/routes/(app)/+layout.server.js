@@ -1,5 +1,4 @@
 import { 
-  PUBLIC_APPSERVICE, 
   PUBLIC_HOMESERVER_BASE_URL
 } from '$env/static/public';
 
@@ -15,10 +14,6 @@ export async function load( { fetch, params, url, cookies, request } ) {
     access_token_exists: !!access_token,
     native_mode: false,
   };
-
-  if(!access_token && PUBLIC_APPSERVICE == '') {
-    redirect(302, '/login');
-  }
 
   if(!access_token && !client_id && params.space != undefined ) {
 

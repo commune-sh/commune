@@ -1,8 +1,8 @@
-import { PUBLIC_APPSERVICE, PUBLIC_HOMESERVER } from '$env/static/public';
+import { PUBLIC_HOMESERVER } from '$env/static/public';
 import { getCookie } from '$lib/utils/cookie'
 
-export const getCapabilities = async () => {
-  const url = `${PUBLIC_APPSERVICE}/capabilities`;
+export const getPublicRooms = async (appservice_url) => {
+  const url = `${appservice_url}/publicRooms`;
 
   let options = {
       headers: {
@@ -19,27 +19,8 @@ export const getCapabilities = async () => {
 
 }
 
-
-export const getPublicRooms = async () => {
-  const url = `${PUBLIC_APPSERVICE}/publicRooms`;
-
-  let options = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-  }
-
-  try {
-    const response = await fetch(url, options)
-    return response.json();
-  } catch (error) {
-    throw error
-  }
-
-}
-
-export const getRoomHierarchy = async (room_id) => {
-  const url = `${PUBLIC_APPSERVICE}/rooms/${room_id}/hierarchy`;
+export const getRoomHierarchy = async (appservice_url, room_id) => {
+  const url = `${appservice_url}/rooms/${room_id}/hierarchy`;
   let options = {
       headers: {
         'Content-Type': 'application/json',
@@ -53,8 +34,8 @@ export const getRoomHierarchy = async (room_id) => {
   }
 }
 
-export const getRoomState = async (room_id) => {
-  const url = `${PUBLIC_APPSERVICE}/_matrix/client/v3/rooms/${room_id}/state`;
+export const getRoomState = async (appservice_url, room_id) => {
+  const url = `${appservice_url}/_matrix/client/v3/rooms/${room_id}/state`;
   let options = {
       headers: {
         'Content-Type': 'application/json',
@@ -68,9 +49,9 @@ export const getRoomState = async (room_id) => {
   }
 }
 
-export const getRoomMessages = async (opts) => {
+export const getRoomMessages = async (appservice_url, opts) => {
   if(!opts.room_id) return
-  let base = PUBLIC_APPSERVICE
+  let base = appservice_url
   if(opts.authenticated) {
     base = PUBLIC_HOMESERVER
   }
@@ -110,9 +91,9 @@ export const getRoomMessages = async (opts) => {
   }
 }
 
-export const getEventContext = async (opts) => {
+export const getEventContext = async (appservice_url, opts) => {
   if(!opts.room_id || !opts.event_id) return
-  let base = PUBLIC_APPSERVICE
+  let base = appservice_url
 
   if(opts.authenticated) {
     base = PUBLIC_HOMESERVER
@@ -145,10 +126,10 @@ export const getEventContext = async (opts) => {
 }
 
 
-export const getEvent = async (opts) => {
+export const getEvent = async (appservice_url, opts) => {
   if(!opts.room_id || !opts.event_id) return
   let { room_id, event_id } = opts
-  const url = `${PUBLIC_APPSERVICE}/_matrix/client/v3/rooms/${room_id}/event/${event_id}`;
+  const url = `${appservice_url}/_matrix/client/v3/rooms/${room_id}/event/${event_id}`;
   let options = {
       headers: {
         'Content-Type': 'application/json',
