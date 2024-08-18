@@ -29,6 +29,8 @@ let event_source = $state({
   event: null,
 })
 
+let flash_event = $state(null)
+
 export function createUIStore() {
 
 	function openAuth() {
@@ -115,6 +117,10 @@ export function createUIStore() {
     }
   }
 
+  function updateFlashEvent(val) {
+    flash_event = val
+  }
+
 
 	return {
 
@@ -158,6 +164,10 @@ export function createUIStore() {
       return event_source;
     },
 
+    get flash_event() {
+      return flash_event;
+    },
+
     publicRoomsFetched,
     openAuth,
     closeAuth,
@@ -174,6 +184,7 @@ export function createUIStore() {
     updateEventMenu,
     killEventMenu,
     updateEventSource,
-    killEventSource
+    killEventSource,
+    updateFlashEvent
 	};
 }

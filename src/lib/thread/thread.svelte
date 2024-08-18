@@ -1,6 +1,9 @@
 <script>
 import { page } from '$app/stores';
 
+import ThreadHeader from '$lib/thread/thread-header.svelte'
+import ThreadContent from '$lib/thread/thread-content.svelte'
+
 import { getSetting, updateSetting } from '$lib/utils/localstorage.js';
 let saved_width = $derived.by(() => {
     return getSetting('thread_width');
@@ -52,12 +55,13 @@ const thread = $derived.by(() => {
 </script>
 
 <div class="thread-container relative grid bg-background">
-    <div class="thread grid border-solid border-l border-border"
-        style="width: {width}px">
+    <div class="thread grid grid-rows-[52px_1fr] border-solid border-l border-border"
+        style="--width: {width};">
 
-        <div class="thread-header h-[52px] border-solid border-b border-border">
-            Thread
-        </div>
+        <ThreadHeader />
+
+        <ThreadContent />
+
     </div>
 
     <div class="dragger absolute grid place-items-center" 
@@ -100,6 +104,10 @@ const thread = $derived.by(() => {
     z-index: 12;
 }
 
+.thread {
+    width: calc(var(--width) * 1px);
+}
+
 @media (max-width: 768px) {
     .thread-container {
         position: fixed;
@@ -107,7 +115,10 @@ const thread = $derived.by(() => {
         left: 0;
         right: 0;
         bottom: 0;
-        z-index: 100;
+        z-index: 10000;
+    }
+    .thread {
+        width: 100%;
     }
 }
 </style>

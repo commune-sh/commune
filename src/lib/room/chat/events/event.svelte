@@ -208,6 +208,10 @@ let menu_active = $derived.by(() => {
         store.ui.event_menu?.event?.event_id == id
 })
 
+let flashed = $derived.by(() => {
+    return store.ui.flash_event == event?.event_id
+})
+
 </script>
 
 
@@ -232,7 +236,7 @@ let menu_active = $derived.by(() => {
     data-event-id={id}
     class="event-container grid relative
     p-[0.2rem] mr-1" 
-    class:highligt={highlight}
+    class:highligt={highlight || flashed}
     class:bg-shade-1={menu_active}
     class:mb-2={is_message && !nextEventTypeSame}
     class:mt-2={showSender}>

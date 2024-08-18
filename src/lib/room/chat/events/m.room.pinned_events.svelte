@@ -18,6 +18,10 @@ const has_prev = $derived.by(() => {
     return event?.prev_content?.topic
 })
 
+function goToEvent() {
+    store.ui.updateFlashEvent(event?.event_id)
+}
+
 </script>
 
 <div class="content-center text-xs">
@@ -25,7 +29,7 @@ const has_prev = $derived.by(() => {
     <Sender event={event} inline={true} />
     <span class="">
         <span class="text-light">pinned  
-            <span class="link">a message</span> to this room.
+            <span class="link" onclick={goToEvent}>a message</span> to this room.
             See all
             <span class="link">pinned messages</span>.
         </span>

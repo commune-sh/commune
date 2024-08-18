@@ -2,6 +2,8 @@
 import { page } from '$app/stores';
 import { goto } from '$app/navigation';
 
+import { right } from '$lib/assets/icons'
+
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
 
@@ -30,11 +32,17 @@ function toggleThread() {
 
 </script>
 
-<div class="thread-summary mt-2 p-2 text-sm text-light"
+<div class="thread-summary mt-2 py-1 px-2 text-xs text-light"
 onclick={toggleThread}>
-    <div class="text-text font-medium">
+    <span class="text-text font-medium">
         {replies} replies
-    </div>
+    </span>
+    <span class="text-primary ml-1">
+        View Thread
+    </span>
+    <span class="icon h-[16px] w-[16px] ml-1">
+        {@html right}
+    </span>
 </div>
 
 <style>
@@ -42,9 +50,14 @@ onclick={toggleThread}>
     display: inline-block;
     border-radius: 4px;
     cursor: pointer;
-    background: var(--shade-1);
+    background: var(--shade-3);
 }
 .thread-summary:hover {
-    background: var(--shade-2);
+    background: var(--shade-4);
+}
+
+.icon {
+    display: inline-block;
+    vertical-align: middle;
 }
 </style>
