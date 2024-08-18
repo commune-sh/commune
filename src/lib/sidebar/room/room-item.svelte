@@ -9,7 +9,10 @@ import {
     processHash,
 } from '$lib/utils/matrix'
 
-import { hash } from '$lib/assets/icons'
+import { 
+    hash,
+    ellipsis
+} from '$lib/assets/icons'
 
 import { debounce } from '$lib/utils/utils'
 
@@ -77,6 +80,7 @@ const path = $derived.by(() => {
 let non_space_room = $derived($page.route.id?.includes('/(app)/rooms'))
 
 function goToRoom() {
+    getState()
     goto(path)
     const location = non_space_room ? 'rooms' : $page.params.space
     store.ui.updateRoute(location, path)
@@ -127,7 +131,7 @@ function startHover() {
     hovered = true
     debounce(() => {
         if(hovered) {
-            getState()
+            //getState()
         }
     }, 300)
 }
@@ -162,28 +166,39 @@ const show_domain = $derived.by(() => {
     return !is_local && non_space_room
 })
 
+function openMenu(e) {
+    e.stopPropagation()
+    console.log("opening menu")
+}
+
 </script>
 
 <div class="room-item cursor-pointer text-light hover:text-text
-    mx-2 my-[2px] p-2"
+    mx-2 my-[2px]"
     class:active={active}
     onmouseover={startHover}
     onmouseout={stopHover}
-    onmousedown={getState}
     onclick={goToRoom} oncontextmenu={log}>
-    <div class="item grid grid-cols-[auto_1fr]">
-        <div class="">
+    <div class="item grid grid-cols-[auto_1fr_auto]">
+        <div class="pl-2">
             <div class="r-i h-[16px] w-[16px] h-full grid items-center">
                 {@html hash}
             </div>
         </div>
-        <div class="room-name ml-2 font-normal truncate">
+        <div class="room-name ml-2 font-normal truncate py-2">
             {title} 
+        </div>
+
+        <div class="menu mx-2 grid items-center"
+                onclick={openMenu}>
+            <div class="r-i h-[20px] w-[20px]">
+                {@html ellipsis}
+            </div>
         </div>
     </div>
 
     {#if show_domain}
-        <div class="alias mt-1 text-xs text-light">
+        <div class="alias pb-2 text-xs text-light">
             {domain}
         </div>
     {/if}
@@ -193,7 +208,7 @@ const show_domain = $derived.by(() => {
 <style>
 .active {
     color: var(--text);
-    background: var(--shade-3);
+    background: var(--shade-2);
 }
 
 .room-item {
@@ -215,7 +230,15 @@ const show_domain = $derived.by(() => {
 }
 
 .alias {
-    margin-left: calc(16px + 0.5rem);
+    margin-left: calc(16px + 1rem);
+}
+
+.menu {
+    display: none;
+}
+
+.room-item:hover .menu {
+    display: grid;
 }
 
 </style>
