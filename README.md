@@ -36,6 +36,11 @@ PUBLIC_DEFAULT_THEME=dark
 
 By default, the client will only work with one specfic matrix homeserver. To enable the user to change the homeserver, set `PUBLIC_ALLOW_OTHER_HOMESERVERS` to `true`.
 
+##### Public Appservice
+
+The appservice requires no additional configuration. Commune queries the matrix
+homeserver's `/.well-known/matrix/client` endpoint to find the appservice.
+
 ##### Deploying
 
 If you're running Commune on Node, you'll most likely want to put the app behind an nginx reverse-proxy.
