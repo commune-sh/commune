@@ -79,6 +79,8 @@ let hierarchy = $state({})
 
 let events = $state({})
 
+let thread_events = $state({})
+
 if(browser) {
   /*
   client =  sdk.createClient({
@@ -579,6 +581,22 @@ export function createMatrixStore() {
 
   }
 
+  async function fetchThreadEvents(opts) {
+    try {
+      const resp = await getEventContext(app.appservice, {
+        room_id: opts.room_id,
+        event_id: opts.event_id,
+      })
+
+      if(resp) {
+        console.log("Thread events:", resp)
+      }
+      return true;
+    } catch(err) {
+      return err;
+    }
+  }
+
 
   async function registerGuest() {
     try {
@@ -631,6 +649,10 @@ export function createMatrixStore() {
       return events;
     },
 
+    get thread_events() {
+      return thread_events;
+    },
+
     get login_flows() {
       return login_flows;
     },
@@ -676,6 +698,7 @@ export function createMatrixStore() {
     fetchRoomState,
     fetchRoomMessages,
     fetchEventContext,
+    fetchThreadEvents,
     registerGuest,
     updatePage
   };

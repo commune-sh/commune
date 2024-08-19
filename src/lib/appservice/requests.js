@@ -143,3 +143,21 @@ export const getEvent = async (appservice_url, opts) => {
   }
 }
 
+export const getThreadEvents = async (appservice_url, opts) => {
+  if(!opts.room_id || !opts.event_id) return
+  let { room_id, event_id } = opts
+
+  const url = `${appservice_url}/_matrix/client/v1/rooms/${room_id}/relations/${event_id}`;
+  let options = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+  }
+  try {
+    const response = await fetch(url, options)
+    return response.json();
+  } catch (error) {
+    throw error
+  }
+}
+

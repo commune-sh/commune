@@ -1,4 +1,5 @@
 <script>
+import { onMount } from 'svelte'
 import { page } from '$app/stores';
 
 import ThreadHeader from '$lib/thread/thread-header.svelte'
@@ -8,6 +9,9 @@ import { getSetting, updateSetting } from '$lib/utils/localstorage.js';
 let saved_width = $derived.by(() => {
     return getSetting('thread_width');
 });
+
+import { createStore } from '$lib/store/store.svelte.js'
+const store = createStore()
 
 let width = $state(saved_width || 300);
 
@@ -50,6 +54,26 @@ $effect(() => {
 const thread = $derived.by(() => {
     return $page.url.searchParams.get('thread') 
 })
+
+const room = $derived(store.matrix.active_room)
+
+const events = $derived.by(() => {
+    const items = store.matrix.events[room?.room_id]?.events
+    if(items) {
+        return items.filter(e => e.content['m.relates_to']?.['rel_type'] ===
+        'm.thread' && e.content['m.relates_to']?.['event_id'] === thread)
+    }
+})
+
+onMount(() => {
+    console.log("do events exist?", events)
+
+    const thread_events = store.matrix.thread_events[thread]
+    if(!thread_events) {
+        console.log("Fetching thread events...")
+    }
+})
+
 
 
 </script>

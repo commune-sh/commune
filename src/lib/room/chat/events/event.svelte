@@ -57,7 +57,8 @@ const has_event_before = $derived.by(() => {
 
 const has_msg_event_after = $derived.by(() => {
     if(index == events.length - 1) return
-    return events?.slice(index + 1).find(e => e.type == 'm.room.message') != undefined
+    return events?.slice(index + 1).find(e => e.type == 'm.room.message' && 
+        e?.content?.['m.relates_to']?.['rel_type'] != 'm.thread') != undefined
 })
 
 
@@ -216,7 +217,7 @@ let flashed = $derived.by(() => {
 
 
 
-{#if isNewDay && has_event_before}
+{#if isNewDay && has_event_before && has_msg_event_after}
     <NewDay {event} />
 {/if}
 
