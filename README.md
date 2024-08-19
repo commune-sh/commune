@@ -6,7 +6,7 @@ The optional [appservice](https://github.com/commune-sh/appservice) needs to be 
 
 This project is under active development and the native client portion is not yet ready for production use. 
 
-There is a live instace of this client running on [commune.sh](https://commune.sh)
+There is a live instance of this client running on [commune.sh](https://commune.sh)
 
 ### Running
 
@@ -21,7 +21,8 @@ Commune is a sveltekit SSR app and should run on any platform that supports it, 
 #### Configuration.
 
 Commune requires these ENV variables to be set. Below is an example:
-```
+
+```env
 PUBLIC_APP_NAME=Commune 
 PUBLIC_BASE_URL=https://commune.sh
 PUBLIC_HOMESERVER=https://matrix.commune.sh 
@@ -45,7 +46,7 @@ homeserver's `/.well-known/matrix/client` endpoint to find the appservice.
 
 If you're running Commune on Node, you'll most likely want to put the app behind an nginx reverse-proxy.
 
-```
+```nginx
 location / {
   proxy_pass http://localhost:5173;
   proxy_set_header X-Forwarded-For $remote_addr;
