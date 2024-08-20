@@ -13,13 +13,14 @@ const store = createStore()
 
 let {
     events,
-    room
+    room,
+    thread_view = false,
 } = $props();
 
-let count = $derived(store.ui.getMessageCount(room?.room_id))
+let count = $derived(store.ui.getMessageCount(prefix))
 
 const position = $derived.by(() => {
-    return store.ui.scrollPosition[room?.room_id]
+    return store.ui.scrollPosition[prefix]
 })
 
 let viewport;
@@ -55,7 +56,7 @@ $effect(() => {
         tick().then(() => {
             viewport.scrollTop = viewport.scrollHeight - viewport.clientHeight
         });
-        store.ui.setMessageCount(room.room_id, events.length)
+        store.ui.setMessageCount(prefix, events.length)
     }
 
     if(viewport && count && count == events?.length && !fetchingMore) {
@@ -70,7 +71,7 @@ $effect(() => {
     if(viewport && count && count != events?.length) {
         tick().then(() => {
             viewport.scrollTop = viewport.scrollHeight - position.scrollHeight
-            store.ui.setMessageCount(room.room_id, events.length)
+            store.ui.setMessageCount(prefix, events.length)
         });
     }
 
@@ -110,7 +111,7 @@ async function fetchMore() {
             room_id: room.room_id,
         })
 
-        store.ui.setMessageCount(room.room_id, events.length)
+        store.ui.setMessageCount(prefix, events.length)
 
         if(done) {
             setTimeout(() => {
@@ -126,6 +127,10 @@ async function fetchMore() {
 }
 
 
+const prefix = $derived.by(() => {
+    return thread_view ? `thread-${room.room_id}` : `room-${room.room_id}` 
+})
+
 
 function setScrollPosition(e) {
     // don't set scroll position if count exists
@@ -138,7 +143,7 @@ function setScrollPosition(e) {
             clientHeight: viewport.clientHeight
         }
         tick().then(() => {
-            store.ui.updateScrollPosition(room.room_id, opts)
+            store.ui.updateScrollPosition(prefix, opts)
         });
     }, 10)
 }
