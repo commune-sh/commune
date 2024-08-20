@@ -27,6 +27,7 @@ const authenticated = $derived(store.auth.authenticated)
 
 let {
     event,
+    thread_view
 } = $props();
 
 const new_content = $derived.by(() => {
@@ -106,7 +107,7 @@ const redacted = $derived.by(() => {
 {/if}
 
 
-{#if has_thread}
+{#if has_thread && !thread_view}
     <ThreadSummary {event} />
 {/if}
 

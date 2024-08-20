@@ -36,7 +36,8 @@ const events = $derived(store.matrix.active_room_events)
 
 let {
     event,
-    index
+    index,
+    thread_view
 } = $props();
 
 const sender = $derived(event?.sender)
@@ -168,7 +169,8 @@ const hideEvent = $derived.by(() => {
 })
 
 const is_reply = $derived.by(() => {
-    return event?.content?.['m.relates_to']?.['m.in_reply_to']?.event_id != undefined
+    return event?.content?.['m.relates_to']?.['m.in_reply_to']?.event_id !=
+        undefined && event?.content?.formatted_body?.includes(`mx-reply`)
 })
 
 const showSender = $derived.by(() => {
@@ -195,7 +197,8 @@ $effect(() => {
 
 const showEvent = $derived.by(() => {
     return event_options.find(e => e.type == event?.type)?.show &&
-        !is_replacement && !hideEvent && !is_thread_message
+        !is_replacement && !hideEvent && 
+        (thread_view ? true : !is_thread_message)
 })
 
 let hovered = $state(false);
@@ -282,7 +285,7 @@ let flashed = $derived.by(() => {
                 </span>
             {/if}
 
-            <svelte:component this={component} {event} />
+            <svelte:component this={component} {event} {thread_view} />
 
 
                 {#if showReactions && reactions?.length > 0 }

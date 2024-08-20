@@ -226,7 +226,7 @@ $effect(() =>{
         {#if events}
             {#each events as event, index (event.event_id)}
 
-                <Event {event} {index}/>
+                <Event {event} {index} {thread_view}/>
 
             {/each}
         {/if}

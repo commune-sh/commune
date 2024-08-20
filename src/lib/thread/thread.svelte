@@ -62,14 +62,19 @@ const room = $derived(store.matrix.active_room)
 const events = $derived.by(() => {
     const items = store.matrix.events[room?.room_id]?.events
     if(items) {
-        return items.filter(e => e.content['m.relates_to']?.['rel_type'] ===
+        return items.filter(e => e.event_id == thread ||
+            e.content['m.relates_to']?.['rel_type'] ===
         'm.thread' && e.content['m.relates_to']?.['event_id'] === thread)
     }
 })
 
-onMount(() => {
-    console.log("do events exist?", events)
+$effect(() =>{
+    if(events) {
+        console.log("thread events found", events)
+    }
+})
 
+onMount(() => {
     const thread_events = store.matrix.thread_events[thread]
     if(!thread_events) {
         console.log("Fetching thread events...")
@@ -80,15 +85,15 @@ onMount(() => {
 
 </script>
 
-<div class="thread-container relative grid bg-background">
-    <div class="thread grid grid-rows-[52px_1fr] border-solid border-l border-border"
+<div class="thread-container relative grid bg-background h-dvh">
+    <div class="thread h-dvh grid grid-rows-[52px_1fr] border-solid border-l border-border"
         style="--width: {width};">
 
         <ThreadHeader />
 
-        <ThreadContent />
-
-        <ViewPort {events} {room} thread_view={true} />
+        <div class="thread-content overflow-hidden">
+            <ViewPort {events} {room} thread_view={true} />
+        </div>
 
     </div>
 
