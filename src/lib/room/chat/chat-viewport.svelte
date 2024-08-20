@@ -17,6 +17,10 @@ let {
     thread_view = false,
 } = $props();
 
+const prefix = $derived.by(() => {
+    return thread_view ? `thread-${room?.room_id}` : `room-${room?.room_id}` 
+})
+
 let count = $derived(store.ui.getMessageCount(prefix))
 
 const position = $derived.by(() => {
@@ -56,7 +60,7 @@ $effect(() => {
         tick().then(() => {
             viewport.scrollTop = viewport.scrollHeight - viewport.clientHeight
         });
-        store.ui.setMessageCount(prefix, events.length)
+        store.ui.setMessageCount(prefix, events?.length)
     }
 
     if(viewport && count && count == events?.length && !fetchingMore) {
@@ -99,7 +103,7 @@ $effect(() => {
 })
 
 let last_reached = $derived.by(() => {
-    return events[0]?.type == 'm.room.create'
+    return events && events[0]?.type == 'm.room.create'
 })
 
 async function fetchMore() {
@@ -126,10 +130,6 @@ async function fetchMore() {
     }
 }
 
-
-const prefix = $derived.by(() => {
-    return thread_view ? `thread-${room.room_id}` : `room-${room.room_id}` 
-})
 
 
 function setScrollPosition(e) {
@@ -223,11 +223,13 @@ $effect(() =>{
             </div>
         {/if}
 
-        {#each events as event, index (event.event_id)}
+        {#if events}
+            {#each events as event, index (event.event_id)}
 
-            <Event {event} {index}/>
+                <Event {event} {index}/>
 
-        {/each}
+            {/each}
+        {/if}
 
         <div class="sep py-2">
         </div>

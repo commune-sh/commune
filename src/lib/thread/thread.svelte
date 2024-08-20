@@ -5,6 +5,8 @@ import { page } from '$app/stores';
 import ThreadHeader from '$lib/thread/thread-header.svelte'
 import ThreadContent from '$lib/thread/thread-content.svelte'
 
+import ViewPort from '$lib/room/chat/chat-viewport.svelte'
+
 import { getSetting, updateSetting } from '$lib/utils/localstorage.js';
 let saved_width = $derived.by(() => {
     return getSetting('thread_width');
@@ -85,6 +87,8 @@ onMount(() => {
         <ThreadHeader />
 
         <ThreadContent />
+
+        <ViewPort {events} {room} thread_view={true} />
 
     </div>
 
