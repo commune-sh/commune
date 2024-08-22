@@ -66,13 +66,24 @@ function processCustomEmoji(body) {
   const parser = new DOMParser();
   const doc = parser.parseFromString(body, 'text/html');
 
-  const images = doc.querySelectorAll('img');
+  const bodyContent = doc.body.innerHTML.trim();
+  const singleImg = bodyContent.match(/^<img[^>]*data-mx-emoticon[^>]*>$/);
+  if (singleImg) {
+    const img = doc.querySelector('img[data-mx-emoticon]');
+    img.classList.add(`mx-emoticon-single`);
+  }
+
+  //const images = doc.querySelectorAll('img');
+  const images = doc.querySelectorAll('img[data-mx-emoticon]');
+
 
   images.forEach((img) => {
     const src = img.getAttribute('src');
-    console.log("found img", src)
     if(src) {
       const newSrc = processURL(src);
+      if(!singleImg) {
+        img.className = `mx-emoticon`
+      }
       img.setAttribute('src', newSrc);
     }
 

@@ -151,6 +151,20 @@ const redacted = $derived.by(() => {
 }
 
 
+:global(.mx-emoticon) {
+    height: 16px;
+    width: 16px;
+    display: inline;
+    vertical-align: top;
+}
+
+:global(.mx-emoticon-single) {
+    height: 32px;
+    width: 32px;
+    display: inline;
+    vertical-align: bottom;
+}
+
 @media (max-width: 768px) {
     .chat-event {
         font-size: 11px;
@@ -165,6 +179,16 @@ const redacted = $derived.by(() => {
         height: 12px;
         width: 12px;
     }
+    :global(.mx-emoticon) {
+        height: 13px;
+        width: 13px;
+    }
+
+    :global(.mx-emoticon-single) {
+        height: 26px;
+        width: 26px;
+    }
+
 }
 
 </style>
