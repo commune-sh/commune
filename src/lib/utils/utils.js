@@ -5,6 +5,8 @@ import {
 
 import emojiRegex from 'emoji-regex';
 
+import { processURL } from '$lib/utils/matrix'
+
 export const debounce = function () {
   var timeoutId = null;
   return function (func, timeout, context) {
@@ -56,6 +58,27 @@ function cleanID(id) {
     return id.split(`:${PUBLIC_HOMESERVER_NAME}`)[0]
   }
   return id
+}
+
+function processCustomEmoji(body) {
+  if(!body) return
+
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(body, 'text/html');
+
+  const images = doc.querySelectorAll('img');
+
+  images.forEach((img) => {
+    const src = img.getAttribute('src');
+    console.log("found img", src)
+    if(src) {
+      const newSrc = processURL(src);
+      img.setAttribute('src', newSrc);
+    }
+
+  });
+
+  return doc.body.innerHTML;
 }
 
 function processLinks(formatted_body) {
@@ -152,6 +175,7 @@ export function processBody(body) {
 
   body = processReplies(body);
   body = processEmoji(body);
+  body = processCustomEmoji(body);
   body = processLinks(body);
   body = processPlainLinks(body);
 
