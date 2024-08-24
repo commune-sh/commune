@@ -60,12 +60,14 @@ const d = $derived.by(() => {
 {/snippet}
 
 {#if inline}
-    <div class="inline-block rounded-[50%] bg-avatar align-text-bottom" 
+    <div class="inline-block rounded-[50%] align-text-bottom" 
+        class:bg-avatar={!avatar}
         class:small={small}>
         {@render content()}
     </div>
 {:else}
-<div class="avatar bg-avatar bg-avatar grid place-items-center cursor-pointer"
+<div class="avatar grid place-items-center cursor-pointer"
+    class:bg-avatar={!avatar}
     class:small={small} >
         {@render content()}
 </div>
