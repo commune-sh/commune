@@ -85,8 +85,8 @@ function goToEvent() {
             {@html content}
         </span>
     {:else}
-        <span class="h-full w-[200px] py-[0.2rem]">
-        <SkeletonSpan />
+        <span class="inline-block ml-1 align-middle h-[20px] w-[200px] py-[0.2rem] animate-pulse">
+            <SkeletonSpan />
         </span>
     {/if}
 </div>
