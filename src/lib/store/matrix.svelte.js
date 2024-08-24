@@ -111,7 +111,13 @@ const active_room = $derived.by(() => {
 
   const is_room_id = naiveRoomIDCheck(room_param)
   const key = is_room_id ? `room_id` : `commune_alias`
-  return rooms?.filter(r => r[key] == room_param)[0]
+
+  if(page.params.space) {
+    console.log(active_space)
+    return rooms?.filter(r => r[key] == room_param && r.parent == active_space.room_id)[0]
+  }
+
+  return rooms?.filter(r => r[key] == room_param && !r.parent)[0]
 })
 
 const active_space = $derived.by(() => {
@@ -422,6 +428,7 @@ export function createMatrixStore() {
             let item = resp.rooms.find(r => r.room_id == c)
             if(item) {
               items.push(item)
+              item.parent = room.room_id
             }
           })
           items?.sort((a, b) => {

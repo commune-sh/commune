@@ -95,7 +95,7 @@ const active = $derived.by(() => {
 
 function log(e) {
     e.preventDefault()
-    console.log(active_room?.room_id, item?.room_id)
+    console.log(item)
 }
 
 
