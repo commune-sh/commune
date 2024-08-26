@@ -15,7 +15,6 @@ export async function load( { fetch, params, url, cookies, request } ) {
     native_mode: false,
   };
 
-  if(!access_token && !client_id && params.space != undefined ) {
 
     try {
       let curl = `${PUBLIC_HOMESERVER_BASE_URL}/.well-known/matrix/client`
@@ -63,7 +62,6 @@ export async function load( { fetch, params, url, cookies, request } ) {
     } catch(_) {
     }
 
-  }
 
   return data;
 }
