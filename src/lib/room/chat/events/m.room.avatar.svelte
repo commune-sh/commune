@@ -1,7 +1,4 @@
 <script>
-import Avatar from '$lib/room/common/avatar.svelte'
-import Sender from '$lib/room/common/sender.svelte'
-
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
 
@@ -11,6 +8,7 @@ import {
 
 let {
     event,
+    event_user,
 } = $props();
 
 
@@ -33,8 +31,7 @@ const action = $derived.by(() => {
 </script>
 
 <div class="content-center text-xs mt-[0.2rem]">
-    <Avatar {sender} small={true} inline={true} />
-    <Sender event={event} />
+    {@render event_user()}
     <span class="">
         <span class="text-light">{action} the room avatar to </span>
         <span class="inline-block align-text-bottom ml-1 cursor-pointer">

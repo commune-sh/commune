@@ -285,7 +285,12 @@ let flashed = $derived.by(() => {
                 </span>
             {/if}
 
-            <svelte:component this={component} {event} {thread_view} />
+            {#snippet event_user()}
+                <Avatar sender={event?.sender} small={true} inline={true} />
+                <Sender event={event} inline={true} />
+            {/snippet}
+
+            <svelte:component this={component} {event} {thread_view} {event_user} />
 
 
                 {#if showReactions && reactions?.length > 0 }
@@ -357,7 +362,7 @@ let flashed = $derived.by(() => {
         grid-template-columns: 52px 1fr;
     }
     .event-container {
-        font-size: 0.8rem;
+        font-size: 0.75rem;
         padding: 0;
         padding-right: 1rem;
         line-height: 1rem;

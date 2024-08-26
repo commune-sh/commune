@@ -1,7 +1,4 @@
 <script>
-import Avatar from '$lib/room/common/avatar.svelte'
-import Sender from '$lib/room/common/sender.svelte'
-
 import { pin } from '$lib/assets/icons'
 
 import { createStore } from '$lib/store/store.svelte.js'
@@ -9,6 +6,7 @@ const store = createStore()
 
 let {
     event,
+    event_user
 } = $props();
 
 
@@ -25,8 +23,7 @@ function goToEvent() {
 </script>
 
 <div class="content-center text-xs">
-    <Avatar {sender} small={true} inline={true} />
-    <Sender event={event} inline={true} />
+    {@render event_user()}
     <span class="">
         <span class="text-light">pinned  
             <span class="link" onclick={goToEvent}>a message</span> to this room.

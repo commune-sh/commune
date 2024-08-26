@@ -1,7 +1,4 @@
 <script>
-import Avatar from '$lib/room/common/avatar.svelte'
-import Sender from '$lib/room/common/sender.svelte'
-
 import { aliasFromSender } from '$lib/utils/matrix';
 
 import { createStore } from '$lib/store/store.svelte.js'
@@ -9,6 +6,7 @@ const store = createStore()
 
 let {
     event,
+    event_user,
 } = $props();
 
 
@@ -54,9 +52,8 @@ const action = $derived.by(() => {
 
 </script>
 
-<div class="content-center text-xs">
-    <Avatar {sender} small={true} inline={true} />
-    <Sender event={event} inline={true} />
+<div class="content-center lg:text-xs md:text-xs sm:text-3xs">
+    {@render event_user()}
     <span class="text-light">
         {#if joined || left}
             {action} the room
@@ -69,3 +66,6 @@ const action = $derived.by(() => {
         {/if}
     </span>
 </div>
+
+<style>
+</style>
