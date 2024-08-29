@@ -112,9 +112,8 @@ const active_room = $derived.by(() => {
   const is_room_id = naiveRoomIDCheck(room_param)
   const key = is_room_id ? `room_id` : `commune_alias`
 
-  if(page.params.space) {
-    console.log(active_space)
-    return rooms?.filter(r => r[key] == room_param && r.parent == active_space.room_id)[0]
+  if(page.params.space || page.url?.hash) {
+    return rooms?.filter(r => r[key] == room_param && r.parent == active_space?.room_id)[0]
   }
 
   return rooms?.filter(r => r[key] == room_param && !r.parent)[0]
