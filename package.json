@@ -33,7 +33,7 @@
 		"emoji-regex": "^10.3.0",
 		"highlight.js": "^11.10.0",
 		"marked": "^14.0.0",
-		"matrix-js-sdk": "^32.4.0",
+		"matrix-js-sdk": "^34.13.0",
 		"tippy.js": "^6.3.7",
 		"uuid": "^10.0.0"
 	}
