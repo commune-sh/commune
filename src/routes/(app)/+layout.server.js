@@ -13,6 +13,10 @@ export async function load( { fetch, params, url, cookies, request } ) {
   let data = {
     access_token_exists: !!access_token,
     native_mode: false,
+    oidc: {
+      enabled: false,
+      issuer: null
+    },
   };
 
   if(!access_token && !client_id && params.space != undefined ) {
@@ -21,6 +25,15 @@ export async function load( { fetch, params, url, cookies, request } ) {
       let curl = `${PUBLIC_HOMESERVER_BASE_URL}/.well-known/matrix/client`
       const response = await fetch(curl)
       const resp =  await response.json()
+
+      if(resp?.["org.matrix.msc2965.authentication"]?.issuer) {
+        console.log(resp["org.matrix.msc2965.authentication"].issuer)
+        data.oidc = {
+          enabled: true,
+          issuer: resp["org.matrix.msc2965.authentication"].issuer
+        }
+      }
+
       if(resp?.["commune.appservice"]?.url) {
 
         const u = resp["commune.appservice"].url
