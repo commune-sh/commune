@@ -21,6 +21,10 @@ import {
     processHash
 } from '$lib/utils/matrix'
 
+import { 
+    generatePKCEParams
+} from '$lib/utils/oidc'
+
 import Listeners from '$lib/listeners/listeners.svelte'
 
 import Layout from '$lib/layout/layout.svelte'
@@ -155,7 +159,15 @@ onMount(() => {
     if(!data?.native_mode) {
         setup()
     }
+
+    pkce()
 })
+
+async function pkce() {
+    generatePKCEParams().then(params => {
+        console.log(params);
+    });
+}
 
 async function prepareSpace() {
     //store.matrix.addSpace(data.space)
