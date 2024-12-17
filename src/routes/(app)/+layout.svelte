@@ -137,6 +137,14 @@ async function setup() {
         } else {
             store.app.isNativeMode();
         }
+
+        if(resp?.["org.matrix.msc2965.authentication"]?.issuer) {
+            let issuer = resp["org.matrix.msc2965.authentication"].issuer
+            console.log("Found OIDC issuer", issuer)
+            store.matrix.updateOIDCIssuer(issuer)
+        }
+
+
     } catch(_) {
     }
 
@@ -149,15 +157,16 @@ async function setup() {
     }
 }
 
-onMount(() => {
+onMount(async() => {
     store.app.isReady()
     if(!data?.guest_access_token_exists) {
         //store.matrix.registerGuest()
     }
 
+    await setup()
+
     store.matrix.getFlows()
     if(!data?.native_mode) {
-        setup()
     }
 
     pkce()

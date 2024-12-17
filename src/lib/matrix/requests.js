@@ -221,6 +221,22 @@ export const getVersions = async () => {
 
 }
 
+export const openidConfig = async (issuer) => {
+  const url = `${issuer}.well-known/openid-configuration`;
+  let options = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }
+  try {
+    const response = await fetch(url, options)
+    return response.json();
+  } catch (error) {
+    throw error
+  }
+}
+
+
 
 export async function syncGuest(accessToken) {
   try {

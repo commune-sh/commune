@@ -33,6 +33,7 @@ import {
 } from '$lib/utils/matrix';
 
 import { 
+  openidConfig,
   login,
   register,
   syncGuest,
@@ -56,6 +57,9 @@ import { createAuthStore } from './auth.svelte.js';
 const auth = createAuthStore();
 import { createUIStore } from './ui.svelte.js';
 const ui = createUIStore();
+
+let oidc_issuer = $state(null);
+let oidc_config = $state(null);
 
 let login_flows = $state(null);
 let register_flows = $state(null);
@@ -188,6 +192,7 @@ export function createMatrixStore() {
   // fetch login and registration flows from homeserver
   async function getFlows() {
 
+
     /*
     if(!client) {
       client = newClient()
@@ -222,6 +227,22 @@ export function createMatrixStore() {
       console.log("Registration flows:", register_flows)
     }
     */
+    //
+    //
+    // check if OIDC issuer is set
+    if(oidc_issuer) {
+      console.log("Fetching OIDC config:", oidc_issuer)
+      try {
+        let response = await openidConfig(oidc_issuer)
+        if(response) {
+          oidc_config = response
+          console.log("OIDC config:", oidc_config)
+        }
+      } catch(err) {
+        console.log("Error fetching OIDC config:", err)
+      }
+    }
+
 
     try {
       let response = await login()
@@ -627,6 +648,11 @@ export function createMatrixStore() {
     //console.log("Updating page:", p)
   }
 
+  function updateOIDCIssuer(issuer) {
+    console.log("Updating OIDC issuer:", issuer)
+    oidc_issuer = issuer
+  }
+
   return {
     get client() {
       return client;
@@ -691,6 +717,10 @@ export function createMatrixStore() {
       return space_rooms;
     },
 
+    get oidc_issuer() {
+      return oidc_issuer;
+    },
+
     newClient,
     getFlows,
     setup,
@@ -706,7 +736,8 @@ export function createMatrixStore() {
     fetchEventContext,
     fetchThreadEvents,
     registerGuest,
-    updatePage
+    updatePage,
+    updateOIDCIssuer,
   };
 
 }
