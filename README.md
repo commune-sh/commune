@@ -8,6 +8,13 @@ This project is under active development and the native client portion is not ye
 
 There is a live instance of this client running on [commune.sh](https://commune.sh)
 
+#### Funding
+
+This project is funded through [NGI0 Entrust](https://nlnet.nl/entrust), a fund established by [NLnet](https://nlnet.nl) with financial support from the European Commission's [Next Generation Internet](https://ngi.eu) program. Learn more at the [NLnet project page](https://nlnet.nl/project/Commune).
+
+[<img src="https://nlnet.nl/logo/banner.png" alt="NLnet foundation logo" width="20%" />](https://nlnet.nl)
+[<img src="https://nlnet.nl/image/logos/NGI0_tag.svg" alt="NGI Zero Logo" width="20%" />](https://nlnet.nl/entrust)
+
 ### Running
 
 Commune is a sveltekit SSR app and should run on any platform that supports it, including cloud platforms that can deploy static SSR apps (Cloudflare Pages). The default configuration uses `@sveltejs/adapter-auto`. Update the adapter to suit your environment. Follow these steps to run Commune on Node using the `@sveltejs/adapter-node`.
