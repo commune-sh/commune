@@ -93,8 +93,10 @@ let image = $derived.by(() => {
 })
 
 let src = $derived.by(() => {
+    if(event?.content?.external_url) {
+        return event.content.external_url
+    }
     return processURL(url)
-
 })
 
 let expanded = $state(false)
