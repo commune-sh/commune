@@ -24,6 +24,10 @@ const has_login_token = $derived.by(() => {
 
 const password_active = $derived(active_view == "password")
 
+const oidc_enabled = $derived.by(() => {
+    return store.matrix.oidc_issuer != null
+})
+
 $effect(() => {
 })
 
@@ -32,6 +36,8 @@ $effect(() => {
 <div class="auth-view bg-view">
 <div class="mt-mid flex flex-col h-full items-center">
     <div class="flex flex-col max-w-[26rem] w-full px-5">
+
+    {oidc_enabled}
 
 
     {#if login_active}
