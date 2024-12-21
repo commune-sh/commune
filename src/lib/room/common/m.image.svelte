@@ -76,6 +76,11 @@ const alt = $derived(event?.content?.body)
 
 
 let image = $derived.by(() => {
+    // bridged external image
+    if(event?.content?.external_url) {
+        return event.content.external_url
+    }
+
     let tw = 320
     let th = 240
 
