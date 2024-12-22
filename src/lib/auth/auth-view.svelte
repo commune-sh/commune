@@ -37,9 +37,6 @@ $effect(() => {
 <div class="mt-mid flex flex-col h-full items-center">
     <div class="flex flex-col max-w-[26rem] w-full px-5">
 
-    {oidc_enabled}
-
-
     {#if login_active}
         <Login />
     {:else if signup_active}
