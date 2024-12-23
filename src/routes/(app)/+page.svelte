@@ -1,5 +1,6 @@
 <script>
 import View from '$lib/view/view.svelte'
+import Landing from '$lib/landing/landing.svelte'
 import Loading from '$lib/loading/loading.svelte'
 import { pushState } from '$app/navigation'
 import { browser } from '$app/environment';
@@ -28,7 +29,7 @@ $effect(() => {
 </script>
 
 {#if !access_token_exists && !authenticated}
-    <AuthView />
+    <Landing />
 {:else}
     {#if !authReady}
         <Loading />
