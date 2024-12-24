@@ -2,6 +2,7 @@
 import '../../app.css'
 import { 
     PUBLIC_APP_NAME,
+    PUBLIC_BASE_URL,
     PUBLIC_META_TITLE,
     PUBLIC_META_IMAGE,
     PUBLIC_META_DESCRIPTION,
@@ -266,19 +267,24 @@ let author = $derived.by(() => {
 <svelte:head>
     <title>{title}</title>
     <meta property="og:title" content={title} />
+    <meta property="twitter:title" content={title} />
 
     <meta property="og:site_name" content={PUBLIC_APP_NAME}>
 
     <meta property="og:type" content="website" />
+    <meta property="og:url" content={PUBLIC_BASE_URL} />
 
     {#if image}
         <meta property="og:image" content={image} />
         <meta property="og:image:width" content="1200">
         <meta property="og:image:height" content="600">
+        <meta name="twitter:image" content={image} />
+        <meta content="summary_large_image" name="twitter:card">
     {/if}
     {#if description}
         <meta name="description" content={description}>
         <meta property="og:description" content={description}>
+        <meta property="twitter:description" content={description}>
     {/if}
     {#if author}
         <meta name="author" content={author}>
