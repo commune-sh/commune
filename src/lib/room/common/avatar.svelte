@@ -6,6 +6,11 @@ import {
     thumbnailURL,
 } from '$lib/utils/matrix'
 
+import { 
+    getThumbnail,
+} from '$lib/appservice/requests'
+
+
 import { aliasFromSender } from '$lib/utils/matrix';
 
 import { createStore } from '$lib/store/store.svelte.js'
@@ -46,9 +51,30 @@ const d = $derived.by(() => {
     return small ? 16 : 32
 })
 
+$effect(() => {
+    if(store.app.appservice && !authenticated) {
+        getAvatar()
+    }
+})
+
+let avatar_url = $state(null);
+async function getAvatar() {
+    if(!user?.content?.avatar_url) return
+    let content_uri = await getThumbnail(store.app.appservice, user.content.avatar_url)
+    if(content_uri) {
+        avatar_url = content_uri
+    }
+}
+
+
 </script>
 
 {#snippet content()}
+    {#if !authenticated && avatar_url}
+        <img src={avatar_url} 
+            width={d} height={d}
+            alt={displayname} class="" loading="lazy" />
+    {/if}
     {#if avatar && authenticated}
         <img src={avatar} 
             width={d} height={d}
