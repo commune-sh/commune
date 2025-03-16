@@ -1,4 +1,5 @@
 import { SvelteMap } from 'svelte/reactivity';
+import * as sdk from 'matrix-js-sdk';
 
 import { 
   PUBLIC_APP_NAME, 
@@ -7,20 +8,6 @@ import {
 
 import { browser } from '$app/environment';
 //import * as sdk from 'matrix-js-sdk';
-let sdk;
-let loaded = $state(false);
-
-
-if(browser && !loaded) {
-  setTimeout(async () => {
-    sdk = await import('matrix-js-sdk');
-    loaded = true;
-    client =  sdk.createClient({
-      baseUrl: homeserver,
-    });
-    console.log("sdk loaded")
-  }, 7000)
-}
 
 import { 
   aliasFromName,
@@ -309,7 +296,7 @@ export function createMatrixStore() {
 
         const settings = client.getAccountData("commune.web.settings");
         if(settings) {
-          account_data = settings
+          //account_data = settings
           app.settings.updateSettings(settings)
         }
 

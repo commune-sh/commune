@@ -11,6 +11,8 @@ import { aliasFromSender } from '$lib/utils/matrix';
 import { createStore } from '$lib/store/store.svelte.js'
 const store = createStore()
 
+let authenticated = $derived(store.auth?.authenticated)
+
 let {
     sender,
     small,
@@ -47,12 +49,12 @@ const d = $derived.by(() => {
 </script>
 
 {#snippet content()}
-    {#if avatar}
+    {#if avatar && authenticated}
         <img src={avatar} 
             width={d} height={d}
             alt={displayname} class="" loading="lazy" />
     {/if}
-    {#if !avatar}
+    {#if !avatar || !authenticated}
         <img src={UserLogo} 
             width={d} height={d}
             alt={displayname} class="" loading="lazy" />
