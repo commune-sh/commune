@@ -7,6 +7,16 @@ import {
     processURL,
 } from '$lib/utils/matrix'
 
+import { 
+    getImageThumbnail,
+    downloadMedia
+} from '$lib/appservice/requests'
+
+
+import { createStore } from '$lib/store/store.svelte.js'
+const store = createStore()
+let authenticated = $derived(store.auth?.authenticated)
+
 let {
     event,
 } = $props();
@@ -92,6 +102,42 @@ let image = $derived.by(() => {
     return thumbnailURL(url, tw, th, 'scale')
 })
 
+let image_url = $state(null);
+
+$effect(() => {
+    if(store.app.appservice && !authenticated && !image_url) {
+        getImage()
+    }
+    if(store.app.appservice && !authenticated && !full_src) {
+        download()
+    }
+})
+
+async function getImage() {
+    if(!event?.content?.url) return
+    let w = 320
+    let h = 240
+
+    if(height >= 320) { 
+        w = 640
+        h = 480
+    }
+    let content_uri = await getImageThumbnail(store.app.appservice, event.content.url, w, h, 'scale')
+    if(content_uri) {
+        image_url = content_uri
+    }
+}
+
+let full_src = $state(null);
+
+async function download() {
+    if(!event?.content?.url) return
+    let content_uri = await downloadMedia(store.app.appservice, event.content.url)
+    if(content_uri) {
+        full_src = content_uri
+    }
+}
+
 let src = $derived.by(() => {
     if(event?.content?.external_url) {
         return event.content.external_url
@@ -115,7 +161,7 @@ function kill(e) {
 style="background-image: url({blurhash_url}); --width: {width}; --height: {height}">
     <img 
         onclick={expand}
-        src={image} 
+        src={authenticated ? image : image_url} 
         alt={alt} 
         width={width} 
         height={height} 
@@ -123,7 +169,7 @@ style="background-image: url({blurhash_url}); --width: {width}; --height: {heigh
 </div>
 
 {#if expanded}
-    <ExpandImage {src} {w} {h} {alt} {kill} />
+    <ExpandImage src={authenticated ? src : full_src} {w} {h} {alt} {kill} />
 {/if}
 
 <style>

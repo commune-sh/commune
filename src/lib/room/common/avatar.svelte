@@ -7,7 +7,7 @@ import {
 } from '$lib/utils/matrix'
 
 import { 
-    getThumbnail,
+    getAvatarThumbnail,
 } from '$lib/appservice/requests'
 
 
@@ -60,7 +60,7 @@ $effect(() => {
 let avatar_url = $state(null);
 async function getAvatar() {
     if(!user?.content?.avatar_url) return
-    let content_uri = await getThumbnail(store.app.appservice, user.content.avatar_url)
+    let content_uri = await getAvatarThumbnail(store.app.appservice, user.content.avatar_url)
     if(content_uri) {
         avatar_url = content_uri
     }
@@ -80,7 +80,7 @@ async function getAvatar() {
             width={d} height={d}
             alt={displayname} class="" loading="lazy" />
     {/if}
-    {#if !avatar || !authenticated}
+    {#if !avatar}
         <img src={UserLogo} 
             width={d} height={d}
             alt={displayname} class="" loading="lazy" />

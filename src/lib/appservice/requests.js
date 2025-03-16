@@ -161,10 +161,48 @@ export const getThreadEvents = async (appservice_url, opts) => {
   }
 }
 
-export const getThumbnail = async (appservice_url, mxcid ) => {
+export const getAvatarThumbnail = async (appservice_url, mxcid ) => {
   let stripped = mxcid.replace('mxc://', '');
 
   let url = `${appservice_url}/_matrix/client/v1/media/thumbnail/${stripped}?height=96&width=96&method=crop`;
+
+  let options = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }
+
+  try {
+    const response = await fetch(url, options)
+    return response?.url;
+  } catch (error) {
+    throw error
+  }
+}
+
+export const getImageThumbnail = async (appservice_url, mxcid, width, height, method ) => {
+  let stripped = mxcid.replace('mxc://', '');
+
+  let url = `${appservice_url}/_matrix/client/v1/media/thumbnail/${stripped}?height=${height}&width=${width}&method=${method}`;
+
+  let options = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }
+
+  try {
+    const response = await fetch(url, options)
+    return response?.url;
+  } catch (error) {
+    throw error
+  }
+}
+
+export const downloadMedia = async (appservice_url, mxcid) => {
+  let stripped = mxcid.replace('mxc://', '');
+
+  let url = `${appservice_url}/_matrix/client/v1/media/download/${stripped}`;
 
   let options = {
     headers: {
