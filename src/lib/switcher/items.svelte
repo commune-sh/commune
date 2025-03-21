@@ -7,7 +7,7 @@ import { buildSpaces, strayRooms } from '$lib/utils/matrix'
 import MoreRooms from '$lib/switcher/more-rooms.svelte'
 
 // app store
-import { createStore } from '$lib/store/store.svelte.js'
+import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 import { getPublicRooms } from '$lib/appservice/requests'

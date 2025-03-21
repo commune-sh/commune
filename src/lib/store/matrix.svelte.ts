@@ -1,5 +1,5 @@
 import { SvelteMap } from 'svelte/reactivity';
-import * as sdk from 'matrix-js-sdk';
+import * as sdk from 'matrix-js-sdk/src';
 
 import { 
   PUBLIC_APP_NAME, 
@@ -7,7 +7,7 @@ import {
 } from '$env/static/public';
 
 import { browser } from '$app/environment';
-//import * as sdk from 'matrix-js-sdk';
+
 
 import { 
   aliasFromName,
@@ -38,11 +38,11 @@ import {
   getEventContext,
 } from '$lib/appservice/requests'
 
-import { createAppStore } from './app.svelte.js';
+import { createAppStore } from './app.svelte';
 const app = createAppStore();
-import { createAuthStore } from './auth.svelte.js';
+import { createAuthStore } from './auth.svelte';
 const auth = createAuthStore();
-import { createUIStore } from './ui.svelte.js';
+import { createUIStore } from './ui.svelte';
 const ui = createUIStore();
 
 let oidc_issuer = $state(null);

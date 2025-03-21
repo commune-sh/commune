@@ -8,7 +8,7 @@ import { onMount, tick } from 'svelte'
 
 import ScrollToBottom from '$lib/room/chat/components/scroll-to-bottom.svelte'
 
-import { createStore } from '$lib/store/store.svelte.js'
+import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 let {

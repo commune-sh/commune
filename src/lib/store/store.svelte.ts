@@ -1,8 +1,8 @@
-import { createAppStore } from './app.svelte.js';
-import { createUIStore } from './ui.svelte.js';
-import { createAuthStore } from './auth.svelte.js';
-import { createMatrixStore } from './matrix.svelte.js';
-import { createSettingsStore } from './settings.svelte.js';
+import { createAppStore } from './app.svelte';
+import { createUIStore } from './ui.svelte';
+import { createAuthStore } from './auth.svelte';
+import { createMatrixStore } from './matrix.svelte';
+import { createSettingsStore } from './settings.svelte';
 
 export function createStore() {
 

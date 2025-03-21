@@ -5,7 +5,7 @@ import { login } from '$lib/matrix/requests';
 import { goto } from '$app/navigation';
 
 import { onMount } from 'svelte';
-import { createStore } from '$lib/store/store.svelte.js'
+import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 

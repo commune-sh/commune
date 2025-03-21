@@ -12,7 +12,7 @@ let saved_width = $derived.by(() => {
     return getSetting('thread_width');
 });
 
-import { createStore } from '$lib/store/store.svelte.js'
+import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 let width = $state(saved_width || 300);

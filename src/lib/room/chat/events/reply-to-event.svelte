@@ -10,7 +10,7 @@ import SkeletonSpan from '$lib/skeleton/span.svelte'
 
 import { processBody, textContent } from '$lib/utils/utils.js'
 
-import { createStore } from '$lib/store/store.svelte.js'
+import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 let {

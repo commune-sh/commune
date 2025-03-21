@@ -12,7 +12,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import Flows from './flows.svelte'
 
-import { createStore } from '$lib/store/store.svelte.js'
+import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 const homeserver_reachable = $derived(store.app.homeserver_reachable)

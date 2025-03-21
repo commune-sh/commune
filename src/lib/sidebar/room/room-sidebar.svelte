@@ -8,7 +8,7 @@ import {
 
 import RoomItems from '$lib/sidebar/room/room-items.svelte'
 
-import { createStore } from '$lib/store/store.svelte.js'
+import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 const rooms = $derived.by(() => {

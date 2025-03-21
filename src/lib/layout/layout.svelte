@@ -15,7 +15,7 @@ import View from '$lib/view/view.svelte'
 import Alert from '$lib/alert/alert.svelte'
 import Switcher from '$lib/switcher/switcher.svelte'
 
-import { createStore } from '$lib/store/store.svelte.js'
+import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 const alert_active = $derived(store.ui.alert?.active)
 

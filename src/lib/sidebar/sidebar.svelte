@@ -19,7 +19,7 @@ let {
 
 let is_home = $derived($page.route.id == '/(app)')
 
-import { createStore } from '$lib/store/store.svelte.js'
+import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 const rooms = $derived.by(() => {

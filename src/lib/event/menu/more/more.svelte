@@ -2,7 +2,7 @@
 import { ellipsis } from "$lib/assets/icons";
 import { clickOutside } from '$lib/utils/utils'
 
-import { createStore } from '$lib/store/store.svelte.js'
+import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 let {

@@ -16,7 +16,7 @@ import { goto } from '$app/navigation'
 import Listeners from '$lib/listeners/listeners.svelte'
 import HomeserverDown from '$lib/alert/homeserver-down.svelte'
 
-import { createStore } from '$lib/store/store.svelte.js'
+import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 

@@ -8,7 +8,7 @@ import { eye, eyeSlash, check } from '$lib/assets/icons'
 
 import Flows from './flows.svelte'
 
-import { createStore } from '$lib/store/store.svelte.js'
+import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 const homeserver_reachable = $derived(store.app.homeserver_reachable)

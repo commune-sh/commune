@@ -3,7 +3,7 @@ import { onMount, onDestroy } from 'svelte'
 import { browser } from '$app/environment'
 import { close } from '$lib/assets/icons'
 
-import { createStore } from '$lib/store/store.svelte.js'
+import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 const unsaved_changes = $derived(store.settings.unsaved_changes)

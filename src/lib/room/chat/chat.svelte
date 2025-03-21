@@ -11,7 +11,7 @@ import Event from '$lib/room/chat/events/event.svelte'
 import SkeletonChatEvents from '$lib/skeleton/chat-events.svelte'
 
 
-import { createStore } from '$lib/store/store.svelte.js'
+import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 

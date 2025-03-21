@@ -5,7 +5,7 @@ import { onMount, tick } from 'svelte'
 import Sidebar from '$lib/sidebar/sidebar.svelte'
 import Header from '$lib/header/header.svelte'
 
-import { createStore } from '$lib/store/store.svelte.js'
+import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 const client = $derived(store.matrix.client)

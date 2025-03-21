@@ -6,7 +6,7 @@ import Login from './login.svelte'
 import Signup from './signup.svelte'
 import Password from './password.svelte'
 
-import { createStore } from '$lib/store/store.svelte.js'
+import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 

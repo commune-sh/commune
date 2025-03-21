@@ -5,7 +5,7 @@ import 'highlight.js/styles/base16/atelier-dune.css';
 import json from 'highlight.js/lib/languages/json';
 hljs.registerLanguage('json', json);
 
-import { createStore } from '$lib/store/store.svelte.js'
+import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 let active = $derived.by(() => {

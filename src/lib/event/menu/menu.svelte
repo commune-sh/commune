@@ -3,7 +3,7 @@ import More from '$lib/event/menu/more/more.svelte'
 import Actions from '$lib/event/menu/more/actions.svelte'
 import Download from '$lib/event/menu/download/download.svelte'
 
-import { createStore } from '$lib/store/store.svelte.js'
+import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 let {

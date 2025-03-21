@@ -1,6 +1,6 @@
 <script>
 import { PUBLIC_HOMESERVER, PUBLIC_BASE_URL } from '$env/static/public';
-import { createStore } from '$lib/store/store.svelte.js'
+import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 let {

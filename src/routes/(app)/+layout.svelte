@@ -38,7 +38,7 @@ import EventSource from '$lib/event/source.svelte'
 
 
 // app store
-import { createStore } from '$lib/store/store.svelte.js'
+import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 // derive credentials from auth store

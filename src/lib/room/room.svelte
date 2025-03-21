@@ -5,7 +5,7 @@ import ChatView from '$lib/room/chat/chat.svelte'
 import ForumView from '$lib/room/forum/forum.svelte'
 import RoomOverView from '$lib/room/overview/overview.svelte'
 
-import { createStore } from '$lib/store/store.svelte.js'
+import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 let {

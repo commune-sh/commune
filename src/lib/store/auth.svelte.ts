@@ -1,5 +1,5 @@
 import { browser } from '$app/environment';
-import { createAppStore } from './app.svelte.js';
+import { createAppStore } from './app.svelte';
 const app = createAppStore();
 
 const homeserver = $derived(app.homeserver)

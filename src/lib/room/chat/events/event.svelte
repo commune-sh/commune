@@ -27,7 +27,7 @@ import Menu from '$lib/event/menu/menu.svelte'
 
 
 
-import { createStore } from '$lib/store/store.svelte.js'
+import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 const authenticated = $derived(store.auth.authenticated)

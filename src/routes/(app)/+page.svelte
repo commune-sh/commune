@@ -13,7 +13,7 @@ import AuthView from '$lib/auth/auth-view.svelte'
 
 let { data } = $props();
 
-import { createStore } from '$lib/store/store.svelte.js'
+import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 const authReady = $derived(store.auth.ready)

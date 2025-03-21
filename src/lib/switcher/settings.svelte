@@ -3,7 +3,7 @@ import { settings as settingsIcon } from '$lib/assets/icons'
 
 import { tooltip } from '$lib/tooltip/tooltip'
 
-import { createStore } from '$lib/store/store.svelte.js'
+import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 

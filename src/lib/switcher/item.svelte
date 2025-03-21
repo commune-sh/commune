@@ -6,7 +6,7 @@ import { createInitials } from '$lib/utils/string';
 
 import { tooltip } from '$lib/tooltip/tooltip'
 
-import { createStore } from '$lib/store/store.svelte.js'
+import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 import { 

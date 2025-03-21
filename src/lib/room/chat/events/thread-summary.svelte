@@ -4,7 +4,7 @@ import { goto } from '$app/navigation';
 
 import { right } from '$lib/assets/icons'
 
-import { createStore } from '$lib/store/store.svelte.js'
+import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 let {

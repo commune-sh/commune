@@ -10,7 +10,7 @@ import {
     link,
 } from "$lib/assets/icons";
 
-import { createStore } from '$lib/store/store.svelte.js'
+import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 let {
@@ -60,7 +60,7 @@ function click() {
 <style>
 .actions {
     position: absolute;
-    top: 1.5rem;;
+    top: 1.5rem;
     right: 0;
     border: 1px solid var(--border);
     border-radius: 4px;

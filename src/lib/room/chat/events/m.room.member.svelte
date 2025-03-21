@@ -1,7 +1,7 @@
 <script>
 import { aliasFromSender } from '$lib/utils/matrix';
 
-import { createStore } from '$lib/store/store.svelte.js'
+import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 let {

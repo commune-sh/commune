@@ -20,7 +20,7 @@ const component = $derived.by(() => {
     return components.find(c => c.msgtype == event?.content?.msgtype)?.component
 })
 
-import { createStore } from '$lib/store/store.svelte.js'
+import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 const authenticated = $derived(store.auth.authenticated)

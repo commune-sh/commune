@@ -3,7 +3,7 @@ import { sun, moon } from '$lib/assets/icons'
 import { browser } from '$app/environment';
 import { getCookie, createCookie } from '$lib/utils/cookie'
 
-import { createStore } from '$lib/store/store.svelte.js'
+import { createStore } from '$lib/store/store.svelte'
 
 const store = createStore()
 

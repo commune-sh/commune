@@ -3,7 +3,7 @@ import { page } from '$app/stores';
 import { goto } from '$app/navigation';
 import { close } from '$lib/assets/icons.js';
 
-import { createStore } from '$lib/store/store.svelte.js'
+import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 let non_space_room = $derived($page.route.id?.includes('/(app)/rooms'))

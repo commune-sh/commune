@@ -1,7 +1,7 @@
 <script>
 import Reaction from '$lib/room/common/m.reaction.svelte'
 
-import { createStore } from '$lib/store/store.svelte.js'
+import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 let {

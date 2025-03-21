@@ -10,7 +10,7 @@ import {
     naiveOSTCheck
 } from '$lib/utils/matrix'
 
-import { createStore } from '$lib/store/store.svelte.js'
+import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 const client = $derived(store.matrix.client)

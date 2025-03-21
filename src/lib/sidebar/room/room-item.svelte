@@ -16,7 +16,7 @@ import {
 
 import { debounce } from '$lib/utils/utils'
 
-import { createStore } from '$lib/store/store.svelte.js'
+import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 const authReady = $derived(store.auth.ready)
