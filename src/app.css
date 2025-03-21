@@ -103,9 +103,9 @@
     --switcher: transparent;
     --sidebar: transparent;
     --view: white;
-    --border: hsla(0, 0%, 90%, 1);;
-    --sidebar-border: hsla(0, 0%, 90%, 1);;
-    --switcher-border: hsla(0, 0%, 90%, 1);;
+    --border: hsla(0, 0%, 90%, 1);
+    --sidebar-border: hsla(0, 0%, 90%, 1);
+    --switcher-border: hsla(0, 0%, 90%, 1);
     --shade-1: hsla(0, 0%, 98%, 1);
     --shade-2: hsla(0, 0%, 95%, 1);
     --shade-3: hsla(0, 0%, 92%, 1);
