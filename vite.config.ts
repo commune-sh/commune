@@ -13,7 +13,7 @@ let [version, commit] = (
     ])
 ).map(v => JSON.stringify(v.value?.stdout.trim()))
 
-let link = `https://github.com/commune-os/client/commit/${commit}`
+let link = `https://github.com/commune-sh/commune/commit/${commit}`
 
 export default defineConfig({
     build: {
