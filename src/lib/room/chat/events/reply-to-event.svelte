@@ -8,7 +8,7 @@ import Sender from '$lib/room/common/sender.svelte'
 
 import SkeletonSpan from '$lib/skeleton/span.svelte'
 
-import { processBody, textContent } from '$lib/utils/utils.js'
+import { processBody, textContent } from '$lib/utils/utils'
 
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()

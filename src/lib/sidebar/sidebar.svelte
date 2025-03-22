@@ -1,5 +1,5 @@
 <script>
-import { getSetting, updateSetting } from '$lib/utils/localstorage.js';
+import { getSetting, updateSetting } from '$lib/utils/localstorage';
 import User from '$lib/sidebar/user/user.svelte'
 
 import RoomSidebarHeader from '$lib/sidebar/room/room-sidebar-header.svelte'

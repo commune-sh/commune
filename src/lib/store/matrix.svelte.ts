@@ -1,5 +1,5 @@
 import { SvelteMap } from 'svelte/reactivity';
-import * as sdk from 'matrix-js-sdk/src';
+import * as sdk from 'matrix-js-sdk/src/index';
 
 import { 
   PUBLIC_APP_NAME, 
@@ -24,7 +24,7 @@ import {
   login,
   register,
   syncGuest,
-} from '$lib/matrix/requests.js';
+} from '$lib/matrix/requests';
 
 import { 
   naiveRoomIDCheck,

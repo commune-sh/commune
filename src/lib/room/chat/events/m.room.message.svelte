@@ -1,6 +1,6 @@
 <script>
 import { trash } from '$lib/assets/icons'
-import { justEmoji, processBody } from '$lib/utils/utils.js'
+import { justEmoji, processBody } from '$lib/utils/utils'
 
 import Image from '$lib/room/common/m.image.svelte'
 import Audio from '$lib/room/common/m.audio.svelte'

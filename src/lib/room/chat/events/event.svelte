@@ -1,6 +1,6 @@
 <script>
 import { page } from '$app/stores';
-import { dayOfMonth, formatTS } from '$lib/utils/time.js'
+import { dayOfMonth, formatTS } from '$lib/utils/time'
 import Time from '$lib/room/common/time.svelte'
 import Date from '$lib/room/common/date.svelte'
 
