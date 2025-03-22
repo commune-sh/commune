@@ -161,7 +161,7 @@ export const getThreadEvents = async (appservice_url, opts) => {
   }
 }
 
-export const getAvatarThumbnail = async (appservice_url, mxcid ) => {
+export const getAvatarThumbnail = async (appservice_url: string, mxcid: string ) => {
   let stripped = mxcid.replace('mxc://', '');
 
   let url = `${appservice_url}/_matrix/client/v1/media/thumbnail/${stripped}?height=96&width=96&method=crop`;
