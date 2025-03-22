@@ -49,7 +49,7 @@ $effect(() => {
     cursor-pointer bg-shade-3 text-light mr-1 rounded-[4px]">
     <div class="emoji">
         {#if is_custom && reaction_url}
-            <img src={reaction} width="16" height="16" alt={key} />
+            <img src={reaction_url} width="16" height="16" alt={key} />
         {:else if !is_custom}
             {key}
         {/if}
