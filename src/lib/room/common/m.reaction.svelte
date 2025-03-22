@@ -31,7 +31,7 @@ const reaction = $derived.by(() => {
 let reaction_url: string | null = $state(null);
 async function getReaction() {
     if(!is_custom) return
-    let content_uri = await getAvatarThumbnail(store.app.appservice, reaction)
+    let content_uri = await getAvatarThumbnail(store.app.appservice, key)
     if(content_uri) {
         reaction_url = content_uri
     }
