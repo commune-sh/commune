@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
 @layer utilities {
     .hide-scroll::-webkit-scrollbar {
@@ -11,6 +9,53 @@
       scrollbar-width: none; 
     }
 }
+
+@theme inline {
+    --color-shade-1: var(--shade-1);
+    --color-shade-2: var(--shade-2);
+    --color-shade-3: var(--shade-3);
+    --color-shade-4: var(--shade-4);
+    --color-shade-5: var(--shade-5);
+    --color-shade-6: var(--shade-6);
+    --color-shade-7: var(--shade-7);
+    --color-shade-8: var(--shade-8);
+    --color-shade-9: var(--shade-9);
+    --color-shade-10: var(--shade-10);
+    --color-link: var(--link);
+    --color-primary: var(--primary);
+    --color-secondary: var(--secondary);
+    --color-background: var(--background);
+    --color-container: var(--container);
+    --color-logo: var(--logo);
+    --color-text: var(--text);
+    --color-sidebar: var(--sidebar);
+    --color-switcher: var(--switcher);
+    --color-view: var(--view);
+    --color-alert: var(--alert);
+    --color-light: var(--light);
+    --color-pill: var(--pill);
+    --color-mask: var(--mask);
+    --color-tooltip: var(--tooltip);
+    --color-icon: var(--icon);
+    --color-icon-hover: var(--icon-hover);
+    --color-border: var(--border);
+    --color-switcher-border: var(--switcher-border);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-avatar: var(--avatar);
+
+    --text-4xs: 0.625rem;
+    --text-3xs: 0.6875rem;
+    --text-2xs: 0.75rem;
+    --text-xs: 0.8125rem;
+    --text-sm: 0.875rem;
+    --text-md: 0.9375rem;
+    --text-base: 1rem;
+    --text-xl: 1.125rem;
+    --text-2xl: 1.25rem;
+    --text-3xl: 1.375rem;
+    --text-4xl: 1.5rem;
+}
+
 
 @font-face {
     font-family: 'Twemoji';
