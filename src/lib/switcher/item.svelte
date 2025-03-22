@@ -245,8 +245,6 @@ function logItem(e) {
     console.log(space)
 }
 
-let size = $state(46)
-
 const options = $derived.by(() => {
     return {
         content: name,
@@ -269,7 +267,7 @@ const options = $derived.by(() => {
     <div class:dragging={dragging} 
         class:bg-shade-7={active}
         class:active={active}
-        class="space bg-shade-4 w-[{size}px] h-[{size}px] grid
+        class="space bg-shade-4 w-[46px] h-[46px] grid
         transition-transform duration-200
         place-items-center cursor-pointer hover:bg-shade-7 rounded-[50%]" 
         class:text-[14px]={initial?.length > 2}
