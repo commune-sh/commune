@@ -1,7 +1,7 @@
 <script>
 import { onMount } from 'svelte';
 import { goto } from '$app/navigation';
-import { page } from '$app/stores';
+import { page } from '$app/state';
 import { 
     is_local_room, 
     get_local_part,
@@ -36,53 +36,53 @@ const alias_or_id = $derived(item?.commune_alias ? item?.commune_alias :
     item?.room_id)
 
 const hash_params = $derived.by(() => {
-    return processHash($page.url.hash)
+    return processHash(page.url.hash)
 })
 
 const space_param = $derived.by(() => {
-    if($page?.params?.space) {
-        return $page.params.space
+    if(page?.params?.space) {
+        return page.params.space
     }
-    if($page?.url?.hash) {
+    if(page?.url?.hash) {
         return hash_params?.space
     }
 })
 
 const room_param = $derived.by(() => {
-    if($page?.params?.room) {
-        return $page.params.room
+    if(page?.params?.room) {
+        return page.params.room
     }
-    if($page?.url?.hash) {
+    if(page?.url?.hash) {
         return hash_params?.room
     }
 })
 
-//const path = $derived(`/${$page.params.space}/${alias_or_id}`)
+//const path = $derived(`/${page.params.space}/${alias_or_id}`)
 const path = $derived.by(() => {
     // non space rooms
 
     if(non_space_room) {
-        if($page.url.search != '') {
-            return `/rooms/${alias_or_id}${$page.url.search}`
+        if(page.url.search != '') {
+            return `/rooms/${alias_or_id}${page.url.search}`
         }
         return `/rooms/${alias_or_id}`
     }
 
     // space rooms
 
-    if($page.url.search != '') {
-        return `/${space_param}/${alias_or_id}${$page.url.search}`
+    if(page.url.search != '') {
+        return `/${space_param}/${alias_or_id}${page.url.search}`
     }
 
     return `/${space_param}/${alias_or_id}`
 })
 
-let non_space_room = $derived($page.route.id?.includes('/(app)/rooms'))
+let non_space_room = $derived(page.route.id?.includes('/(app)/rooms'))
 
 function goToRoom() {
     getState()
     goto(path)
-    const location = non_space_room ? 'rooms' : $page.params.space
+    const location = non_space_room ? 'rooms' : page.params.space
     store.ui.updateRoute(location, path)
     if(menu_active) store.ui.toggleMenu()
 }

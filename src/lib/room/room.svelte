@@ -1,5 +1,5 @@
 <script>
-import { page } from '$app/stores';
+import { page } from '$app/state';
 
 import ChatView from '$lib/room/chat/chat.svelte'
 import ForumView from '$lib/room/forum/forum.svelte'

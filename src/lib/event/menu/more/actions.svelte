@@ -3,7 +3,7 @@ import {
   PUBLIC_BASE_URL,
 } from '$env/static/public';
 
-import { page } from '$app/stores';
+import { page } from '$app/state';
 
 import { 
     code, 
@@ -23,8 +23,8 @@ function logEvent() {
 }
 
 function copyLink() {
-    const space = $page.params.space
-    const room = $page.params.room
+    const space = page.params.space
+    const room = page.params.room
     const url = `${PUBLIC_BASE_URL}/${space}/${room}?event=${event.event_id}`
     navigator.clipboard.writeText(url)
 }

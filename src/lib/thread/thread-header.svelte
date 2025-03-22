@@ -1,16 +1,16 @@
 <script>
-import { page } from '$app/stores';
+import { page } from '$app/state';
 import { goto } from '$app/navigation';
 import { close } from '$lib/assets/icons.js';
 
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
-let non_space_room = $derived($page.route.id?.includes('/(app)/rooms'))
+let non_space_room = $derived(page.route.id?.includes('/(app)/rooms'))
 function killThread() {
-    const path = `${$page.url.pathname}`
+    const path = `${page.url.pathname}`
     goto(path)
-    const location = non_space_room ? 'rooms' : $page.params.space
+    const location = non_space_room ? 'rooms' : page.params.space
     store.ui.updateRoute(location, path)
 }
 

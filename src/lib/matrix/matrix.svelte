@@ -1,7 +1,7 @@
 <script>
 import { browser  } from '$app/environment'
 import { onMount } from 'svelte'
-import { page } from '$app/stores';
+import { page } from '$app/state';
 import { SvelteMap } from 'svelte/reactivity';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -26,9 +26,9 @@ let {
     data,
 } = $props();
 
-let space = $derived($page.params.space)
-let room = $derived($page.params.room)
-let space_exists = $derived($page.params.space !== undefined)
+let space = $derived(page.params.space)
+let room = $derived(page.params.room)
+let space_exists = $derived(page.params.space !== undefined)
 
 
 let public_spaces_fetched = $state(false)

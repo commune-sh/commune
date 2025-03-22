@@ -1,5 +1,5 @@
 <script>
-import { page } from '$app/stores';
+import { page } from '$app/state';
 import { onMount, tick } from 'svelte'
 
 import ViewPort from '$lib/room/chat/chat-viewport.svelte'

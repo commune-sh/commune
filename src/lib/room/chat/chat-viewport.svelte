@@ -1,5 +1,5 @@
 <script>
-import { page } from '$app/stores';
+import { page } from '$app/state';
 
 import Event from '$lib/room/chat/events/event.svelte'
 
@@ -30,7 +30,7 @@ const position = $derived.by(() => {
 let viewport;
 
 const context_event = $derived.by(() => {
-    const url_event = $page.url.searchParams.get('event');
+    const url_event = page.url.searchParams.get('event');
     if(url_event) return events.find(e => e.event_id == url_event)
     return null
 })

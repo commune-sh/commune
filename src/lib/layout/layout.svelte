@@ -5,7 +5,7 @@ import {
 
 import { browser } from '$app/environment'
 
-import { page } from '$app/stores';
+import { page } from '$app/state';
 
 import { 
     processHash
@@ -24,10 +24,10 @@ let {
     content,
 } = $props();
 
-let is_home = $derived($page.route.id == '/(app)')
+let is_home = $derived(page.route.id == '/(app)')
 
 const hash_params = $derived.by(() => {
-    return processHash($page.url.hash)
+    return processHash(page.url.hash)
 })
 
 const no_hash = $derived.by(() => {
@@ -37,19 +37,19 @@ const no_hash = $derived.by(() => {
 })
 
 const space_param = $derived.by(() => {
-    if($page?.params?.space) {
-        return $page.params.space
+    if(page?.params?.space) {
+        return page.params.space
     }
-    if($page?.url?.hash) {
+    if(page?.url?.hash) {
         return hash_params?.space
     }
 })
 
 const room_param = $derived.by(() => {
-    if($page?.params?.room) {
-        return $page.params.room
+    if(page?.params?.room) {
+        return page.params.room
     }
-    if($page?.url?.hash) {
+    if(page?.url?.hash) {
         return hash_params?.room
     }
 })
@@ -58,14 +58,14 @@ const room_param = $derived.by(() => {
 let is_space = $derived(space_param != undefined)
 let is_space_child_room = $derived(room_param != undefined)
 
-let non_space_room = $derived($page.route.id?.includes('/(app)/rooms'))
+let non_space_room = $derived(page.route.id?.includes('/(app)/rooms'))
 
 let show_view = $derived(is_space || is_space_child_room || non_space_room)
 
 let root;
 
 $effect(() => {
-    console.log($page)
+    console.log(page)
 })
 
 const menu_active = $derived(store.ui.menu_active)

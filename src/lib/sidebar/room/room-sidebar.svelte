@@ -1,5 +1,5 @@
 <script>
-import { page } from '$app/stores';
+import { page } from '$app/state';
 import { naiveRoomIDCheck, canonical_alias } from '$lib/utils/matrix'
 import { 
     strayRooms,
@@ -16,14 +16,14 @@ const rooms = $derived.by(() => {
 })
 
 const hash_params = $derived.by(() => {
-    return processHash($page.url.hash)
+    return processHash(page.url.hash)
 })
 
 const space_param = $derived.by(() => {
-    if($page?.params?.space) {
-        return $page.params.space
+    if(page?.params?.space) {
+        return page.params.space
     }
-    if($page?.url?.hash) {
+    if(page?.url?.hash) {
         return hash_params?.space
     }
 })
@@ -32,7 +32,7 @@ const is_alias = $derived.by(() => {
     return !naiveRoomIDCheck(space_param)
 })
 
-let non_space_room = $derived($page.route.id?.includes('/(app)/rooms'))
+let non_space_room = $derived(page.route.id?.includes('/(app)/rooms'))
 
 const space_rooms = $derived.by(() => {
     let key = is_alias ? 'canonical_alias' : 'room_id'

@@ -1,5 +1,5 @@
 <script>
-import { page } from '$app/stores';
+import { page } from '$app/state';
 import { dayOfMonth, formatTS } from '$lib/utils/time'
 import Time from '$lib/room/common/time.svelte'
 import Date from '$lib/room/common/date.svelte'
@@ -183,7 +183,7 @@ const id = $derived.by(() => {
 })
 
 const highlight = $derived.by(() => {
-    const url_event = $page.url.searchParams.get('event');
+    const url_event = page.url.searchParams.get('event');
     if(url_event == id) return true
     return false
 })

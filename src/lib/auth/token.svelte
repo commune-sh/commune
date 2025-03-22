@@ -1,6 +1,6 @@
 <script>
 import { PUBLIC_APP_NAME } from '$env/static/public';
-import { page } from '$app/stores';
+import { page } from '$app/state';
 import { login } from '$lib/matrix/requests';
 import { goto } from '$app/navigation';
 
@@ -12,7 +12,7 @@ const store = createStore()
 let busy = $state(true);
 let failed = $state(false);
 
-const login_token = $derived($page.url.searchParams.get('loginToken'))
+const login_token = $derived(page.url.searchParams.get('loginToken'))
 
 async function validateToken() {
 

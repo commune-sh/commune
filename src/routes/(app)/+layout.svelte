@@ -8,7 +8,7 @@ import {
     PUBLIC_META_DESCRIPTION,
 } from '$env/static/public';
 
-import { page } from '$app/stores';
+import { page } from '$app/state';
 
 import { onMount } from 'svelte'
 import { browser } from '$app/environment';
@@ -57,33 +57,33 @@ let homeserver_reachable = $derived(data.homeserver_reachable)
 const room_id = $derived(store.matrix.active_room?.room_id)
 
 const context_event = $derived.by(() => {
-    return $page.url.searchParams.get('event')
+    return page.url.searchParams.get('event')
 })
 
 $effect.pre(() => {
-    if($page) {
-        store.matrix.updatePage($page)
+    if(page) {
+        store.matrix.updatePage(page)
     }
 })
 
 const hash_params = $derived.by(() => {
-    return processHash($page.url.hash)
+    return processHash(page.url.hash)
 })
 
 const space_param = $derived.by(() => {
-    if($page?.params?.space) {
-        return $page.params.space
+    if(page?.params?.space) {
+        return page.params.space
     }
-    if($page?.url?.hash) {
+    if(page?.url?.hash) {
         return hash_params?.space
     }
 })
 
 const room_param = $derived.by(() => {
-    if($page?.params?.room) {
-        return $page.params.room
+    if(page?.params?.room) {
+        return page.params.room
     }
-    if($page?.url?.hash) {
+    if(page?.url?.hash) {
         return hash_params?.room
     }
 })
@@ -184,9 +184,9 @@ async function prepareSpace() {
     //store.matrix.getHierarchy(data.space.room_id)
 }
 
-let is_home = $derived($page.route.id == '/(app)')
-let is_space = $derived($page.params.space != undefined)
-let is_room = $derived($page.params.room != undefined)
+let is_home = $derived(page.route.id == '/(app)')
+let is_space = $derived(page.params.space != undefined)
+let is_room = $derived(page.params.room != undefined)
 
 let active_space = $derived(store.matrix.active_space)
 let active_room = $derived(store.matrix.active_room)

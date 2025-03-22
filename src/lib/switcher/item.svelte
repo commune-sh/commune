@@ -1,7 +1,7 @@
 <script>
 import { isInViewport } from '$lib/utils/ui';
 import { goto } from '$app/navigation';
-import { page } from '$app/stores';
+import { page } from '$app/state';
 import { createInitials } from '$lib/utils/string';
 
 import { tooltip } from '$lib/tooltip/tooltip'
@@ -40,14 +40,14 @@ const is_local = $derived.by(() => {
 })
 
 const hash_params = $derived.by(() => {
-    return processHash($page.url.hash)
+    return processHash(page.url.hash)
 })
 
 const space_param = $derived.by(() => {
-    if($page?.params?.space) {
-        return $page.params.space
+    if(page?.params?.space) {
+        return page.params.space
     }
-    if($page?.url?.hash) {
+    if(page?.url?.hash) {
         return hash_params?.space
     }
 })
@@ -178,10 +178,10 @@ const space_state = $derived.by(() => {
 $effect(() => {
     // if no room is active, navigate to one
     /*
-    if(active && space_state && !$page.params.room) {
+    if(active && space_state && !page.params.room) {
         const space_rooms = $derived(store.matrix.space_rooms)
         if(space_rooms[0]?.commune_alias) {
-            goto(`/${$page.params.space}/${space_rooms[0].commune_alias}`)
+            goto(`/${page.params.space}/${space_rooms[0].commune_alias}`)
         }
     }
     */
@@ -220,7 +220,7 @@ function goToSpace() {
 
     const route = store.ui.getRoute(location)
 
-    if($page.url.pathname == route) {
+    if(page.url.pathname == route) {
         goto(`/${location}`)
         return
     }

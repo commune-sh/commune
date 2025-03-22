@@ -1,12 +1,12 @@
 <script>
-import { page } from '$app/stores';
+import { page } from '$app/state';
 
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 const down = $derived(store.app.homeserver_reachable == false)
 
-let is_app_group = $derived($page.route.id == '/(app)')
+let is_app_group = $derived(page.route.id == '/(app)')
 
 </script>
 

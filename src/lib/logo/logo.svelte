@@ -1,13 +1,13 @@
 <script>
 import { logo } from '$lib/assets/logo.js';
 import { goto } from '$app/navigation';
-import { page } from '$app/stores';
+import { page } from '$app/state';
 
 import { tooltip } from '$lib/tooltip/tooltip'
 
 let { is_static, loading } = $props();
 
-let active = $derived($page.url.pathname == '/')
+let active = $derived(page.url.pathname == '/')
 
 $effect(() => {
 })

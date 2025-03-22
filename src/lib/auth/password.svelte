@@ -1,6 +1,6 @@
 <script>
 import { onMount, tick } from 'svelte';
-import { page } from '$app/stores';
+import { page } from '$app/state';
 import { debounce } from '$lib/utils/utils'
 import { naiveEmailCheck } from '$lib/utils/utils';
 import { pushState } from '$app/navigation'
@@ -88,8 +88,8 @@ async function sendEmail() {
 
 }
 
-let is_app_group = $derived($page.route.id == '/(app)')
-let is_auth_group = $derived($page.route.id == '/(auth)/signup')
+let is_app_group = $derived(page.route.id == '/(app)')
+let is_auth_group = $derived(page.route.id == '/(auth)/signup')
 function goToLogin() {
     pushState('', {
         active_view: "login"

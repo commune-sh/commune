@@ -1,5 +1,5 @@
 <script>
-import { page } from '$app/stores';
+import { page } from '$app/state';
 import { goto } from '$app/navigation';
 
 import { right } from '$lib/assets/icons'
@@ -16,17 +16,17 @@ const replies = $derived.by(() => {
 })
 
 const thread_exists = $derived.by(() => {
-    return $page.url.searchParams.get('thread') != undefined
+    return page.url.searchParams.get('thread') != undefined
 })
 
-let non_space_room = $derived($page.route.id?.includes('/(app)/rooms'))
+let non_space_room = $derived(page.route.id?.includes('/(app)/rooms'))
 function toggleThread() {
-    let path = `${$page.url.pathname}?thread=${event.event_id}`
+    let path = `${page.url.pathname}?thread=${event.event_id}`
     if(thread_exists) {
-        path = `${$page.url.pathname}`
+        path = `${page.url.pathname}`
     }
     goto(path)
-    const location = non_space_room ? 'rooms' : $page.params.space
+    const location = non_space_room ? 'rooms' : page.params.space
     store.ui.updateRoute(location, path)
 }
 

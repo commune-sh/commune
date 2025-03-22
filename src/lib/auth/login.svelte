@@ -1,7 +1,7 @@
 <script>
 import { PUBLIC_META_TITLE, PUBLIC_APP_NAME } from '$env/static/public';
 import { onMount, tick } from 'svelte';
-import { page } from '$app/stores';
+import { page } from '$app/state';
 import { pushState } from '$app/navigation'
 import { naiveEmailCheck } from '$lib/utils/utils';
 import { eye, eyeSlash, check } from '$lib/assets/icons'
@@ -55,8 +55,8 @@ let togglePasswordVisibility = () => {
     passwordInput.focus();
 }
 
-let is_app_group = $derived($page.route.id == '/(app)')
-let is_auth_group = $derived($page.route.id == '/(auth)/login')
+let is_app_group = $derived(page.route.id == '/(app)')
+let is_auth_group = $derived(page.route.id == '/(auth)/login')
 
 let busy = $state(false);
 let failed = $state(false);

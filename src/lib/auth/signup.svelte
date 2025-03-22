@@ -1,7 +1,7 @@
 <script>
 import { PUBLIC_META_TITLE, PUBLIC_APP_NAME } from '$env/static/public';
 import { onMount, tick } from 'svelte';
-import { page } from '$app/stores';
+import { page } from '$app/state';
 import { pushState } from '$app/navigation'
 import { register, requestToken } from '$lib/matrix/requests';
 import { debounce } from '$lib/utils/utils'
@@ -77,8 +77,8 @@ let togglePasswordVisibility = () => {
     passwordInput.focus();
 }
 
-let is_app_group = $derived($page.route.id == '/(app)')
-let is_auth_group = $derived($page.route.id == '/(auth)/signup')
+let is_app_group = $derived(page.route.id == '/(app)')
+let is_auth_group = $derived(page.route.id == '/(auth)/signup')
 
 function goToLogin() {
     pushState('', {

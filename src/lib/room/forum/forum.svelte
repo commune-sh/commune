@@ -1,5 +1,5 @@
 <script>
-import { page } from '$app/stores';
+import { page } from '$app/state';
 
 import Loading from '$lib/loading/loading.svelte'
 

@@ -1,6 +1,6 @@
 <script>
 import { PUBLIC_META_TITLE } from '$env/static/public';
-import { page } from '$app/stores';
+import { page } from '$app/state';
 import { onMount } from 'svelte'
 
 import Room from '$lib/room/room.svelte'
@@ -37,12 +37,12 @@ const rooms = $derived.by(() => {
 let ready = $state(false);
 
 let not_found = $derived.by(() => {
-    const is_room_id = naiveRoomIDCheck($page.params.space)
+    const is_room_id = naiveRoomIDCheck(page.params.space)
     if(is_room_id) {
         return rooms?.length > 0 && 
-            rooms?.filter(r => r.room_id == $page.params.space)[0] == null
+            rooms?.filter(r => r.room_id == page.params.space)[0] == null
     }
-    const alias =  canonical_alias($page.params.space)
+    const alias =  canonical_alias(page.params.space)
     return rooms?.length > 0 && 
         rooms?.filter(r => r.canonical_alias == alias)[0]  == null
 })
@@ -82,7 +82,7 @@ $effect(() => {
 
 
 const thread_exists = $derived.by(() => {
-    return $page.url.searchParams.get('thread') != undefined
+    return page.url.searchParams.get('thread') != undefined
 })
 
 const menu_active = $derived(store.ui.menu_active)

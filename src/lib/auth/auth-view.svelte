@@ -1,5 +1,5 @@
 <script>
-import { page } from '$app/stores';
+import { page } from '$app/state';
 
 import Token from './token.svelte'
 import Login from './login.svelte'
@@ -10,7 +10,7 @@ import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 
-let active_view = $derived($page.state?.active_view)
+let active_view = $derived(page.state?.active_view)
 
 const login_active = $derived((active_view == undefined) || 
     active_view == "login")
@@ -18,7 +18,7 @@ const login_active = $derived((active_view == undefined) ||
 const signup_active = $derived(active_view == "signup")
 
 const has_login_token = $derived.by(() => {
-    let loginToken = $page.url.searchParams.get('loginToken')
+    let loginToken = page.url.searchParams.get('loginToken')
     return loginToken != null
 })
 

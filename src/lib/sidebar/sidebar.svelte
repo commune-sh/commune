@@ -8,7 +8,7 @@ import RoomsSidebarHeader from '$lib/sidebar/rooms/rooms-sidebar-header.svelte'
 import RoomSidebar from '$lib/sidebar/room/room-sidebar.svelte'
 import UserSidebar from '$lib/sidebar/user/user-sidebar.svelte'
 
-import { page } from '$app/stores';
+import { page } from '$app/state';
 
 let {
     is_space,
@@ -17,7 +17,7 @@ let {
 } = $props();
 
 
-let is_home = $derived($page.route.id == '/(app)')
+let is_home = $derived(page.route.id == '/(app)')
 
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()

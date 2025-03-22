@@ -1,7 +1,7 @@
 <script>
 import { ellipsis } from '$lib/assets/icons'
 import { goto } from '$app/navigation';
-import { page } from '$app/stores';
+import { page } from '$app/state';
 
 import { tooltip } from '$lib/tooltip/tooltip'
 
@@ -13,7 +13,7 @@ let el;
 function goToRooms() {
     const route = store.ui.getRoute('rooms')
     console.log(route)
-    if($page.url.pathname == route) {
+    if(page.url.pathname == route) {
         goto(`/rooms`)
         return
     }
@@ -24,7 +24,7 @@ function goToRooms() {
     goto(`/rooms`)
 }
 
-let active = $derived($page.route.id?.includes('/(app)/rooms'))
+let active = $derived(page.route.id?.includes('/(app)/rooms'))
 
 const options = $derived.by(() => {
     return {

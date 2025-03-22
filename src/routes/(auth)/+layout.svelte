@@ -7,7 +7,7 @@ import {
 
 import '../../app.css'
 
-import { page } from '$app/stores';
+import { page } from '$app/state';
 let { data, children } = $props()
 import Logo from '$lib/logo/logo.svelte'
 import { onMount } from 'svelte'
@@ -22,7 +22,7 @@ const store = createStore()
 
 const authenticated = $derived(store.auth.authenticated)
 
-const login_token = $derived($page.url.searchParams.get('loginToken'))
+const login_token = $derived(page.url.searchParams.get('loginToken'))
 
 onMount(() => {
     if(!login_token) {

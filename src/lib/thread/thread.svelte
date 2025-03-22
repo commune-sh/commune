@@ -1,6 +1,6 @@
 <script>
 import { onMount } from 'svelte'
-import { page } from '$app/stores';
+import { page } from '$app/state';
 
 import ThreadHeader from '$lib/thread/thread-header.svelte'
 import ThreadContent from '$lib/thread/thread-content.svelte'
@@ -54,7 +54,7 @@ $effect(() => {
 })
 
 const thread = $derived.by(() => {
-    return $page.url.searchParams.get('thread') 
+    return page.url.searchParams.get('thread') 
 })
 
 const room = $derived(store.matrix.active_room)
