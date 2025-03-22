@@ -28,6 +28,18 @@ export const handle: Handle = async ({ event, resolve }) => {
         })
     }
 
+    let access_token = event.cookies.get("access_token");
+    let device_id = event.cookies.get("device_id");
+    let user_id = event.cookies.get("user_id");
+
+    if(access_token && device_id && user_id) {
+        event.locals.session = {
+            access_token,
+            device_id,
+            user_id
+        }
+    }
+
     const response = await resolve(event);
 
     return response;
