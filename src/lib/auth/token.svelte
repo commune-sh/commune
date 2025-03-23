@@ -1,21 +1,35 @@
-<script>
+<script lang="ts">
 import { PUBLIC_APP_NAME } from '$env/static/public';
 import { page } from '$app/state';
-import { login } from '$lib/matrix/requests';
+import { exchangeForToken } from '$lib/matrix/requests';
 import { goto } from '$app/navigation';
 
 import { onMount } from 'svelte';
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
+let {
+    data
+}: {
+    data: any
+} = $props();
+
+$effect(() => {
+    if(data) {
+        console.log(data)
+    }
+})
+
 
 let busy = $state(true);
 let failed = $state(false);
 
-const login_token = $derived(page.url.searchParams.get('loginToken'))
+const token_endpoint = $derived(data?.auth_metadata?.token_endpoint)
 
-const callback_state = $derived(page.url.searchParams.get('state'))
-const callback_code = $derived(page.url.searchParams.get('code'))
+const login_token = $derived(data?.loginToken)
+
+const callback_state = $derived(data?.state)
+const callback_code = $derived(data?.code)
 
 async function validateCompatToken() {
 
@@ -27,18 +41,31 @@ async function validateCompatToken() {
             token: login_token,
             type: "m.login.token",
         })
-        console.log("what")
-        console.log(resp)
 
         if(resp?.access_token && resp?.user_id && resp?.device_id) {
             console.log(resp)
 
+            const res = await fetch('/api/auth/session', {
+                method: 'POST',
+                body: JSON.stringify({
+                    access_token: resp.access_token,
+                    device_id: resp.device_id,
+                    user_id: resp.user_id,
+                }),
+            });
+
+            const json = await res.json();
+
+            console.log("resp", json)
+
+            /*
             store.auth.saveSession({
                 access_token: resp.access_token,
                 user_id: resp.user_id,
                 device_id: resp.device_id,
                 home_server: resp.home_server,
             })
+            */
             //goto('/')
         }
 
@@ -53,19 +80,38 @@ async function validateCompatToken() {
 
 }
 
-onMount(() => {
-    if(callback_code && callback_state) {
-        console.log("callback", callback_code, callback_state)
+async function getAccessToken() {
+
+    console.log("Fetching access token.")
+
+    const params = new URLSearchParams();
+    params.append('grant_type', 'authorization_code');
+    params.append('code', callback_code);
+    params.append('redirect_uri', "http://localhost:5173/oidc/callback");
+    params.append('client_id', "01JQ1J636V339EREAH8MF2N9PQ");
+    params.append('code_verifier', "test");
+
+    try {
+        let resp = await exchangeForToken(token_endpoint, params)
+        console.log(resp)
+    } catch (error) {
     }
+
+}
+
+onMount(() => {
     if(login_token) {
         validateCompatToken()
+    }
+    if(token_endpoint && callback_code) {
+        getAccessToken()
     }
 })
 
 </script>
 
 <div class="signup-container container grid rounded-[4px] place-items-center
-    mt-10 relative h-[300px]
+    mt-10 relative 
     p-[20px]">
 
     <div class="flex">
