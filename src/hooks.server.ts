@@ -45,9 +45,15 @@ export const handle: Handle = async ({ event, resolve }) => {
     return response;
 };
 
-export const handleFetch: HandleFetch = async ({ request, fetch }) => {
+export const handleFetch: HandleFetch = async ({ event, request, fetch }) => {
     if (request.url.startsWith(PUBLIC_HOMESERVER)) {
-        request.headers.set('Authorization', `Bearer ${cookies.get('mx_access_token')}`);
+
+        let access_token = event.cookies.get("access_token");
+
+        if(access_token) {
+            request.headers.set('Authorization', `Bearer ${access_token}`);
+        }
+
     }
     return fetch(request);
 };
