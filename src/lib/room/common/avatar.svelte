@@ -34,10 +34,8 @@ const user = $derived.by(() => {
     return state?.find(x => x.state_key === sender)
 })
 
-const avatar = $derived.by(() => {
-    if(user?.content?.avatar_url) {
-        return thumbnailURL(user.content.avatar_url, 32, 32, 'crop')
-    }
+const avatar_exists = $derived.by(() => {
+    return user?.content?.avatar_url ? true : false
 })
 
 const displayname = $derived.by(() => {
@@ -75,17 +73,12 @@ async function getAvatar() {
 </script>
 
 {#snippet content()}
-    {#if !authenticated && avatar_url}
+    {#if avatar_exists && avatar_url}
         <img src={avatar_url} 
             width={d} height={d}
             alt={displayname} class="" loading="lazy" />
     {/if}
-    {#if avatar && authenticated}
-        <img src={avatar} 
-            width={d} height={d}
-            alt={displayname} class="" loading="lazy" />
-    {/if}
-    {#if !avatar}
+    {#if !avatar_exists}
         <img src={UserLogo} 
             width={d} height={d}
             alt={displayname} class="" loading="lazy" />
@@ -93,14 +86,14 @@ async function getAvatar() {
 {/snippet}
 
 {#if inline}
-    <div class="inline-block rounded-[50%] align-text-bottom" 
-        class:bg-avatar={!avatar}
+    <div class="inline-block rounded-[50%] align-text-bottom bg-shade-5" 
+        class:bg-avatar={!avatar_exists}
         class:small={small}>
         {@render content()}
     </div>
 {:else}
-<div class="avatar grid place-items-center cursor-pointer"
-    class:bg-avatar={!avatar}
+<div class="avatar grid place-items-center cursor-pointer bg-shade-5"
+    class:bg-avatar={!avatar_exists}
     class:small={small} >
         {@render content()}
 </div>
