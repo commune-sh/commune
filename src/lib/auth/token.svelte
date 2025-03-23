@@ -14,29 +14,36 @@ let failed = $state(false);
 
 const login_token = $derived(page.url.searchParams.get('loginToken'))
 
-async function validateToken() {
+const callback_state = $derived(page.url.searchParams.get('state'))
+const callback_code = $derived(page.url.searchParams.get('code'))
+
+async function validateCompatToken() {
+
+    console.log("validating token", login_token)
 
     try {
-        console.log("ok")
         let resp = await store.matrix.client.login("m.login.token", {
             initial_device_display_name: PUBLIC_APP_NAME,
             token: login_token,
             type: "m.login.token",
         })
+        console.log("what")
         console.log(resp)
 
         if(resp?.access_token && resp?.user_id && resp?.device_id) {
             console.log(resp)
+
             store.auth.saveSession({
                 access_token: resp.access_token,
                 user_id: resp.user_id,
                 device_id: resp.device_id,
                 home_server: resp.home_server,
             })
-            goto('/')
+            //goto('/')
         }
 
     } catch (error) {
+        console.log(error)
         if(error?.errcode == "M_FORBIDDEN") {
             failed = true
             busy = false
@@ -47,8 +54,11 @@ async function validateToken() {
 }
 
 onMount(() => {
+    if(callback_code && callback_state) {
+        console.log("callback", callback_code, callback_state)
+    }
     if(login_token) {
-        validateToken()
+        validateCompatToken()
     }
 })
 

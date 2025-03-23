@@ -24,3 +24,9 @@ export async function generatePKCEParams() {
         code_challenge
     };
 }
+
+export async function generateDeviceId() {
+    return Array.from(crypto.getRandomValues(new Uint8Array(8)))
+        .map(b => String.fromCharCode(65 + b % 26))
+        .join('');
+}

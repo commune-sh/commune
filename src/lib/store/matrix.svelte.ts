@@ -1,5 +1,6 @@
 import { SvelteMap } from 'svelte/reactivity';
 import * as sdk from 'matrix-js-sdk/src/index';
+import { MatrixClient } from 'matrix-js-sdk/src/client';
 
 import { page as _page } from '$app/state';
 
@@ -64,7 +65,7 @@ let registration_disabled = $state(false);
 
 let homeserver = $derived(app.homeserver)
 
-let client = $state(null);
+let client: MatrixClient | null = $state(null);
 
 let synced = $state(false)
 
@@ -83,11 +84,9 @@ let events = $state({})
 let thread_events = $state({})
 
 if(browser) {
-  /*
   client =  sdk.createClient({
     baseUrl: homeserver,
   });
-  */
 }
 
 let page = $derived.by(() => {

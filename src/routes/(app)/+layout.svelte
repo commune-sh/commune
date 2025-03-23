@@ -23,6 +23,7 @@ import {
 } from '$lib/utils/matrix'
 
 import { 
+    generateDeviceId,
     generatePKCEParams
 } from '$lib/utils/oidc'
 
@@ -59,6 +60,7 @@ const room_id = $derived(store.matrix.active_room?.room_id)
 const context_event = $derived.by(() => {
     return page.url.searchParams.get('event')
 })
+
 
 $effect.pre(() => {
     if(page) {
@@ -175,7 +177,10 @@ onMount(async() => {
 
 async function pkce() {
     generatePKCEParams().then(params => {
-        console.log(params);
+        console.log("PKCE", params);
+    });
+    generateDeviceId().then(device_id => {
+        console.log("Device id", device_id);
     });
 }
 
@@ -291,7 +296,6 @@ let author = $derived.by(() => {
         <meta property="og:author" content={author}>
     {/if}
 </svelte:head>
-
 
 <Listeners />
 
