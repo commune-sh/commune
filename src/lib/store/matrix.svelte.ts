@@ -1,6 +1,16 @@
 import { SvelteMap } from 'svelte/reactivity';
 import * as sdk from 'matrix-js-sdk/src/index';
 
+import { page as _page } from '$app/state';
+
+$effect.root(() => {
+    $effect(() => {
+        if(_page) {
+            console.log("page is ", _page)
+        }
+    })
+})
+
 import { 
   PUBLIC_APP_NAME, 
   PUBLIC_HOMESERVER,
@@ -36,7 +46,7 @@ import {
   getRoomState,
   getRoomMessages,
   getEventContext,
-} from '$lib/appservice/requests'
+} from '$lib/appservice/requests.svelte'
 
 import { createAppStore } from './app.svelte';
 const app = createAppStore();
@@ -80,7 +90,11 @@ if(browser) {
   */
 }
 
-let page = $state(null);
+let page = $derived.by(() => {
+    if(browser && _page) {
+        return _page
+    }
+})
 
 const active_room = $derived.by(() => {
   if(!page?.params?.room && page?.url?.hash == null) return
@@ -418,7 +432,7 @@ export function createMatrixStore() {
   }
 
   async function fetchPublicRooms() {
-    const resp = await getPublicRooms(app.appservice)
+    const resp = await getPublicRooms()
     if(resp?.rooms) {
 
       resp.rooms.forEach(room => {
@@ -462,7 +476,7 @@ export function createMatrixStore() {
     if(state) {
       return
     }
-    const resp = await getRoomState(app.appservice, room_id)
+    const resp = await getRoomState(room_id)
     if(resp) {
       room_state[room_id] = resp
       console.log("Stored room state for:", room_id)
@@ -631,7 +645,7 @@ export function createMatrixStore() {
 
 
   function updatePage(p) {
-    page = p
+    //page = p
     //console.log("Updating page:", p)
   }
 

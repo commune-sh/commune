@@ -5,7 +5,7 @@ import {
 
 import { 
     getAvatarThumbnail,
-} from '$lib/appservice/requests'
+} from '$lib/appservice/requests.svelte'
 
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
@@ -31,7 +31,7 @@ const reaction = $derived.by(() => {
 let reaction_url: string | null = $state(null);
 async function getReaction() {
     if(!is_custom) return
-    let content_uri = await getAvatarThumbnail(store.app.appservice, key)
+    let content_uri = await getAvatarThumbnail(key)
     if(content_uri) {
         reaction_url = content_uri
     }

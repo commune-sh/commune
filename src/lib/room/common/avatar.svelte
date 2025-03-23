@@ -8,7 +8,7 @@ import {
 
 import { 
     getAvatarThumbnail,
-} from '$lib/appservice/requests'
+} from '$lib/appservice/requests.svelte'
 
 
 import { aliasFromSender } from '$lib/utils/matrix';
@@ -60,7 +60,12 @@ $effect(() => {
 let avatar_url = $state(null);
 async function getAvatar() {
     if(!user?.content?.avatar_url) return
-    let content_uri = await getAvatarThumbnail(store.app.appservice, user.content.avatar_url)
+    let content_uri = await getAvatarThumbnail({
+        mxcid: user.content.avatar_url,
+        width: 32,
+        height: 32,
+        method: 'crop'
+    })
     if(content_uri) {
         avatar_url = content_uri
     }

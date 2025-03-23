@@ -62,7 +62,7 @@ const context_event = $derived.by(() => {
 
 $effect.pre(() => {
     if(page) {
-        store.matrix.updatePage(page)
+        //store.matrix.updatePage(page)
     }
 })
 

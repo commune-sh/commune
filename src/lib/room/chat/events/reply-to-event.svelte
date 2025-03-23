@@ -1,6 +1,6 @@
 <script>
 import { onMount } from 'svelte'
-import { getEvent } from '$lib/appservice/requests'
+import { getEvent } from '$lib/appservice/requests.svelte'
 import { getFirstLine } from '$lib/utils/string'
 
 import Avatar from '$lib/room/common/avatar.svelte'

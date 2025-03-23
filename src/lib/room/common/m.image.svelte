@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 //import { decode } from "blurhash";
 import ExpandImage from '$lib/room/common/expand-image.svelte'
 
@@ -10,7 +10,7 @@ import {
 import { 
     getImageThumbnail,
     downloadMedia
-} from '$lib/appservice/requests'
+} from '$lib/appservice/requests.svelte'
 
 
 import { createStore } from '$lib/store/store.svelte'
@@ -102,7 +102,7 @@ let image = $derived.by(() => {
     return thumbnailURL(url, tw, th, 'scale')
 })
 
-let image_url = $state(null);
+let image_url: string | null = $state(null);
 
 $effect(() => {
     if(store.app.appservice && !authenticated && !image_url) {
@@ -122,17 +122,24 @@ async function getImage() {
         w = 640
         h = 480
     }
-    let content_uri = await getImageThumbnail(store.app.appservice, event.content.url, w, h, 'scale')
+
+    let content_uri = await getImageThumbnail({
+        mxcid: event.content.url,
+        width: w,
+        height: h,
+        method: 'scale'
+    })
+    //let content_uri = await getImageThumbnail(event.content.url, w, h, 'scale')
     if(content_uri) {
         image_url = content_uri
     }
 }
 
-let full_src = $state(null);
+let full_src: string | null = $state(null);
 
 async function download() {
     if(!event?.content?.url) return
-    let content_uri = await downloadMedia(store.app.appservice, event.content.url)
+    let content_uri = await downloadMedia(event.content.url)
     if(content_uri) {
         full_src = content_uri
     }

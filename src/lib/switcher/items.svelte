@@ -10,8 +10,6 @@ import MoreRooms from '$lib/switcher/more-rooms.svelte'
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
-import { getPublicRooms } from '$lib/appservice/requests'
-
 const homeserver_reachable = $derived(store.app.homeserver_reachable)
 const appservice_reachable = $derived(store.app.appservice_reachable)
 

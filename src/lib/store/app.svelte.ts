@@ -9,7 +9,10 @@ import { getCookie, createCookie } from '$lib/utils/cookie'
 
 let homeserver = $state(PUBLIC_HOMESERVER);
 let homeserver_name = $state(PUBLIC_HOMESERVER_NAME);
-let appservice = $state(null);
+
+
+let appservice: string | null = $state(null);
+
 let allow_other_homeservers = $state(PUBLIC_ALLOW_OTHER_HOMESERVERS);
 
 let native_mode = $state(false);
@@ -24,12 +27,17 @@ let app = $state({
   space: null,
 });
 
-let theme = $state(null);
+let theme: string | null = $state(null);
+
 if(browser) {
   let stored = getCookie("theme");
   if(stored) {
     theme = stored;
   }
+}
+
+if(browser) {
+    console.log("tesssst")
 }
 
 
