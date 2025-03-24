@@ -1,4 +1,4 @@
-import { PUBLIC_HOMESERVER, PUBLIC_APP_NAME, PUBLIC_HOMESERVER_BASE_URL } from '$env/static/public';
+import { PUBLIC_HOMESERVER, PUBLIC_BASE_URL, PUBLIC_APP_NAME, PUBLIC_HOMESERVER_BASE_URL } from '$env/static/public';
 import { fetchWithTimeout, fetchWithRetry } from '$lib/utils/fetch';
 
 import type { ValidatedAuthMetadata } from 'matrix-js-sdk/src/oidc/validate'
@@ -237,6 +237,47 @@ export const openidConfig = async (issuer) => {
         throw error
     }
 }
+
+export const registerOauthClient = async (registration_endpoint: string) => {
+
+    if(!registration_endpoint) {
+        throw new Error('Missing token endpoint')
+    }
+
+    let body = {
+        application_type: "web",
+        client_name: "Commune",
+        client_uri: `${PUBLIC_BASE_URL}`,
+        token_endpoint_auth_method: "none",
+        redirect_uris: [
+            `${PUBLIC_BASE_URL}/oidc/callback`
+        ],
+        response_types: [
+            "code"
+        ],
+        grant_types: [
+            "authorization_code",
+            "refresh_token"
+        ]
+    }
+
+    const options: RequestInit = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body)
+    }
+
+    try {
+        const response = await fetch(registration_endpoint, options)
+        return response.json();
+    } catch (error) {
+        throw error
+    }
+}
+
+
 
 export const getAuthMetadata = async (): Promise<ValidatedAuthMetadata | undefined> => {
 
