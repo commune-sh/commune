@@ -1,6 +1,8 @@
 import { PUBLIC_HOMESERVER, PUBLIC_APP_NAME, PUBLIC_HOMESERVER_BASE_URL } from '$env/static/public';
 import { fetchWithTimeout, fetchWithRetry } from '$lib/utils/fetch';
 
+import type { ValidatedAuthMetadata } from 'matrix-js-sdk/src/oidc/validate'
+
 export const MATRIX_BASE_URL = `${PUBLIC_HOMESERVER}/_matrix/client/v3`
 
 export const wellKnownClient = async () => {
@@ -236,8 +238,10 @@ export const openidConfig = async (issuer) => {
     }
 }
 
-export const getAuthMetadata = async () => {
+export const getAuthMetadata = async (): Promise<ValidatedAuthMetadata | undefined> => {
+
     const url = `${PUBLIC_HOMESERVER_BASE_URL}/_matrix/client/unstable/org.matrix.msc2965/auth_metadata`;
+
     const options: RequestInit = {
         headers: {
             'Content-Type': 'application/json',

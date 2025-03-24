@@ -219,8 +219,6 @@ interface MediaThumbnailOpts {
 
 export const getImageThumbnail = async (opts: MediaThumbnailOpts): Promise<string | undefined> => {
 
-    console.log("getting image thumb", opts.mxcid)
-
     if(!appservice_url) return
 
     const stripped = opts.mxcid.replace('mxc://', '');
