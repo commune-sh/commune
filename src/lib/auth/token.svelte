@@ -66,7 +66,7 @@ async function validateCompatToken() {
                 home_server: resp.home_server,
             })
             */
-            //goto('/')
+            goto('/')
         }
 
     } catch (error) {
@@ -88,12 +88,26 @@ async function getAccessToken() {
     params.append('grant_type', 'authorization_code');
     params.append('code', callback_code);
     params.append('redirect_uri', "http://localhost:5173/oidc/callback");
-    params.append('client_id', "01JQ1J636V339EREAH8MF2N9PQ");
-    params.append('code_verifier', "test");
+    params.append('client_id', data.oidc_client_id);
+    params.append('code_verifier', data.oidc_code_verifier);
 
     try {
         let resp = await exchangeForToken(token_endpoint, params)
         console.log(resp)
+        if(resp?.access_token && resp?.refresh_token) {
+            const res = await fetch('/api/auth/token', {
+                method: 'POST',
+                body: JSON.stringify({
+                    access_token: resp.access_token,
+                    refresh_token: resp.refresh_token,
+                    expires_in: resp.expires_in,
+                }),
+            });
+
+            const json = await res.json();
+            console.log("Tokens stored?", json)
+            goto('/')
+        }
     } catch (error) {
     }
 

@@ -5,7 +5,7 @@ export async function POST({ request, cookies }) {
         httpOnly: true,
         maxAge: 60 * 60 * 24 * 365,
         secure: true,
-        sameSite: 'strict',
+        sameSite: 'Lax',
         path: '/'
     });
 
@@ -13,7 +13,7 @@ export async function POST({ request, cookies }) {
         httpOnly: true,
         maxAge: 60 * 60 * 24 * 365,
         secure: true,
-        sameSite: 'strict',
+        sameSite: 'Lax',
         path: '/'
     });
 
