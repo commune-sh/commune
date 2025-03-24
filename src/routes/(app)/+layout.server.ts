@@ -9,15 +9,16 @@ import type { LayoutServerLoad } from './$types';
 export const load: LayoutServerLoad = async ({ fetch, params, url, cookies, request } ) => {
     const access_token = cookies.get('mx_access_token');
     const client_id = cookies.get('client_id');
+    const oidc_client_id = cookies.get('oidc_client_id');
 
     let data = {
         access_token_exists: !!access_token,
         native_mode: false,
-        oidc: {
-            enabled: false,
-            issuer: null
-        },
     };
+
+    if(oidc_client_id) {
+        data.oidc_client_id = oidc_client_id
+    }
 
     if(!access_token && !client_id && params.space != undefined ) {
 
@@ -26,13 +27,6 @@ export const load: LayoutServerLoad = async ({ fetch, params, url, cookies, requ
             const response = await fetch(curl)
             const resp =  await response.json()
 
-            if(resp?.["org.matrix.msc2965.authentication"]?.issuer) {
-                console.log(resp["org.matrix.msc2965.authentication"].issuer)
-                data.oidc = {
-                    enabled: true,
-                    issuer: resp["org.matrix.msc2965.authentication"].issuer
-                }
-            }
 
             if(resp?.["commune.appservice"]?.url) {
 

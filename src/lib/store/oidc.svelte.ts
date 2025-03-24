@@ -17,6 +17,7 @@ export let config: {
 let metadata = $derived(config?.metadata)
 
 let registration_endpoint = $derived(metadata?.registration_endpoint)
+let authorization_endpoint = $derived(metadata?.authorization_endpoint)
 
 if(browser && !config.metadata) {
     fetchAuthMetadata()
@@ -62,7 +63,7 @@ async function fetchAuthMetadata() {
 }
 
 async function newClient() {
-    if(!registration_endpoint) return
+    if(!registration_endpoint && !authorization_endpoint) return
     try {
         const response = await registerOauthClient(registration_endpoint)
         console.log(response)
@@ -73,6 +74,7 @@ async function newClient() {
                 method: 'POST',
                 body: JSON.stringify({
                     client_id: response.client_id,
+                    authorization_endpoint: authorization_endpoint
                 }),
             });
 
