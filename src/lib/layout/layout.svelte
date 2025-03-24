@@ -65,7 +65,7 @@ let show_view = $derived(is_space || is_space_child_room || non_space_room)
 let root;
 
 $effect(() => {
-    console.log(page)
+    //console.log(page)
 })
 
 const menu_active = $derived(store.ui.menu_active)

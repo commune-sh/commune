@@ -7,7 +7,6 @@ import { page as _page } from '$app/state';
 $effect.root(() => {
     $effect(() => {
         if(_page) {
-            console.log("page is ", _page)
         }
     })
 })
@@ -242,7 +241,6 @@ export function createMatrixStore() {
             }
         }
 
-    */
 
         try {
             let response = await login()
@@ -270,6 +268,7 @@ export function createMatrixStore() {
             }
             console.log("Registration flows:", register_flows)
         }
+    */
 
     }
 
