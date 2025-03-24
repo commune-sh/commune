@@ -12,9 +12,7 @@ export const load: PageServerLoad = async ({ cookies }) => {
 
     const authorization_endpoint = cookies.get('oidc_authorization_endpoint');
 
-    let device_id = await generateDeviceId();
-
-    let scope = `urn:matrix:client:api:* urn:matrix:client:device:${device_id}`;
+    let scope = `urn:matrix:org.matrix.msc2967.client:api:*`;
 
     let pkce = await generatePKCEParams();
 
