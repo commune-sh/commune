@@ -20,7 +20,6 @@ export const load: PageServerLoad = async ({ cookies }) => {
         httpOnly: true,
         maxAge: 60 * 60 * 24 * 365,
         secure: true,
-        sameSite: 'strict',
         path: '/'
     });
 

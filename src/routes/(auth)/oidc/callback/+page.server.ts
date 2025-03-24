@@ -3,7 +3,12 @@ import { PUBLIC_HOMESERVER } from '$env/static/public';
 
 import type { LayoutServerLoad } from './$types';
 
-export const load: LayoutServerLoad = async ({ url, fetch }) => {
+export const load: LayoutServerLoad = async ({ url, fetch, cookies }) => {
+
+    let oidc_client_id = cookies.get('oidc_client_id');
+    let oidc_code_verifier = cookies.get('oidc_code_verifier');
+
+    console.log('oidc_client_id', oidc_client_id)
 
     let auth_metadata;
 
@@ -23,12 +28,15 @@ export const load: LayoutServerLoad = async ({ url, fetch }) => {
     let loginToken = url.searchParams.get('loginToken')
     let state = url.searchParams.get('state')
     let code = url.searchParams.get('code')
+
     if(!loginToken && !state && !code) {
         redirect(302, '/login');
     }
 
     return {
         auth_metadata,
+        oidc_client_id,
+        oidc_code_verifier,
         loginToken,
         state,
         code
