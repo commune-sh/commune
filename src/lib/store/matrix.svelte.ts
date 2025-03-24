@@ -226,7 +226,6 @@ export function createMatrixStore() {
       }
       console.log("Registration flows:", register_flows)
     }
-    */
         //
         //
         // check if OIDC issuer is set
@@ -243,6 +242,7 @@ export function createMatrixStore() {
             }
         }
 
+    */
 
         try {
             let response = await login()

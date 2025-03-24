@@ -22,11 +22,6 @@ import {
     processHash
 } from '$lib/utils/matrix'
 
-import { 
-    generateDeviceId,
-    generatePKCEParams
-} from '$lib/utils/oidc'
-
 import Listeners from '$lib/listeners/listeners.svelte'
 
 import Layout from '$lib/layout/layout.svelte'
@@ -172,17 +167,8 @@ onMount(async() => {
     if(!data?.native_mode) {
     }
 
-    pkce()
 })
 
-async function pkce() {
-    generatePKCEParams().then(params => {
-        console.log("PKCE", params);
-    });
-    generateDeviceId().then(device_id => {
-        console.log("Device id", device_id);
-    });
-}
 
 async function prepareSpace() {
     //store.matrix.addSpace(data.space)

@@ -4,12 +4,14 @@ import type { ValidatedAuthMetadata } from 'matrix-js-sdk/src/oidc/validate'
 
 import { getAuthMetadata, registerOauthClient } from '$lib/matrix/requests'
 
+import { generateDeviceId, generatePKCEParams } from '$lib/utils/oidc'
+
 export let config: {
     metadata: ValidatedAuthMetadata | null;
-    client: null
+    client_id: string | null;
 } = $state({
     metadata: null,
-    client: null
+    client_id: null
 })
 
 let metadata = $derived(config?.metadata)
@@ -26,10 +28,10 @@ $effect.root(() => {
     $effect(() => {
         if(browser && registration_endpoint && !checked) {
             checked = true
-            let saved = localStorage.getItem('oidc-client')
+            let saved = localStorage.getItem('oidc_client_id')
             if(saved) {
-                console.log("Found saved OIDC client.")
-                config.client = JSON.parse(saved)
+                console.log("Found saved OIDC client ID.")
+                config.client_id = JSON.parse(saved)
             } else {
                 console.log("No saved OIDC client found. Creating new client.")
                 newClient()
@@ -37,6 +39,15 @@ $effect.root(() => {
         }
     })
 })
+
+async function pkce() {
+    generatePKCEParams().then(params => {
+        console.log("PKCE", params);
+    });
+    generateDeviceId().then(device_id => {
+        console.log("Device id", device_id);
+    });
+}
 
 async function fetchAuthMetadata() {
     try {
@@ -55,9 +66,18 @@ async function newClient() {
     try {
         const response = await registerOauthClient(registration_endpoint)
         console.log(response)
-        if(response) {
-            config.client = response
-            localStorage.setItem('oidc-client', JSON.stringify(response))
+        if(response?.client_id) {
+            config.client_id = response.client_id
+            localStorage.setItem('oidc_client_id', JSON.stringify(response.client_id))
+            const res = await fetch('/api/auth/oidc', {
+                method: 'POST',
+                body: JSON.stringify({
+                    client_id: response.client_id,
+                }),
+            });
+
+            const json = await res.json();
+            console.log("Cookie store response:", json)
         }
     } catch (error) {
         console.error(error)

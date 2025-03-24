@@ -248,6 +248,7 @@ export const registerOauthClient = async (registration_endpoint: string) => {
         application_type: "web",
         client_name: "Commune",
         client_uri: `${PUBLIC_BASE_URL}`,
+        logo_uri: "https://static.commune.sh/logo.png",
         token_endpoint_auth_method: "none",
         redirect_uris: [
             `${PUBLIC_BASE_URL}/oidc/callback`
