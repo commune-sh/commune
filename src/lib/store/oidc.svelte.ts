@@ -19,14 +19,17 @@ let metadata = $derived(config?.metadata)
 let registration_endpoint = $derived(metadata?.registration_endpoint)
 let authorization_endpoint = $derived(metadata?.authorization_endpoint)
 
+/*
 if(browser && !config.metadata) {
     fetchAuthMetadata()
 }
+*/
 
 let checked = $state(false);
 
 $effect.root(() => {
     $effect(() => {
+        /*
         if(browser && registration_endpoint && !checked) {
             checked = true
             let saved = localStorage.getItem('oidc_client_id')
@@ -38,6 +41,7 @@ $effect.root(() => {
                 newClient()
             }
         }
+        */
     })
 })
 
@@ -69,7 +73,6 @@ async function newClient() {
         console.log(response)
         if(response?.client_id) {
             config.client_id = response.client_id
-            localStorage.setItem('oidc_client_id', JSON.stringify(response.client_id))
             const res = await fetch('/api/auth/oidc', {
                 method: 'POST',
                 body: JSON.stringify({
@@ -89,6 +92,11 @@ async function newClient() {
 
 export function createOIDCStore() {
 
+    async function init() {
+        await  fetchAuthMetadata()
+        await newClient()
+    }
+
     return {
         get config() {
             return config;
@@ -97,6 +105,8 @@ export function createOIDCStore() {
         get metadata() {
             return metadata;
         },
+
+        init,
 
     }
 }

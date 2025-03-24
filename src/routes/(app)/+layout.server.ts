@@ -3,18 +3,30 @@ import {
 } from '$env/static/public';
 
 import { redirect } from "@sveltejs/kit";
+import type { Data } from '$lib/commune/types'
 
 import type { LayoutServerLoad } from './$types';
 
 export const load: LayoutServerLoad = async ({ fetch, params, url, cookies, request } ) => {
-    const access_token = cookies.get('mx_access_token');
+    const access_token = cookies.get('access_token');
+    const user_id = cookies.get('user_id');
+    const device_id = cookies.get('device_id');
+
     const client_id = cookies.get('client_id');
     const oidc_client_id = cookies.get('oidc_client_id');
 
-    let data = {
-        access_token_exists: !!access_token,
+    let data: Data = {
+        access_token_exists: false,
         native_mode: false,
     };
+
+    if(access_token && user_id && device_id) {
+        data.session = {
+            access_token,
+            user_id,
+            device_id,
+        }
+    }
 
     if(oidc_client_id) {
         data.oidc_client_id = oidc_client_id
