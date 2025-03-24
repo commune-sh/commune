@@ -8,9 +8,11 @@ import {
     PUBLIC_META_DESCRIPTION,
 } from '$env/static/public';
 
+import type { Data } from '$lib/commune/types'
+
 import { page } from '$app/state';
 
-import { onMount } from 'svelte'
+import { onMount, type Snippet } from 'svelte'
 import { browser } from '$app/environment';
 
 import { wellKnownClient, getVersions } from '$lib/matrix/requests'
@@ -42,8 +44,10 @@ const credentials = $derived(store.auth.credentials)
 
 let authReady = $derived(store.auth.ready)
 
-// data from server fetch
-let { data, children } = $props();
+let { data, children }: {
+    data: Data;
+    children: Snippet;
+} = $props();
 
 // derive native mode from app store
 let native_mode = $derived(store.app.native_mode)
@@ -87,6 +91,10 @@ const room_param = $derived.by(() => {
 
 
 $effect(() => {
+    if(browser && !data.oidc_client_id) {
+        store.oidc.init()
+    }
+
     if(browser && !authReady) {
         store.auth.setup({
             authenticated: data?.authenticated,
@@ -135,13 +143,6 @@ async function setup() {
         } else {
             store.app.isNativeMode();
         }
-
-        if(resp?.["org.matrix.msc2965.authentication"]?.issuer) {
-            let issuer = resp["org.matrix.msc2965.authentication"].issuer
-            console.log("Found OIDC issuer", issuer)
-            store.matrix.updateOIDCIssuer(issuer)
-        }
-
 
     } catch(_) {
     }
