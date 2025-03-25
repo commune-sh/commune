@@ -31,8 +31,10 @@ function sso_login() {
             Matrix spaces, accessible from the open web
         </div>
 
-        <div class="pt-16">
-            <button onclick={sso_login} class="">Build your commune</button>
+        <div class="flex gap-4 pt-16">
+            <a href="/register">
+                <button class="">Get started</button>
+            </a>
         </div>
 
     </div>
