@@ -37,7 +37,6 @@ if(browser) {
 }
 
 if(browser) {
-    console.log("tesssst")
 }
 
 

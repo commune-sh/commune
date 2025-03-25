@@ -124,7 +124,7 @@ $effect(() => {
 
 $effect.pre(() =>{
     if(data) {
-        console.log($state.snapshot(data))
+        //console.log($state.snapshot(data))
     }
     if(data?.space && store.app.appservice_reachable) {
         prepareSpace()

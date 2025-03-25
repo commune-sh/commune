@@ -4,7 +4,9 @@ import type { PageServerLoad } from './$types';
 import { redirect } from "@sveltejs/kit";
 import { generateDeviceId, generatePKCEParams } from '$lib/utils/oidc'
 
-export const load: PageServerLoad = async ({ cookies }) => {
+export const load: PageServerLoad = async ({ cookies, parent }) => {
+
+    await parent();
 
     let redirect_url = `${PUBLIC_BASE_URL}/oidc/callback`;
 

@@ -59,7 +59,7 @@ async function newClient() {
 export function createOIDCStore() {
 
     async function init() {
-        await  fetchAuthMetadata()
+        await fetchAuthMetadata()
         await newClient()
     }
 
