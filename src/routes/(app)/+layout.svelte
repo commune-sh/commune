@@ -92,7 +92,7 @@ const room_param = $derived.by(() => {
 
 $effect(() => {
     if(browser && !data.oidc_client_id) {
-        store.oidc.init()
+        //store.oidc.init()
     }
 
     if(browser && !authReady) {
