@@ -62,20 +62,20 @@ $effect(() => {
 }
 
 .title {
-    background: var(--shade-2);
+    background: var(--cmn-2);
     border-radius: 500px;
     height: 10px;
 }
 
 .body {
-    background: var(--shade-2);
+    background: var(--cmn-2);
     border-radius: 500px;
     height: 10px;
     width: 100%;
 }
 
 .img {
-    background: var(--shade-2);
+    background: var(--cmn-2);
     border-radius: 50%;
     height: 30px;
     width: 30px;

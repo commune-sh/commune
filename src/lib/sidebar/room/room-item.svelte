@@ -208,17 +208,17 @@ function openMenu(e) {
 <style>
 .active {
     color: var(--text);
-    background: var(--shade-2);
+    background: var(--cmn-2);
 }
 
 .room-item {
     border-radius: 4px;
 }
 .room-item:hover {
-    background: var(--shade-2);
+    background: var(--cmn-2);
 }
 .active:hover {
-    background: var(--shade-3);
+    background: var(--cmn-3);
 }
 
 .room-name {

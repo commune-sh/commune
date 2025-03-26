@@ -22,6 +22,6 @@ function toggle() {
 
 <style>
 .active {
-    background: var(--shade-1);
+    background: var(--cmn-1);
 }
 </style>

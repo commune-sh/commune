@@ -40,9 +40,9 @@ const options = $derived.by(() => {
     <div bind:this={el} 
     onclick={goToRooms}
     use:tooltip={options}
-        class:bg-shade-7={active}
+        class:bg-cmn-7={active}
         class="item grid place-items-center cursor-pointer 
-        bg-shade-4 hover:bg-shade-7 rounded-[50%]
+        bg-cmn-4 hover:bg-cmn-7 rounded-[50%]
         w-[46px] h-[46px]" >
         <div class="more w-[1.6rem]">
             {@html ellipsis}

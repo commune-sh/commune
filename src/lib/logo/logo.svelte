@@ -34,8 +34,8 @@ let options = {
         class:animate-pulse={loading}
         class:cursor-pointer={!is_static}
         use:tooltip={options}
-        class="logo relative bg-shade-7 justify-center w-[46px] h-[46px] p-[4px]
-        rounded-[50%] hover:rounded-[14px] hover:bg-shade-7">
+        class="logo relative bg-cmn-7 justify-center w-[46px] h-[46px] p-[4px]
+        rounded-[50%] hover:rounded-[14px] hover:bg-cmn-7">
         {@html logo}
     </div>
 </div>
@@ -64,7 +64,7 @@ let options = {
     padding: 8px;
     border-radius: 12px;
     cursor: default;
-    background: var(--shade-1);
+    background: var(--cmn-1);
 }
 
 </style>

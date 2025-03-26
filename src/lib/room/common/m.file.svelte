@@ -35,7 +35,7 @@ const title = $derived.by(() => {
 })
 </script>
 
-<div class="file bg-shade-3 p-2 rounded-[8px] text-xs 
+<div class="file bg-cmn-3 p-2 rounded-[8px] text-xs 
     grid grid-cols-[auto_1fr_auto] items-center" title={title}>
     <div class="icon w-[18px] h-[18px] mr-2">
         {@html paperclip}

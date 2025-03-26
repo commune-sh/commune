@@ -50,10 +50,10 @@ onclick={toggleThread}>
     display: inline-block;
     border-radius: 4px;
     cursor: pointer;
-    background: var(--shade-3);
+    background: var(--cmn-3);
 }
 .thread-summary:hover {
-    background: var(--shade-4);
+    background: var(--cmn-4);
 }
 
 .icon {
