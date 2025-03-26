@@ -6,6 +6,7 @@ import {
     PUBLIC_META_TITLE,
     PUBLIC_META_IMAGE,
     PUBLIC_META_DESCRIPTION,
+    PUBLIC_APPSERVICE
 } from '$env/static/public';
 
 import type { Data } from '$lib/commune/types'
@@ -91,8 +92,8 @@ const room_param = $derived.by(() => {
 
 
 $effect(() => {
-    if(browser && !data.oidc_client_id) {
-        //store.oidc.init()
+    if(browser) {
+        store.oidc.init()
     }
 
     if(browser && !authReady) {
@@ -125,6 +126,8 @@ $effect(() => {
 $effect.pre(() =>{
     if(data?.session) {
         console.log("Session exists", $state.snapshot(data.session))
+        let expires_in = (data.session?.expires_in - Date.now()) / 1000
+        console.log(`Session expires in ${expires_in} seconds`)
     }
     if(data?.space && store.app.appservice_reachable) {
         prepareSpace()
@@ -132,6 +135,12 @@ $effect.pre(() =>{
 })
 
 async function setup() {
+
+    if(PUBLIC_APPSERVICE) {
+        store.app.updateAppservice(PUBLIC_APPSERVICE)
+        store.app.updateAppserviceStatus(true)
+        return
+    }
 
     try {
         const resp = await wellKnownClient();

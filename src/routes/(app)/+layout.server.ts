@@ -9,6 +9,8 @@ import type { LayoutServerLoad } from './$types';
 
 export const load: LayoutServerLoad = async ({ fetch, params, url, cookies, request } ) => {
     const access_token = cookies.get('access_token');
+    const refresh_token = cookies.get('refresh_token');
+    const expires_in = cookies.get('expires_in');
     const user_id = cookies.get('user_id');
     const device_id = cookies.get('device_id');
 
@@ -20,9 +22,11 @@ export const load: LayoutServerLoad = async ({ fetch, params, url, cookies, requ
         native_mode: false,
     };
 
-    if(access_token && user_id && device_id) {
+    if(access_token && refresh_token && expires_in && user_id && device_id) {
         data.session = {
             access_token,
+            refresh_token,
+            expires_in: parseInt(expires_in),
             user_id,
             device_id,
         }
