@@ -92,10 +92,6 @@ const room_param = $derived.by(() => {
 
 
 $effect(() => {
-    if(browser) {
-        store.oidc.init()
-    }
-
     if(browser && !authReady) {
         store.auth.setup({
             authenticated: data?.authenticated,
@@ -166,6 +162,7 @@ async function setup() {
 }
 
 onMount(async() => {
+    store.oidc.init()
     store.app.isReady()
     if(!data?.guest_access_token_exists) {
         //store.matrix.registerGuest()
