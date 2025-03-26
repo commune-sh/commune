@@ -12,7 +12,6 @@ $effect.root(() => {
 })
 
 import { 
-    PUBLIC_APP_NAME, 
     PUBLIC_HOMESERVER,
 } from '$env/static/public';
 
@@ -30,9 +29,6 @@ import {
 } from '$lib/utils/matrix';
 
 import { 
-    openidConfig,
-    login,
-    register,
     syncGuest,
 } from '$lib/matrix/requests';
 
@@ -56,7 +52,6 @@ import { createUIStore } from './ui.svelte';
 const ui = createUIStore();
 
 let oidc_issuer = $state(null);
-let oidc_config = $state(null);
 
 let login_flows = $state(null);
 let register_flows = $state(null);
