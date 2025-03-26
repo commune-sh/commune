@@ -26,7 +26,7 @@ export async function generatePKCEParams() {
 }
 
 export async function generateDeviceId() {
-    return Array.from(crypto.getRandomValues(new Uint8Array(8)))
+    return Array.from(crypto.getRandomValues(new Uint8Array(13)))
         .map(b => String.fromCharCode(65 + b % 26))
         .join('');
 }

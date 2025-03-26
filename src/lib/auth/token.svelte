@@ -1,7 +1,7 @@
 <script lang="ts">
 import { PUBLIC_APP_NAME } from '$env/static/public';
 import { page } from '$app/state';
-import { exchangeForToken } from '$lib/matrix/requests';
+import { exchangeForToken, whoami } from '$lib/matrix/requests';
 import { goto } from '$app/navigation';
 
 import { onMount } from 'svelte';
@@ -69,7 +69,7 @@ async function validateCompatToken() {
             goto('/')
         }
 
-    } catch (error) {
+    } catch (error: any) {
         console.log(error)
         if(error?.errcode == "M_FORBIDDEN") {
             failed = true
@@ -95,12 +95,17 @@ async function getAccessToken() {
         let resp = await exchangeForToken(token_endpoint, params)
         console.log(resp)
         if(resp?.access_token && resp?.refresh_token) {
+
+            let user = await whoami(resp.access_token) 
+
             const res = await fetch('/api/auth/token', {
                 method: 'POST',
                 body: JSON.stringify({
                     access_token: resp.access_token,
                     refresh_token: resp.refresh_token,
                     expires_in: resp.expires_in,
+                    user_id: user.user_id,
+                    device_id: user.device_id,
                 }),
             });
 
