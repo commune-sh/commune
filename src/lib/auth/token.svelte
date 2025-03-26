@@ -98,12 +98,14 @@ async function getAccessToken() {
 
             let user = await whoami(resp.access_token) 
 
+            let expires_in = Date.now() + (resp.expires_in * 1000)
+
             const res = await fetch('/api/auth/token', {
                 method: 'POST',
                 body: JSON.stringify({
                     access_token: resp.access_token,
                     refresh_token: resp.refresh_token,
-                    expires_in: resp.expires_in,
+                    expires_in: expires_in,
                     user_id: user.user_id,
                     device_id: user.device_id,
                 }),
