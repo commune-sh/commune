@@ -123,8 +123,8 @@ $effect(() => {
 })
 
 $effect.pre(() =>{
-    if(data) {
-        //console.log($state.snapshot(data))
+    if(data?.session) {
+        console.log("Session exists", $state.snapshot(data.session))
     }
     if(data?.space && store.app.appservice_reachable) {
         prepareSpace()
