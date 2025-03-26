@@ -60,7 +60,7 @@ function startAuth(provider) {
 
 {:else if providers?.length > 0}
 
-    <div class="sep mt-6 h-[1px] bg-shade-3 ">
+    <div class="sep mt-6 h-[1px] bg-cmn-3 ">
     </div>
 
     <div class="mt-3 flex flex-col justify-center">
@@ -95,7 +95,7 @@ function startAuth(provider) {
     fill: var(--icon);
 }
 .disabled:hover{
-    background: var(--shade-3);
+    background: var(--cmn-3);
 }
 .loading-flows {
     position: absolute;
@@ -105,7 +105,7 @@ function startAuth(provider) {
     width: 100%;
     height: 2px;
     background: linear-gradient(to right, transparent 0%, transparent 50%,
-        var(--shade-10) 50%, var(--shade-10) 100%);
+        var(--cmn-10) 50%, var(--cmn-10) 100%);
     background-size: 200% 100%;
     animation: loading 1.6s ease-in-out infinite;
     border-radius: 4px;

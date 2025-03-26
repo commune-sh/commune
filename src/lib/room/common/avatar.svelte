@@ -86,13 +86,13 @@ async function getAvatar() {
 {/snippet}
 
 {#if inline}
-    <div class="inline-block rounded-[50%] align-text-bottom bg-shade-5" 
+    <div class="inline-block rounded-[50%] align-text-bottom bg-cmn-5" 
         class:bg-avatar={!avatar_exists}
         class:small={small}>
         {@render content()}
     </div>
 {:else}
-<div class="avatar grid place-items-center cursor-pointer bg-shade-5"
+<div class="avatar grid place-items-center cursor-pointer bg-cmn-5"
     class:bg-avatar={!avatar_exists}
     class:small={small} >
         {@render content()}

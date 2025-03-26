@@ -161,7 +161,7 @@ const space_state = $derived.by(() => {
 }
 
 .rooms:hover::-webkit-scrollbar-thumb {
-    background: var(--shade-10);
+    background: var(--cmn-10);
 }
 </style>
 

@@ -46,7 +46,7 @@ $effect(() => {
 </script>
 
 <div class="reaction grid grid-cols-[auto_auto] px-1 place-items-center
-    cursor-pointer bg-shade-3 text-light mr-1 rounded-[4px]">
+    cursor-pointer bg-cmn-3 text-light mr-1 rounded-[4px]">
     <div class="emoji">
         {#if is_custom && reaction_url}
             <img src={reaction_url} width="16" height="16" alt={key} />

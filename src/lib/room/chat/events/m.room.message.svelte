@@ -140,14 +140,14 @@ const redacted = $derived.by(() => {
 }
 
 :global(.mx-link) {
-    background: var(--shade-2);
+    background: var(--cmn-2);
     border-radius: 3px;
     padding: 0 0.1rem;
     font-weight: 500;
 }
 
 :global(.mx-link:hover) {
-    background: var(--shade-5);
+    background: var(--cmn-5);
 }
 
 

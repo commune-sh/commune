@@ -20,7 +20,7 @@ let {
     bottom: 1.5rem;
     right: 1.5rem;
     padding: 0.75rem;
-    background: var(--shade-10);
+    background: var(--cmn-10);
     border-radius: 50%;
     cursor: pointer;
     z-index: 1000;

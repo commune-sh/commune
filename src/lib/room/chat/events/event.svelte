@@ -241,7 +241,7 @@ let flashed = $derived.by(() => {
     class="event-container grid relative
     p-[0.2rem] mr-1" 
     class:highligt={highlight || flashed}
-    class:bg-shade-1={menu_active}
+    class:bg-cmn-1={menu_active}
     class:mb-2={is_message && !nextEventTypeSame}
     class:mt-2={showSender}>
 
@@ -341,8 +341,8 @@ let flashed = $derived.by(() => {
 
 .spine::before {
     content: '';
-    border-left: 2px solid var(--shade-9);
-    border-top: 2px solid var(--shade-9);
+    border-left: 2px solid var(--cmn-9);
+    border-top: 2px solid var(--cmn-9);
     border-radius: 6px 0 0 0;
     position: absolute;
     box-sizing: border-box;
@@ -380,7 +380,7 @@ let flashed = $derived.by(() => {
 
 
 .highligt {
-    background-color: var(--shade-2);
+    background-color: var(--cmn-2);
     border-left: 1px solid var(--primary);
 }
 </style>

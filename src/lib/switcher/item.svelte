@@ -265,11 +265,11 @@ const options = $derived.by(() => {
     class="grid relative place-items-center mb-[10px]">
 
     <div class:dragging={dragging} 
-        class:bg-shade-7={active}
+        class:bg-cmn-7={active}
         class:active={active}
-        class="space bg-shade-4 w-[46px] h-[46px] grid
+        class="space bg-cmn-4 w-[46px] h-[46px] grid
         transition-transform duration-200
-        place-items-center cursor-pointer hover:bg-shade-7 rounded-[50%]" 
+        place-items-center cursor-pointer hover:bg-cmn-7 rounded-[50%]" 
         class:text-[14px]={initial?.length > 2}
         class:text-[12px]={initial?.length > 4}
         class:text-[10px]={initial?.length > 5}

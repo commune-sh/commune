@@ -76,7 +76,7 @@ function click() {
     padding: 0.3rem 0.1rem;
 }
 .action-item:hover {
-    background: var(--shade-1);
+    background: var(--cmn-1);
 }
 
 .ico {

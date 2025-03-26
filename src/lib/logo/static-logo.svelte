@@ -10,7 +10,7 @@ let active = $derived(page.url.pathname == '/')
 <div class="grid place-items-center">
     <div 
         class="active logo justify-center w-[46px] h-[46px] p-[8px] bg-logo
-        rounded-[50%] hover:rounded-[14px] hover:bg-shade-7">
+        rounded-[50%] hover:rounded-[14px] hover:bg-cmn-7">
         {@html logo}
     </div>
 </div>
@@ -36,7 +36,7 @@ let active = $derived(page.url.pathname == '/')
     padding: 8px;
     border-radius: 12px;
     cursor: default;
-    background: var(--shade-1);
+    background: var(--cmn-1);
 }
 
 </style>
