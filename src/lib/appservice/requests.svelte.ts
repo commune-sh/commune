@@ -185,7 +185,7 @@ interface AvatarRequest {
 
 export const getAvatarThumbnail = async (opts: AvatarRequest ): Promise<string | undefined> => {
 
-    if(!appservice_url) return
+    if(!appservice_url || !opts.mxcid) return
 
     const stripped = opts.mxcid.replace('mxc://', '');
 
@@ -219,7 +219,7 @@ interface MediaThumbnailOpts {
 
 export const getImageThumbnail = async (opts: MediaThumbnailOpts): Promise<string | undefined> => {
 
-    if(!appservice_url) return
+    if(!appservice_url || !opts.mxcid) return
 
     const stripped = opts.mxcid.replace('mxc://', '');
 
@@ -241,7 +241,7 @@ export const getImageThumbnail = async (opts: MediaThumbnailOpts): Promise<strin
 
 export const downloadMedia = async (mxcid: string): Promise<string | undefined> => {
 
-    if(!appservice_url) return
+    if(!appservice_url || !mxcid) return
 
     const stripped = mxcid.replace('mxc://', '');
 

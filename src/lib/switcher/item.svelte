@@ -305,7 +305,7 @@ const options = $derived.by(() => {
         {#if avatar}
             <img src={avatar} alt={name} class="avatar bg-cmn-4" loading="lazy" />
         {/if}
-        {#if !avatar}
+        {#if !avatar_url}
         <div class="initial font-semibold">
             {initial} 
         </div>
