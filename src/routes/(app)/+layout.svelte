@@ -125,9 +125,6 @@ $effect(() => {
 
 
 $effect.pre(() =>{
-    if(data?.session && !session) {
-        store.session.update(data.session)
-    }
     if(data?.space && store.app.appservice_reachable) {
         prepareSpace()
     }
@@ -165,7 +162,10 @@ async function setup() {
 }
 
 onMount(async() => {
-    store.oidc.init()
+    await store.oidc.init()
+    if(data?.session && !session) {
+        store.session.update(data.session, data.oidc_client_id)
+    }
     store.app.isReady()
     if(!data?.guest_access_token_exists) {
         //store.matrix.registerGuest()
