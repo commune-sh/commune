@@ -8,7 +8,7 @@ export const load: LayoutServerLoad = async ({ url, fetch, cookies }) => {
     let oidc_client_id = cookies.get('oidc_client_id');
     let oidc_code_verifier = cookies.get('oidc_code_verifier');
 
-    console.log('oidc_client_id', oidc_client_id)
+    cookies.delete('oidc_code_verifier', { path: '/' });
 
     let auth_metadata;
 

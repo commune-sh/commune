@@ -1,4 +1,5 @@
 import { createAppStore } from './app.svelte';
+import { createSessionStore } from './session.svelte';
 import { createUIStore } from './ui.svelte';
 import { createAuthStore } from './auth.svelte';
 import { createMatrixStore } from './matrix.svelte';
@@ -11,6 +12,10 @@ export function createStore() {
 
 		get app() {
 			return createAppStore();
+		},
+
+		get session() {
+			return createSessionStore();
 		},
 
 		get ui() {
