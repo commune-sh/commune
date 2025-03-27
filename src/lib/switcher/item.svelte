@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 import { isInViewport } from '$lib/utils/ui';
 import { goto } from '$app/navigation';
 import { page } from '$app/state';
@@ -11,10 +11,14 @@ const store = createStore()
 
 import { 
     room_alias_from_ID, 
-    thumbnailURL,
     is_local_room,
     processHash
 } from '$lib/utils/matrix'
+
+import { 
+    getImageThumbnail,
+} from '$lib/appservice/requests.svelte'
+
 
 let { space, 
     index,
@@ -234,9 +238,28 @@ function goToSpace() {
 }
 
 
-let avatar = $derived.by(() => {
-    if(space?.avatar_url) {
-        return thumbnailURL(space.avatar_url, 46, 46, 'crop')
+
+let avatar: string | undefined = $state(undefined)
+
+let avatar_url = $derived.by(() => {
+    return space?.avatar_url
+})
+
+async function getAvatar() {
+    let content_uri = await getImageThumbnail({
+        mxcid: avatar_url,
+        width: 96,
+        height: 96,
+        method: 'scale'
+    })
+    if(content_uri) {
+        avatar = content_uri
+    }
+}
+
+$effect(() => {
+    if(!avatar && avatar_url) {
+        getAvatar()
     }
 })
 
@@ -280,7 +303,7 @@ const options = $derived.by(() => {
         ondragstart={dragstart}>
 
         {#if avatar}
-            <img src={avatar} alt={name} class="avatar" loading="lazy" />
+            <img src={avatar} alt={name} class="avatar bg-cmn-4" loading="lazy" />
         {/if}
         {#if !avatar}
         <div class="initial font-semibold">
@@ -349,4 +372,7 @@ const options = $derived.by(() => {
     border-bottom: 2px solid red;
 }
 
+img {
+    border-radius: 50%;
+}
 </style>

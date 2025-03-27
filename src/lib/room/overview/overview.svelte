@@ -1,10 +1,14 @@
-<script>
+<script lang="ts">
 import { marked } from 'marked'
 
 import { 
     get_local_part,
-    processURL,
 } from '$lib/utils/matrix'
+
+import { 
+    getImageThumbnail,
+} from '$lib/appservice/requests.svelte'
+
 
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
@@ -32,12 +36,28 @@ const member_count = $derived.by(() => {
 
 const ready = $derived(space_state != undefined)
 
-const avatar = $derived.by(() => {
-    const url = space_state?.find(r => r.type == 'm.room.avatar')?.content?.url
-    if(url) {
-        return processURL(url)
+let avatar: string | undefined = $state(undefined)
+
+let avatar_url = $derived.by(() => {
+    return space_state?.find(r => r.type == 'm.room.avatar')?.content?.url
+})
+
+async function getAvatar() {
+    let content_uri = await getImageThumbnail({
+        mxcid: avatar_url,
+        width: 96,
+        height: 96,
+        method: 'scale'
+    })
+    if(content_uri) {
+        avatar = content_uri
     }
-    return null
+}
+
+$effect(() => {
+    if(!avatar && avatar_url) {
+        getAvatar()
+    }
 })
 
 const name = $derived.by(() => {

@@ -4,7 +4,6 @@ import ExpandImage from '$lib/room/common/expand-image.svelte'
 
 import { 
     thumbnailURL,
-    processURL,
 } from '$lib/utils/matrix'
 
 import { 
@@ -145,13 +144,6 @@ async function download() {
     }
 }
 
-let src = $derived.by(() => {
-    if(event?.content?.external_url) {
-        return event.content.external_url
-    }
-    return processURL(url)
-})
-
 let expanded = $state(false)
 
 function expand() {
@@ -176,7 +168,7 @@ style="background-image: url({blurhash_url}); --width: {width}; --height: {heigh
 </div>
 
 {#if expanded}
-    <ExpandImage src={authenticated ? src : full_src} {w} {h} {alt} {kill} />
+    <ExpandImage src={full_src} {w} {h} {alt} {kill} />
 {/if}
 
 <style>

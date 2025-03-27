@@ -1,9 +1,12 @@
-<script>
+<script lang="ts">
 import { page } from '$app/state';
 import { 
     get_local_part,
-    processURL,
 } from '$lib/utils/matrix'
+
+import { 
+    getImageThumbnail,
+} from '$lib/appservice/requests.svelte'
 
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
@@ -24,12 +27,28 @@ const space_state = $derived.by(() => {
     return store.matrix.room_state[space?.room_id]
 })
 
-const banner = $derived.by(() => {
-    const url = space_state?.find(r => r.type == 'commune.room.banner')?.content?.url
-    if(url) {
-        return processURL(url)
+let banner: string | undefined = $state(undefined)
+
+let banner_url = $derived.by(() => {
+    return space_state?.find(r => r.type == 'commune.room.banner')?.content?.url
+})
+
+async function getBanner() {
+    let content_uri = await getImageThumbnail({
+        mxcid: banner_url,
+        width: 96,
+        height: 96,
+        method: 'scale'
+    })
+    if(content_uri) {
+        banner = content_uri
     }
-    return null
+}
+
+$effect(() => {
+    if(!banner && banner_url) {
+        getBanner()
+    }
 })
 
 </script>
@@ -54,6 +73,4 @@ const banner = $derived.by(() => {
 </div>
 
 <style>
-.sidebar-header {
-}
 </style>
