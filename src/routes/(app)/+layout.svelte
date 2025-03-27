@@ -21,9 +21,13 @@ import { wellKnownClient, getVersions } from '$lib/matrix/requests'
 import { 
     get_local_part,
     cleanDisplayname,
-    processURL,
     processHash
 } from '$lib/utils/matrix'
+
+import { 
+    downloadMedia
+} from '$lib/appservice/requests.svelte'
+
 
 import Listeners from '$lib/listeners/listeners.svelte'
 
@@ -224,18 +228,27 @@ let title = $derived.by(() => {
     return PUBLIC_META_TITLE
 })
 
-let image = $derived.by(() => {
+let raw_image = $derived.by(() => {
     if(data?.event?.content?.url) {
-        return processURL(data?.event.content.url)
+        return data?.event.content.url
     }
     if(data?.sender?.avatar_url) {
-        return processURL(data.sender.avatar_url)
+        return data.sender.avatar_url
     }
     if(data?.room?.avatar_url) {
-        return processURL(data.room.avatar_url)
+        return data.room.avatar_url
     }
     if(data?.space?.avatar_url) {
-        return processURL(data.space.avatar_url)
+        return data.space.avatar_url
+    }
+})
+
+let image = $derived.by(async() => {
+    if(raw_image) {
+        let content_uri = await downloadMedia(raw_image)
+        if(content_uri) {
+            return content_uri
+        }
     }
     return PUBLIC_META_IMAGE
 })
