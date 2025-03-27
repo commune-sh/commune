@@ -15,11 +15,20 @@ export function createSessionStore() {
     async function update(data: Session) {
 
         let user = await whoami(data.access_token);
+        console.log("Whoami", user);
         if(user?.user_id !== data.user_id) {
             console.error("User ID mismatch", user, data);
             window.location.href = "/logout";
             return
         }
+        if(user?.device_id !== data.device_id) {
+            console.error("Device ID mismatch", user, data);
+            window.location.href = "/logout";
+            return
+        }
+
+        let expires_in = (data.expires_in - Date.now()) / 1000
+        console.log(`Session expires in ${expires_in} seconds`)
 
         session = data;
         console.log("Session updated", $state.snapshot(session))

@@ -40,6 +40,10 @@ import EventSource from '$lib/event/source.svelte'
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
+let session = $derived.by(() => {
+    return store.session?.session
+})
+
 // derive credentials from auth store
 const credentials = $derived(store.auth.credentials)
 
@@ -119,11 +123,10 @@ $effect(() => {
     }
 })
 
+
 $effect.pre(() =>{
-    if(data?.session) {
-        console.log("Session exists", $state.snapshot(data.session))
-        let expires_in = (data.session?.expires_in - Date.now()) / 1000
-        console.log(`Session expires in ${expires_in} seconds`)
+    if(data?.session && !session) {
+        store.session.update(data.session)
     }
     if(data?.space && store.app.appservice_reachable) {
         prepareSpace()

@@ -23,7 +23,6 @@ $effect.root(() => {
 async function fetchAuthMetadata() {
     try {
         const response = await getAuthMetadata()
-        console.log(response)
         if(response) {
             config.metadata = response
         }
