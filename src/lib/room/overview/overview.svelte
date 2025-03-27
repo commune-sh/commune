@@ -1,5 +1,6 @@
 <script lang="ts">
 import { marked } from 'marked'
+import { createInitials } from '$lib/utils/string';
 
 import { 
     get_local_part,
@@ -55,8 +56,11 @@ async function getAvatar() {
 }
 
 $effect(() => {
-    if(!avatar && avatar_url) {
+    if(avatar_url) {
         getAvatar()
+    }
+    if(!avatar_url) {
+        avatar = undefined
     }
 })
 
@@ -68,6 +72,8 @@ const name = $derived.by(() => {
         return get_local_part(active_space.canonical_alias)
     }
 })
+
+const initial = $derived(createInitials(name))
 
 const alias = $derived.by(() => {
     return active_space?.canonical_alias
@@ -88,9 +94,18 @@ const render_topic = $derived.by(() => {
 {#if ready}
 <div class="flex h-full justify-center items-center">
     <div class="overview flex flex-col p-2 text-center">
-        <div class="mb-4">
+        <div class="flex justify-center min-h-[80px] mb-4">
             {#if avatar}
-                <img src={avatar} class="w-20 h-20 rounded-full mx-auto" />
+                <div class="bg-cmn-4 rounded-[50%]">
+                    <img src={avatar} class="w-20 h-20 rounded-full mx-auto" />
+                </div>
+            {/if}
+            {#if !avatar_url}
+                <div class="flex place-items-center bg-cmn-4 rounded-[50%] w-[80px] h-[80px]">
+                    <div class="w-full font-semibold uppercase text-3xl">
+                        {initial} 
+                    </div>
+                </div>
             {/if}
         </div>
         <div class="font-semibold text-xl">
