@@ -1,10 +1,15 @@
-<script>
+<script lang="ts">
 import { marked } from 'marked'
 
 import { 
     get_local_part,
     processURL,
 } from '$lib/utils/matrix'
+
+import { 
+    getImageThumbnail,
+} from '$lib/appservice/requests.svelte'
+
 
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
@@ -32,12 +37,28 @@ const member_count = $derived.by(() => {
 
 const ready = $derived(space_state != undefined)
 
-const avatar = $derived.by(() => {
-    const url = space_state?.find(r => r.type == 'm.room.avatar')?.content?.url
-    if(url) {
-        return processURL(url)
+let avatar_src: string | undefined = $state(undefined)
+
+let avatar_url = $derived.by(() => {
+    return space_state?.find(r => r.type == 'm.room.avatar')?.content?.url
+})
+
+async function getAvatar() {
+    let content_uri = await getImageThumbnail({
+        mxcid: avatar_url,
+        width: 96,
+        height: 96,
+        method: 'scale'
+    })
+    if(content_uri) {
+        avatar_src = content_uri
     }
-    return null
+}
+
+$effect(() => {
+    if(!avatar_src && avatar_url) {
+        getAvatar()
+    }
 })
 
 const name = $derived.by(() => {
@@ -69,8 +90,8 @@ const render_topic = $derived.by(() => {
 <div class="flex h-full justify-center items-center">
     <div class="overview flex flex-col p-2 text-center">
         <div class="mb-4">
-            {#if avatar}
-                <img src={avatar} class="w-20 h-20 rounded-full mx-auto" />
+            {#if avatar_src}
+                <img src={avatar_src} class="w-20 h-20 rounded-full mx-auto" />
             {/if}
         </div>
         <div class="font-semibold text-xl">
