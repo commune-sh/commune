@@ -1,7 +1,7 @@
-<script>
+<script lang="ts">
 import { 
-    processURL,
-} from '$lib/utils/matrix'
+    downloadMedia
+} from '$lib/appservice/requests.svelte'
 
 let {
     event,
@@ -15,10 +15,21 @@ const mimetype = $derived(event?.content?.info?.mimetype)
 const url = $derived(event?.content?.url)
 const alt = $derived(event?.content?.body)
 
+let src: string | undefined = $state(undefined)
 
-const src = $derived.by(() => {
-    return processURL(url)
+async function getSrc() {
+    let content_uri = await downloadMedia(url)
+    if(content_uri) {
+        src = content_uri
+    }
+}
+
+$effect(() => {
+    if(!src && url) {
+        getSrc()
+    }
 })
+
 
 </script>
 
