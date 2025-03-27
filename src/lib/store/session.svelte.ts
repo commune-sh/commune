@@ -81,13 +81,15 @@ export function createSessionStore() {
 
     async function update(data: Session, oidc_client_id: string) {
 
-        session = data;
         client_id = oidc_client_id;
 
         try {
             let refreshed = await refreshAccessToken(data)
             if(refreshed) {
                 console.log("Access token refreshed.", refreshed)
+                data.access_token = refreshed.access_token
+                data.refresh_token = refreshed.refresh_token
+                data.expires_in = Date.now() + (refreshed.expires_in * 1000)
             }
         } catch (error) {
             console.error("Failed to refresh access token", error)
@@ -95,7 +97,7 @@ export function createSessionStore() {
         }
 
         try {
-            let user = await whoami(session.access_token);
+            let user = await whoami(data.access_token);
             if(user?.errcode == "M_UNKNOWN_TOKEN") {
                 console.error("Invalid access token.")
                 return
@@ -115,6 +117,7 @@ export function createSessionStore() {
             return
         }
 
+        session = data;
         console.log("Session updated", $state.snapshot(session))
 
         setInterval(checkExpired, 10000)
