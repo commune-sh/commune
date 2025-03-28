@@ -177,7 +177,6 @@ onMount(async() => {
 
     await setup()
 
-    store.matrix.getFlows()
     if(!data?.native_mode) {
     }
 

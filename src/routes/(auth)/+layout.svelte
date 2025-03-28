@@ -26,7 +26,6 @@ const login_token = $derived(page.url.searchParams.get('loginToken'))
 
 onMount(() => {
     if(!login_token) {
-        store.matrix.getFlows()
     }
 })
 
