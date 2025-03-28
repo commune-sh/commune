@@ -36,7 +36,7 @@ let public_spaces_fetched = $state(false)
 $effect(() => {
     if(browser && authReady && credentials && !ready) {
         if(!data.is_guest) {
-            store.matrix.setup(credentials)
+            //store.matrix.setup(credentials)
         } else if(data.is_guest) {
             //store.matrix.setupGuest(credentials)
         }
