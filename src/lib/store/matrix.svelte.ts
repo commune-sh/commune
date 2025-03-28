@@ -4,12 +4,8 @@ import { MatrixClient } from 'matrix-js-sdk/src/client';
 
 import { page as _page } from '$app/state';
 
-$effect.root(() => {
-    $effect(() => {
-        if(_page) {
-        }
-    })
-})
+import { createSessionStore } from './session.svelte';
+const session_store = createSessionStore();
 
 import { 
     PUBLIC_HOMESERVER,
@@ -57,9 +53,46 @@ let login_flows = $state(null);
 let register_flows = $state(null);
 let registration_disabled = $state(false);
 
-let homeserver = $derived(app.homeserver)
+let homeserver = $derived(PUBLIC_HOMESERVER)
 
 let client: MatrixClient | null = $state(null);
+
+let session = $derived(session_store.session)
+
+let _access_token: string = $state('');
+
+$effect.root(() => {
+    $effect(() => {
+        if(browser && session && !client) {
+            setupClient()
+        }
+        if(client && _access_token != '' && _access_token != session?.access_token) {
+            updateToken()
+        }
+    })
+})
+
+async function setupClient() {
+    console.log("Session is", session)
+    console.log("Session is ready, set up Matrix client")
+    _access_token = session?.access_token
+    client =  sdk.createClient({
+        baseUrl: homeserver,
+        accessToken: session?.access_token,
+        userId: session?.user_id,
+        deviceId: session?.device_id,
+    });
+    client.startClient();
+}
+
+async function updateToken() {
+    console.log("Updating access token.")
+    _access_token = session?.access_token
+    client?.stopClient();
+    client?.setAccessToken(session?.access_token);
+    client?.startClient();
+}
+
 
 let synced = $state(false)
 
@@ -78,9 +111,6 @@ let events = $state({})
 let thread_events = $state({})
 
 if(browser) {
-    client =  sdk.createClient({
-        baseUrl: homeserver,
-    });
 }
 
 let page = $derived.by(() => {
@@ -181,90 +211,6 @@ export function createMatrixStore() {
         return sdk.createClient({
             baseUrl: homeserver,
         });
-    }
-
-    // fetch login and registration flows from homeserver
-    async function getFlows() {
-
-
-        /*
-    if(!client) {
-      client = newClient()
-    }
-
-    // login flows
-    try {
-      let response = await client.loginFlows()
-      if(response?.flows) {
-        login_flows = response.flows
-      }
-    } catch (err){
-      if(err.name == "ConnectionError") {
-        app.homeserverUnreachable()
-      }
-    }
-    //
-    // registration flows
-    try {
-      let response = await client.register()
-      if(response?.flows) {
-        console.log("Register flows:", response.flows)
-        register_flows = response.flows
-      }
-    } catch(err) {
-      if(err.errcode == "M_FORBIDDEN") {
-        registration_disabled = true
-      }
-      if(err?.data?.flows) {
-        register_flows = err.data.flows
-      }
-      console.log("Registration flows:", register_flows)
-    }
-        //
-        //
-        // check if OIDC issuer is set
-        if(oidc_issuer) {
-            console.log("Fetching OIDC config:", oidc_issuer)
-            try {
-                let response = await openidConfig(oidc_issuer)
-                if(response) {
-                    oidc_config = response
-                    console.log("OIDC config:", oidc_config)
-                }
-            } catch(err) {
-                console.log("Error fetching OIDC config:", err)
-            }
-        }
-
-
-        try {
-            let response = await login()
-            if(response?.flows) {
-                login_flows = response.flows
-            }
-        } catch (_){
-            app.homeserverUnreachable()
-        }
-
-
-        // registration flows
-        try {
-            let response = await register()
-            if(response?.flows) {
-                console.log("Register flows:", response.flows)
-                register_flows = response.flows
-            }
-        } catch(err) {
-            if(err.errcode == "M_FORBIDDEN") {
-                registration_disabled = true
-            }
-            if(err?.data?.flows) {
-                register_flows = err.data.flows
-            }
-            console.log("Registration flows:", register_flows)
-        }
-    */
-
     }
 
 
@@ -716,7 +662,6 @@ export function createMatrixStore() {
         },
 
         newClient,
-        getFlows,
         setup,
         setupGuest,
         addRoom,
