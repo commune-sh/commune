@@ -1,3 +1,38 @@
+import { v4 as uuidv4 } from 'uuid';
+import { browser } from '$app/environment';
+const ID = uuidv4();
+
+
+if(browser) {
+    setupStorageListener()
+}
+
+function setupStorageListener() {
+    console.log("Setting up refresh token listener")
+    window.addEventListener('storage', (event) => {
+        if (event.key === 'token_update') {
+            try {
+                const data = JSON.parse(event.newValue || '{}');
+
+                if (data?.ID === ID) {
+                    console.log("Ignoring token update from same tab")
+                    return;
+                }
+
+                if (session && data.access_token && data.refresh_token && data.expires_in) {
+                    console.log("Updating session from other tab")
+                    session.access_token = data.access_token
+                    session.refresh_token = data.refresh_token
+                    session.expires_in = Date.now() + (data.expires_in * 1000)
+                }
+            } catch (e) {
+                console.error('Error processing token update from another tab:', e);
+            }
+        }
+    });
+}
+
+
 import { whoami, refreshToken } from '$lib/matrix/requests'
 
 import { createOIDCStore } from './oidc.svelte'
@@ -26,7 +61,9 @@ async function checkExpired() {
         //console.log(`Session expires in ${expires_in} seconds`)
     }
     if(expires_in < 60) {
-        refreshAccessToken(session)
+        await navigator.locks.request("refresh_token", async (lock) => {
+            await refreshAccessToken(session)
+        });
     }
 }
 
@@ -64,6 +101,20 @@ async function refreshAccessToken(data: Session) {
                 device_id: data.device_id,
             }),
         });
+
+        let st = {
+            ID: ID,
+            access_token: resp.access_token,
+            refresh_token: resp.refresh_token,
+            expires_in: Date.now() + (resp.expires_in * 1000)
+        }
+        localStorage.setItem('token_update', JSON.stringify(st));
+        console.log("Set token update in local storage", st)
+
+        setTimeout(() => {
+            localStorage.removeItem('token_update');
+            console.log("Removed token update from local storage")
+        }, 1000)
 
         return resp
     } catch (error) {
