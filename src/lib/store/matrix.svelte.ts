@@ -82,6 +82,7 @@ async function setupClient() {
         userId: session?.user_id,
         deviceId: session?.device_id,
     });
+    setupListeners()
     client.startClient();
 }
 
@@ -89,6 +90,7 @@ async function updateToken() {
     console.log("Updating access token.")
     _access_token = session?.access_token
     client?.stopClient();
+    client?.removeAllListeners();
     client?.setAccessToken(session?.access_token);
     client?.startClient();
 }
@@ -203,6 +205,50 @@ const space_rooms = $derived.by(() => {
     }
 })
 
+
+function setupListeners() {
+    if(!client) return
+    client.on("sync", (state, prevState, data) => {
+        if(state === "PREPARED") {
+
+            const items = client.getRooms();
+            rooms = processRooms(items)
+
+            room_state = processRoomStates(items)
+
+            if(spaces?.length > 0) {
+                console.log("removing existing public spaces")
+                spaces = []
+            }
+            spaces = processSpaces(items)
+
+
+            //buildRoomEvents()
+            synced = true
+
+            const settings = client.getAccountData("commune.web.settings");
+            if(settings) {
+                //account_data = settings
+                app.settings.updateSettings(settings)
+            }
+
+        }
+    });
+
+    client.on(sdk.RoomEvent.Timeline, (event, room, toStartOfTimeline) => {
+
+        console.log("New event: ", event)
+
+
+        const items = messages[event.event.room_id]?.events
+        const exists = items?.find(e => e.event_id == event.event.event_id)
+        if(!exists) {
+            messages[event.event.room_id]?.events.push(event.event)
+            console.log(messages[event.event.room_id])
+        }
+
+    });
+}
 
 export function createMatrixStore() {
 
