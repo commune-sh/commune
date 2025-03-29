@@ -1,7 +1,6 @@
 <script>
 import { page } from '$app/state';
 
-import Token from './token.svelte'
 import Login from './login.svelte'
 import Signup from './signup.svelte'
 import Password from './password.svelte'

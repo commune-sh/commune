@@ -61,6 +61,14 @@ let session = $derived(session_store.session)
 
 let _access_token: string = $state('');
 
+let status: {
+    started_at: number;
+    synced: boolean;
+} = $state({
+    started_at: Date.now(),
+    synced: false,
+})
+
 $effect.root(() => {
     $effect(() => {
         if(browser && session && !client) {
@@ -210,6 +218,7 @@ function setupListeners() {
     if(!client) return
     client.on("sync", (state, prevState, data) => {
         if(state === "PREPARED") {
+            status.synced = true
 
             const items = client.getRooms();
             rooms = processRooms(items)
@@ -236,10 +245,8 @@ function setupListeners() {
     });
 
     client.on(sdk.RoomEvent.Timeline, (event, room, toStartOfTimeline) => {
-
+        if(!synced) return
         console.log("New event: ", event)
-
-
         const items = messages[event.event.room_id]?.events
         const exists = items?.find(e => e.event_id == event.event.event_id)
         if(!exists) {
