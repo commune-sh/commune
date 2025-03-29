@@ -52,6 +52,10 @@ let compat_sso = $state(false);
 
 let session: Session | undefined = $state(undefined);
 
+let authenticated = $derived.by(() => {
+    return session?.access_token && session?.user_id && session?.device_id
+})
+
 let client_id: string | undefined = $state(undefined);
 
 let refreshing = $state(false);
@@ -130,6 +134,10 @@ async function refreshAccessToken(data: Session) {
 }
 
 
+export function is_authenticated() {
+    return authenticated;
+}
+
 export function createSessionStore() {
 
     async function update(data: Session, oidc_client_id: string) {
@@ -137,7 +145,6 @@ export function createSessionStore() {
         if(!data.refresh_token) {
             compat_sso = true;
         }
-
 
         client_id = oidc_client_id;
 
@@ -190,6 +197,11 @@ export function createSessionStore() {
         get session() {
             return session;
         },
+
+        get authenticated() {
+            return authenticated;
+        },
+
 
         get access_token() {
             return session?.access_token;
