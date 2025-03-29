@@ -42,11 +42,13 @@ let token_endpoint = $derived(oidc_store.metadata?.token_endpoint)
 
 export type Session = {
     access_token: string;
-    refresh_token: string;
+    refresh_token?: string;
     user_id: string;
     device_id: string;
-    expires_in: number;
+    expires_in?: number;
 }
+
+let compat_sso = $state(false);
 
 let session: Session | undefined = $state(undefined);
 
@@ -132,19 +134,25 @@ export function createSessionStore() {
 
     async function update(data: Session, oidc_client_id: string) {
 
+        if(!data.refresh_token) {
+            compat_sso = true;
+        }
+
         client_id = oidc_client_id;
 
-        try {
-            let refreshed = await refreshAccessToken(data)
-            if(refreshed) {
-                console.log("Access token refreshed.", refreshed)
-                data.access_token = refreshed.access_token
-                data.refresh_token = refreshed.refresh_token
-                data.expires_in = Date.now() + (refreshed.expires_in * 1000)
+        if(!compat_sso) {
+            try {
+                let refreshed = await refreshAccessToken(data)
+                if(refreshed) {
+                    console.log("Access token refreshed.", refreshed)
+                    data.access_token = refreshed.access_token
+                    data.refresh_token = refreshed.refresh_token
+                    data.expires_in = Date.now() + (refreshed.expires_in * 1000)
+                }
+            } catch (error) {
+                console.error("Failed to refresh access token", error)
+                return
             }
-        } catch (error) {
-            console.error("Failed to refresh access token", error)
-            return
         }
 
         try {
@@ -171,7 +179,9 @@ export function createSessionStore() {
         session = data;
         console.log("Session updated", $state.snapshot(session))
 
-        setInterval(checkExpired, 10000)
+        if(!compat_sso) {
+            setInterval(checkExpired, 10000)
+        }
     }
 
     return {

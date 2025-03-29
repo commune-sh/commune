@@ -22,14 +22,17 @@ export const load: LayoutServerLoad = async ({ fetch, params, url, cookies, requ
         native_mode: false,
     };
 
-    if(access_token && refresh_token && expires_in && user_id && device_id) {
+    if(access_token && user_id && device_id) {
         data.session = {
             access_token,
-            refresh_token,
-            expires_in: parseInt(expires_in),
             user_id,
             device_id,
         }
+    }
+
+    if(refresh_token && expires_in && data?.session) {
+        data.session.refresh_token = refresh_token
+        data.session.expires_in = parseInt(expires_in)
     }
 
     if(oidc_client_id) {

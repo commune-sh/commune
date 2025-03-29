@@ -55,7 +55,9 @@ let registration_disabled = $state(false);
 
 let homeserver = $derived(PUBLIC_HOMESERVER)
 
-let client: MatrixClient | null = $state(null);
+let client: MatrixClient = $state(sdk.createClient({
+    baseUrl: homeserver,
+}));
 
 let session = $derived(session_store.session)
 
@@ -71,7 +73,7 @@ let status: {
 
 $effect.root(() => {
     $effect(() => {
-        if(browser && session && !client) {
+        if(browser && session) {
             setupClient()
         }
         if(client && _access_token != '' && _access_token != session?.access_token) {
