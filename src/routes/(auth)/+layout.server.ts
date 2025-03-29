@@ -8,7 +8,7 @@ import { getAuthMetadata, registerOauthClient } from '$lib/matrix/requests'
 
 export const load: LayoutServerLoad = async ({ cookies, url, fetch }) => {
 
-    const oidc_client_id = cookies.get('oidc_client_id');
+    let oidc_client_id = cookies.get('oidc_client_id');
 
     let metadata = await fetchAuthMetadata()
 
@@ -16,6 +16,8 @@ export const load: LayoutServerLoad = async ({ cookies, url, fetch }) => {
 
         let client_id = await newClient(metadata.registration_endpoint, metadata.authorization_endpoint)
         console.log("New client registered:", client_id)
+
+        oidc_client_id = client_id
 
         cookies.set('oidc_client_id', client_id, {
             httpOnly: true,
@@ -25,15 +27,6 @@ export const load: LayoutServerLoad = async ({ cookies, url, fetch }) => {
             path: '/'
         });
 
-        cookies.set('oidc_authorization_endpoint', metadata.authorization_endpoint, {
-            httpOnly: true,
-            maxAge: 60 * 60 * 24 * 365,
-            secure: true,
-            sameSite: 'lax',
-            path: '/'
-        });
-
-
     }
 
     const access_token = cookies.get('mx_access_token');
@@ -41,7 +34,10 @@ export const load: LayoutServerLoad = async ({ cookies, url, fetch }) => {
         redirect(302, '/');
     }
 
-    return metadata;
+    return {
+        metadata,
+        oidc_client_id
+    }
 };
 
 

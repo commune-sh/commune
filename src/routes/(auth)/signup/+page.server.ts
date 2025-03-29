@@ -4,15 +4,19 @@ import type { PageServerLoad } from './$types';
 import { redirect } from "@sveltejs/kit";
 import { generateDeviceId, generatePKCEParams } from '$lib/utils/oidc'
 
-export const load: PageServerLoad = async ({ cookies }) => {
+export const load: PageServerLoad = async ({ cookies, parent }) => {
+
+    let data = await parent();
 
     let redirect_url = `${PUBLIC_BASE_URL}/oidc/callback`;
 
-    const oidc_client_id = cookies.get('oidc_client_id');
+    const oidc_client_id = data.oidc_client_id
 
-    const authorization_endpoint = cookies.get('oidc_authorization_endpoint');
+    const authorization_endpoint = data.metadata?.authorization_endpoint;
 
-    let scope = `urn:matrix:org.matrix.msc2967.client:api:*`;
+    let device_id = await generateDeviceId();
+
+    let scope = `urn:matrix:org.matrix.msc2967.client:api:* urn:matrix:org.matrix.msc2967.client:device:${device_id}`;
 
     let pkce = await generatePKCEParams();
 
@@ -20,7 +24,6 @@ export const load: PageServerLoad = async ({ cookies }) => {
         httpOnly: true,
         maxAge: 60 * 60 * 24 * 365,
         secure: true,
-        sameSite: 'strict',
         path: '/'
     });
 

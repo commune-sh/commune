@@ -6,9 +6,7 @@ import { getAuthMetadata, revokeToken } from '$lib/matrix/requests'
 
 export const load: PageServerLoad = async ({ cookies, parent }) => {
 
-    let client_id = cookies.get('oidc_client_id');
     let access_token = cookies.get('access_token');
-    let refresh_token = cookies.get('refresh_token');
 
     cookies.delete('access_token', { path: '/' });
     cookies.delete('refresh_token', { path: '/' });
@@ -17,10 +15,10 @@ export const load: PageServerLoad = async ({ cookies, parent }) => {
     cookies.delete('device_id', { path: '/' });
     cookies.delete('oidc_code_verifier', { path: '/' });
 
-    const metadata = await parent();
+    const data = await parent();
 
-    if(metadata?.revocation_endpoint && client_id && access_token) {
-        revoke(metadata.revocation_endpoint, client_id, access_token)
+    if(data.metadata?.revocation_endpoint && data.oidc_client_id && access_token) {
+        revoke(data.metadata.revocation_endpoint, data.oidc_client_id, access_token)
     }
 
     redirect(302, `/`);
@@ -37,24 +35,10 @@ async function revoke(endpoint: string, client_id: string, access_token: string)
 
     try {
         const response = await revokeToken(endpoint, params)
-        if(response) {
-            console.log("Token revoked.", response)
+        if(response.status === 200) {
+            console.log("Token revoked.")
         }
     } catch (error) {
         console.error(error)
     }
 }
-
-
-async function fetchAuthMetadata() {
-    try {
-        const response = await getAuthMetadata()
-        console.log("OIDC metadata fetched.")
-        if(response) {
-            return response
-        }
-    } catch (error) {
-        console.error(error)
-    }
-}
-
