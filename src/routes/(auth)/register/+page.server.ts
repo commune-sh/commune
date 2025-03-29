@@ -6,13 +6,13 @@ import { generateDeviceId, generatePKCEParams } from '$lib/utils/oidc'
 
 export const load: PageServerLoad = async ({ cookies, parent }) => {
 
-    await parent();
+    let data = await parent();
 
     let redirect_url = `${PUBLIC_BASE_URL}/oidc/callback`;
 
-    const oidc_client_id = cookies.get('oidc_client_id');
+    const oidc_client_id = data.oidc_client_id
 
-    const authorization_endpoint = cookies.get('oidc_authorization_endpoint');
+    const authorization_endpoint = data.metadata?.authorization_endpoint;
 
     let device_id = await generateDeviceId();
 
