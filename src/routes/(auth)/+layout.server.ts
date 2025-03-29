@@ -10,29 +10,29 @@ export const load: LayoutServerLoad = async ({ cookies, url, fetch }) => {
 
     const oidc_client_id = cookies.get('oidc_client_id');
 
-    if(!oidc_client_id) {
-        let metadata = await fetchAuthMetadata()
-        if(metadata?.registration_endpoint && metadata?.authorization_endpoint) {
-            let client_id = await newClient(metadata.registration_endpoint, metadata.authorization_endpoint)
-            console.log("New client registered:", client_id)
+    let metadata = await fetchAuthMetadata()
 
-            cookies.set('oidc_client_id', client_id, {
-                httpOnly: true,
-                maxAge: 60 * 60 * 24 * 365,
-                secure: true,
-                sameSite: 'lax',
-                path: '/'
-            });
+    if(!oidc_client_id && metadata?.registration_endpoint && metadata?.authorization_endpoint) {
 
-            cookies.set('oidc_authorization_endpoint', metadata.authorization_endpoint, {
-                httpOnly: true,
-                maxAge: 60 * 60 * 24 * 365,
-                secure: true,
-                sameSite: 'lax',
-                path: '/'
-            });
+        let client_id = await newClient(metadata.registration_endpoint, metadata.authorization_endpoint)
+        console.log("New client registered:", client_id)
 
-        }
+        cookies.set('oidc_client_id', client_id, {
+            httpOnly: true,
+            maxAge: 60 * 60 * 24 * 365,
+            secure: true,
+            sameSite: 'lax',
+            path: '/'
+        });
+
+        cookies.set('oidc_authorization_endpoint', metadata.authorization_endpoint, {
+            httpOnly: true,
+            maxAge: 60 * 60 * 24 * 365,
+            secure: true,
+            sameSite: 'lax',
+            path: '/'
+        });
+
 
     }
 
@@ -41,6 +41,7 @@ export const load: LayoutServerLoad = async ({ cookies, url, fetch }) => {
         redirect(302, '/');
     }
 
+    return metadata;
 };
 
 

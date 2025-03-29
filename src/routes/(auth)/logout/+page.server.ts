@@ -17,8 +17,7 @@ export const load: PageServerLoad = async ({ cookies, parent }) => {
     cookies.delete('device_id', { path: '/' });
     cookies.delete('oidc_code_verifier', { path: '/' });
 
-    let metadata = await fetchAuthMetadata()
-    console.log("Fetched metadata:", metadata)
+    const metadata = await parent();
 
     if(metadata?.revocation_endpoint && client_id && access_token) {
         revoke(metadata.revocation_endpoint, client_id, access_token)
