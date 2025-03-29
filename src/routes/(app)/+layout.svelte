@@ -166,7 +166,7 @@ async function setup() {
 }
 
 onMount(async() => {
-    await store.oidc.init()
+    //await store.oidc.init()
     if(data?.session && !session) {
         store.session.update(data.session, data.oidc_client_id)
     }
