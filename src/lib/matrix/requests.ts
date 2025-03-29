@@ -70,6 +70,26 @@ export const register = async (body) => {
     }
 }
 
+export const logout = async (access_token: string) => {
+    const url = `${MATRIX_BASE_URL}/logout`;
+
+    let options: RequestInit = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${access_token}`
+        },
+    }
+
+    try {
+        const response = await fetch(url, options)
+        return response;
+    } catch (error) {
+        throw error
+    }
+
+}
+
 export const requestToken = async (opts) => {
     if(!opts.email || !opts.client_secret || !opts.send_attempt){
         throw new Error('Missing required parameters')

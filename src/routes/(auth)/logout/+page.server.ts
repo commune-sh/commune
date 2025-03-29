@@ -2,11 +2,12 @@ import { PUBLIC_BASE_URL } from '$env/static/public';
 
 import type { PageServerLoad } from './$types';
 import { redirect } from "@sveltejs/kit";
-import { getAuthMetadata, revokeToken } from '$lib/matrix/requests'
+import { logout, revokeToken } from '$lib/matrix/requests'
 
 export const load: PageServerLoad = async ({ cookies, parent }) => {
 
     let access_token = cookies.get('access_token');
+    let refresh_token = cookies.get('refresh_token');
 
     cookies.delete('access_token', { path: '/' });
     cookies.delete('refresh_token', { path: '/' });
@@ -16,6 +17,12 @@ export const load: PageServerLoad = async ({ cookies, parent }) => {
     cookies.delete('oidc_code_verifier', { path: '/' });
 
     const data = await parent();
+
+    if(access_token && !refresh_token) {
+        console.log("Compat mode, logout using access token.")
+        await logout(access_token);
+        redirect(302, `/`);
+    }
 
     if(data.metadata?.revocation_endpoint && data.oidc_client_id && access_token) {
         revoke(data.metadata.revocation_endpoint, data.oidc_client_id, access_token)
