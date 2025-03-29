@@ -138,6 +138,7 @@ export function createSessionStore() {
             compat_sso = true;
         }
 
+
         client_id = oidc_client_id;
 
         if(!compat_sso) {
