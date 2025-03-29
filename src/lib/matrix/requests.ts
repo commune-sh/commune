@@ -335,6 +335,25 @@ export const refreshToken = async (url: string, params: any) => {
     }
 }
 
+export const revokeToken = async (url: string, params: any) => {
+
+    const options: RequestInit = {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        method: 'POST',
+        body: params
+    }
+
+    try {
+        const response = await fetch(url, options)
+        return response;
+    } catch (error) {
+        throw error
+    }
+}
+
+
 
 
 export async function syncGuest(accessToken) {
