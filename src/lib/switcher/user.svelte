@@ -1,5 +1,10 @@
 <script lang="ts">
 
+import { Popover, Separator, Toggle } from "bits-ui";
+
+let width = $state(1024);
+let height = $state(768);
+
 import { createInitials } from '$lib/utils/string';
 import { 
     getAvatarThumbnail,
@@ -69,19 +74,36 @@ async function fetchAvatar() {
 
 
 <div class="grid relative place-items-center mb-4">
-    <div class="space bg-cmn-4 w-[46px] h-[46px] grid
+
+    <Popover.Root>
+        <Popover.Trigger
+            class="space bg-cmn-4 w-[46px] h-[46px] grid
             transition-transform duration-200
             place-items-center cursor-pointer hover:bg-cmn-7 rounded-[50%]" >
 
-        {#if avatar}
-            <img src={avatar} alt={displayname} class="rounded-[50%]" />
-        {/if}
-        {#if !avatar}
-            <div class="text-cmn-1 text-xs font-bold">
-                {initial}
-            </div>
-        {/if}
-    </div>
+            {#if avatar}
+                <img src={avatar} alt={displayname} class="rounded-[50%]" />
+            {/if}
+            {#if !avatar}
+                <div class="text-cmn-1 text-xs font-bold">
+                    {initial}
+                </div>
+            {/if}
+
+        </Popover.Trigger>
+        <Popover.Portal>
+            <Popover.Content preventScroll={true}
+                class="border-dark-10 bg-background shadow-popover data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-30 w-full max-w-[328px] rounded-[12px] border p-4"
+                sideOffset={14} align="start" side={"top"} alignOffset={0}
+            >
+                <div class="flex items-center pb-2">
+                    {user_id}
+                </div>
+            </Popover.Content>
+        </Popover.Portal>
+    </Popover.Root>
+
+
 </div>
 
 <style>
@@ -91,5 +113,8 @@ img {
     border-radius: 50%;
 }
 
+button { 
+    background-color: none;
+}
 </style>
 
