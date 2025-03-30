@@ -1,9 +1,9 @@
 <script lang="ts">
 import Logo from '$lib/logo/logo.svelte'
 import Items from './items.svelte'
-import Settings from './settings.svelte'
-import ToggleTheme from '$lib/theme/toggle.svelte'
+import User from './user.svelte'
 
+import { is_authenticated } from '$lib/store/session.svelte'
 </script>
 
 <div class="switcher grid grid-rows-[72px_auto_1fr_auto] h-full select-none 
@@ -13,8 +13,9 @@ import ToggleTheme from '$lib/theme/toggle.svelte'
     </div>
     <Items />
     <div class="grid grid-rows">
-        <ToggleTheme />
-        <Settings />
+        {#if is_authenticated()}
+            <User />
+        {/if}
     </div>
 </div>
 
