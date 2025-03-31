@@ -151,6 +151,7 @@ export function createSessionStore() {
         if(!compat_sso) {
             try {
                 let refreshed = await refreshAccessToken(data)
+                console.log("hmmm", refreshed)
                 if(refreshed) {
                     console.log("Access token refreshed.", refreshed)
                     data.access_token = refreshed.access_token

@@ -29,6 +29,7 @@ export const load: LayoutServerLoad = async ({ fetch, params, url, cookies, requ
             device_id,
         }
     }
+    console.log("found session?", data, access_token, user_id, device_id)
 
     if(refresh_token && expires_in && data?.session) {
         data.session.refresh_token = refresh_token

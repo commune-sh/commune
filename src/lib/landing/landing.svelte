@@ -32,7 +32,9 @@ function sso_login() {
         </div>
 
         <div class="flex gap-4 pt-16">
-            <button onclick={sso_login} class="">Get started</button>
+            <a href="/register">
+                <button class="">Get started</button>
+            </a>
         </div>
 
     </div>
