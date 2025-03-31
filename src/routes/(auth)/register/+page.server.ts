@@ -1,16 +1,10 @@
-import { PUBLIC_BASE_URL, PUBLIC_HOMESERVER } from '$env/static/public';
+import { PUBLIC_BASE_URL } from '$env/static/public';
 
 import type { PageServerLoad } from './$types';
 import { redirect } from "@sveltejs/kit";
 import { generateDeviceId, generatePKCEParams } from '$lib/utils/oidc'
 
 export const load: PageServerLoad = async ({ cookies, parent }) => {
-
-    let base = `${PUBLIC_BASE_URL}/oidc/callback`
-    let red = encodeURIComponent(base)
-    let compat_sso = `${PUBLIC_HOMESERVER}/_matrix/client/v3/login/sso/redirect?redirectUrl=${red}`
-
-    redirect(302, compat_sso);
 
     let data = await parent();
 

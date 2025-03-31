@@ -8,8 +8,6 @@ import { getAuthMetadata, registerOauthClient } from '$lib/matrix/requests'
 
 export const load: LayoutServerLoad = async ({ cookies, url, fetch }) => {
 
-    return
-
     let oidc_client_id = cookies.get('oidc_client_id');
 
     let metadata = await fetchAuthMetadata()
