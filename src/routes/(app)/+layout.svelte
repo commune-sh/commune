@@ -280,6 +280,10 @@ let author = $derived.by(() => {
     return PUBLIC_APP_NAME
 })
 
+let synced = $derived.by(() => {
+    return store.matrix.status.synced
+})
+
 </script>
 <svelte:head>
     <title>{title}</title>
@@ -309,6 +313,12 @@ let author = $derived.by(() => {
     {/if}
 </svelte:head>
 
+{#if session_data && !synced}
+    <div class="grid place-items-center bg-background z-[1000] fixed top-0 right-0 left-0 bottom-0">
+        <div class="spinner spinner-lg">
+        </div>
+    </div>
+{/if}
 
 <Listeners />
 

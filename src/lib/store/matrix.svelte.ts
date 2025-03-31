@@ -716,6 +716,10 @@ export function createMatrixStore() {
             return oidc_issuer;
         },
 
+        get status() {
+            return status;
+        },
+
         newClient,
         setup,
         setupGuest,
