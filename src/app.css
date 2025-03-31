@@ -268,9 +268,7 @@ input:-webkit-autofill:active  {
 }
 
 button {
-    background-color: var(--button-background);
     color: var(--button-text);
-    border-radius: 4px;
     font-weight: 500;
     cursor: pointer;
 }

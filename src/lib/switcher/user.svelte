@@ -1,5 +1,12 @@
 <script lang="ts">
 
+import { goto } from '$app/navigation';
+
+import { Popover, Separator, Toggle } from "bits-ui";
+
+let width = $state(1024);
+let height = $state(768);
+
 import { createInitials } from '$lib/utils/string';
 import { 
     getAvatarThumbnail,
@@ -65,23 +72,51 @@ async function fetchAvatar() {
     }
 }
 
+function logout() {
+    window.location.href = '/logout'
+}
+
 </script>
 
 
 <div class="grid relative place-items-center mb-4">
-    <div class="space bg-cmn-4 w-[46px] h-[46px] grid
+
+    <Popover.Root>
+        <Popover.Trigger
+            class="space bg-cmn-4 w-[46px] h-[46px] grid
             transition-transform duration-200
             place-items-center cursor-pointer hover:bg-cmn-7 rounded-[50%]" >
 
-        {#if avatar}
-            <img src={avatar} alt={displayname} class="rounded-[50%]" />
-        {/if}
-        {#if !avatar}
-            <div class="text-cmn-1 text-xs font-bold">
-                {initial}
-            </div>
-        {/if}
-    </div>
+            {#if avatar}
+                <img src={avatar} alt={displayname} class="rounded-[50%]" />
+            {/if}
+            {#if !avatar}
+                <div class="text-cmn-1 text-xs font-bold">
+                    {initial}
+                </div>
+            {/if}
+
+        </Popover.Trigger>
+        <Popover.Portal>
+            <Popover.Content preventScroll={true}
+                class="border-cmn-6 bg-cmn-1 shadow-popover z-30 w-full
+                min-w-[300px] rounded-xl border p-4"
+                sideOffset={14} align="start" side={"top"} alignOffset={0}
+            >
+                <div class="flex items-center pb-2">
+                    {displayname}
+                </div>
+                <div class="flex items-center text-light text-sm">
+                    {user_id}
+                </div>
+                <div class="flex items-center mt-4 pb-2 text-xs font-bold">
+                    <span class="cursor-pointer" onclick={logout}>Logout</span>
+                </div>
+            </Popover.Content>
+        </Popover.Portal>
+    </Popover.Root>
+
+
 </div>
 
 <style>
@@ -91,5 +126,8 @@ img {
     border-radius: 50%;
 }
 
+button { 
+    background-color: none;
+}
 </style>
 
