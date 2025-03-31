@@ -1,5 +1,7 @@
 <script lang="ts">
 
+import { goto } from '$app/navigation';
+
 import { Popover, Separator, Toggle } from "bits-ui";
 
 let width = $state(1024);
@@ -70,6 +72,10 @@ async function fetchAvatar() {
     }
 }
 
+function logout() {
+    window.location.href = '/logout'
+}
+
 </script>
 
 
@@ -93,11 +99,18 @@ async function fetchAvatar() {
         </Popover.Trigger>
         <Popover.Portal>
             <Popover.Content preventScroll={true}
-                class="border-dark-10 bg-background shadow-popover data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-30 w-full max-w-[328px] rounded-[12px] border p-4"
+                class="border-cmn-6 bg-cmn-1 shadow-popover z-30 w-full
+                min-w-[300px] rounded-xl border p-4"
                 sideOffset={14} align="start" side={"top"} alignOffset={0}
             >
                 <div class="flex items-center pb-2">
+                    {displayname}
+                </div>
+                <div class="flex items-center text-light text-sm">
                     {user_id}
+                </div>
+                <div class="flex items-center mt-4 pb-2 text-xs font-bold">
+                    <span class="cursor-pointer" onclick={logout}>Logout</span>
                 </div>
             </Popover.Content>
         </Popover.Portal>

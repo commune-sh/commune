@@ -238,7 +238,6 @@ function goToSpace() {
 }
 
 
-
 let avatar: string | undefined = $state(undefined)
 
 let avatar_url = $derived.by(() => {

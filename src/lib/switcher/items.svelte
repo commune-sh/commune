@@ -92,7 +92,7 @@ function showContextMenu(e) {
         <div class="space-items overflow-y-auto h-full hide-scroll pt-[10px]"
         oncontextmenu={showContextMenu}>
         {#if items}
-            {#each Object.values(items) as space, index (space?.id ?? index)}
+            {#each Object.values(items) as space, index (space?.room_id)}
                 <Item {space} {dragged_over} {dragged} {index} {clientY}
                 move={move} 
                 over={over} 

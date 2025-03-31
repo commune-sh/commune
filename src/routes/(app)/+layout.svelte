@@ -165,6 +165,10 @@ async function setup() {
     }
 }
 
+let session_data = $derived.by(() => {
+    return data?.session != undefined
+})
+
 onMount(async() => {
     //await store.oidc.init()
     if(data?.session && !session) {
@@ -304,6 +308,7 @@ let author = $derived.by(() => {
         <meta property="og:author" content={author}>
     {/if}
 </svelte:head>
+
 
 <Listeners />
 
