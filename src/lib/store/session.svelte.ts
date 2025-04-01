@@ -46,6 +46,7 @@ export type Session = {
     user_id: string;
     device_id: string;
     expires_in?: number;
+    scope?: string;
 }
 
 let compat_sso = $state(false);
@@ -55,6 +56,27 @@ let session: Session | undefined = $state(undefined);
 let authenticated = $derived.by(() => {
     return session?.access_token && session?.user_id && session?.device_id
 })
+
+let is_synapse_admin = $derived.by(() => {
+    return session?.scope?.includes(`urn:synapse:admin`)
+})
+
+let is_mas_admin = $derived.by(() => {
+    return session?.scope?.includes(`urn:mas:admin`)
+})
+
+let is_admin = $derived.by(() => {
+    return is_synapse_admin && is_mas_admin
+})
+
+$effect.root(() => {
+    $effect(() => {
+        if(is_admin) {
+            console.log("Is admin?", is_admin)
+        }
+    })
+})
+
 
 let client_id: string | undefined = $state(undefined);
 
@@ -105,6 +127,7 @@ async function refreshAccessToken(data: Session) {
                 expires_in: expires_in,
                 user_id: data.user_id,
                 device_id: data.device_id,
+                scope: resp.scope
             }),
         });
 
@@ -151,12 +174,12 @@ export function createSessionStore() {
         if(!compat_sso) {
             try {
                 let refreshed = await refreshAccessToken(data)
-                console.log("hmmm", refreshed)
                 if(refreshed) {
                     console.log("Access token refreshed.", refreshed)
                     data.access_token = refreshed.access_token
                     data.refresh_token = refreshed.refresh_token
                     data.expires_in = Date.now() + (refreshed.expires_in * 1000)
+                    data.scope = refreshed.scope
                 }
             } catch (error) {
                 console.error("Failed to refresh access token", error)
