@@ -13,6 +13,7 @@ export const load: LayoutServerLoad = async ({ fetch, params, url, cookies, requ
     const expires_in = cookies.get('expires_in');
     const user_id = cookies.get('user_id');
     const device_id = cookies.get('device_id');
+    const scope = cookies.get('scope');
 
     const client_id = cookies.get('client_id');
     const oidc_client_id = cookies.get('oidc_client_id');
@@ -34,6 +35,10 @@ export const load: LayoutServerLoad = async ({ fetch, params, url, cookies, requ
     if(refresh_token && expires_in && data?.session) {
         data.session.refresh_token = refresh_token
         data.session.expires_in = parseInt(expires_in)
+    }
+
+    if(data?.session && scope) {
+        data.session.scope = scope
     }
 
     if(oidc_client_id) {
