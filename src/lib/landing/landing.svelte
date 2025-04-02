@@ -33,7 +33,10 @@ function sso_login() {
 
         <div class="flex gap-4 pt-16">
             <a href="/register">
-                <button class="">Get started</button>
+                <button class="primary">Get started</button>
+            </a>
+            <a href="/login">
+                <button class="">Login</button>
             </a>
         </div>
 

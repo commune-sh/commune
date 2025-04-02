@@ -82,14 +82,6 @@ export const load: LayoutServerLoad = async ({ fetch, params, url, cookies, requ
                     data.sender = info.sender
                 }
 
-                /*
-        if(params.room != undefined) {
-          let url = `${u}/_matrix/client/v3/rooms/${params.room}/info`
-          const r = await fetch(url)
-          const room =  await r.json()
-          data.room = room
-        }
-        */
 
             }
         } catch(_) {
