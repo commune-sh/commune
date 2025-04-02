@@ -32,8 +32,11 @@ function sso_login() {
         </div>
 
         <div class="flex gap-4 pt-16">
-            <a href="/register">
-                <button class="">Get started</button>
+            <a data-sveltekit-preload-data="tap" href="/register">
+                <button class="primary">Get started</button>
+            </a>
+            <a data-sveltekit-preload-data="tap" href="/login">
+                <button class="secondary bg-cmn-8">Login</button>
             </a>
         </div>
 
@@ -55,14 +58,24 @@ function sso_login() {
 button {
     border-radius: 500px;
     padding: 0.75rem 1.5rem;
-    background-color: var(--text);
-    color: var(--background);
     font-size: 1rem;
     font-weight: 600;
 }
 
 button:hover {
     opacity: 0.9;
+}
+
+.primary {
+    background: var(--primary);
+}
+
+.secondary {
+    background: var(--cmn-4);
+}
+
+.secondary:hover {
+    background: var(--cmn-3);
 }
 
 .landing {
