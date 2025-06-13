@@ -101,12 +101,6 @@ const room_param = $derived.by(() => {
 
 $effect(() => {
     if(browser && !authReady) {
-        store.auth.setup({
-            authenticated: data?.authenticated,
-            access_token: data?.access_token || null,
-            user_id: data?.user_id || null,
-            device_id: data?.device_id || null,
-        })
     }
 
     if(room_param && room_id && !context_event) {
