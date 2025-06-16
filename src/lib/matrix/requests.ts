@@ -1,4 +1,4 @@
-import { PUBLIC_HOMESERVER, PUBLIC_BASE_URL, PUBLIC_APP_NAME, PUBLIC_HOMESERVER_BASE_URL } from '$env/static/public';
+import { PUBLIC_HOMESERVER, PUBLIC_BASE_URL, PUBLIC_HOMESERVER_BASE_URL } from '$env/static/public';
 import { fetchWithTimeout, fetchWithRetry } from '$lib/utils/fetch';
 
 import type { ValidatedAuthMetadata } from 'matrix-js-sdk/src/oidc/validate'
@@ -53,7 +53,7 @@ export const register = async (body) => {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            "initial_device_display_name": PUBLIC_APP_NAME,
+            "initial_device_display_name": `Commune`,
         })
     }
 

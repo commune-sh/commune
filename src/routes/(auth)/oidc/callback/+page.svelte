@@ -1,5 +1,4 @@
 <script lang="ts">
-import { PUBLIC_APP_NAME } from '$env/static/public';
 import { page } from '$app/state';
 import { exchangeForToken, whoami } from '$lib/matrix/requests';
 import { goto } from '$app/navigation';
@@ -37,7 +36,7 @@ async function validateCompatToken() {
 
     try {
         let resp = await store.matrix.client.login("m.login.token", {
-            initial_device_display_name: PUBLIC_APP_NAME,
+            initial_device_display_name: `Commune`,
             token: login_token,
             type: "m.login.token",
         })

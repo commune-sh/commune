@@ -30,7 +30,6 @@ Commune is a sveltekit SSR app and should run on any platform that supports it, 
 Commune requires these ENV variables to be set. Below is an example:
 
 ```env
-PUBLIC_APP_NAME=Commune 
 PUBLIC_BASE_URL=https://commune.sh
 PUBLIC_HOMESERVER=https://matrix.commune.sh 
 PUBLIC_HOMESERVER_BASE_URL=https://commune.sh
