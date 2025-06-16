@@ -1,5 +1,4 @@
 <script>
-import { PUBLIC_META_TITLE, PUBLIC_APP_NAME } from '$env/static/public';
 import { onMount, tick } from 'svelte';
 import { page } from '$app/state';
 import { pushState } from '$app/navigation'
@@ -90,7 +89,7 @@ async function startLogin() {
             type: "m.id.user",
             user: username_or_email
         },
-        initial_device_display_name: PUBLIC_APP_NAME,
+        initial_device_display_name: `Commune`,
         password: password,
         type: "m.login.password",
     }

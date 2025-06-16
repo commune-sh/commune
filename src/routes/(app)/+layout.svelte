@@ -1,7 +1,6 @@
 <script lang="ts">
 import '../../app.css'
 import { 
-    PUBLIC_APP_NAME,
     PUBLIC_BASE_URL,
     PUBLIC_META_TITLE,
     PUBLIC_META_IMAGE,
@@ -271,7 +270,7 @@ let author = $derived.by(() => {
         const local = get_local_part(data.event.sender)
         return cleanDisplayname(local)
     }
-    return PUBLIC_APP_NAME
+    return `Commune`
 })
 
 let synced = $derived.by(() => {
@@ -284,7 +283,7 @@ let synced = $derived.by(() => {
     <meta property="og:title" content={title} />
     <meta property="twitter:title" content={title} />
 
-    <meta property="og:site_name" content={PUBLIC_APP_NAME}>
+    <meta property="og:site_name" content="Commune">
 
     <meta property="og:type" content="website" />
     <meta property="og:url" content={PUBLIC_BASE_URL} />

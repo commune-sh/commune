@@ -1,5 +1,4 @@
 <script>
-import { PUBLIC_META_TITLE, PUBLIC_APP_NAME } from '$env/static/public';
 import { onMount, tick } from 'svelte';
 import { page } from '$app/state';
 import { pushState } from '$app/navigation'
@@ -189,7 +188,7 @@ async function createAccount() {
 async function createDummyAccount(username, password) {
     // create account
     const response = await register({
-        initial_device_display_name: PUBLIC_APP_NAME,
+        initial_device_display_name: `Commune`,
         username: username,
         password: password
     });
@@ -207,7 +206,7 @@ async function createDummyAccount(username, password) {
             session: session,
             type: "m.login.dummy"
         },
-        initial_device_display_name: PUBLIC_APP_NAME,
+        initial_device_display_name: `Commune`,
         username: username,
         password: password
     });
@@ -239,7 +238,7 @@ async function createEmailAccount() {
     email_in_use = false
 
     const response = await register({
-        initial_device_display_name: PUBLIC_APP_NAME,
+        initial_device_display_name: `Commune`,
         username: username,
         password: password
     });
@@ -283,7 +282,7 @@ async function createEmailAccount() {
                     sid: sid
                 }
             },
-            initial_device_display_name: PUBLIC_APP_NAME,
+            initial_device_display_name: `Commune`,
             username: username,
             password: password
         }
