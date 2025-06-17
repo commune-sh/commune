@@ -1,8 +1,4 @@
 <script>
-import { 
-    PUBLIC_META_IMAGE,
-} from '$env/static/public';
-
 import { browser } from '$app/environment'
 
 import { page } from '$app/state';
