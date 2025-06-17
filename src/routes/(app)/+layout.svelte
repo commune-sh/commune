@@ -2,8 +2,6 @@
 import '../../app.css'
 import { 
     PUBLIC_BASE_URL,
-    PUBLIC_META_TITLE,
-    PUBLIC_META_DESCRIPTION,
     PUBLIC_APPSERVICE
 } from '$env/static/public';
 
@@ -193,6 +191,11 @@ let is_room = $derived(page.params.room != undefined)
 let active_space = $derived(store.matrix.active_space)
 let active_room = $derived(store.matrix.active_room)
 
+let PUBLIC_META_TITLE = $derived.by(() => {
+    let PUBLIC_META_TITLE = env?.PUBLIC_META_TITLE
+    return PUBLIC_META_TITLE ? PUBLIC_META_TITLE : `Commune - Matrix Communities`
+})
+
 let title = $derived.by(() => {
     if(data?.event?.sender && data?.sender?.displayname) {
         const alias = cleanDisplayname(data.sender.displayname)
@@ -260,6 +263,12 @@ let image = $derived.by(() => {
         return loadImage()
     }
     return PUBLIC_META_IMAGE
+})
+
+let PUBLIC_META_DESCRIPTION = $derived.by(() => {
+    let PUBLIC_META_DESCRIPTION = env?.PUBLIC_META_DESCRIPTION
+    return PUBLIC_META_DESCRIPTION ? PUBLIC_META_DESCRIPTION : `Matrix-powered
+public communities`
 })
 
 let description = $derived.by(() => {
