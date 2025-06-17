@@ -3,10 +3,11 @@ import '../../app.css'
 import { 
     PUBLIC_BASE_URL,
     PUBLIC_META_TITLE,
-    PUBLIC_META_IMAGE,
     PUBLIC_META_DESCRIPTION,
     PUBLIC_APPSERVICE
 } from '$env/static/public';
+
+import { env } from '$env/dynamic/public';
 
 import type { Data } from '$lib/commune/types'
 
@@ -239,12 +240,24 @@ let raw_image = $derived.by(() => {
     }
 })
 
-let image = $derived.by(async() => {
+async function loadImage() {
+    let content_uri = await downloadMedia(raw_image)
+    if(content_uri) {
+        return content_uri
+    }
+}
+
+let PUBLIC_META_IMAGE = $derived.by(() => {
+    let PUBLIC_META_IMAGE = env?.PUBLIC_META_IMAGE
+    if(PUBLIC_META_IMAGE) {
+        return PUBLIC_META_IMAGE
+    }
+    return `https://static.commune.sh/card.png`
+})
+
+let image = $derived.by(() => {
     if(raw_image) {
-        let content_uri = await downloadMedia(raw_image)
-        if(content_uri) {
-            return content_uri
-        }
+        return loadImage()
     }
     return PUBLIC_META_IMAGE
 })

@@ -1,9 +1,10 @@
 <script>
 import { 
     PUBLIC_META_TITLE,
-    PUBLIC_META_IMAGE,
     PUBLIC_META_DESCRIPTION,
 } from '$env/static/public';
+
+import { env } from '$env/dynamic/public';
 
 import '../../app.css'
 
@@ -34,6 +35,15 @@ $effect(() => {
         goto('/')
     }
 })
+
+let PUBLIC_META_IMAGE = $derived.by(() => {
+    let PUBLIC_META_IMAGE = env?.PUBLIC_META_IMAGE
+    if(PUBLIC_META_IMAGE) {
+        return PUBLIC_META_IMAGE
+    }
+    return `https://static.commune.sh/card.png`
+})
+
 
 </script>
 
