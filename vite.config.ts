@@ -1,6 +1,6 @@
 import tailwindcss from '@tailwindcss/vite';
 import { sveltekit } from '@sveltejs/kit/vite';
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 
 import { exec } from 'child_process'
 import { promisify } from 'util'
@@ -16,6 +16,7 @@ let [version, commit] = (
 
 let link = `https://github.com/commune-sh/commune/commit/${commit}`
 
+/*
 export default defineConfig({
     build: {
         sourcemap: false,
@@ -31,4 +32,34 @@ export default defineConfig({
         __COMMIT__: commit,
         __LINK__: JSON.stringify(link)
     },
+});
+*/
+
+export default defineConfig(({ mode }) => {
+    const env = loadEnv(mode, process.cwd(), '');
+
+    const baseServerConfig = {
+        fs: {
+            allow: ['..'],
+        },
+    };
+
+    const localServerConfig = env.VITE_LOCAL_ORIGIN ? {
+        host: true,
+        allowedHosts: [env.VITE_ALLOWED_HOST],
+        origin: env.VITE_LOCAL_ORIGIN,
+        fs: {
+            allow: ['..'],
+        },
+    } : baseServerConfig;
+
+    return {
+        plugins: [tailwindcss(), sveltekit()],
+        server: localServerConfig,
+        define: {
+            __VERSION__: version,
+            __COMMIT__: commit,
+            __LINK__: JSON.stringify(link)
+        },
+    };
 });

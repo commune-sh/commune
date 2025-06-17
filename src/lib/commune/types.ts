@@ -1,3 +1,5 @@
+import { z } from "zod/v4";
+
 import type { Session } from '$lib/store/session.svelte'
 
 export type Data = {
@@ -9,6 +11,17 @@ export type Data = {
     room?: any;
     event?: any;
     sender?: any;
+    well_known?: MatrixWellKnown;
 }
 
+export const matrixWellKnown = z.object({
+    "m.homeserver": z.object({
+        base_url: z.string().url() 
+    }),
+    "commune.appservice": z.object({
+        url: z.string().url()
+    })
+});
 
+
+export type MatrixWellKnown = z.infer<typeof matrixWellKnown>;
