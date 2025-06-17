@@ -1,7 +1,6 @@
 import { 
   PUBLIC_HOMESERVER,
   PUBLIC_HOMESERVER_NAME,
-  PUBLIC_ALLOW_OTHER_HOMESERVERS
 } from '$env/static/public';
 
 import { browser } from '$app/environment';
@@ -12,8 +11,6 @@ let homeserver_name = $state(PUBLIC_HOMESERVER_NAME);
 
 
 let appservice: string | null = $state(null);
-
-let allow_other_homeservers = $state(PUBLIC_ALLOW_OTHER_HOMESERVERS);
 
 let native_mode = $state(false);
 let capabilities = $state(null);
