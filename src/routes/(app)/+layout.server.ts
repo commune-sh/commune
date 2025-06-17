@@ -1,10 +1,3 @@
-import { 
-    PUBLIC_HOMESERVER_BASE_URL
-} from '$env/static/public';
-
-import { z } from "zod/v4";
-
-
 import { parse } from 'tldts';
 
 import { env } from '$env/dynamic/public';
@@ -69,56 +62,50 @@ export const load: LayoutServerLoad = async ({ fetch, params, url, cookies, requ
         const validation = matrixWellKnown.safeParse(resp);
 
         if(validation.success) {
-            data.well_known = validation.data;
+            data.homeserver = validation.data["m.homeserver"].base_url;
+            data.appservice = validation.data["commune.appservice"].url;
         }
 
+        if(validation.success && !access_token && params.space != undefined) {
+
+            let iurl = `${data.appservice}/_matrix/client/v3/rooms/${params.space}/info`
+            if(params.room != undefined) {
+                iurl = `${data.appservice}/_matrix/client/v3/rooms/${params.space}/info?room=${params.room}`
+                let event = url.searchParams.get('event');
+                if(event) {
+                    iurl = `${data.appservice}/_matrix/client/v3/rooms/${params.space}/info?room=${params.room}&event=${event}`
+                }
+            }
+
+            const r = await fetch(iurl)
+            const info = await r.json()
+            if(info?.info) {
+                data.space = info.info
+                if(data?.space?.avatar_url) {
+                    data.image = data.space.avatar_url
+                }
+            }
+            if(info?.room) {
+                data.room = info.room
+                if(data?.room?.avatar_url) {
+                    data.image = data.room.avatar_url
+                }
+            }
+            if(info?.event) {
+                data.event = info.event
+                if(data?.event?.content?.url) {
+                    data.image = data.event.content.url
+                }
+            }
+            if(info?.sender) {
+                data.sender = info.sender
+                if(data?.sender?.avatar_url) {
+                    data.image = data.sender.avatar_url
+                }
+            }
+        }
 
     } catch (_) {
-    }
-
-
-    if(!access_token && !client_id && params.space != undefined ) {
-
-        try {
-            let curl = `${PUBLIC_HOMESERVER_BASE_URL}/.well-known/matrix/client`
-            const response = await fetch(curl)
-            const resp =  await response.json()
-
-
-            if(resp?.["commune.appservice"]?.url) {
-
-                const u = resp["commune.appservice"].url
-
-                let iurl = `${u}/_matrix/client/v3/rooms/${params.space}/info`
-                if(params.room != undefined) {
-                    iurl = `${u}/_matrix/client/v3/rooms/${params.space}/info?room=${params.room}`
-                    let event = url.searchParams.get('event');
-                    if(event) {
-                        iurl = `${u}/_matrix/client/v3/rooms/${params.space}/info?room=${params.room}&event=${event}`
-                    }
-                }
-
-
-                const r = await fetch(iurl)
-                const info = await r.json()
-                if(info?.info) {
-                    data.space = info.info
-                }
-                if(info?.room) {
-                    data.room = info.room
-                }
-                if(info?.event) {
-                    data.event = info.event
-                }
-                if(info?.sender) {
-                    data.sender = info.sender
-                }
-
-
-            }
-        } catch(_) {
-        }
-
     }
 
     return data;

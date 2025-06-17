@@ -23,7 +23,7 @@ import {
 } from '$lib/utils/matrix'
 
 import { 
-    downloadMedia
+    download_media
 } from '$lib/appservice/requests.svelte'
 
 
@@ -243,10 +243,18 @@ let raw_image = $derived.by(() => {
     }
 })
 
+$effect(() => {
+    console.log("image is", image)
+})
+
 async function loadImage() {
-    let content_uri = await downloadMedia(raw_image)
-    if(content_uri) {
-        return content_uri
+    if(data?.image) {
+        let content_uri = await download_media(data?.image, data.appservice)
+        if(content_uri) {
+            return content_uri
+        }
+    } else {
+        return PUBLIC_META_IMAGE
     }
 }
 
@@ -258,12 +266,13 @@ let PUBLIC_META_IMAGE = $derived.by(() => {
     return `https://static.commune.sh/card.png`
 })
 
-let image = $derived.by(() => {
-    if(raw_image) {
-        return loadImage()
+let image = $state(PUBLIC_META_IMAGE);
+
+$effect(async () => {
+    if(data?.image) {
+        image = await loadImage();
     }
-    return PUBLIC_META_IMAGE
-})
+});
 
 let PUBLIC_META_DESCRIPTION = $derived.by(() => {
     let PUBLIC_META_DESCRIPTION = env?.PUBLIC_META_DESCRIPTION
