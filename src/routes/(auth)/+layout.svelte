@@ -1,9 +1,4 @@
 <script>
-import { 
-    PUBLIC_META_TITLE,
-    PUBLIC_META_DESCRIPTION,
-} from '$env/static/public';
-
 import { env } from '$env/dynamic/public';
 
 import '../../app.css'
@@ -36,6 +31,12 @@ $effect(() => {
     }
 })
 
+let PUBLIC_META_TITLE = $derived.by(() => {
+    let PUBLIC_META_TITLE = env?.PUBLIC_META_TITLE
+    return PUBLIC_META_TITLE ? PUBLIC_META_TITLE : `Commune - Matrix Communities`
+})
+
+
 let PUBLIC_META_IMAGE = $derived.by(() => {
     let PUBLIC_META_IMAGE = env?.PUBLIC_META_IMAGE
     if(PUBLIC_META_IMAGE) {
@@ -44,6 +45,11 @@ let PUBLIC_META_IMAGE = $derived.by(() => {
     return `https://static.commune.sh/card.png`
 })
 
+let PUBLIC_META_DESCRIPTION = $derived.by(() => {
+    let PUBLIC_META_DESCRIPTION = env?.PUBLIC_META_DESCRIPTION
+    return PUBLIC_META_DESCRIPTION ? PUBLIC_META_DESCRIPTION : `Matrix-powered
+public communities`
+})
 
 </script>
 

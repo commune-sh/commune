@@ -1,5 +1,4 @@
 <script>
-import { PUBLIC_META_TITLE } from '$env/static/public';
 import { page } from '$app/state';
 import { onMount } from 'svelte'
 
