@@ -34,14 +34,7 @@ PUBLIC_BASE_URL=https://commune.sh
 PUBLIC_HOMESERVER=https://matrix.commune.sh 
 PUBLIC_HOMESERVER_BASE_URL=https://commune.sh
 PUBLIC_HOMESERVER_NAME=commune.sh
-PUBLIC_ALLOW_OTHER_HOMESERVERS=false
-PUBLIC_META_TITLE=Commune
-PUBLIC_META_IMAGE=https://static.commune.sh/card.png
-PUBLIC_META_DESCRIPTION=Matrix-powered public communities
-PUBLIC_DEFAULT_THEME=dark
 ```
-
-By default, the client will only work with one specfic matrix homeserver. To enable the user to change the homeserver, set `PUBLIC_ALLOW_OTHER_HOMESERVERS` to `true`.
 
 ##### Public Appservice
 

@@ -37,10 +37,7 @@ function getCookieDomain() {
         const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
         let stored = getCookie("theme");
-        let default_theme = `%sveltekit.env.PUBLIC_DEFAULT_THEME%`
-        if(!default_theme) {
-            default_theme = `dark`
-        }
+        let default_theme = `dark`
         const domain = getCookieDomain();
         if(!stored) {
             let theme = prefersDarkMode ? `dark` : default_theme
