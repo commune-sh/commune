@@ -260,3 +260,25 @@ export const downloadMedia = async (mxcid: string): Promise<string | undefined> 
         throw error
     }
 }
+
+export const download_media = async (mxcid: string, appservice: string): Promise<string | undefined> => {
+
+    if(!appservice || !mxcid) return
+
+    const stripped = mxcid.replace('mxc://', '');
+
+    const url = `${appservice}/_matrix/client/v1/media/download/${stripped}`;
+
+    const options: RequestInit = {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    }
+
+    try {
+        const response = await fetch(url, options)
+        return response?.url;
+    } catch (error) {
+        throw error
+    }
+}

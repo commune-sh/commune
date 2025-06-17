@@ -11,7 +11,9 @@ export type Data = {
     room?: any;
     event?: any;
     sender?: any;
-    well_known?: MatrixWellKnown;
+    homeserver: string;
+    appservice: string;
+    image?: string;
 }
 
 export const matrixWellKnown = z.object({
