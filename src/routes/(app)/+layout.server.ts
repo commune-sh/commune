@@ -2,12 +2,17 @@ import {
     PUBLIC_HOMESERVER_BASE_URL
 } from '$env/static/public';
 
+import { z } from "zod/v4";
+
+
 import { parse } from 'tldts';
 
 import { env } from '$env/dynamic/public';
 
 //import { redirect } from "@sveltejs/kit";
 import type { Data } from '$lib/commune/types'
+
+import { matrixWellKnown, type MatrixWellKnown } from '$lib/commune/types'
 
 import type { LayoutServerLoad } from './$types';
 
@@ -50,11 +55,26 @@ export const load: LayoutServerLoad = async ({ fetch, params, url, cookies, requ
     }
 
 
-    let HOMESERVER_NAME = env.PUBLIC_HOMESERVER_NAME;
-
     let domain = parse(url.origin).domain;
-    const endpoint = `https://${domain}/.well-known/matrixbird/client`;
-    console.log(endpoint)
+    let HOMESERVER_NAME = env.PUBLIC_HOMESERVER_NAME;
+    if(HOMESERVER_NAME && HOMESERVER_NAME != "" ) {
+        domain = HOMESERVER_NAME;
+    }
+    const endpoint = `https://${domain}/.well-known/matrix/client`;
+
+    try {
+        const response = await fetch(endpoint);
+        const resp = await response.json();
+
+        const validation = matrixWellKnown.safeParse(resp);
+
+        if(validation.success) {
+            data.well_known = validation.data;
+        }
+
+
+    } catch (_) {
+    }
 
 
     if(!access_token && !client_id && params.space != undefined ) {
@@ -64,7 +84,6 @@ export const load: LayoutServerLoad = async ({ fetch, params, url, cookies, requ
             const response = await fetch(curl)
             const resp =  await response.json()
 
-            console.log(resp)
 
             if(resp?.["commune.appservice"]?.url) {
 
