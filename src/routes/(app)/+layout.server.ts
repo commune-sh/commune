@@ -2,12 +2,17 @@ import {
     PUBLIC_HOMESERVER_BASE_URL
 } from '$env/static/public';
 
-import { redirect } from "@sveltejs/kit";
+import { parse } from 'tldts';
+
+import { env } from '$env/dynamic/public';
+
+//import { redirect } from "@sveltejs/kit";
 import type { Data } from '$lib/commune/types'
 
 import type { LayoutServerLoad } from './$types';
 
 export const load: LayoutServerLoad = async ({ fetch, params, url, cookies, request } ) => {
+
     const access_token = cookies.get('access_token');
     const refresh_token = cookies.get('refresh_token');
     const expires_in = cookies.get('expires_in');
@@ -30,7 +35,6 @@ export const load: LayoutServerLoad = async ({ fetch, params, url, cookies, requ
             device_id,
         }
     }
-    console.log("found session?", data, access_token, user_id, device_id)
 
     if(refresh_token && expires_in && data?.session) {
         data.session.refresh_token = refresh_token
@@ -45,6 +49,14 @@ export const load: LayoutServerLoad = async ({ fetch, params, url, cookies, requ
         data.oidc_client_id = oidc_client_id
     }
 
+
+    let HOMESERVER_NAME = env.PUBLIC_HOMESERVER_NAME;
+
+    let domain = parse(url.origin).domain;
+    const endpoint = `https://${domain}/.well-known/matrixbird/client`;
+    console.log(endpoint)
+
+
     if(!access_token && !client_id && params.space != undefined ) {
 
         try {
@@ -52,6 +64,7 @@ export const load: LayoutServerLoad = async ({ fetch, params, url, cookies, requ
             const response = await fetch(curl)
             const resp =  await response.json()
 
+            console.log(resp)
 
             if(resp?.["commune.appservice"]?.url) {
 
