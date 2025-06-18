@@ -16,25 +16,6 @@ let [version, commit] = (
 
 let link = `https://github.com/commune-sh/commune/commit/${commit}`
 
-/*
-export default defineConfig({
-    build: {
-        sourcemap: false,
-    },
-	plugins: [tailwindcss(), sveltekit()],
-    server: {
-        fs: {
-            allow: ['..'],
-        },
-    },
-    define: {
-        __VERSION__: version,
-        __COMMIT__: commit,
-        __LINK__: JSON.stringify(link)
-    },
-});
-*/
-
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, process.cwd(), '');
 

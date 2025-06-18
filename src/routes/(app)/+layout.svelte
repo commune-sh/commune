@@ -243,13 +243,9 @@ let raw_image = $derived.by(() => {
     }
 })
 
-$effect(() => {
-    console.log("image is", image)
-})
-
 async function loadImage() {
     if(data?.image) {
-        let content_uri = await download_media(data?.image, data.appservice)
+        let content_uri = await download_media(data?.image, data.APPSERVICE_URL)
         if(content_uri) {
             return content_uri
         }
