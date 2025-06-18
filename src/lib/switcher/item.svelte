@@ -292,10 +292,10 @@ const options = $derived.by(() => {
         class="space bg-cmn-4 w-[46px] h-[46px] grid
         transition-transform duration-200
         place-items-center cursor-pointer hover:bg-cmn-7 rounded-[50%]" 
-        class:text-[14px]={initial?.length > 2}
-        class:text-[12px]={initial?.length > 4}
-        class:text-[10px]={initial?.length > 5}
-        class:text-[9px]={initial?.length > 6}
+        class:text-[13px]={initial?.length > 2}
+        class:text-[10px]={initial?.length > 4}
+        class:text-[8px]={initial?.length > 5}
+        class:text-[6px]={initial?.length > 6}
         draggable="true"
         ondrag={drag}
         ondragend={dragend}
