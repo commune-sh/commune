@@ -66,7 +66,7 @@ export const load: LayoutServerLoad = async ({ fetch, params, url, cookies, requ
             data.appservice = validation.data["commune.appservice"].url;
         }
 
-        if(validation.success && !access_token && params.space != undefined) {
+        if(validation.success && !access_token && client_id && params.space != undefined) {
 
             let iurl = `${data.appservice}/_matrix/client/v3/rooms/${params.space}/info`
             if(params.room != undefined) {
@@ -103,6 +103,7 @@ export const load: LayoutServerLoad = async ({ fetch, params, url, cookies, requ
                     data.image = data.sender.avatar_url
                 }
             }
+
         }
 
     } catch (_) {
