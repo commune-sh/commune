@@ -1,4 +1,4 @@
-import { PUBLIC_HOMESERVER_BASE_URL } from '$env/static/public';
+import { PUBLIC_HOMESERVER_BASE_URL, PUBLIC_APPSERVICE } from '$env/static/public';
 import { json } from '@sveltejs/kit';
 
 export function GET() {
@@ -7,7 +7,7 @@ export function GET() {
       'base_url': PUBLIC_HOMESERVER_BASE_URL,
     },
     "commune.appservice": {
-      "url": "https://public.commune.sh"
+      "url": PUBLIC_APPSERVICE
     },
   }
 
