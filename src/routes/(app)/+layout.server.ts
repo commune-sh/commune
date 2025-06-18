@@ -9,7 +9,7 @@ import { matrixWellKnown, type MatrixWellKnown } from '$lib/commune/types'
 
 import type { LayoutServerLoad } from './$types';
 
-export const load: LayoutServerLoad = async ({ fetch, params, url, cookies, request } ) => {
+export const load: LayoutServerLoad = async ({ fetch, params, url, cookies } ) => {
 
     const access_token = cookies.get('access_token');
     const refresh_token = cookies.get('refresh_token');
@@ -48,8 +48,13 @@ export const load: LayoutServerLoad = async ({ fetch, params, url, cookies, requ
     }
 
 
+    let base_url = url;
+    console.log(base_url)
+
     let domain = parse(url.origin).domain;
+
     let HOMESERVER_NAME = env.PUBLIC_HOMESERVER_NAME;
+
     if(HOMESERVER_NAME && HOMESERVER_NAME != "" ) {
         domain = HOMESERVER_NAME;
     }
@@ -62,18 +67,18 @@ export const load: LayoutServerLoad = async ({ fetch, params, url, cookies, requ
         const validation = matrixWellKnown.safeParse(resp);
 
         if(validation.success) {
-            data.homeserver = validation.data["m.homeserver"].base_url;
-            data.appservice = validation.data["commune.appservice"].url;
+            data.HOMESERVER_URL = validation.data["m.homeserver"].base_url;
+            data.APPSERVICE_URL = validation.data["commune.appservice"].url;
         }
 
         if(validation.success && !access_token && client_id && params.space != undefined) {
 
-            let iurl = `${data.appservice}/_matrix/client/v3/rooms/${params.space}/info`
+            let iurl = `${data.APPSERVICE_URL}/_matrix/client/v3/rooms/${params.space}/info`
             if(params.room != undefined) {
-                iurl = `${data.appservice}/_matrix/client/v3/rooms/${params.space}/info?room=${params.room}`
+                iurl = `${data.APPSERVICE_URL}/_matrix/client/v3/rooms/${params.space}/info?room=${params.room}`
                 let event = url.searchParams.get('event');
                 if(event) {
-                    iurl = `${data.appservice}/_matrix/client/v3/rooms/${params.space}/info?room=${params.room}&event=${event}`
+                    iurl = `${data.APPSERVICE_URL}/_matrix/client/v3/rooms/${params.space}/info?room=${params.room}&event=${event}`
                 }
             }
 

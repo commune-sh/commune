@@ -3,6 +3,9 @@ import { z } from "zod/v4";
 import type { Session } from '$lib/store/session.svelte'
 
 export type Data = {
+    HOMESERVER_URL: string;
+    APPSERVICE_URL: string;
+    BASE_URL: string;
     access_token_exists: boolean;
     native_mode: boolean;
     session: Session | undefined;
@@ -11,8 +14,6 @@ export type Data = {
     room?: any;
     event?: any;
     sender?: any;
-    homeserver: string;
-    appservice: string;
     image?: string;
 }
 

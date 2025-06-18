@@ -9,9 +9,6 @@ export function GET() {
     "commune.appservice": {
       "url": "https://public.commune.sh"
     },
-    "org.matrix.msc3575.proxy": {
-      "url": "https://matrix.commune.sh"
-    }
   }
 
   return json(data);
