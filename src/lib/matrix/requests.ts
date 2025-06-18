@@ -1,12 +1,17 @@
-import { PUBLIC_HOMESERVER, PUBLIC_BASE_URL, PUBLIC_HOMESERVER_BASE_URL } from '$env/static/public';
+import { PUBLIC_HOMESERVER, PUBLIC_BASE_URL } from '$env/static/public';
 import { fetchWithTimeout, fetchWithRetry } from '$lib/utils/fetch';
 
 import type { ValidatedAuthMetadata } from 'matrix-js-sdk/src/oidc/validate'
 
 export const MATRIX_BASE_URL = `${PUBLIC_HOMESERVER}/_matrix/client/v3`
 
-export const wellKnownClient = async () => {
-    const url = `${PUBLIC_HOMESERVER_BASE_URL}/.well-known/matrix/client`;
+export const wellKnownClient = async (base_url: string) => {
+
+    if (!base_url) {
+        throw new Error('Base URL is required');
+    }
+
+    const url = `${base_url}/.well-known/matrix/client`;
     let options = {
         headers: {
             'Content-Type': 'application/json',

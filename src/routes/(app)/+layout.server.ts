@@ -48,8 +48,15 @@ export const load: LayoutServerLoad = async ({ fetch, params, url, cookies } ) =
     }
 
 
-    let base_url = url;
-    console.log(base_url)
+    let BASE_URL = env.PUBLIC_BASE_URL;
+
+    if(BASE_URL) {
+        data.BASE_URL = BASE_URL;
+    } else {
+        let base_url = `https://${url.hostname}`
+        data.BASE_URL = base_url;
+    }
+
 
     let domain = parse(url.origin).domain;
 

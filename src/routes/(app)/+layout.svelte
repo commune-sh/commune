@@ -14,7 +14,7 @@ import { page } from '$app/state';
 import { onMount, type Snippet } from 'svelte'
 import { browser } from '$app/environment';
 
-import { wellKnownClient, getVersions } from '$lib/matrix/requests'
+import { getVersions } from '$lib/matrix/requests'
 
 import { 
     get_local_part,
@@ -126,26 +126,15 @@ $effect.pre(() =>{
     }
 })
 
+let APPSERVICE_URL = $derived(data?.APPSERVICE_URL)
+
 async function setup() {
 
-    if(PUBLIC_APPSERVICE) {
-        store.app.updateAppservice(PUBLIC_APPSERVICE)
+    if(APPSERVICE_URL) {
+        store.app.updateAppservice(APPSERVICE_URL)
         store.app.updateAppserviceStatus(true)
+        console.log("Found commune appservice:", APPSERVICE_URL)
         return
-    }
-
-    try {
-        const resp = await wellKnownClient();
-        if(resp?.["commune.appservice"]?.url) {
-            let url = resp["commune.appservice"].url
-            console.log("Found commune appservice:", url)
-            store.app.updateAppservice(url)
-            store.app.updateAppserviceStatus(true)
-        } else {
-            store.app.isNativeMode();
-        }
-
-    } catch(_) {
     }
 
     try {
