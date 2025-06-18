@@ -18,7 +18,7 @@ const room_state = $derived(store.matrix.room_state)
 
 const room = $derived(store.matrix.active_room)
 
-const room_type = $derived(room?.room_type)
+const room_type = $derived(room?.type)
 
 const is_chat = $derived(!room_type)
 const is_forum = $derived(room_type == 'forum')
