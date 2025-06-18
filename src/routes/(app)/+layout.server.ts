@@ -77,11 +77,15 @@ export const load: LayoutServerLoad = async ({ fetch, params, url, cookies } ) =
         const response = await fetch(endpoint);
         const resp = await response.json();
 
+        console.log("Response from well-known endpoint:", resp)
+
         const validation = matrixWellKnown.safeParse(resp);
 
         if(validation.success) {
             data.HOMESERVER_URL = validation.data["m.homeserver"].base_url;
             data.APPSERVICE_URL = validation.data["commune.appservice"].url;
+            console.log("HOMESERVER_URL:", data.HOMESERVER_URL);
+            console.log("APPSERVICE_URL:", data.APPSERVICE_URL);
         }
 
         if(validation.success && !access_token && client_id && params.space != undefined) {
