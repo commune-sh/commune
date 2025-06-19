@@ -1,5 +1,5 @@
 import { redirect } from "@sveltejs/kit";
-import { PUBLIC_HOMESERVER } from '$env/static/public';
+import { PUBLIC_HOMESERVER_URL } from '$env/static/public';
 
 import type { LayoutServerLoad } from './$types';
 
@@ -12,7 +12,7 @@ export const load: LayoutServerLoad = async ({ url, fetch, cookies }) => {
 
     let auth_metadata;
 
-    let endpoint = `${PUBLIC_HOMESERVER}/_matrix/client/unstable/org.matrix.msc2965/auth_metadata`
+    let endpoint = `${PUBLIC_HOMESERVER_URL}/_matrix/client/unstable/org.matrix.msc2965/auth_metadata`
 
     try {
         const response = await fetch(endpoint)

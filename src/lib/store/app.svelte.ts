@@ -1,12 +1,12 @@
 import { 
-  PUBLIC_HOMESERVER,
+  PUBLIC_HOMESERVER_URL,
   PUBLIC_HOMESERVER_NAME,
 } from '$env/static/public';
 
 import { browser } from '$app/environment';
 import { getCookie, createCookie } from '$lib/utils/cookie'
 
-let homeserver = $state(PUBLIC_HOMESERVER);
+let homeserver = $state(PUBLIC_HOMESERVER_URL);
 let homeserver_name = $state(PUBLIC_HOMESERVER_NAME);
 
 

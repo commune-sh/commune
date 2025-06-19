@@ -1,12 +1,12 @@
 <script>
-import { PUBLIC_BASE_URL, PUBLIC_HOMESERVER } from '$env/static/public';
+import { PUBLIC_BASE_URL, PUBLIC_HOMESERVER_URL } from '$env/static/public';
 import { logo } from '$lib/assets/logo.js';
 
 
 let login_link = $derived.by(() => {
     let base = `${PUBLIC_BASE_URL}/oidc/callback`
     let redirect = encodeURIComponent(base)
-    return `${PUBLIC_HOMESERVER}/_matrix/client/v3/login/sso/redirect?redirectUrl=${redirect}`
+    return `${PUBLIC_HOMESERVER_URL}/_matrix/client/v3/login/sso/redirect?redirectUrl=${redirect}`
 })
 
 function sso_login() {

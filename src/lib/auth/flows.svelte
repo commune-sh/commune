@@ -1,5 +1,5 @@
 <script>
-import { PUBLIC_HOMESERVER, PUBLIC_BASE_URL } from '$env/static/public';
+import { PUBLIC_HOMESERVER_URL, PUBLIC_BASE_URL } from '$env/static/public';
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
@@ -46,7 +46,7 @@ $effect(() => {
 })
 
 function startAuth(provider) {
-    let link = `${PUBLIC_HOMESERVER}/_matrix/client/v3/login/sso/redirect/${provider.id}?redirectUrl=${PUBLIC_BASE_URL}/oidc/callback`;
+    let link = `${PUBLIC_HOMESERVER_URL}/_matrix/client/v3/login/sso/redirect/${provider.id}?redirectUrl=${PUBLIC_BASE_URL}/oidc/callback`;
     window.location = link
 }
 

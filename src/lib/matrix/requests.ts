@@ -1,9 +1,9 @@
-import { PUBLIC_HOMESERVER, PUBLIC_BASE_URL } from '$env/static/public';
+import { PUBLIC_HOMESERVER_URL, PUBLIC_BASE_URL } from '$env/static/public';
 import { fetchWithTimeout, fetchWithRetry } from '$lib/utils/fetch';
 
 import type { ValidatedAuthMetadata } from 'matrix-js-sdk/src/oidc/validate'
 
-export const MATRIX_BASE_URL = `${PUBLIC_HOMESERVER}/_matrix/client/v3`
+export const MATRIX_BASE_URL = `${PUBLIC_HOMESERVER_URL}/_matrix/client/v3`
 
 export const wellKnownClient = async (base_url: string) => {
 
@@ -231,7 +231,7 @@ export const whoami = async (access_token) => {
 }
 
 export const getVersions = async () => {
-    const url = `${PUBLIC_HOMESERVER}/_matrix/client/versions`;
+    const url = `${PUBLIC_HOMESERVER_URL}/_matrix/client/versions`;
 
     let options = {
         headers: {
@@ -307,7 +307,7 @@ export const registerOauthClient = async (registration_endpoint: string) => {
 
 export const getAuthMetadata = async (): Promise<ValidatedAuthMetadata | undefined> => {
 
-    const url = `${PUBLIC_HOMESERVER}/_matrix/client/unstable/org.matrix.msc2965/auth_metadata`;
+    const url = `${PUBLIC_HOMESERVER_URL}/_matrix/client/unstable/org.matrix.msc2965/auth_metadata`;
 
     const options: RequestInit = {
         headers: {
@@ -394,7 +394,7 @@ export async function syncGuest(accessToken) {
             account_data: { not_types: ['*'] }
         };
 
-        const response = await fetch(`${PUBLIC_HOMESERVER}/_matrix/client/r0/sync?timeout=30000&filter=${encodeURIComponent(JSON.stringify(filter))}`, {
+        const response = await fetch(`${PUBLIC_HOMESERVER_URL}/_matrix/client/r0/sync?timeout=30000&filter=${encodeURIComponent(JSON.stringify(filter))}`, {
             headers: {
                 'Authorization': `Bearer ${accessToken}`
             }

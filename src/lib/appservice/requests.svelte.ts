@@ -1,4 +1,4 @@
-import { PUBLIC_HOMESERVER } from '$env/static/public';
+import { PUBLIC_HOMESERVER_URL } from '$env/static/public';
 import { getCookie } from '$lib/utils/cookie'
 
 import { createAppStore } from '$lib/store/app.svelte'
@@ -68,7 +68,7 @@ export const getRoomMessages = async (appservice_url, opts) => {
     if(!opts.room_id) return
     let base = appservice_url
     if(opts.authenticated) {
-        base = PUBLIC_HOMESERVER
+        base = PUBLIC_HOMESERVER_URL
     }
 
     let dir = `b`
@@ -111,7 +111,7 @@ export const getEventContext = async (appservice_url, opts) => {
     let base = appservice_url
 
     if(opts.authenticated) {
-        base = PUBLIC_HOMESERVER
+        base = PUBLIC_HOMESERVER_URL
     }
 
     let url = `${base}/_matrix/client/v3/rooms/${opts.room_id}/context/${opts.event_id}?limit=100`;

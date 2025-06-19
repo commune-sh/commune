@@ -8,7 +8,7 @@ import { createSessionStore } from './session.svelte';
 const session_store = createSessionStore();
 
 import { 
-    PUBLIC_HOMESERVER,
+    PUBLIC_HOMESERVER_URL,
 } from '$env/static/public';
 
 import { browser } from '$app/environment';
@@ -53,7 +53,7 @@ let login_flows = $state(null);
 let register_flows = $state(null);
 let registration_disabled = $state(false);
 
-let homeserver = $derived(PUBLIC_HOMESERVER)
+let homeserver = $derived(PUBLIC_HOMESERVER_URL)
 
 let client: MatrixClient = $state(sdk.createClient({
     baseUrl: homeserver,
@@ -273,7 +273,7 @@ export function createMatrixStore() {
 
         console.log("Setting up Matrix client for:", credentials.user_id)
         client = sdk.createClient({
-            baseUrl: PUBLIC_HOMESERVER,
+            baseUrl: PUBLIC_HOMESERVER_URL,
             accessToken: credentials.access_token,
             userId: credentials.user_id,
         });

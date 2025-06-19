@@ -1,4 +1,4 @@
-import { PUBLIC_HOMESERVER } from '$env/static/public';
+import { PUBLIC_HOMESERVER_URL } from '$env/static/public';
 import { v4 as uuidv4 } from 'uuid';
 
 import type { Handle, HandleFetch } from '@sveltejs/kit';
@@ -46,7 +46,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 };
 
 export const handleFetch: HandleFetch = async ({ event, request, fetch }) => {
-    if (request.url.startsWith(PUBLIC_HOMESERVER)) {
+    if (request.url.startsWith(PUBLIC_HOMESERVER_URL)) {
 
         let access_token = event.cookies.get("access_token");
 

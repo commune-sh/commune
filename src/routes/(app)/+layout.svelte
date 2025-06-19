@@ -2,7 +2,6 @@
 import '../../app.css'
 import { 
     PUBLIC_BASE_URL,
-    PUBLIC_APPSERVICE
 } from '$env/static/public';
 
 import { env } from '$env/dynamic/public';

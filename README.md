@@ -31,8 +31,8 @@ Commune requires these ENV variables to be set. Below is an example:
 
 ```env
 PUBLIC_BASE_URL=https://commune.sh
-PUBLIC_HOMESERVER=https://matrix.commune.sh 
-PUBLIC_HOMESERVER_BASE_URL=https://commune.sh
+PUBLIC_APPSERVICE_URL=https://public.commune.sh 
+PUBLIC_HOMESERVER_URL=https://matrix.commune.sh
 PUBLIC_HOMESERVER_NAME=commune.sh
 ```
 
@@ -47,10 +47,10 @@ If you're running Commune on Node, you'll most likely want to put the app behind
 
 ```nginx
 location / {
-  proxy_pass http://localhost:5173;
-  proxy_set_header X-Forwarded-For $remote_addr;
-  proxy_set_header X-Forwarded-Proto $scheme;
-  proxy_set_header Host $host;
+    proxy_pass http://localhost:5173;
+    proxy_set_header X-Forwarded-For $remote_addr;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header Host $host;
 }
 ```
 

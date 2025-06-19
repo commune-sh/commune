@@ -1,8 +1,8 @@
-import { PUBLIC_HOMESERVER, PUBLIC_HOMESERVER_NAME } from '$env/static/public';
+import { PUBLIC_HOMESERVER_URL, PUBLIC_HOMESERVER_NAME } from '$env/static/public';
 
 export function convertFromMXC(url) {
     let stripped = url.replace('mxc://', '');
-    return `${PUBLIC_HOMESERVER}/_matrix/media/r0/download/${stripped}`;
+    return `${PUBLIC_HOMESERVER_URL}/_matrix/media/r0/download/${stripped}`;
 }
 
 export function processURL(url) {

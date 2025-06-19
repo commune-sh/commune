@@ -2,6 +2,10 @@ import { parse } from 'tldts';
 
 import { env } from '$env/dynamic/public';
 
+import {
+    PUBLIC_BASE_URL,
+} from '$env/static/public';
+
 //import { redirect } from "@sveltejs/kit";
 import type { Data } from '$lib/commune/types'
 
@@ -66,6 +70,7 @@ export const load: LayoutServerLoad = async ({ fetch, params, url, cookies } ) =
 
     if(HOMESERVER_NAME) {
         console.log("Using HOMESERVER_NAME from env:", HOMESERVER_NAME);
+        data.HOMESERVER_NAME = HOMESERVER_NAME;
         domain = HOMESERVER_NAME;
     }
 
