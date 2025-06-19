@@ -21,11 +21,6 @@ import {
     processHash
 } from '$lib/utils/matrix'
 
-import { 
-    download_media
-} from '$lib/appservice/requests.svelte'
-
-
 import Listeners from '$lib/listeners/listeners.svelte'
 
 import Layout from '$lib/layout/layout.svelte'
@@ -220,31 +215,6 @@ let title = $derived.by(() => {
     return PUBLIC_META_TITLE
 })
 
-let raw_image = $derived.by(() => {
-    if(metadata?.event?.content?.url) {
-        return metadata?.event.content.url
-    }
-    if(metadata?.sender?.avatar_url) {
-        return metadata.sender.avatar_url
-    }
-    if(metadata?.room?.avatar_url) {
-        return metadata.room.avatar_url
-    }
-    if(metadata?.space?.avatar_url) {
-        return metadata.space.avatar_url
-    }
-})
-
-async function loadImage() {
-    if(metadata?.image) {
-        let content_uri = await download_media(metadata?.image, data.APPSERVICE_URL)
-        if(content_uri) {
-            return content_uri
-        }
-    } else {
-        return PUBLIC_META_IMAGE
-    }
-}
 
 let PUBLIC_META_IMAGE = $derived.by(() => {
     let PUBLIC_META_IMAGE = env?.PUBLIC_META_IMAGE
@@ -254,13 +224,13 @@ let PUBLIC_META_IMAGE = $derived.by(() => {
     return `https://static.commune.sh/card.png`
 })
 
-let image = $state(PUBLIC_META_IMAGE);
-
-$effect(async () => {
-    if(metadata?.image) {
-        image = await loadImage();
+let image = $derived.by(() => {
+    if(data?.metadata?.image) {
+        return data.metadata.image
     }
-});
+    return PUBLIC_META_IMAGE
+})
+
 
 let PUBLIC_META_DESCRIPTION = $derived.by(() => {
     let PUBLIC_META_DESCRIPTION = env?.PUBLIC_META_DESCRIPTION
@@ -314,11 +284,13 @@ let synced = $derived.by(() => {
         <meta name="twitter:image" content={image} />
         <meta content="summary_large_image" name="twitter:card">
     {/if}
+
     {#if description}
         <meta name="description" content={description}>
         <meta property="og:description" content={description}>
         <meta property="twitter:description" content={description}>
     {/if}
+
     {#if author}
         <meta name="author" content={author}>
         <meta property="og:author" content={author}>

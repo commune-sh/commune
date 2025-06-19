@@ -10,6 +10,10 @@ import {
     PUBLIC_HOMESERVER_NAME
 } from '$env/static/public';
 
+import { 
+    download_media
+} from '$lib/appservice/requests.svelte'
+
 //import { redirect } from "@sveltejs/kit";
 import type { Data } from '$lib/commune/types'
 
@@ -134,6 +138,15 @@ export const load: LayoutServerLoad = async ({ fetch, params, url, cookies } ) =
             }
 
             console.log("Metadata gathered:", data.metadata);
+
+            if(data?.metadata?.image) {
+                console.log("Downloading image from:", data.metadata.image)
+                let content_uri = await download_media(data?.metadata?.image, data.APPSERVICE_URL)
+                if(content_uri) {
+                    console.log("Image downloaded to:", content_uri)
+                    data.metadata.image = content_uri;
+                }
+            } 
 
         }
 
