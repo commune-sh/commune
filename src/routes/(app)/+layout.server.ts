@@ -1,5 +1,6 @@
 import { parse } from 'tldts';
 
+import { error } from '@sveltejs/kit';
 import { env } from '$env/dynamic/public';
 
 import {
@@ -66,29 +67,7 @@ export const load: LayoutServerLoad = async ({ fetch, params, url, cookies } ) =
     }
 
 
-    let BASE_URL = env.PUBLIC_BASE_URL;
-
-    if(BASE_URL) {
-        console.log("Using BASE_URL from env:", BASE_URL);
-        data.BASE_URL = BASE_URL;
-    } else {
-        console.log("No BASE_URL in env, using URL from request:", url.hostname);
-        let base_url = `https://${url.hostname}`
-        data.BASE_URL = base_url;
-    }
-
-
-    let domain = parse(url.origin).domain;
-
-    let HOMESERVER_NAME = env.PUBLIC_HOMESERVER_NAME;
-
-    if(HOMESERVER_NAME) {
-        console.log("Using HOMESERVER_NAME from env:", HOMESERVER_NAME);
-        data.HOMESERVER_NAME = HOMESERVER_NAME;
-        domain = HOMESERVER_NAME;
-    }
-
-    const endpoint = `https://${domain}/.well-known/matrix/client`;
+    const endpoint = `https://${PUBLIC_HOMESERVER_NAME}/.well-known/matrix/client`;
 
     console.log("Well-known endpoint is:", endpoint)
 
@@ -96,15 +75,16 @@ export const load: LayoutServerLoad = async ({ fetch, params, url, cookies } ) =
         const response = await fetch(endpoint);
         const resp = await response.json();
 
-        console.log("Response from well-known endpoint:", resp)
-
         const validation = matrixWellKnown.safeParse(resp);
+
+        if(validation.success) {
+            let APPSERVICE_URL = validation.data["commune.appservice"].url;
+            console.log("APPSERVICE_URL:", APPSERVICE_URL);
+        }
 
         if(validation.success) {
             data.HOMESERVER_URL = validation.data["m.homeserver"].base_url;
             data.APPSERVICE_URL = validation.data["commune.appservice"].url;
-            console.log("HOMESERVER_URL:", data.HOMESERVER_URL);
-            console.log("APPSERVICE_URL:", data.APPSERVICE_URL);
         }
 
         if(validation.success && !access_token && client_id && params.space != undefined) {
@@ -147,7 +127,10 @@ export const load: LayoutServerLoad = async ({ fetch, params, url, cookies } ) =
 
         }
 
-    } catch (_) {
+    } catch (err) {
+        error(500, {
+            message: "Failed to fetch well-known configuration."
+        });
     }
 
     return data;
