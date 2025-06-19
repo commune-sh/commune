@@ -93,7 +93,9 @@ export const load: LayoutServerLoad = async ({ fetch, params, url, cookies } ) =
             let APPSERVICE_URL = validation.data["commune.appservice"].url;
         }
 
-        if(validation.success && !access_token && client_id && params.space != undefined) {
+        if(validation.success && !access_token && !client_id && params.space != undefined) {
+
+            console.log("Gathering metadata for space:", params.space);
 
             let iurl = `${data.APPSERVICE_URL}/_matrix/client/v3/rooms/${params.space}/info`
             if(params.room != undefined) {
@@ -130,6 +132,8 @@ export const load: LayoutServerLoad = async ({ fetch, params, url, cookies } ) =
                     data.metadata.image = data.metadata.sender.avatar_url
                 }
             }
+
+            console.log("Metadata gathered:", data.metadata);
 
         }
 
