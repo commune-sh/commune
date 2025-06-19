@@ -66,8 +66,20 @@ export const load: LayoutServerLoad = async ({ fetch, params, url, cookies } ) =
         data.oidc_client_id = oidc_client_id
     }
 
+    // query public appservice health
+    let appservice_endpoint = `${data.APPSERVICE_URL}/health`;
 
-    const endpoint = `https://${PUBLIC_HOMESERVER_NAME}/.well-known/matrix/client`;
+    try {
+        const appservice_response = await fetch(appservice_endpoint);
+        const resp = await appservice_response.json();
+    } catch (err) {
+        error(500, {
+            message: "Failed to connect to appservice."
+        });
+    }
+
+
+    let endpoint = `https://${PUBLIC_HOMESERVER_NAME}/.well-known/matrix/client`;
 
     console.log("Well-known endpoint is:", endpoint)
 
@@ -79,12 +91,6 @@ export const load: LayoutServerLoad = async ({ fetch, params, url, cookies } ) =
 
         if(validation.success) {
             let APPSERVICE_URL = validation.data["commune.appservice"].url;
-            console.log("APPSERVICE_URL:", APPSERVICE_URL);
-        }
-
-        if(validation.success) {
-            data.HOMESERVER_URL = validation.data["m.homeserver"].base_url;
-            data.APPSERVICE_URL = validation.data["commune.appservice"].url;
         }
 
         if(validation.success && !access_token && client_id && params.space != undefined) {
