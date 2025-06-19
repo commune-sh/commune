@@ -73,6 +73,10 @@ $effect.pre(() => {
     }
 })
 
+let metadata = $derived.by(() => {
+    return data?.metadata
+})
+
 const hash_params = $derived.by(() => {
     return processHash(page.url.hash)
 })
@@ -185,18 +189,18 @@ let PUBLIC_META_TITLE = $derived.by(() => {
 })
 
 let title = $derived.by(() => {
-    if(data?.event?.sender && data?.sender?.displayname) {
-        const alias = cleanDisplayname(data.sender.displayname)
-        const sender = cleanDisplayname(data.event.sender)
+    if(metadata?.event?.sender && metadata?.sender?.displayname) {
+        const alias = cleanDisplayname(metadata.sender.displayname)
+        const sender = cleanDisplayname(metadata.event.sender)
         return `${alias} (${sender})`
     }
-    if(data?.room?.name && data?.space?.name) {
-        return `${data.room.name} - ${data.space.name}`
+    if(metadata?.room?.name && metadata?.space?.name) {
+        return `${metadata.room.name} - ${metadata.space.name}`
     }
-    if(data?.space?.name) {
-        return data.space.name
-    } else if(data?.space?.canonical_alias) {
-        const alias = get_local_part(data.space.canonical_alias)
+    if(metadata?.space?.name) {
+        return metadata.space.name
+    } else if(metadata?.space?.canonical_alias) {
+        const alias = get_local_part(metadata.space.canonical_alias)
         return alias
     }
     if(active_room?.name && active_space?.name) {
@@ -217,23 +221,23 @@ let title = $derived.by(() => {
 })
 
 let raw_image = $derived.by(() => {
-    if(data?.event?.content?.url) {
-        return data?.event.content.url
+    if(metadata?.event?.content?.url) {
+        return metadata?.event.content.url
     }
-    if(data?.sender?.avatar_url) {
-        return data.sender.avatar_url
+    if(metadata?.sender?.avatar_url) {
+        return metadata.sender.avatar_url
     }
-    if(data?.room?.avatar_url) {
-        return data.room.avatar_url
+    if(metadata?.room?.avatar_url) {
+        return metadata.room.avatar_url
     }
-    if(data?.space?.avatar_url) {
-        return data.space.avatar_url
+    if(metadata?.space?.avatar_url) {
+        return metadata.space.avatar_url
     }
 })
 
 async function loadImage() {
-    if(data?.image) {
-        let content_uri = await download_media(data?.image, data.APPSERVICE_URL)
+    if(metadata?.image) {
+        let content_uri = await download_media(metadata?.image, data.APPSERVICE_URL)
         if(content_uri) {
             return content_uri
         }
@@ -253,7 +257,7 @@ let PUBLIC_META_IMAGE = $derived.by(() => {
 let image = $state(PUBLIC_META_IMAGE);
 
 $effect(async () => {
-    if(data?.image) {
+    if(metadata?.image) {
         image = await loadImage();
     }
 });
@@ -265,24 +269,24 @@ public communities`
 })
 
 let description = $derived.by(() => {
-    if(data?.event?.content?.body) {
-        return data.event.content.body
+    if(metadata?.event?.content?.body) {
+        return metadata.event.content.body
     }
-    if(data?.room?.topic) {
-        return data.room.topic
+    if(metadata?.room?.topic) {
+        return metadata.room.topic
     }
-    if(data?.space?.topic) {
-        return data.space.topic
+    if(metadata?.space?.topic) {
+        return metadata.space.topic
     }
     return PUBLIC_META_DESCRIPTION
 })
 
 let author = $derived.by(() => {
-    if(data?.sender?.displayname) {
-        return cleanDisplayname(data.sender.displayname)
+    if(metadata?.sender?.displayname) {
+        return cleanDisplayname(metadata.sender.displayname)
     }
-    if(data?.event?.sender) {
-        const local = get_local_part(data.event.sender)
+    if(metadata?.event?.sender) {
+        const local = get_local_part(metadata.event.sender)
         return cleanDisplayname(local)
     }
     return `Commune`

@@ -4,6 +4,9 @@ import { env } from '$env/dynamic/public';
 
 import {
     PUBLIC_BASE_URL,
+    PUBLIC_APPSERVICE_URL,
+    PUBLIC_HOMESERVER_URL,
+    PUBLIC_HOMESERVER_NAME
 } from '$env/static/public';
 
 //import { redirect } from "@sveltejs/kit";
@@ -26,8 +29,19 @@ export const load: LayoutServerLoad = async ({ fetch, params, url, cookies } ) =
     const oidc_client_id = cookies.get('oidc_client_id');
 
     let data: Data = {
+        BASE_URL: PUBLIC_BASE_URL,
+        APPSERVICE_URL: PUBLIC_APPSERVICE_URL,
+        HOMESERVER_URL: PUBLIC_HOMESERVER_URL,
+        HOMESERVER_NAME: PUBLIC_HOMESERVER_NAME,
         access_token_exists: false,
         native_mode: false,
+        metadata: {
+            space: {},
+            room: {},
+            event: {},
+            sender: {},
+            image: null
+        }
     };
 
     if(access_token && user_id && device_id) {
@@ -106,28 +120,28 @@ export const load: LayoutServerLoad = async ({ fetch, params, url, cookies } ) =
 
             const r = await fetch(iurl)
             const info = await r.json()
-            if(info?.info) {
-                data.space = info.info
-                if(data?.space?.avatar_url) {
-                    data.image = data.space.avatar_url
+            if(info?.info && data?.metadata) {
+                data.metadata.space = info.info
+                if(data.metadata?.space?.avatar_url) {
+                    data.metadata.image = data.metadata.space.avatar_url
                 }
             }
-            if(info?.room) {
-                data.room = info.room
-                if(data?.room?.avatar_url) {
-                    data.image = data.room.avatar_url
+            if(info?.room && data?.metadata) {
+                data.metadata.room = info.room
+                if(data.metadata?.room?.avatar_url) {
+                    data.metadata.image = data.metadata.room.avatar_url
                 }
             }
-            if(info?.event) {
-                data.event = info.event
-                if(data?.event?.content?.url) {
-                    data.image = data.event.content.url
+            if(info?.event && data?.metadata) {
+                data.metadata.event = info.event
+                if(data.metadata?.event?.content?.url) {
+                    data.metadata.image = data.metadata.event.content.url
                 }
             }
-            if(info?.sender) {
-                data.sender = info.sender
-                if(data?.sender?.avatar_url) {
-                    data.image = data.sender.avatar_url
+            if(info?.sender && data?.metadata) {
+                data.metadata.sender = info.sender
+                if(data.metadata?.sender?.avatar_url) {
+                    data.metadata.image = data.metadata.sender.avatar_url
                 }
             }
 

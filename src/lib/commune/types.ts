@@ -9,13 +9,17 @@ export type Data = {
     HOMESERVER_NAME: string;
     access_token_exists: boolean;
     native_mode: boolean;
-    session: Session | undefined;
+    session?: Session | undefined;
     oidc_client_id?: string;
+    metadata?: RequestMetadata;
+}
+
+type RequestMetadata = {
     space?: any;
     room?: any;
     event?: any;
     sender?: any;
-    image?: string;
+    image?: string | null;
 }
 
 export const matrixWellKnown = z.object({
