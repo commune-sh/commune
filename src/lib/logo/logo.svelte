@@ -35,7 +35,7 @@ let options = {
         class:cursor-pointer={!is_static}
         use:tooltip={options}
         class="logo relative bg-cmn-7 justify-center w-[46px] h-[46px] p-[4px]
-        rounded-[50%] hover:rounded-[14px] hover:bg-cmn-7">
+        rounded-[14px] hover:bg-cmn-7">
         {@html logo}
     </div>
 </div>
