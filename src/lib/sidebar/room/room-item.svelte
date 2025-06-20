@@ -11,6 +11,7 @@ import {
 
 import { 
     hash,
+    chatBubble,
     ellipsis
 } from '$lib/assets/icons'
 
@@ -158,6 +159,14 @@ const title = $derived.by(() => {
     return `Untitled Room`
 })
 
+const is_forum = $derived.by(() => {
+    return item?.type == "forum"
+})
+
+const room_icon = $derived.by(() => {
+    return is_forum ? chatBubble : hash
+})
+
 const domain = $derived.by(() => {
     return get_domain(item?.canonical_alias)
 })
@@ -182,7 +191,7 @@ function openMenu(e) {
     <div class="item grid grid-cols-[auto_1fr_auto]">
         <div class="pl-2">
             <div class="r-i h-[16px] w-[16px] h-full grid items-center">
-                {@html hash}
+                {@html room_icon}
             </div>
         </div>
         <div class="room-name ml-2 font-normal truncate py-2">
