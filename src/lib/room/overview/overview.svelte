@@ -48,7 +48,7 @@ async function getAvatar() {
         mxcid: avatar_url,
         width: 96,
         height: 96,
-        method: 'scale'
+        method: 'crop'
     })
     if(content_uri) {
         avatar = content_uri

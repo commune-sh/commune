@@ -249,7 +249,7 @@ async function getAvatar() {
         mxcid: avatar_url,
         width: 96,
         height: 96,
-        method: 'scale'
+        method: 'crop'
     })
     if(content_uri) {
         avatar = content_uri
@@ -302,7 +302,7 @@ const options = $derived.by(() => {
         ondragstart={dragstart}>
 
         {#if avatar}
-            <img src={avatar} alt={name} class="avatar bg-cmn-4" loading="lazy" />
+            <img src={avatar} alt={name} class="bg-cmn-4" loading="lazy" />
         {/if}
         {#if !avatar_url}
         <div class="initial font-semibold">
