@@ -51,9 +51,14 @@ export async function initializeAppData(
             authenticated = resp;
         } catch (err) {
             console.error("Authentication failed:", err);
-            error(500, {
-                message: "Failed to authenticate user."
-            });
+            console.error("Deleting cookies.")
+            cookies.delete('access_token', { path: '/' });
+            cookies.delete('refresh_token', { path: '/' });
+            cookies.delete('user_id', { path: '/' });
+            cookies.delete('expires_in', { path: '/' });
+            cookies.delete('device_id', { path: '/' });
+            cookies.delete('scope', { path: '/' });
+            cookies.delete('oidc_code_verifier', { path: '/' });
         }
     }
 

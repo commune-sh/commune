@@ -15,6 +15,7 @@ export const load: PageServerLoad = async ({ cookies, parent }) => {
     cookies.delete('expires_in', { path: '/' });
     cookies.delete('device_id', { path: '/' });
     cookies.delete('oidc_code_verifier', { path: '/' });
+    cookies.delete('scope', { path: '/' });
 
     const data = await parent();
 
