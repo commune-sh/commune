@@ -7,6 +7,7 @@ export type Data = {
     APPSERVICE_URL: string;
     HOMESERVER_URL: string;
     HOMESERVER_NAME: string;
+    authenticated: boolean;
     access_token_exists: boolean;
     native_mode: boolean;
     session?: Session | undefined;

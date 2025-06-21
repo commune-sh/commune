@@ -73,6 +73,9 @@ let status: {
 
 $effect.root(() => {
     $effect(() => {
+        if(browser && page?.params?.room) {
+            console.log("new page is ", page?.params.room)
+        }
         if(browser && session) {
             setupClient()
         }

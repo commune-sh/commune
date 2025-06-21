@@ -1,5 +1,6 @@
 <script lang="ts">
 import { page } from '$app/state';
+import { PUBLIC_BASE_URL } from '$env/static/public';
 import { exchangeForToken, whoami } from '$lib/matrix/requests';
 import { goto } from '$app/navigation';
 
@@ -30,55 +31,6 @@ const login_token = $derived(data?.loginToken)
 const callback_state = $derived(data?.state)
 const callback_code = $derived(data?.code)
 
-async function validateCompatToken() {
-
-    console.log("validating token", login_token)
-
-    try {
-        let resp = await store.matrix.client.login("m.login.token", {
-            initial_device_display_name: `Commune`,
-            token: login_token,
-            type: "m.login.token",
-        })
-
-        if(resp?.access_token && resp?.user_id && resp?.device_id) {
-            console.log(resp)
-
-            const res = await fetch('/api/auth/session', {
-                method: 'POST',
-                body: JSON.stringify({
-                    access_token: resp.access_token,
-                    device_id: resp.device_id,
-                    user_id: resp.user_id,
-                }),
-            });
-
-            const json = await res.json();
-
-            console.log("resp", json)
-
-            /*
-            store.auth.saveSession({
-                access_token: resp.access_token,
-                user_id: resp.user_id,
-                device_id: resp.device_id,
-                home_server: resp.home_server,
-            })
-            */
-            goto('/')
-        }
-
-    } catch (error: any) {
-        console.log(error)
-        if(error?.errcode == "M_FORBIDDEN") {
-            failed = true
-            busy = false
-            return
-        }
-    }
-
-}
-
 async function getAccessToken() {
 
     console.log("Fetching access token.")
@@ -86,7 +38,7 @@ async function getAccessToken() {
     const params = new URLSearchParams();
     params.append('grant_type', 'authorization_code');
     params.append('code', callback_code);
-    params.append('redirect_uri', "http://localhost:5173/oidc/callback");
+    params.append('redirect_uri', `${PUBLIC_BASE_URL}/oidc/callback`);
     params.append('client_id', data.oidc_client_id);
     params.append('code_verifier', data.oidc_code_verifier);
 
@@ -120,9 +72,6 @@ async function getAccessToken() {
 }
 
 onMount(() => {
-    if(login_token) {
-        validateCompatToken()
-    }
     if(token_endpoint && callback_code) {
         getAccessToken()
     }

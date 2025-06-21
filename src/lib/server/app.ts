@@ -14,6 +14,8 @@ import { matrixWellKnown } from '$lib/commune/types'
 
 import type { Data } from '$lib/commune/types'
 
+import { authenticate, type AuthCookies } from '$lib/server/auth';
+
 export async function initializeAppData(
     cookies: any, 
     params: any,
@@ -30,11 +32,38 @@ export async function initializeAppData(
     const client_id = cookies.get('client_id');
     const oidc_client_id = cookies.get('oidc_client_id');
 
+    let auth_cookies = oidc_client_id && access_token && refresh_token && expires_in && scope && user_id && device_id;
+
+    let authenticated = false;
+
+    if(auth_cookies) {
+        try {
+            let resp = await authenticate({
+                oidc_client_id,
+                access_token,
+                refresh_token,
+                expires_in,
+                scope,
+                user_id,
+                device_id
+            } as AuthCookies);
+            console.log("Authentication successful?:", resp);
+            authenticated = resp;
+        } catch (err) {
+            console.error("Authentication failed:", err);
+            error(500, {
+                message: "Failed to authenticate user."
+            });
+        }
+    }
+
+
     let data: Data = {
         BASE_URL: PUBLIC_BASE_URL,
         APPSERVICE_URL: PUBLIC_APPSERVICE_URL,
         HOMESERVER_URL: PUBLIC_HOMESERVER_URL,
         HOMESERVER_NAME: PUBLIC_HOMESERVER_NAME,
+        authenticated: authenticated,
         access_token_exists: false,
         native_mode: false,
         oidc_client_id: oidc_client_id || null,
@@ -68,13 +97,13 @@ export async function initializeAppData(
         data.oidc_client_id = oidc_client_id
     }
 
+
     // query public appservice health
     let appservice_endpoint = `${data.APPSERVICE_URL}/health`;
 
     try {
         const appservice_response = await fetch(appservice_endpoint);
         const resp = await appservice_response.json();
-        console.log(resp)
     } catch (err) {
         error(500, {
             message: "Failed to connect to appservice."
@@ -82,12 +111,9 @@ export async function initializeAppData(
     }
 
     let endpoint = `https://${PUBLIC_HOMESERVER_NAME}/.well-known/matrix/client`;
-    console.log("Well-known endpoint is:", endpoint)
-
     try {
         const response = await fetch(endpoint);
         const resp = await response.json();
-        console.log("Well-known response:", resp)
 
         const validation = matrixWellKnown.safeParse(resp);
 

@@ -171,6 +171,7 @@ export function createSessionStore() {
 
         client_id = oidc_client_id;
 
+        /*
         if(!compat_sso) {
             try {
                 let refreshed = await refreshAccessToken(data)
@@ -186,6 +187,7 @@ export function createSessionStore() {
                 return
             }
         }
+        */
 
         try {
             let user = await whoami(data.access_token);
