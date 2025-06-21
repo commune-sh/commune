@@ -92,6 +92,7 @@ async function setupClient() {
     client =  sdk.createClient({
         baseUrl: homeserver,
         accessToken: session?.access_token,
+        refreshToken: session?.refresh_token,
         userId: session?.user_id,
         deviceId: session?.device_id,
     });
