@@ -42,12 +42,7 @@ $effect(() => {
         }
         ready = true
     }
-    if(store.app.appservice_reachable && 
-        !public_spaces_fetched &&
-        !store.auth.authenticated &&
-        !data.access_token_exists) {
-        console.log("Fetching public spaces.")
-        public_spaces_fetched = true
+    if(data.authenticated == false) {
         store.matrix.fetchPublicRooms()
     }
 })

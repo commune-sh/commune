@@ -112,20 +112,12 @@ $effect(() => {
     }
 })
 
-
-$effect.pre(() =>{
-    if(data?.space && store.app.appservice_reachable) {
-        prepareSpace()
-    }
-})
-
 let APPSERVICE_URL = $derived(data?.APPSERVICE_URL)
 
 async function setup() {
 
     if(APPSERVICE_URL) {
         store.app.updateAppservice(APPSERVICE_URL)
-        store.app.updateAppserviceStatus(true)
         console.log("Found commune appservice:", APPSERVICE_URL)
         return
     }

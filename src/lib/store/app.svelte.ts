@@ -14,7 +14,6 @@ let appservice: string | null = $state(null);
 
 let capabilities = $state(null);
 
-let appservice_reachable = $state(false);
 let homeserver_reachable = $state(true);
 let homeserver_versions = $state(null);
 
@@ -62,10 +61,6 @@ export function createAppStore() {
   function homeserverUnreachable() {
     console.warn("Setting homeserver as unreachable.")
     homeserver_reachable = false;
-  }
-
-  function updateAppserviceStatus(state) {
-    appservice_reachable = state
   }
 
   function updateHomeserver(h) {
@@ -118,10 +113,6 @@ export function createAppStore() {
       return homeserver_reachable;
     },
 
-    get appservice_reachable() {
-      return appservice_reachable;
-    },
-
     get theme() {
       return theme;
     },
@@ -133,7 +124,6 @@ export function createAppStore() {
     updateSpace,
     updateCapabilities,
     updateHomeserverStatus,
-    updateAppserviceStatus,
     homeserverUnreachable,
     toggleTheme
     };

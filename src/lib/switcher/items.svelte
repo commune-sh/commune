@@ -11,7 +11,6 @@ import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 const homeserver_reachable = $derived(store.app.homeserver_reachable)
-const appservice_reachable = $derived(store.app.appservice_reachable)
 
 const authReady = $derived(store.auth.ready)
 const authenticated = $derived(store.auth.authenticated)

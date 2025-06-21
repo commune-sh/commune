@@ -68,6 +68,8 @@ async function getAccessToken() {
             goto('/')
         }
     } catch (error) {
+        console.error("Error storing access token:", error);
+        failed = true;
     }
 
 }
