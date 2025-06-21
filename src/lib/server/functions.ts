@@ -18,7 +18,7 @@ export async function initializeAppData(
     cookies: any, 
     params: any,
     url: any
-): Data {
+): Promise<Data> {
 
     const access_token = cookies.get('access_token');
     const refresh_token = cookies.get('refresh_token');
@@ -82,7 +82,6 @@ export async function initializeAppData(
     }
 
     let endpoint = `https://${PUBLIC_HOMESERVER_NAME}/.well-known/matrix/client`;
-
     console.log("Well-known endpoint is:", endpoint)
 
     try {
@@ -92,13 +91,7 @@ export async function initializeAppData(
 
         const validation = matrixWellKnown.safeParse(resp);
 
-        if(validation.success) {
-            let APPSERVICE_URL = validation.data["commune.appservice"].url;
-        }
-
         if(validation.success && !access_token && !client_id && params.space != undefined) {
-
-            console.log("Gathering metadata for space:", params.space);
 
             let iurl = `${data.APPSERVICE_URL}/_matrix/client/v3/rooms/${params.space}/info`
             console.log(iurl)
