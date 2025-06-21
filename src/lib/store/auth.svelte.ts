@@ -30,6 +30,11 @@ if(browser) {
 
 export function createAuthStore() {
 
+    function setToAuthenticated() {
+        console.log("Setting authenticated to true.")
+        authenticated = true;
+    }
+
     async function setup(opts) {
 
         if(opts?.authenticated && opts?.access_token && opts?.user_id) {
@@ -196,5 +201,6 @@ export function createAuthStore() {
         updateLoginFlows,
         saveSession,
         saveGuestSession,
+        setToAuthenticated,
     };
 }

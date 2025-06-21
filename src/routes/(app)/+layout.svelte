@@ -139,6 +139,7 @@ onMount(async() => {
     await store.oidc.init()
     if(data.authenticated) {
         console.log("authenticated")
+        store.auth.setToAuthenticated()
     }
     if(data?.session && !session) {
         store.session.update(data.session, data.oidc_client_id)

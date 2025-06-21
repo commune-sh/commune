@@ -1,8 +1,10 @@
 <script>
-import { left, hash } from '$lib/assets/icons'
+import { left, chatBubble, hash } from '$lib/assets/icons'
 
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
+
+const authenticated = $derived(store.auth.authenticated)
 
 let {
     is_space,
@@ -18,7 +20,6 @@ function toggleMenu() {
     store.ui.toggleMenu()
 }
 
-
 const active_space = $derived(store.matrix.active_space)
 const active_room = $derived(store.matrix.active_room)
 
@@ -29,6 +30,15 @@ const space_state = $derived.by(() => {
 const room_state = $derived.by(() => {
     return store.matrix.room_state[active_room?.room_id]
 })
+
+const is_forum = $derived.by(() => {
+    return active_room?.type == "forum"
+})
+
+const room_icon = $derived.by(() => {
+    return is_forum ? chatBubble : hash
+})
+
 
 const name = $derived.by(() => {
     if(is_space_child_room && active_room?.name) {
@@ -93,7 +103,7 @@ $effect(() => {
     <div class="header-content overflow-hidden flex items-center justify-items-start">
         {#if is_space_child_room}
             <div class="hash h-[20px] w-[20px] mr-2">
-                {@html hash}
+                {@html room_icon}
             </div>
             <div class="font-semibold text-sm">
                 {name}
@@ -117,8 +127,15 @@ $effect(() => {
                 {room_topic}
             </div>
         {/if}
-        <div class="">
+        <div class="flex-1">
         </div>
+        {#if !authenticated}
+            <div class="mr-2">
+                <a data-sveltekit-preload-data="tap" href="/login">
+                    <button class="primary">Login</button>
+                </a>
+            </div>
+        {/if}
     </div>
 </div>
 
@@ -130,6 +147,21 @@ $effect(() => {
 .header-content {
     margin-left: 1rem;
     margin-right: 1rem;
+}
+
+button {
+    border-radius: 4px;
+    padding: 0.3rem 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+.primary {
+    background: var(--primary);
 }
 
 @media (max-width: 768px) {
