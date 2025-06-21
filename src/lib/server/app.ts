@@ -75,21 +75,15 @@ export async function initializeAppData(
         }
     };
 
-    if(access_token && user_id && device_id) {
+    if (authenticated) {
         data.session = {
-            access_token,
-            user_id,
-            device_id,
+            access_token: access_token,
+            user_id: user_id,
+            device_id: device_id,
+            refresh_token: refresh_token,
+            expires_in: parseInt(expires_in),
+            scope: scope,
         }
-    }
-
-    if(refresh_token && expires_in && data?.session) {
-        data.session.refresh_token = refresh_token
-        data.session.expires_in = parseInt(expires_in)
-    }
-
-    if(data?.session && scope) {
-        data.session.scope = scope
     }
 
     if(oidc_client_id) {
