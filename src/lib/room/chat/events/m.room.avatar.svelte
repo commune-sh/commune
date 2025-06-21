@@ -38,7 +38,7 @@ async function getImage() {
         mxcid: event.content.url,
         width: w,
         height: h,
-        method: 'scale'
+        method: 'crop'
     })
 
     if(content_uri) {
