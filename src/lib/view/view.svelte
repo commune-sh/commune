@@ -148,7 +148,7 @@ function clickThrough() {
 
 <style>
 .overlay-loading {
-    z-index: 1000;
+    z-index: 2;
     position: absolute;
     top: 0;
     bottom: 0;
