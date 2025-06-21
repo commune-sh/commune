@@ -10,8 +10,6 @@ import { onMount } from 'svelte'
 onMount(() => {
 })
 
-import AuthView from '$lib/auth/auth-view.svelte'
-
 let { data } = $props();
 
 import { createStore } from '$lib/store/store.svelte'
