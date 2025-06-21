@@ -65,7 +65,6 @@ export async function initializeAppData(
         HOMESERVER_NAME: PUBLIC_HOMESERVER_NAME,
         authenticated: authenticated,
         access_token_exists: false,
-        native_mode: false,
         oidc_client_id: oidc_client_id || null,
         metadata: {
             space: {},

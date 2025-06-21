@@ -12,7 +12,6 @@ let homeserver_name = $state(PUBLIC_HOMESERVER_NAME);
 
 let appservice: string | null = $state(null);
 
-let native_mode = $state(false);
 let capabilities = $state(null);
 
 let appservice_reachable = $state(false);
@@ -44,11 +43,6 @@ export function createAppStore() {
 
   function isReady() {
     ready = true
-  }
-
-  function isNativeMode() {
-    console.log("Public server doesn't exist or is unreachable. Setting native mode.")
-    native_mode = true;
   }
 
   function updateSpace(space) {
@@ -112,10 +106,6 @@ export function createAppStore() {
       return ready;
     },
 
-    get native_mode() {
-      return native_mode;
-    },
-
     get space() {
       return app.space;
     },
@@ -140,7 +130,6 @@ export function createAppStore() {
     updateHomeserver,
     updateAppservice,
     isReady,
-    isNativeMode,
     updateSpace,
     updateCapabilities,
     updateHomeserverStatus,

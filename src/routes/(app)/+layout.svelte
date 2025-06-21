@@ -50,11 +50,6 @@ let { data, children }: {
     children: Snippet;
 } = $props();
 
-// derive native mode from app store
-let native_mode = $derived(store.app.native_mode)
-
-let homeserver_reachable = $derived(data.homeserver_reachable)
-
 const room_id = $derived(store.matrix.active_room?.room_id)
 
 const context_event = $derived.by(() => {
@@ -162,9 +157,6 @@ onMount(async() => {
     }
 
     await setup()
-
-    if(!data?.native_mode) {
-    }
 
 })
 
