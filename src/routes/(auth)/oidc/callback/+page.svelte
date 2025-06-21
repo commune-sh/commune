@@ -56,6 +56,7 @@ async function getAccessToken() {
                 body: JSON.stringify({
                     access_token: resp.access_token,
                     refresh_token: resp.refresh_token,
+                    scope: resp.scope,
                     expires_in: expires_in,
                     user_id: user.user_id,
                     device_id: user.device_id,
