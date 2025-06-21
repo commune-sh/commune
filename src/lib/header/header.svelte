@@ -4,15 +4,13 @@ import { left, chatBubble, hash } from '$lib/assets/icons'
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
-const authenticated = $derived(store.auth.authenticated)
+const authenticated = $derived(store.session.authenticated)
 
 let {
     is_space,
     is_space_child_room,
     non_space_room
 } = $props();
-
-const show_auth = $derived(store.auth.ready && store.auth.authenticated)
 
 const menu_active = $derived(store.ui.menu_active)
 

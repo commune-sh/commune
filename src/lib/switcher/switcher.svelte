@@ -3,7 +3,11 @@ import Logo from '$lib/logo/logo.svelte'
 import Items from './items.svelte'
 import User from './user.svelte'
 
-import { is_authenticated } from '$lib/store/session.svelte'
+import { createStore } from '$lib/store/store.svelte'
+const store = createStore()
+
+const authenticated = $derived(store.session.authenticated)
+
 </script>
 
 <div class="switcher grid grid-rows-[72px_auto_1fr_auto] h-full select-none 
@@ -13,7 +17,7 @@ import { is_authenticated } from '$lib/store/session.svelte'
     </div>
     <Items />
     <div class="grid grid-rows">
-        {#if is_authenticated()}
+        {#if authenticated}
             <User />
         {/if}
     </div>

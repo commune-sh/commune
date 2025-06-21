@@ -172,8 +172,7 @@ $effect(() => {
 
 })
 
-const authReady = $derived(store.auth.ready)
-const authenticated = $derived(store.auth.authenticated)
+const authenticated = $derived(store.session.authenticated)
 
 const space_state = $derived.by(() => {
     return store.matrix.room_state[store.matrix.active_space?.room_id]
@@ -191,8 +190,6 @@ $effect(() => {
     */
 
 
-    if(active && space && authReady && !authenticated) {
-    }
 
     /*
     if(active && name) {

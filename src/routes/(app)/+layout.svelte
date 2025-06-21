@@ -43,7 +43,6 @@ let session = $derived.by(() => {
 // derive credentials from auth store
 const credentials = $derived(store.auth.credentials)
 
-let authReady = $derived(store.auth.ready)
 
 let { data, children }: {
     data: Data;
@@ -91,8 +90,6 @@ const room_param = $derived.by(() => {
 
 
 $effect(() => {
-    if(browser && !authReady) {
-    }
 
     if(room_param && room_id && !context_event) {
         const events = store.matrix.events[room_id]
@@ -145,9 +142,6 @@ onMount(async() => {
         store.session.update(data.session, data.oidc_client_id)
     }
     store.app.isReady()
-    if(!data?.guest_access_token_exists) {
-        //store.matrix.registerGuest()
-    }
 
     await setup()
 

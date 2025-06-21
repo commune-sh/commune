@@ -228,7 +228,6 @@ export function createSessionStore() {
             return authenticated;
         },
 
-
         get access_token() {
             return session?.access_token;
         },

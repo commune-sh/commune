@@ -7,6 +7,8 @@ import { page as _page } from '$app/state';
 import { createSessionStore } from './session.svelte';
 const session_store = createSessionStore();
 
+const authenticated = $derived(session_store.authenticated);
+
 import { 
     PUBLIC_HOMESERVER_URL,
 } from '$env/static/public';
@@ -42,10 +44,6 @@ import {
 
 import { createAppStore } from './app.svelte';
 const app = createAppStore();
-import { createAuthStore } from './auth.svelte';
-const auth = createAuthStore();
-import { createUIStore } from './ui.svelte';
-const ui = createUIStore();
 
 let oidc_issuer = $state(null);
 
@@ -502,7 +500,7 @@ export function createMatrixStore() {
 
             const resp = await getRoomMessages(app.appservice, {
                 room_id: opts.room_id,
-                authenticated: auth.authenticated,
+                authenticated: authenticated,
                 start: start,
                 end: end,
                 filter: filter,
@@ -555,7 +553,7 @@ export function createMatrixStore() {
             const resp = await getEventContext(app.appservice, {
                 room_id: opts.room_id,
                 event_id: opts.event_id,
-                authenticated: auth.authenticated,
+                authenticated: authenticated,
                 filter: filter,
             })
 
@@ -620,24 +618,6 @@ export function createMatrixStore() {
             return true;
         } catch(err) {
             return err;
-        }
-    }
-
-
-    async function registerGuest() {
-        try {
-            let response = await client.registerGuest()
-            if(response?.access_token) {
-                console.log("Guest registered:", response)
-                auth.saveGuestSession({
-                    access_token: response.access_token,
-                    user_id: response.user_id,
-                    device_id: response.device_id,
-                    home_server: response.home_server,
-                })
-            }
-        } catch(err) {
-            console.log("Error registering guest:", err)
         }
     }
 
@@ -737,7 +717,6 @@ export function createMatrixStore() {
         fetchRoomMessages,
         fetchEventContext,
         fetchThreadEvents,
-        registerGuest,
         updatePage,
         updateOIDCIssuer,
     };

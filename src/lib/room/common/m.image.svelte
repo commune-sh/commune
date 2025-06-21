@@ -14,7 +14,7 @@ import {
 
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
-let authenticated = $derived(store.auth?.authenticated)
+let authenticated = $derived(store.session.authenticated)
 
 let {
     event,

@@ -12,12 +12,8 @@ const store = createStore()
 
 const homeserver_reachable = $derived(store.app.homeserver_reachable)
 
-const authReady = $derived(store.auth.ready)
-const authenticated = $derived(store.auth.authenticated)
+const authenticated = $derived(store.session.authenticated)
 
-
-
-//let items = $derived(spaces)
 
 let items = $derived.by(() => {
     return store.matrix.rooms ? buildSpaces(store.matrix.rooms) : null
@@ -25,21 +21,6 @@ let items = $derived.by(() => {
 
 let stray_rooms = $derived.by(() => {
     return store.matrix.rooms ? strayRooms(store.matrix.rooms) : null
-})
-
-
-$effect(() => {
-    if(authReady && !authenticated) {
-        //console.log("fetching public rooms")
-        //fetchPublicRooms()
-    }
-})
-
-
-let public_rooms_fetched = $state(false)
-
-
-onMount(() => {
 })
 
 

@@ -21,7 +21,7 @@ import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 const authReady = $derived(store.auth.ready)
-const authenticated = $derived(store.auth.authenticated)
+const authenticated = $derived(store.session.authenticated)
 
 const menu_active = $derived(store.ui.menu_active)
 

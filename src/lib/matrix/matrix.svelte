@@ -15,12 +15,10 @@ const store = createStore()
 
 const client = $derived(store.matrix.client)
 
-const authReady = $derived(store.auth.ready)
-const authenticated = $derived(store.auth.authenticated)
+const authenticated = $derived(store.session.authenticated)
 
 const credentials = $derived($state.snapshot(store.auth.credentials))
 
-let ready = $state(false);
 
 let {
     data,
@@ -34,14 +32,6 @@ let space_exists = $derived(page.params.space !== undefined)
 let public_spaces_fetched = $state(false)
 
 $effect(() => {
-    if(browser && authReady && credentials && !ready) {
-        if(!data.is_guest) {
-            //store.matrix.setup(credentials)
-        } else if(data.is_guest) {
-            //store.matrix.setupGuest(credentials)
-        }
-        ready = true
-    }
     if(data.authenticated == false) {
         store.matrix.fetchPublicRooms()
     }
@@ -80,11 +70,6 @@ $effect(() =>{
         _active_room = active_room.room_id
     }
 
-    if(room_id && !connected) {
-        if(authReady && !authenticated) {
-            //sync()
-        }
-    }
 })
 
 onMount(() => {

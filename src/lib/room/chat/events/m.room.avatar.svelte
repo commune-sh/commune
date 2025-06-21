@@ -11,7 +11,7 @@ import {
     downloadMedia
 } from '$lib/appservice/requests.svelte'
 
-let authenticated = $derived(store.auth?.authenticated)
+let authenticated = $derived(store.session.authenticated)
 
 let {
     event,

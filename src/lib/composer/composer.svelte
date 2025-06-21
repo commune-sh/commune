@@ -4,7 +4,7 @@ import { tick, onMount } from 'svelte'
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
-const authenticated = $derived(store.auth.authenticated)
+const authenticated = $derived(store.session.authenticated)
 
 onMount(() => {
     //focus()

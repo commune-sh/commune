@@ -30,7 +30,7 @@ import Menu from '$lib/event/menu/menu.svelte'
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
-const authenticated = $derived(store.auth.authenticated)
+const authenticated = $derived(store.session.authenticated)
 
 const events = $derived(store.matrix.active_room_events)
 

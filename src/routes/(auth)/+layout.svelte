@@ -16,7 +16,7 @@ import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 
-const authenticated = $derived(store.auth.authenticated)
+const authenticated = $derived(store.session.authenticated)
 
 const login_token = $derived(page.url.searchParams.get('loginToken'))
 
