@@ -1,5 +1,5 @@
 import { error } from '@sveltejs/kit';
-import { initializeAppData } from '$lib/server/functions'
+import { initializeAppData } from '$lib/server/app'
 
 import type { LayoutServerLoad } from './$types';
 
