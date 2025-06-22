@@ -20,7 +20,6 @@ import { debounce } from '$lib/utils/utils'
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
-const authReady = $derived(store.auth.ready)
 const authenticated = $derived(store.session.authenticated)
 
 const menu_active = $derived(store.ui.menu_active)
@@ -101,7 +100,7 @@ function log(e) {
 
 
 $effect(() => {
-    if(active && item?.room_id && authReady && !authenticated) {
+    if(active && item?.room_id && !authenticated) {
         store.matrix.fetchRoomState(item.room_id)
     }
     if(active) {
@@ -121,7 +120,7 @@ $effect(() => {
 })
 
 function getState() {
-    if(item?.room_id && authReady && !authenticated) {
+    if(item?.room_id && !authenticated) {
         store.matrix.fetchRoomState(item.room_id)
     }
 }

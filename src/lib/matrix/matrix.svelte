@@ -17,9 +17,6 @@ const client = $derived(store.matrix.client)
 
 const authenticated = $derived(store.session.authenticated)
 
-const credentials = $derived($state.snapshot(store.auth.credentials))
-
-
 let {
     data,
 } = $props();

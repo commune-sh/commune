@@ -40,9 +40,6 @@ let session = $derived.by(() => {
     return store.session?.session
 })
 
-// derive credentials from auth store
-const credentials = $derived(store.auth.credentials)
-
 
 let { data, children }: {
     data: Data;
@@ -136,7 +133,6 @@ onMount(async() => {
     await store.oidc.init()
     if(data.authenticated) {
         console.log("authenticated")
-        store.auth.setToAuthenticated()
     }
     if(data?.session && !session) {
         store.session.update(data.session, data.oidc_client_id)
