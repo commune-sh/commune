@@ -17,8 +17,6 @@ const store = createStore()
 
 const authenticated = $derived(store.session.authenticated)
 
-const access_token_exists = $derived(data?.access_token_exists)
-
 const show_home = $derived.by(() => {
     return page.params.space === undefined &&
         page.params.room === undefined 

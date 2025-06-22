@@ -8,7 +8,6 @@ export type Data = {
     HOMESERVER_URL: string;
     HOMESERVER_NAME: string;
     authenticated: boolean;
-    access_token_exists: boolean;
     session?: Session | undefined;
     oidc_client_id?: string;
     metadata?: RequestMetadata;
