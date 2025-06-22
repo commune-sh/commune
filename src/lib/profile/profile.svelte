@@ -109,8 +109,12 @@ function logout() {
                 <div class="flex items-center text-light text-sm">
                     {user_id}
                 </div>
-                <div class="flex items-center mt-4 pb-2 text-xs font-bold">
-                    <span class="cursor-pointer" onclick={logout}>Logout</span>
+                <div class="flex items-center mt-4 text-xs font-bold">
+
+                    <button onclick={logout} class="primary p-2 cursor-pointer rounded hover:bg-cmn-1">
+                        Logout
+                    </button>
+
                 </div>
             </Popover.Content>
         </Popover.Portal>

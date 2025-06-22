@@ -1,7 +1,7 @@
 <script lang="ts">
 import Logo from '$lib/logo/logo.svelte'
 import Items from './items.svelte'
-import User from './user.svelte'
+import Profile from '$lib/profile/profile.svelte'
 
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
@@ -18,7 +18,7 @@ const authenticated = $derived(store.session.authenticated)
     <Items />
     <div class="grid grid-rows">
         {#if authenticated}
-            <User />
+            <Profile />
         {/if}
     </div>
 </div>

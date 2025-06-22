@@ -1,5 +1,7 @@
 <script lang="ts">
+import { dev } from '$app/environment';
 import '../../app.css'
+
 import { 
     PUBLIC_BASE_URL,
 } from '$env/static/public';
@@ -11,7 +13,6 @@ import type { Data } from '$lib/commune/types'
 import { page } from '$app/state';
 
 import { onMount, type Snippet } from 'svelte'
-import { browser } from '$app/environment';
 
 import { getVersions } from '$lib/matrix/requests'
 
@@ -50,13 +51,6 @@ const room_id = $derived(store.matrix.active_room?.room_id)
 
 const context_event = $derived.by(() => {
     return page.url.searchParams.get('event')
-})
-
-
-$effect.pre(() => {
-    if(page) {
-        //store.matrix.updatePage(page)
-    }
 })
 
 let metadata = $derived.by(() => {
