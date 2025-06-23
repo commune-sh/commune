@@ -275,8 +275,7 @@ const options = $derived.by(() => {
 </script>
 
 
-<div bind:this={item} onclick={goToSpace}
-    use:tooltip={options}
+<div bind:this={item} 
     onmousedown={fetchState}
     oncontextmenu={logItem}
     ondrop={drop}
@@ -284,11 +283,13 @@ const options = $derived.by(() => {
     class="grid relative place-items-center mb-[10px]">
 
     <div class:dragging={dragging} 
+        onclick={goToSpace}
+        use:tooltip={options}
         class:bg-cmn-7={active}
         class:active={active}
-        class="space bg-cmn-4 w-[46px] h-[46px] grid
+        class="space bg-cmn-4 w-[40px] h-[40px] grid
         transition-transform duration-200
-        place-items-center cursor-pointer hover:bg-cmn-7 rounded-[50%]" 
+        place-items-center cursor-pointer hover:bg-cmn-7 rounded-[14px]" 
         class:text-[13px]={initial?.length > 2}
         class:text-[10px]={initial?.length > 4}
         class:text-[8px]={initial?.length > 5}
@@ -369,6 +370,6 @@ const options = $derived.by(() => {
 }
 
 img {
-    border-radius: 50%;
+    border-radius: 14px;
 }
 </style>

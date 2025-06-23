@@ -10,7 +10,7 @@ const authenticated = $derived(store.session.authenticated)
 
 </script>
 
-<div class="switcher grid grid-rows-[72px_auto_1fr_auto] h-full select-none 
+<div class="switcher grid grid-rows-[62px_auto_1fr_auto] h-full select-none 
     border-solid border-r border-switcher-border">
     <Logo />
     <div class="sep">
@@ -25,7 +25,7 @@ const authenticated = $derived(store.session.authenticated)
 
 <style>
 .switcher {
-    width: 72px;
+    width: 62px;
     height: 100dvh;
 }
 .sep {
