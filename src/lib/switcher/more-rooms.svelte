@@ -42,8 +42,8 @@ const options = $derived.by(() => {
     use:tooltip={options}
         class:bg-cmn-7={active}
         class="item grid place-items-center cursor-pointer 
-        bg-cmn-4 hover:bg-cmn-7 rounded-[50%]
-        w-[46px] h-[46px]" >
+        bg-cmn-4 hover:bg-cmn-7 rounded-[14px]
+        w-[40px] h-[40px]" >
         <div class="more w-[1.6rem]">
             {@html ellipsis}
         </div>

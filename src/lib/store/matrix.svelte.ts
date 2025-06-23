@@ -109,10 +109,15 @@ async function updateToken() {
 }
 
 let store: {
-    spaces: SvelteMap<string, any>;
+    spaces: Array<any>;
     rooms: SvelteMap<string, any>;
+    room_state: SvelteMap<string, any>;
+    messages: SvelteMap<string, any>;
+    hierarchy: SvelteMap<string, any>;
+    events: SvelteMap<string, any>;
+    thread_events: SvelteMap<string, any>;
 } = $state({
-    spaces: new SvelteMap(),
+    spaces: [],
     rooms: new SvelteMap(),
     room_state: new SvelteMap(),
     messages: new SvelteMap(),
@@ -649,7 +654,9 @@ export function createMatrixStore() {
     async function fetchPublicSpaces() {
         try {
             let res = await getPublicSpaces();
-            console.log(res)
+            if(res?.length > 0) {
+                store.spaces = res;
+            }
         } catch (err) {
             console.error(err)
         }
