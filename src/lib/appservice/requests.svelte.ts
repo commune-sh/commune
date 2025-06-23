@@ -1,13 +1,30 @@
-import { PUBLIC_HOMESERVER_URL } from '$env/static/public';
+import { PUBLIC_HOMESERVER_URL, PUBLIC_APPSERVICE_URL } from '$env/static/public';
 import { getCookie } from '$lib/utils/cookie'
 
-import { createAppStore } from '$lib/store/app.svelte'
-
-const store = createAppStore()
-
 let appservice_url = $derived.by(() => {
-    return store?.appservice
+    return PUBLIC_APPSERVICE_URL
 })
+
+export const getPublicSpaces = async () => {
+
+    if(!appservice_url) return
+
+    const url = `${appservice_url}/spaces`;
+
+    const options: RequestInit = {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    }
+
+    try {
+        const response = await fetch(url, options)
+        return response.json();
+    } catch (error) {
+        throw error
+    }
+
+}
 
 export const getPublicRooms = async () => {
 

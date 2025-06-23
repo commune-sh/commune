@@ -36,6 +36,7 @@ import {
 } from '$lib/utils/matrix'
 
 import { 
+    getPublicSpaces,
     getPublicRooms, 
     getRoomState,
     getRoomMessages,
@@ -106,6 +107,19 @@ async function updateToken() {
     client?.setAccessToken(session?.access_token);
     client?.startClient();
 }
+
+let store: {
+    spaces: SvelteMap<string, any>;
+    rooms: SvelteMap<string, any>;
+} = $state({
+    spaces: new SvelteMap(),
+    rooms: new SvelteMap(),
+    room_state: new SvelteMap(),
+    messages: new SvelteMap(),
+    hierarchy: new SvelteMap(),
+    events: new SvelteMap(),
+    thread_events: new SvelteMap(),
+});
 
 
 let synced = $state(false)
@@ -632,6 +646,15 @@ export function createMatrixStore() {
         oidc_issuer = issuer
     }
 
+    async function fetchPublicSpaces() {
+        try {
+            let res = await getPublicSpaces();
+            console.log(res)
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
     return {
         get client() {
             return client;
@@ -719,6 +742,7 @@ export function createMatrixStore() {
         fetchThreadEvents,
         updatePage,
         updateOIDCIssuer,
+        fetchPublicSpaces,
     };
 
 }
