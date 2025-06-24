@@ -251,8 +251,12 @@ let synced = $derived.by(() => {
 
     {#if image}
         <meta property="og:image" content={image} />
-        <meta property="og:image:width" content="1200">
-        <meta property="og:image:height" content="600">
+
+        {#if !data?.metadata?.image}
+            <meta property="og:image:width" content="1200">
+            <meta property="og:image:height" content="600">
+        {/if}
+
         <meta name="twitter:image" content={image} />
         <meta content="summary_large_image" name="twitter:card">
     {/if}
@@ -293,27 +297,5 @@ let synced = $derived.by(() => {
 <Settings />
 
 <style>
-.menu-active {
-    grid-template-columns: 72px 1fr;
-}
-
-.slide-in {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 72px;
-    place-self: stretch;
-    width: 100%;
-}
-
-.mask {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 304px;
-    height: 100%;
-    z-index: 10000;
-    width: 100vw;
-}
 
 </style>
