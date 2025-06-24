@@ -128,7 +128,7 @@ $effect(() => {
         <div class="flex-1">
         </div>
         {#if !authenticated}
-            <div class="mr-2">
+            <div class="my-2">
                 <a data-sveltekit-preload-data="tap" href="/login">
                     <button class="primary">Login</button>
                 </a>
@@ -148,8 +148,8 @@ $effect(() => {
 }
 
 button {
-    border-radius: 4px;
-    padding: 0.3rem 0.5rem;
+    border-radius: 500px;
+    padding: 0.4rem 0.9rem;
     font-size: 0.9rem;
     font-weight: 500;
 }

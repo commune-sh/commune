@@ -272,8 +272,18 @@ const options = $derived.by(() => {
     }
 })
 
-</script>
+const fontSize = $derived.by(() => {
+    if(initial?.length > 4) {
+        return '9px'
+    } else if(initial?.length >= 3 && initial?.length <= 4) {
+        return '11px'
+    } else if(initial?.length > 2 && initial?.length <= 4) {
+        return '13px'
+    }
+    return `1rem`
+})
 
+</script>
 
 <div bind:this={item} 
     onmousedown={fetchState}
@@ -290,10 +300,7 @@ const options = $derived.by(() => {
         class="space bg-cmn-4 w-[40px] h-[40px] grid
         transition-transform duration-200
         place-items-center cursor-pointer hover:bg-cmn-7 rounded-[14px]" 
-        class:text-[13px]={initial?.length > 2}
-        class:text-[10px]={initial?.length > 4}
-        class:text-[8px]={initial?.length > 5}
-        class:text-[6px]={initial?.length > 6}
+        style="font-size: {fontSize}"
         draggable="true"
         ondrag={drag}
         ondragend={dragend}
@@ -303,7 +310,7 @@ const options = $derived.by(() => {
             <img src={avatar} alt={name} class="bg-cmn-4" loading="lazy" />
         {/if}
         {#if !avatar_url}
-        <div class="initial font-semibold">
+        <div class="initial font-medium">
             {initial} 
         </div>
         {/if}
