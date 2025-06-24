@@ -128,7 +128,7 @@ $effect(() => {
         <div class="flex-1">
         </div>
         {#if !authenticated}
-            <div class="my-2">
+            <div class="ml-4">
                 <a data-sveltekit-preload-data="tap" href="/login">
                     <button class="primary">Login</button>
                 </a>
