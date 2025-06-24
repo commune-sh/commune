@@ -83,7 +83,7 @@ function logout() {
 
     <Popover.Root>
         <Popover.Trigger
-            class="space bg-cmn-4 w-[46px] h-[46px] grid
+            class="space bg-cmn-4 w-[40px] h-[40px] grid
             transition-transform duration-200
             place-items-center cursor-pointer hover:bg-cmn-7 rounded-[50%]" >
 
@@ -125,8 +125,8 @@ function logout() {
 
 <style>
 img {
-    width: 46px;
-    height: 46px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
 }
 
