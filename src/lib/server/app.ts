@@ -1,4 +1,5 @@
 import { error } from '@sveltejs/kit';
+import { env } from '$env/dynamic/public';
 import {
     PUBLIC_BASE_URL,
     PUBLIC_APPSERVICE_URL,
@@ -70,6 +71,7 @@ export async function initializeAppData(
         APPSERVICE_URL: PUBLIC_APPSERVICE_URL,
         HOMESERVER_URL: PUBLIC_HOMESERVER_URL,
         HOMESERVER_NAME: PUBLIC_HOMESERVER_NAME,
+        READ_ONLY: env?.PUBLIC_READ_ONLY === 'true',
         authenticated: authenticated,
         oidc_client_id: oidc_client_id || null,
         metadata: {

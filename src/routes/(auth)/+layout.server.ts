@@ -1,12 +1,17 @@
-import { 
-    PUBLIC_BASE_URL
-} from '$env/static/public';
+import { env } from '$env/dynamic/public';
 import { redirect } from "@sveltejs/kit";
 import type { LayoutServerLoad } from './$types';
 
 import { getAuthMetadata, registerOauthClient } from '$lib/matrix/requests'
 
 export const load: LayoutServerLoad = async ({ cookies, url, fetch }) => {
+
+    let read_only = env?.PUBLIC_READ_ONLY === 'true';
+
+    if(read_only) {
+        console.log("App is in read-only mode, redirecting to home.")
+        redirect(302, '/');
+    }
 
     let oidc_client_id = cookies.get('oidc_client_id');
 

@@ -34,6 +34,7 @@ PUBLIC_BASE_URL=https://commune.sh
 PUBLIC_APPSERVICE_URL=https://public.commune.sh 
 PUBLIC_HOMESERVER_URL=https://matrix.commune.sh
 PUBLIC_HOMESERVER_NAME=commune.sh
+PUBLIC_READ_ONLY=false // Optional: Set to true to enable read-only mode
 ```
 
 ##### Public Appservice

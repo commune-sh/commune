@@ -1,5 +1,11 @@
 <script>
 import { left, chatBubble, hash } from '$lib/assets/icons'
+import { env } from '$env/dynamic/public';
+
+const read_only = $derived.by(() => {
+    return env?.PUBLIC_READ_ONLY === 'true'
+})
+
 
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
@@ -127,7 +133,7 @@ $effect(() => {
         {/if}
         <div class="flex-1">
         </div>
-        {#if !authenticated}
+        {#if !read_only && !authenticated}
             <div class="ml-4">
                 <a data-sveltekit-preload-data="tap" href="/login">
                     <button class="primary">Login</button>

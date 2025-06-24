@@ -2,6 +2,11 @@
 import { PUBLIC_BASE_URL, PUBLIC_HOMESERVER_URL } from '$env/static/public';
 import { logo } from '$lib/assets/logo.js';
 
+import { env } from '$env/dynamic/public';
+
+const read_only = $derived.by(() => {
+    return env?.PUBLIC_READ_ONLY === 'true'
+})
 
 let login_link = $derived.by(() => {
     let base = `${PUBLIC_BASE_URL}/oidc/callback`
@@ -31,6 +36,7 @@ function sso_login() {
             Matrix spaces, accessible from the open web
         </div>
 
+        {#if !read_only}
         <div class="flex gap-4 pt-16">
             <a data-sveltekit-preload-data="tap" href="/register">
                 <button class="primary">Get started</button>
@@ -39,6 +45,7 @@ function sso_login() {
                 <button class="secondary bg-cmn-8">Login</button>
             </a>
         </div>
+        {/if}
 
     </div>
 
