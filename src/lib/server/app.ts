@@ -25,14 +25,14 @@ export async function initializeAppData(
     const access_token = cookies.get('access_token');
     const refresh_token = cookies.get('refresh_token');
     const expires_in = cookies.get('expires_in');
-    const user_id = cookies.get('user_id');
-    const device_id = cookies.get('device_id');
+    let user_id;
+    let device_id;
     const scope = cookies.get('scope');
 
     const client_id = cookies.get('client_id');
     const oidc_client_id = cookies.get('oidc_client_id');
 
-    let auth_cookies = oidc_client_id && access_token && refresh_token && expires_in && scope && user_id && device_id;
+    let auth_cookies = oidc_client_id && access_token && refresh_token && expires_in && scope;
 
     let authenticated = false;
 
@@ -44,11 +44,13 @@ export async function initializeAppData(
                 refresh_token,
                 expires_in,
                 scope,
-                user_id,
-                device_id
             } as AuthCookies);
             console.log("Authentication successful?:", resp);
-            authenticated = resp;
+            authenticated = true
+
+            user_id = resp.user_id;
+            device_id = resp.device_id;
+
         } catch (err) {
             console.error("Authentication failed:", err);
             console.error("Deleting cookies.")

@@ -124,7 +124,6 @@ let session_data = $derived.by(() => {
 })
 
 onMount(async() => {
-    await store.oidc.init()
 
     if(!data.authenticated) {
         store.matrix.fetchPublicSpaces();

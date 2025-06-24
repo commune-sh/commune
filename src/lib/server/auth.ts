@@ -1,3 +1,5 @@
+import { z } from 'zod';
+
 import { PUBLIC_BASE_URL, PUBLIC_HOMESERVER_URL } from '$env/static/public';
 import { exchangeForToken, whoami, refreshToken } from '$lib/matrix/requests';
 
@@ -7,8 +9,6 @@ export type AuthCookies = {
     refresh_token: string;
     expires_in: number;
     scope: string;
-    user_id: string;
-    device_id: string;
 }
 
 export type AuthData = {
@@ -19,7 +19,22 @@ export type AuthData = {
     code: string;
 }
 
-export async function authenticate(data: AuthCookies): Promise<boolean> {
+export type UserData = {
+    user_id: string;
+    is_guest: boolean;
+    device_id: string;
+}
+
+const WhoAmISchema = z.object({
+    user_id: z.string(),
+    is_guest: z.boolean(),
+    device_id: z.string()
+});
+
+type WhoAmI = z.infer<typeof WhoAmISchema>;
+
+
+export async function authenticate(data: AuthCookies): Promise<WhoAmI> {
     console.log("authenticating...")
 
     let auth_metadata;
@@ -38,24 +53,21 @@ export async function authenticate(data: AuthCookies): Promise<boolean> {
 
     try {
         let user = await whoami(data.access_token);
-        if(user?.errcode == "M_UNKNOWN_TOKEN") {
-            console.error("Invalid access token.")
-            throw new Error("Invalid access token.");
+        console.log(user)
+
+        let validated = WhoAmISchema.safeParse(user);
+        if(!validated.success) {
+            console.error("Invalid user data:", validated.error);
+            throw new Error("Invalid user data.");
         }
-        if(user?.user_id !== data.user_id) {
-            console.error("User ID mismatch", user, data);
-            throw new Error("User ID mismatch.");
-        }
-        if(user?.device_id !== data.device_id) {
-            console.error("Device ID mismatch", user, data);
-            throw new Error("Device ID mismatch.");
-        }
+
+        return validated.data;
+
     } catch (error) {
         console.error("Failed to fetch user", error);
         throw new Error("Failed to fetch user.");
     }
 
-    return true;
 }
 
 export async function getAccessToken(
