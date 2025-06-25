@@ -70,7 +70,9 @@ const path = $derived.by(() => {
 
     // space rooms
 
-    if(page.url.search != '') {
+    let is_event = page.url.searchParams.get('event') != null
+
+    if(page.url.search != '' && !is_event) {
         return `/${space_param}/${alias_or_id}${page.url.search}`
     }
 
