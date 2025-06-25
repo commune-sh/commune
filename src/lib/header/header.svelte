@@ -1,6 +1,7 @@
 <script>
 import { left, chatBubble, hash } from '$lib/assets/icons'
 import { env } from '$env/dynamic/public';
+import { page } from '$app/state';
 
 const read_only = $derived.by(() => {
     return env?.PUBLIC_READ_ONLY === 'true'
@@ -94,6 +95,11 @@ const is_discord = $derived.by(() => {
 $effect(() => {
 })
 
+const login = $derived.by(() => {
+    let redirect_to = page.url.pathname
+    return `/login?redirect=${encodeURIComponent(redirect_to)}`
+})
+
 </script>
 
 <div class="header grid 
@@ -135,7 +141,7 @@ $effect(() => {
         </div>
         {#if !read_only && !authenticated}
             <div class="ml-4">
-                <a data-sveltekit-preload-data="tap" href="/login">
+                <a data-sveltekit-preload-data="tap" href={login}>
                     <button class="primary">Login</button>
                 </a>
             </div>

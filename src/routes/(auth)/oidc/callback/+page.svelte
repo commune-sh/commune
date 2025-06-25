@@ -20,6 +20,13 @@ $effect(() => {
     }
 })
 
+const redirect_to = $derived.by(() => {
+    if(data?.redirect_to) {
+        return decodeURIComponent(data.redirect_to)
+    }
+    return `${PUBLIC_BASE_URL}`
+})
+
 
 let busy = $state(true);
 let failed = $state(false);
@@ -61,7 +68,7 @@ async function getAccessToken() {
 
             const json = await res.json();
             console.log("Tokens stored?", json)
-            goto('/')
+            goto(redirect_to)
         }
     } catch (error) {
         console.error("Error storing access token:", error);

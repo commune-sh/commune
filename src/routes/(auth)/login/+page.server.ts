@@ -4,7 +4,19 @@ import type { PageServerLoad } from './$types';
 import { redirect } from "@sveltejs/kit";
 import { generateDeviceId, generatePKCEParams } from '$lib/utils/oidc'
 
-export const load: PageServerLoad = async ({ cookies, parent }) => {
+export const load: PageServerLoad = async ({ cookies, url, parent }) => {
+
+    let redirect_to = url.searchParams.get('redirect');
+
+    if(redirect_to) {
+        console.log('Setting redirect URL:', redirect);
+        cookies.set('redirect_to', redirect_to, {
+            httpOnly: true,
+            maxAge: 60 * 60 * 24 * 365,
+            secure: true,
+            path: '/'
+        })
+    }
 
     let data = await parent();
 
@@ -28,9 +40,9 @@ export const load: PageServerLoad = async ({ cookies, parent }) => {
     });
 
 
-    let url = `${authorization_endpoint}?client_id=${oidc_client_id}&redirect_uri=${redirect_url}&response_type=code&response_mode=query&scope=${scope}&state=${pkce.state}&code_challenge=${pkce.code_challenge}&code_challenge_method=S256`;
+    let endpoint = `${authorization_endpoint}?client_id=${oidc_client_id}&redirect_uri=${redirect_url}&response_type=code&response_mode=query&scope=${scope}&state=${pkce.state}&code_challenge=${pkce.code_challenge}&code_challenge_method=S256`;
 
-    let encoded_url = encodeURI(url);
+    let encoded_url = encodeURI(endpoint);
 
     console.log('Redirecting to:', encoded_url);
 
