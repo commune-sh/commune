@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 import { browser  } from '$app/environment'
 import { onMount } from 'svelte'
 import { page } from '$app/state';
@@ -10,6 +10,8 @@ import {
     naiveOSTCheck
 } from '$lib/utils/matrix'
 
+import type { Data } from '$lib/commune/types'
+
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
@@ -19,7 +21,9 @@ const authenticated = $derived(store.session.authenticated)
 
 let {
     data,
-} = $props();
+} : {
+    data: Data;
+}  = $props();
 
 let space = $derived(page.params.space)
 let room = $derived(page.params.room)
@@ -29,7 +33,8 @@ let space_exists = $derived(page.params.space !== undefined)
 let public_spaces_fetched = $state(false)
 
 $effect(() => {
-    if(data.authenticated == false) {
+    if(!data.authenticated) {
+        store.matrix.fetchPublicSpaces();
         store.matrix.fetchPublicRooms()
     }
 })

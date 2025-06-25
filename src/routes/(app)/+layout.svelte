@@ -125,10 +125,6 @@ let session_data = $derived.by(() => {
 
 onMount(async() => {
 
-    if(!data.authenticated) {
-        store.matrix.fetchPublicSpaces();
-    }
-
     if(data?.session && !session) {
         store.session.update(data.session, data.oidc_client_id)
     }

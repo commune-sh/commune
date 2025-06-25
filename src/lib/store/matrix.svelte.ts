@@ -154,37 +154,48 @@ let store: {
 
 
 let space = $derived.by(() => {
-    return page?.params?.space || '' ;
+    return page?.params?.space;
 })
 
 let space_room_id = $derived.by(() => {
+    if(!space) return null;
     return store.spaces.get(space)?.room_id;
+})
+
+let space_state = $derived.by(() => {
+    if(!space_room_id) return null;
 })
 
 let room = $derived.by(() => {
     return page?.params?.room;
 })
 
-let _space: string | null = $state(null);
-let _room: string | null = $state(null);
+let _space: string | undefined = $state(undefined);
+let _room: string | undefined = $state(undefined);
 
 $effect.root(() => {
     $effect(() => {
-        if(space) {
-            console.log("SPACE IS ", space)
-            if(_space != space) {
-                _space = space;
-            }
+        if(_space != space) {
+            _space = space;
+            console.log("SPACE UPDATED ", _space)
+        }
+        if(_room != room) {
+            _room = room;
+            console.log("ROOM UPDATED ", _room)
+        }
+        /*
+        if(space && (_space != space)) {
+            _space = space;
+            console.log("SPACE IS ", _space)
         }
         if(space_room_id) {
             console.log("SPACE ROOM ID IS ", space_room_id)
         }
-        if(room) {
-            console.log("ROOM IS ", room)
-            if(_room != room) {
-                _room = room;
-            }
+        if(room && (_room != room)) {
+            _room = room;
+            console.log("ROOM IS ", _room)
         }
+        */
     })
 })
 
