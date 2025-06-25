@@ -16,6 +16,10 @@ import {
 import { browser } from '$app/environment';
 
 
+import { type PublicSpace } from '$lib/commune/types';
+
+import { get_local_part } from '$lib/utils/matrix';
+
 import { 
     aliasFromName,
     processRooms, 
@@ -72,9 +76,6 @@ let status: {
 
 $effect.root(() => {
     $effect(() => {
-        if(browser && page?.params?.room) {
-            console.log("new page is ", page?.params.room)
-        }
         if(browser && session) {
             setupClient()
         }
@@ -108,25 +109,6 @@ async function updateToken() {
     client?.startClient();
 }
 
-let store: {
-    spaces: Array<any>;
-    rooms: SvelteMap<string, any>;
-    room_state: SvelteMap<string, any>;
-    messages: SvelteMap<string, any>;
-    hierarchy: SvelteMap<string, any>;
-    events: SvelteMap<string, any>;
-    thread_events: SvelteMap<string, any>;
-} = $state({
-    spaces: [],
-    rooms: new SvelteMap(),
-    room_state: new SvelteMap(),
-    messages: new SvelteMap(),
-    hierarchy: new SvelteMap(),
-    events: new SvelteMap(),
-    thread_events: new SvelteMap(),
-});
-
-
 let synced = $state(false)
 
 let rooms = $state(null)
@@ -151,6 +133,61 @@ let page = $derived.by(() => {
         return _page
     }
 })
+
+let store: {
+    spaces: SvelteMap<string, any>;
+    rooms: SvelteMap<string, any>;
+    room_state: SvelteMap<string, any>;
+    messages: SvelteMap<string, any>;
+    hierarchy: SvelteMap<string, any>;
+    events: SvelteMap<string, any>;
+    thread_events: SvelteMap<string, any>;
+} = $state({
+    spaces: new SvelteMap(),
+    rooms: new SvelteMap(),
+    room_state: new SvelteMap(),
+    messages: new SvelteMap(),
+    hierarchy: new SvelteMap(),
+    events: new SvelteMap(),
+    thread_events: new SvelteMap(),
+});
+
+
+let space = $derived.by(() => {
+    return page?.params?.space || '' ;
+})
+
+let space_room_id = $derived.by(() => {
+    return store.spaces.get(space)?.room_id;
+})
+
+let room = $derived.by(() => {
+    return page?.params?.room;
+})
+
+let _space: string | null = $state(null);
+let _room: string | null = $state(null);
+
+$effect.root(() => {
+    $effect(() => {
+        if(space) {
+            console.log("SPACE IS ", space)
+            if(_space != space) {
+                _space = space;
+            }
+        }
+        if(space_room_id) {
+            console.log("SPACE ROOM ID IS ", space_room_id)
+        }
+        if(room) {
+            console.log("ROOM IS ", room)
+            if(_room != room) {
+                _room = room;
+            }
+        }
+    })
+})
+
 
 const active_room = $derived.by(() => {
     if(!page?.params?.room && page?.url?.hash == null) return
@@ -654,8 +691,12 @@ export function createMatrixStore() {
     async function fetchPublicSpaces() {
         try {
             let res = await getPublicSpaces();
-            if(res?.length > 0) {
-                store.spaces = res;
+            if(res) {
+                res.forEach((space: PublicSpace) => {
+                    let local_part = get_local_part(space.canonical_alias)
+                    store.spaces.set(local_part, space)
+                })
+                console.log("Fetched public spaces:", store.spaces)
             }
         } catch (err) {
             console.error(err)

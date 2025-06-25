@@ -33,3 +33,14 @@ export const matrixWellKnown = z.object({
 
 
 export type MatrixWellKnown = z.infer<typeof matrixWellKnown>;
+
+
+
+export type PublicSpace = {
+    canonical_alias: string;
+    name?: string;
+    room_id: string;
+    avatar_url?: string;
+    banner_url?: string;
+    topic?: string;
+}
