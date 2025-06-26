@@ -45,7 +45,8 @@ let session = $derived.by(() => {
 
 
 let { 
-    data
+    data,
+    children
 }: LayoutProps = $props();
 
 const room_id = $derived(store.matrix.active_room?.room_id)
