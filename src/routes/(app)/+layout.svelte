@@ -45,7 +45,7 @@ let session = $derived.by(() => {
 
 
 let { 
-    data,
+    data, 
     children
 }: LayoutProps = $props();
 
@@ -129,8 +129,8 @@ let session_data = $derived.by(() => {
 
 onMount(async() => {
 
-    if(data?.loaded?.session && !session) {
-        store.session.update(data.loaded.session, data.loaded.oidc_client_id)
+    if(data?.session && !session) {
+        store.session.update(data.session, data.oidc_client_id)
     }
 
     store.app.isReady()
