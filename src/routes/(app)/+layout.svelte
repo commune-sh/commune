@@ -10,6 +10,8 @@ import { env } from '$env/dynamic/public';
 
 import type { Data } from '$lib/commune/types'
 
+import type { LayoutProps } from './$types';
+
 import { page } from '$app/state';
 
 import { onMount, type Snippet } from 'svelte'
@@ -42,10 +44,9 @@ let session = $derived.by(() => {
 })
 
 
-let { data, children }: {
-    data: Data;
-    children: Snippet;
-} = $props();
+let { 
+    data
+}: LayoutProps = $props();
 
 const room_id = $derived(store.matrix.active_room?.room_id)
 
@@ -81,6 +82,8 @@ const room_param = $derived.by(() => {
 
 
 $effect(() => {
+
+    console.log("DATA is", data)
 
     if(room_param && room_id && !context_event) {
         const events = store.matrix.events[room_id]
@@ -125,8 +128,8 @@ let session_data = $derived.by(() => {
 
 onMount(async() => {
 
-    if(data?.session && !session) {
-        store.session.update(data.session, data.oidc_client_id)
+    if(data?.loaded?.session && !session) {
+        store.session.update(data.loaded.session, data.loaded.oidc_client_id)
     }
 
     store.app.isReady()
@@ -195,8 +198,8 @@ let PUBLIC_META_IMAGE = $derived.by(() => {
 })
 
 let image = $derived.by(() => {
-    if(data?.metadata?.image) {
-        return data.metadata.image
+    if(data?.loaded?.metadata?.image) {
+        return data.loaded.metadata.image
     }
     return PUBLIC_META_IMAGE
 })

@@ -6,8 +6,8 @@ import type { LayoutServerLoad } from './$types';
 export const load: LayoutServerLoad = async ({ fetch, params, url, cookies } ) => {
 
     try {
-        let data = await initializeAppData(cookies, params, url);
-        return data;
+        let loaded = await initializeAppData(cookies, params, url);
+        return loaded;
     } catch (err) {
         console.error("Failed to initialize app data:", err);
         error(500, {

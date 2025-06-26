@@ -15,9 +15,16 @@ import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 const alert_active = $derived(store.ui.alert?.active)
 
+import type { Data } from '$lib/commune/types'
+import type { Snippet } from 'svelte';
+
+
 let {
     data,
     content,
+}: {
+    data: Data,
+    content: Snippet
 } = $props();
 
 let is_home = $derived(page.route.id == '/(app)')

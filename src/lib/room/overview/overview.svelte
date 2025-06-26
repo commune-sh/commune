@@ -14,11 +14,18 @@ import {
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
+import type { Data } from '$lib/commune/types'
+
 let {
     data,
     is_space,
     is_space_child_room,
     non_space_room
+}: {
+    data: Data,
+    is_space: boolean,
+    is_space_child_room: boolean,
+    non_space_room: boolean
 } = $props();
 
 

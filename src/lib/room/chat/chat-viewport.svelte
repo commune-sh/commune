@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 import { page } from '$app/state';
 
 import Event from '$lib/room/chat/events/event.svelte'
@@ -11,11 +11,18 @@ import ScrollToBottom from '$lib/room/chat/components/scroll-to-bottom.svelte'
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
+import type { Data } from '$lib/commune/types'
+
 let {
     data,
     events,
     room,
     thread_view = false,
+}: {
+    data: Data,
+    events: any[],
+    room: any,
+    thread_view?: boolean
 } = $props();
 
 const prefix = $derived.by(() => {

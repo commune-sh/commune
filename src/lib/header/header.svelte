@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 import { left, chatBubble, hash } from '$lib/assets/icons'
 import { env } from '$env/dynamic/public';
 import { page } from '$app/state';
@@ -13,11 +13,18 @@ const store = createStore()
 
 const authenticated = $derived(store.session.authenticated)
 
+import type { Data } from '$lib/commune/types'
+
 let {
     data,
     is_space,
     is_space_child_room,
     non_space_room
+}: {
+    data: Data,
+    is_space: boolean,
+    is_space_child_room: boolean,
+    non_space_room: boolean
 } = $props();
 
 const menu_active = $derived(store.ui.menu_active)

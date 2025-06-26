@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 import { page } from '$app/state';
 import { onMount, tick } from 'svelte'
 
@@ -10,8 +10,12 @@ import Event from '$lib/room/chat/events/event.svelte'
 
 import SkeletonChatEvents from '$lib/skeleton/chat-events.svelte'
 
+import type { Data } from '$lib/commune/types'
+
 let {
     data,
+}: {
+    data: Data
 } = $props();
 
 import { createStore } from '$lib/store/store.svelte'

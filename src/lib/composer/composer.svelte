@@ -1,8 +1,11 @@
-<script>
+<script lang="ts">
 import { tick, onMount } from 'svelte'
+import type { Data } from '$lib/commune/types'
 
 let {
     data,
+}: {
+    data: Data
 } = $props();
 
 import { createStore } from '$lib/store/store.svelte'

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 import { getSetting, updateSetting } from '$lib/utils/localstorage';
 import User from '$lib/sidebar/user/user.svelte'
 
@@ -10,11 +10,18 @@ import UserSidebar from '$lib/sidebar/user/user-sidebar.svelte'
 
 import { page } from '$app/state';
 
+import type { Data } from '$lib/commune/types'
+
 let {
     data,
     is_space,
     is_space_child_room,
     non_space_room
+}: {
+    data: Data,
+    is_space: boolean,
+    is_space_child_room: boolean,
+    non_space_room: boolean
 } = $props();
 
 

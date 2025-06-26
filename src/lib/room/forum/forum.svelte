@@ -1,5 +1,6 @@
-<script>
+<script lang="ts">
 import { page } from '$app/state';
+import type { Data } from '$lib/commune/types'
 
 import Loading from '$lib/loading/loading.svelte'
 
@@ -9,6 +10,8 @@ import {
 
 let {
     data,
+}: {
+    data: Data
 } = $props();
 
 import { createStore } from '$lib/store/store.svelte'

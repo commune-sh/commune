@@ -1,9 +1,13 @@
-<script>
+<script lang="ts">
 import { onMount } from 'svelte'
 import { page } from '$app/state';
 
+import type { Data } from '$lib/commune/types'
+
 let {
     data
+}: {
+    data: Data
 } = $props();
 
 import ThreadHeader from '$lib/thread/thread-header.svelte'

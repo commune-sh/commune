@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 import { page } from '$app/state';
 import { onMount } from 'svelte'
 
@@ -20,6 +20,9 @@ import {
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
+import type { Data } from '$lib/commune/types'
+import type { Snippet } from 'svelte';
+
 
 let {
     data,
@@ -27,6 +30,12 @@ let {
     is_space,
     is_space_child_room,
     non_space_room
+}: {
+    data: Data,
+    content: Snippet,
+    is_space: boolean,
+    is_space_child_room: boolean,
+    non_space_room: boolean
 } = $props();
 
 const rooms = $derived.by(() => {
