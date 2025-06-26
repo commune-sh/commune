@@ -114,6 +114,7 @@ function clickThrough() {
 
     <div class="sidebar-container relative bg-sidebar grid">
         <Sidebar
+            {data}
             {is_space}
             {is_space_child_room}
             {non_space_room}
@@ -123,6 +124,7 @@ function clickThrough() {
     <div class="view bg-view grid grid-rows-[52px_1fr] h-dvh"
         class:full-width={menu_active}>
         <Header 
+            {data}
             {is_space}
             {is_space_child_room}
             {non_space_room}
@@ -132,6 +134,7 @@ function clickThrough() {
             bind:this={viewport}
             class:mask-view={menu_active}>
                 <Room
+                    {data}
                     {is_space}
                     {is_space_child_room}
                     {non_space_room}
@@ -139,7 +142,7 @@ function clickThrough() {
         </section>
     </div>
     {#if thread_exists}
-        <Thread />
+        <Thread {data} />
     {/if}
 
 </div>

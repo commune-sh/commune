@@ -7,6 +7,10 @@ import {
     naiveRoomIDCheck
 } from '$lib/utils/matrix'
 
+let {
+    data,
+} = $props();
+
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 

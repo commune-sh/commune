@@ -9,6 +9,7 @@ import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 let {
+    data,
     is_space,
     is_space_child_room,
     non_space_room
@@ -34,12 +35,13 @@ $effect(() => {
 
 {#if is_space_child_room}
     {#if is_chat}
-        <ChatView />
+        <ChatView {data} />
     {:else if is_forum}
-        <ForumView />
+        <ForumView {data} />
     {/if}
 {:else}
     <RoomOverView 
+        {data}
         {is_space}
         {is_space_child_room}
         {non_space_room}

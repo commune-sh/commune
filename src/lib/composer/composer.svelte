@@ -1,6 +1,10 @@
 <script>
 import { tick, onMount } from 'svelte'
 
+let {
+    data,
+} = $props();
+
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 

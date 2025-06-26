@@ -2,12 +2,18 @@
 import { onMount } from 'svelte'
 import { page } from '$app/state';
 
+let {
+    data
+} = $props();
+
 import ThreadHeader from '$lib/thread/thread-header.svelte'
 import ThreadContent from '$lib/thread/thread-content.svelte'
 
 import ViewPort from '$lib/room/chat/chat-viewport.svelte'
 
 import { getSetting, updateSetting } from '$lib/utils/localstorage';
+
+
 let saved_width = $derived.by(() => {
     return getSetting('thread_width');
 });

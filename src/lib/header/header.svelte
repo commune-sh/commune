@@ -14,6 +14,7 @@ const store = createStore()
 const authenticated = $derived(store.session.authenticated)
 
 let {
+    data,
     is_space,
     is_space_child_room,
     non_space_room

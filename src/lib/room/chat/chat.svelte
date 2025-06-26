@@ -10,6 +10,9 @@ import Event from '$lib/room/chat/events/event.svelte'
 
 import SkeletonChatEvents from '$lib/skeleton/chat-events.svelte'
 
+let {
+    data,
+} = $props();
 
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
@@ -43,10 +46,10 @@ let ready = $state(false)
 
 <div class="chat-view relative grid grid-rows-[1fr_auto] overflow-hidden h-full">
 
-    <ViewPort {events} {room} />
+    <ViewPort {data} {events} {room} />
 
     <div class="composer-container">
-        <Composer bind:this={composer} />
+        <Composer {data} bind:this={composer} />
     </div>
 
 </div>

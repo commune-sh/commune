@@ -15,6 +15,7 @@ import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 let {
+    data,
     is_space,
     is_space_child_room,
     non_space_room

@@ -12,6 +12,7 @@ import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 let {
+    data,
     events,
     room,
     thread_view = false,

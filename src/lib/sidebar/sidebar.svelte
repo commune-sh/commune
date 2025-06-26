@@ -11,6 +11,7 @@ import UserSidebar from '$lib/sidebar/user/user-sidebar.svelte'
 import { page } from '$app/state';
 
 let {
+    data,
     is_space,
     is_space_child_room,
     non_space_room

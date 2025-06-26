@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 import { browser } from '$app/environment'
 
 import { page } from '$app/state';
@@ -85,6 +85,7 @@ const menu_active = $derived(store.ui.menu_active)
 
         {#if show_view}
             <View 
+                {data}
                 {content}
                 {is_space}
                 {is_space_child_room}
