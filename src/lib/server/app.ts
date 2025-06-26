@@ -11,7 +11,7 @@ import {
     download_media
 } from '$lib/appservice/requests.svelte'
 
-import { matrixWellKnown } from '$lib/commune/types'
+import { matrixWellKnown, appserviceHealth } from '$lib/commune/types'
 
 import type { Data } from '$lib/commune/types'
 
@@ -105,6 +105,18 @@ export async function initializeAppData(
     try {
         const appservice_response = await fetch(appservice_endpoint);
         const resp = await appservice_response.json();
+
+        let validated = appserviceHealth.safeParse(resp);
+
+        if (validated.success) {
+            data.APPSERVICE_IDENTITY = validated.data.user_id;
+        } else {
+            console.error("Appservice health validation failed:", validated.error);
+            error(500, {
+                message: "Invalid appservice health response."
+            });
+        }
+
     } catch (err) {
         error(500, {
             message: "Failed to connect to appservice."

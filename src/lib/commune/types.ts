@@ -8,6 +8,7 @@ export type Data = {
     HOMESERVER_URL: string;
     HOMESERVER_NAME: string;
     READ_ONLY: boolean;
+    APPSERVICE_IDENTITY: string;
     authenticated: boolean;
     session?: Session | undefined;
     oidc_client_id?: string;
@@ -34,7 +35,12 @@ export const matrixWellKnown = z.object({
 
 export type MatrixWellKnown = z.infer<typeof matrixWellKnown>;
 
+export const appserviceHealth = z.object({
+    status: z.string(),
+    user_id: z.string(),
+});
 
+export type AppserviceHealth = z.infer<typeof appserviceHealth>;
 
 export type PublicSpace = {
     canonical_alias: string;
