@@ -30,7 +30,7 @@ import Layout from '$lib/layout/layout.svelte'
 
 import HomeserverDown from '$lib/alert/homeserver-down.svelte'
 
-import Matrix from '$lib/matrix/matrix.svelte'
+import State from '$lib/state/state.svelte'
 import Settings from '$lib/settings/settings.svelte'
 import EventSource from '$lib/event/source.svelte'
 
@@ -286,7 +286,7 @@ let synced = $derived.by(() => {
 
 <HomeserverDown />
 
-<Matrix {data} />
+<State {data} />
 
 <EventSource />
 
