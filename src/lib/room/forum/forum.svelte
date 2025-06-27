@@ -1,6 +1,6 @@
 <script lang="ts">
 import { page } from '$app/state';
-import type { Data } from '$lib/commune/types'
+import type { Data } from '$lib/types/common'
 
 import Loading from '$lib/loading/loading.svelte'
 

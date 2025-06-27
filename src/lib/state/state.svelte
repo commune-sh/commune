@@ -10,7 +10,7 @@ import {
     naiveOSTCheck
 } from '$lib/utils/matrix'
 
-import type { Data } from '$lib/commune/types'
+import type { Data } from '$lib/types/common'
 
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()

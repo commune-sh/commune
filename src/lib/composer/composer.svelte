@@ -1,6 +1,6 @@
 <script lang="ts">
 import { tick, onMount } from 'svelte'
-import type { Data } from '$lib/commune/types'
+import type { Data } from '$lib/types/common'
 
 let {
     data,

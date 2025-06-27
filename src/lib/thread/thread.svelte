@@ -2,7 +2,7 @@
 import { onMount } from 'svelte'
 import { page } from '$app/state';
 
-import type { Data } from '$lib/commune/types'
+import type { Data } from '$lib/types/common'
 
 let {
     data

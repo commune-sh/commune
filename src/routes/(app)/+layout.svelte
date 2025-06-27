@@ -8,8 +8,6 @@ import {
 
 import { env } from '$env/dynamic/public';
 
-import type { Data } from '$lib/commune/types'
-
 import type { LayoutProps } from './$types';
 
 import { page } from '$app/state';

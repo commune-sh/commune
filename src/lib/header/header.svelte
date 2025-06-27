@@ -13,7 +13,7 @@ const store = createStore()
 
 const authenticated = $derived(store.session.authenticated)
 
-import type { Data } from '$lib/commune/types'
+import type { Data } from '$lib/types/common'
 
 let {
     data,

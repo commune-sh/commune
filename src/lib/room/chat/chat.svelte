@@ -10,7 +10,7 @@ import Event from '$lib/room/chat/events/event.svelte'
 
 import SkeletonChatEvents from '$lib/skeleton/chat-events.svelte'
 
-import type { Data } from '$lib/commune/types'
+import type { Data } from '$lib/types/common'
 
 let {
     data,

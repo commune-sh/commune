@@ -16,7 +16,7 @@ import {
 import { browser } from '$app/environment';
 
 
-import { type PublicSpace } from '$lib/commune/types';
+import { type PublicSpace } from '$lib/types/common';
 
 import { get_local_part } from '$lib/utils/matrix';
 

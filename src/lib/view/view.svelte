@@ -20,7 +20,7 @@ import {
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
-import type { Data } from '$lib/commune/types'
+import type { Data } from '$lib/types/common'
 import type { Snippet } from 'svelte';
 
 

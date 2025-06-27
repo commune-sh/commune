@@ -11,9 +11,9 @@ import {
     download_media
 } from '$lib/appservice/requests.svelte'
 
-import { matrixWellKnown, appserviceHealth } from '$lib/commune/types'
+import { matrixWellKnown, appserviceHealth } from '$lib/types/common'
 
-import type { Data } from '$lib/commune/types'
+import type { Data } from '$lib/types/common'
 
 import { authenticate, type AuthCookies } from '$lib/server/auth';
 
