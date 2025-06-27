@@ -45,6 +45,7 @@ import {
     getRoomState,
     getRoomMessages,
     getEventContext,
+    getRoomHierarchy
 } from '$lib/appservice/requests.svelte'
 
 import { createAppStore } from './app.svelte';
@@ -136,6 +137,7 @@ let page = $derived.by(() => {
 
 let store: {
     spaces: SvelteMap<string, any>;
+    space_rooms: SvelteMap<string, any>;
     rooms: SvelteMap<string, any>;
     room_state: SvelteMap<string, any>;
     messages: SvelteMap<string, any>;
@@ -144,6 +146,7 @@ let store: {
     thread_events: SvelteMap<string, any>;
 } = $state({
     spaces: new SvelteMap(),
+    space_rooms: new SvelteMap(),
     rooms: new SvelteMap(),
     room_state: new SvelteMap(),
     messages: new SvelteMap(),
@@ -178,6 +181,7 @@ $effect.root(() => {
         if(_space != space) {
             _space = space;
             console.log("SPACE UPDATED ", _space)
+            buildSpaceRooms();
         }
         if(_room != room) {
             _room = room;
@@ -198,6 +202,33 @@ $effect.root(() => {
         */
     })
 })
+
+async function buildSpaceRooms() {
+    if(!_space) return;
+    try {
+        let resp = await getRoomHierarchy(_space);
+        if(resp?.rooms) {
+            store.hierarchy.set(_space, resp.rooms);
+
+            let rooms: Array<any> = [];
+
+            resp.rooms.forEach((room: any) => {
+
+                if(room.children_state?.length == 0) {
+                    console.log("space room is", room)
+                    rooms.push(room)
+                }
+
+            })
+            if(rooms?.length > 0) {
+                store.space_rooms.set(_space, rooms);
+            }
+
+        }
+    } catch (err) {
+        console.error("Error fetching space hierarchy:", err)
+    }
+}
 
 
 const active_room = $derived.by(() => {

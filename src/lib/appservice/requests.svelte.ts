@@ -47,8 +47,8 @@ export const getPublicRooms = async () => {
 
 }
 
-export const getRoomHierarchy = async (appservice_url: string, room_id: string) => {
-    const url = `${appservice_url}/rooms/${room_id}/hierarchy`;
+export const getRoomHierarchy = async (room_id: string) => {
+    const url = `${appservice_url}/_matrix/client/v1/rooms/${room_id}/hierarchy`;
     let options = {
         headers: {
             'Content-Type': 'application/json',
