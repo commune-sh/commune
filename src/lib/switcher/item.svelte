@@ -295,7 +295,7 @@ const fontSize = $derived.by(() => {
     <div class:dragging={dragging} 
         onclick={goToSpace}
         use:tooltip={options}
-        class:bg-cmn-7={active}
+        class:bg-cmn-7={active && !avatar}
         class:active={active}
         class:bg-cmn-4={!avatar}
         class:hover:bg-cmn-7={!avatar}
