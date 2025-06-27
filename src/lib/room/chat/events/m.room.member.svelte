@@ -1,12 +1,21 @@
-<script>
+<script lang="ts">
 import { aliasFromSender } from '$lib/utils/matrix';
 
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
+import type { Data } from '$lib/types/common'
+
 let {
+    data,
     event,
     event_user,
+    inviter
+}: {
+    data: Data,
+    event: any,
+    event_user: any
+    inviter?: any
 } = $props();
 
 
@@ -41,6 +50,7 @@ const invited = $derived.by(() => {
     return event?.content?.membership == 'invite' 
 })
 
+
 const invited_user = $derived.by(() => {
     return aliasFromSender(event?.state_key)
 })
@@ -50,7 +60,28 @@ const action = $derived.by(() => {
     if(left) return 'left'
 })
 
+let appservice_joined = $derived.by(() => {
+    return data?.APPSERVICE_IDENTITY == event?.user_id &&
+        data?.APPSERVICE_IDENTITY == event?.state_key &&
+        event?.content?.membership == 'join' 
+})
+
 </script>
+
+{#if appservice_joined}
+<div class="content-center lg:text-xs md:text-xs sm:text-3xs">
+    {@render inviter()}
+    <span class="text-light">
+        made the room 
+        {#if joined}
+            public
+        {:else if left}
+            private
+        {/if}
+    </span>
+</div>
+
+{:else}
 
 <div class="content-center lg:text-xs md:text-xs sm:text-3xs">
     {@render event_user()}
@@ -66,6 +97,7 @@ const action = $derived.by(() => {
         {/if}
     </span>
 </div>
+{/if}
 
 <style>
 </style>

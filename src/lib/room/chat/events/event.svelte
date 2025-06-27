@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 import { page } from '$app/state';
 import { dayOfMonth, formatTS } from '$lib/utils/time'
 import Time from '$lib/room/common/time.svelte'
@@ -25,6 +25,7 @@ import PinnedEvent from '$lib/room/chat/events/m.room.pinned_events.svelte'
 
 import Menu from '$lib/event/menu/menu.svelte'
 
+import type { Data } from '$lib/types/common'
 
 
 import { createStore } from '$lib/store/store.svelte'
@@ -35,9 +36,15 @@ const authenticated = $derived(store.session.authenticated)
 const events = $derived(store.matrix.active_room_events)
 
 let {
+    data,
     event,
     index,
     thread_view
+}: {
+    data: Data,
+    event: any,
+    index: number,
+    thread_view?: boolean
 } = $props();
 
 const sender = $derived(event?.sender)
@@ -195,10 +202,16 @@ $effect(() => {
     }
 })
 
+const appservice_invited = $derived.by(() => {
+    return event?.content?.membership == 'invite' &&
+        event?.state_key == data.APPSERVICE_IDENTITY
+})
+
+
 const showEvent = $derived.by(() => {
     return event_options.find(e => e.type == event?.type)?.show &&
         !is_replacement && !hideEvent && 
-        (thread_view ? true : !is_thread_message)
+        (thread_view ? true : !is_thread_message) && !appservice_invited
 })
 
 let hovered = $state(false);
@@ -290,7 +303,14 @@ let flashed = $derived.by(() => {
                 <Sender event={event} inline={true} />
             {/snippet}
 
-            <svelte:component this={component} {event} {thread_view} {event_user} />
+            {#snippet inviter()}
+                <Avatar sender={event?.unsigned?.prev_sender} small={true} inline={true} />
+                <Sender event={event} inline={true} prev_sender={true} />
+            {/snippet}
+
+
+            <svelte:component this={component} {data} {event} {thread_view}
+                    {event_user} {inviter} />
 
 
                 {#if showReactions && reactions?.length > 0 }

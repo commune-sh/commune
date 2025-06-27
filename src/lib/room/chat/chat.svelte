@@ -31,13 +31,7 @@ const events = $derived.by(() => {
   return store.matrix.events[room?.room_id]?.events
 })
 
-$effect(() => {
-    if(events) {
-    }
-})
-
 let composer;
-
 
 let ready = $state(false)
 

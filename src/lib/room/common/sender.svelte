@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
@@ -6,13 +6,22 @@ import { aliasFromSender } from '$lib/utils/matrix';
 
 let {
     event,
-    inline
+    inline,
+    prev_sender
+}: {
+    event: any,
+    inline?: boolean
+    prev_sender?: boolean
 } = $props();
 
 const state = $derived(store.matrix.active_room_state)
 
+const which_user = $derived.by(() => {
+    return prev_sender ? event?.unsigned?.prev_sender : event?.sender
+})
+
 const user = $derived.by(() => {
-    return state?.find(x => x.state_key === event?.sender)
+    return state?.find((x: any) => x.state_key === which_user)
 })
 
 const sender = $derived(event?.sender)
