@@ -9,6 +9,7 @@ export type Data = {
     HOMESERVER_NAME: string;
     READ_ONLY: boolean;
     APPSERVICE_IDENTITY: string;
+    features: Features;
     authenticated: boolean;
     session?: Session | undefined;
     oidc_client_id?: string;
@@ -35,9 +36,16 @@ export const matrixWellKnown = z.object({
 
 export type MatrixWellKnown = z.infer<typeof matrixWellKnown>;
 
+export const features = z.object({
+    search_disabled: z.boolean(),
+});
+
+export type Features = z.infer<typeof features>;
+
 export const appserviceHealth = z.object({
     status: z.string(),
     user_id: z.string(),
+    features: features,
 });
 
 export type AppserviceHealth = z.infer<typeof appserviceHealth>;

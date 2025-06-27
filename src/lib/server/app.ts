@@ -71,6 +71,7 @@ export async function initializeAppData(
         APPSERVICE_URL: PUBLIC_APPSERVICE_URL,
         HOMESERVER_URL: PUBLIC_HOMESERVER_URL,
         HOMESERVER_NAME: PUBLIC_HOMESERVER_NAME,
+        APPSERVICE_IDENTITY: '',
         READ_ONLY: env?.PUBLIC_READ_ONLY === 'true',
         authenticated: authenticated,
         oidc_client_id: oidc_client_id || null,
@@ -110,6 +111,7 @@ export async function initializeAppData(
 
         if (validated.success) {
             data.APPSERVICE_IDENTITY = validated.data.user_id;
+            data.features = validated.data.features;
         } else {
             console.error("Appservice health validation failed:", validated.error);
             error(500, {
