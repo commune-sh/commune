@@ -297,9 +297,11 @@ const fontSize = $derived.by(() => {
         use:tooltip={options}
         class:bg-cmn-7={active}
         class:active={active}
-        class="space bg-cmn-4 w-[40px] h-[40px] grid
+        class:bg-cmn-4={!avatar}
+        class:hover:bg-cmn-7={!avatar}
+        class="space w-[40px] h-[40px] grid
         transition-transform duration-200
-        place-items-center cursor-pointer hover:bg-cmn-7 rounded-[14px]" 
+        place-items-center cursor-pointer rounded-[14px]" 
         style="font-size: {fontSize}"
         draggable="true"
         ondrag={drag}
@@ -307,7 +309,7 @@ const fontSize = $derived.by(() => {
         ondragstart={dragstart}>
 
         {#if avatar}
-            <img src={avatar} alt={name} class="bg-cmn-4" loading="lazy" />
+            <img src={avatar} alt={name} class="" loading="lazy" />
         {/if}
         {#if !avatar_url}
         <div class="initial font-medium">
