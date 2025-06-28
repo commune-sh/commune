@@ -203,8 +203,7 @@ $effect(() => {
 })
 
 const appservice_invited = $derived.by(() => {
-    return event?.content?.membership == 'join' &&
-        event?.state_key == data.APPSERVICE_IDENTITY
+    return m_room_member && event?.state_key == data.APPSERVICE_IDENTITY
 })
 
 
