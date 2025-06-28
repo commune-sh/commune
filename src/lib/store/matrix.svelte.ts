@@ -206,6 +206,10 @@ $effect.root(() => {
 async function buildSpaceRooms() {
     if(!_space) return;
     // fetch hierarchy for the space
+    if(store.hierarchy.has(_space)) {
+        console.log("Space hierarchy already exists, skipping fetch.")
+        return;
+    }
     try {
         let resp = await getRoomHierarchy(_space);
         if(resp?.rooms) {
@@ -231,23 +235,26 @@ async function buildSpaceRooms() {
     // fetch state for each room
     let space_rooms = store.space_rooms.get(_space);
     if(space_rooms) {
-
         try {
 
-            const statePromises = space_rooms.map(async (room: any) => {
-                let state = await getRoomState(room.room_id);
-                return { room_id: room.room_id, state };
-            });
-            
-            const results = await Promise.all(statePromises);
-            results.forEach(({ room_id, state }) => {
-                store.room_state.set(room_id, state);
-            })
+            const roomsToFetch = space_rooms.filter((room: any) => 
+                !store.room_state.has(room.room_id)
+            );
 
+            if (roomsToFetch.length > 0) {
+                const statePromises = roomsToFetch.map(async (room: any) => {
+                    let state = await getRoomState(room.room_id);
+                    return { room_id: room.room_id, state };
+                });
+
+                const results = await Promise.all(statePromises);
+                results.forEach(({ room_id, state }) => {
+                    store.room_state.set(room_id, state);
+                });
+            }
         } catch (err) {
-            console.error("Error fetching space rooms state:", err)
+            console.error("Error fetching space rooms state:", err);
         }
-
     }
 }
 
