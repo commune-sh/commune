@@ -61,6 +61,9 @@ let active = $derived.by(() => {
     if(!is_local) {
         return space_param === space.canonical_alias
     }
+    if(space_param == space.room_id) {
+        return true
+    }
     if(alias) {
         return space_param === alias
     } else if(space?.room_id) {
