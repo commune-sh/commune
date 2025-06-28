@@ -116,7 +116,7 @@ export function naiveAliasCheck(alias: string) {
 }
 
 export function aliasFromName(name: string) {
-    let slug = name.replaceAll(' ', '-')
+    let slug = name.replace(/\s+/g, '-')
     if(slug.includes('#')){
         slug = slug.replaceAll('#', '')
     }
