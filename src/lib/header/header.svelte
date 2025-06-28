@@ -150,7 +150,7 @@ const login = $derived.by(() => {
         {#if !read_only && !authenticated}
             <div class="ml-4">
                 <a data-sveltekit-preload-data="tap" href={login}>
-                    <button class="primary">Login</button>
+                    <button class="primary text-sm">Login</button>
                 </a>
             </div>
         {/if}
@@ -169,8 +169,7 @@ const login = $derived.by(() => {
 
 button {
     border-radius: 500px;
-    padding: 0.4rem 0.9rem;
-    font-size: 0.9rem;
+    padding: 0.3rem 0.9rem;
     font-weight: 500;
 }
 
@@ -192,7 +191,6 @@ button:hover {
     }
     .header-content {
         margin-left: 0rem;
-        margin-right: 0rem;
     }
     .menu {
         display: grid;

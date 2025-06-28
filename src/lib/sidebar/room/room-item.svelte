@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 import { onMount } from 'svelte';
 import { goto } from '$app/navigation';
 import { page } from '$app/state';
@@ -7,6 +7,7 @@ import {
     get_local_part,
     get_domain,
     processHash,
+    aliasFromName
 } from '$lib/utils/matrix'
 
 import { 
@@ -26,6 +27,8 @@ const menu_active = $derived(store.ui.menu_active)
 
 let {
     item
+}: {
+    item: any
 } = $props();
 
 const is_local = $derived.by(() => {
@@ -180,6 +183,49 @@ function openMenu(e) {
     e.stopPropagation()
     console.log("opening menu")
 }
+
+const room_state = $derived.by(() => {
+    return store.matrix.store.room_state.get(item?.room_id)
+})
+
+const origin_server_ts = $derived.by(() => {
+    return room_state?.find((r: any) => r.type == 'm.room.create')?.origin_server_ts;
+})
+
+// HAIRY code, fix this later
+const slug = $derived.by(() => {
+    // make a slug from the room name (lowercase, spaces to dashes, remove special characters)
+    let _slug = aliasFromName(item.name)
+
+    // get all rooms in this space
+    let space_rooms = store.matrix.store.space_rooms.get(page.params.space)
+    // find all rooms with the same name
+    let same_name = space_rooms?.filter((r: any) => r.name == item.name)
+
+    // if there are no other rooms with the same name, return the slug
+    if(!same_name || same_name?.length == 1) {
+        return _slug
+    }
+
+    let all_origin_server_ts: Array<number> = [];
+
+    same_name.forEach((r: any) => {
+        let state = store.matrix.store.room_state.get(r.room_id)
+        let ts = state?.find((s: any) => s.type == 'm.room.create')?.origin_server_ts
+        if(ts) {
+            all_origin_server_ts.push(ts)
+        }
+    })
+
+    // sort the timestamps
+    all_origin_server_ts.sort((a: number, b: number) => a - b)
+
+    if(all_origin_server_ts[0] == origin_server_ts) {
+        return _slug
+    }
+
+    return `${_slug}-${origin_server_ts}`
+})
 
 </script>
 

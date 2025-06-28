@@ -61,6 +61,10 @@ let items = $derived.by(() => {
 })
 
 
+const _space_rooms = $derived.by(() => {
+    return store.matrix.store.space_rooms.get(page.params.space)
+});
+
 </script>
 
 <div class="sidebar-container">

@@ -88,14 +88,12 @@ const space_state = $derived.by(() => {
 
 </script>
 
-<div class="sidebar grid grid-rows-[auto_1fr_70px]
+<div class="sidebar grid grid-rows-[auto_1fr_auto_70px]
     border-solid border-r border-sidebar-border h-dvh"
     style="width: {width}px">
 
 
-    {#if non_space_room}
-        <RoomsSidebarHeader />
-    {:else if (is_space || is_space_child_room)}
+    {#if (is_space || is_space_child_room)}
         <RoomSidebarHeader />
     {:else if is_home}
         <UserSidebarHeader />
@@ -105,7 +103,7 @@ const space_state = $derived.by(() => {
         <div class="rooms overflow-y-auto h-full"
             oncontextmenu={showContextMenu}
         >
-            {#if is_space || is_space_child_room || non_space_room}
+            {#if is_space || is_space_child_room}
                 <RoomSidebar />
             {:else if is_home}
                 <UserSidebar />
