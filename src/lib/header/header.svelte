@@ -182,6 +182,10 @@ button:hover {
     background: var(--primary);
 }
 
+.topic {
+    padding-top: 0.125rem;
+}
+
 @media (max-width: 768px) {
     .header {
         grid-template-columns: 52px 1fr;
