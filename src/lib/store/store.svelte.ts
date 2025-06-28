@@ -2,7 +2,7 @@ import { createAppStore } from './app.svelte';
 import { createSessionStore } from './session.svelte';
 import { createUIStore } from './ui.svelte';
 import { createMatrixStore } from './matrix.svelte';
-import { createOIDCStore } from './oidc.svelte';
+import { createDBStore } from './db.svelte';
 import { createSettingsStore } from './settings.svelte';
 
 export function createStore() {
@@ -21,9 +21,9 @@ export function createStore() {
 			return createUIStore();
 		},
 
-		get oidc() {
-			return createOIDCStore();
-		},
+        get db() {
+            return createDBStore();
+        },
 
 		get matrix() {
 			return createMatrixStore();
