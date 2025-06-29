@@ -85,7 +85,6 @@ const active_space = $derived(store.matrix.active_space)
 const space_state = $derived.by(() => {
     return store.matrix.room_state[active_space?.room_id]
 })
-
 </script>
 
 <div class="sidebar grid grid-rows-[auto_1fr_auto_70px]
@@ -93,7 +92,9 @@ const space_state = $derived.by(() => {
     style="width: {width}px">
 
 
-    {#if (is_space || is_space_child_room)}
+    {#if non_space_room}
+        <RoomsSidebarHeader />
+    {:else if (is_space || is_space_child_room)}
         <RoomSidebarHeader />
     {:else if is_home}
         <UserSidebarHeader />
@@ -103,7 +104,7 @@ const space_state = $derived.by(() => {
         <div class="rooms overflow-y-auto h-full"
             oncontextmenu={showContextMenu}
         >
-            {#if is_space || is_space_child_room}
+            {#if is_space || is_space_child_room || non_space_room}
                 <RoomSidebar />
             {:else if is_home}
                 <UserSidebar />
