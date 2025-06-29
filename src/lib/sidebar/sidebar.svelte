@@ -85,6 +85,15 @@ const active_space = $derived(store.matrix.active_space)
 const space_state = $derived.by(() => {
     return store.matrix.room_state[active_space?.room_id]
 })
+
+const show_dragger = $derived.by(() => {
+    let rooms = store.matrix.store.space_rooms.get(page.params.space)
+    if(rooms && page.params.space) {
+        return true
+    }
+    return false
+});
+
 </script>
 
 <div class="sidebar grid grid-rows-[auto_1fr_auto_70px]
@@ -116,12 +125,14 @@ const space_state = $derived.by(() => {
 </div>
 
 
+{#if show_dragger}
 <div class="dragger absolute grid place-items-center" 
     class:resizing={resizing}
     onmousedown={start}>
     <div class="holder" >
     </div>
 </div>
+{/if}
 
 
 <style>
