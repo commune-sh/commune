@@ -10,6 +10,12 @@ import {
 
 export async function processSpaceRooms(space: string) {
     if(!space) return;
+
+    // check if space rooms already exist, skip if fetched by other process
+    if(store.space_rooms.has(space)) {
+        return
+    }
+
     // fetch hierarchy for the space
     if(store.hierarchy.has(space)) {
         console.log("Space hierarchy already exists, skipping fetch.")
