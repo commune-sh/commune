@@ -39,13 +39,16 @@ import {
     canonical_alias,
 } from '$lib/utils/matrix'
 
+import {
+    processSpaceRooms
+} from '$lib/store/process.svelte'
+
 import { 
     getPublicSpaces,
     getPublicRooms, 
     getRoomState,
     getRoomMessages,
     getEventContext,
-    getRoomHierarchy
 } from '$lib/appservice/requests.svelte'
 
 import { createAppStore } from './app.svelte';
@@ -135,7 +138,7 @@ let page = $derived.by(() => {
     }
 })
 
-let store: {
+export let store: {
     spaces: SvelteMap<string, any>;
     space_rooms: SvelteMap<string, any>;
     rooms: SvelteMap<string, any>;
@@ -180,12 +183,10 @@ $effect.root(() => {
     $effect(() => {
         if(_space != space) {
             _space = space;
-            console.log("SPACE UPDATED ", _space)
-            buildSpaceRooms();
+            processSpaceRooms(_space);
         }
         if(_room != room) {
             _room = room;
-            console.log("ROOM UPDATED ", _room)
         }
         /*
         if(space && (_space != space)) {
@@ -202,61 +203,6 @@ $effect.root(() => {
         */
     })
 })
-
-async function buildSpaceRooms() {
-    if(!_space) return;
-    // fetch hierarchy for the space
-    if(store.hierarchy.has(_space)) {
-        console.log("Space hierarchy already exists, skipping fetch.")
-        return;
-    }
-    try {
-        let resp = await getRoomHierarchy(_space);
-        if(resp?.rooms) {
-            store.hierarchy.set(_space, resp.rooms);
-
-            let rooms: Array<any> = [];
-
-            resp.rooms.forEach((room: any) => {
-                if(room.children_state?.length == 0) {
-                    rooms.push(room)
-                }
-            })
-            // store space rooms
-            if(rooms?.length > 0) {
-                store.space_rooms.set(_space, rooms);
-            }
-
-        }
-    } catch (err) {
-        console.error("Error fetching space hierarchy:", err)
-    }
-
-    // fetch state for each room
-    let space_rooms = store.space_rooms.get(_space);
-    if(space_rooms) {
-        try {
-
-            const roomsToFetch = space_rooms.filter((room: any) => 
-                !store.room_state.has(room.room_id)
-            );
-
-            if (roomsToFetch.length > 0) {
-                const statePromises = roomsToFetch.map(async (room: any) => {
-                    let state = await getRoomState(room.room_id);
-                    return { room_id: room.room_id, state };
-                });
-
-                const results = await Promise.all(statePromises);
-                results.forEach(({ room_id, state }) => {
-                    store.room_state.set(room_id, state);
-                });
-            }
-        } catch (err) {
-            console.error("Error fetching space rooms state:", err);
-        }
-    }
-}
 
 
 const active_room = $derived.by(() => {
