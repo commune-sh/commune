@@ -9,7 +9,7 @@ export type Data = {
     HOMESERVER_NAME: string;
     READ_ONLY: boolean;
     APPSERVICE_IDENTITY: string;
-    features: Features;
+    features?: Features;
     authenticated: boolean;
     session?: Session | undefined;
     oidc_client_id?: string;

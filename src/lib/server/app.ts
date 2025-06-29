@@ -8,7 +8,7 @@ import {
 } from '$env/static/public';
 
 import { 
-    download_media
+    download_media,
 } from '$lib/appservice/requests.svelte'
 
 import { matrixWellKnown, appserviceHealth } from '$lib/types/common'
@@ -75,16 +75,9 @@ export async function initializeAppData(
         READ_ONLY: env?.PUBLIC_READ_ONLY === 'true',
         authenticated: authenticated,
         oidc_client_id: oidc_client_id || null,
-        metadata: {
-            space: {},
-            room: {},
-            event: {},
-            sender: {},
-            image: null
-        }
     };
 
-    if (authenticated) {
+    if (authenticated && user_id && device_id) {
         data.session = {
             access_token: access_token,
             user_id: user_id,
@@ -98,7 +91,6 @@ export async function initializeAppData(
     if(oidc_client_id) {
         data.oidc_client_id = oidc_client_id
     }
-
 
     // query public appservice health
     let appservice_endpoint = `${data.APPSERVICE_URL}/health`;
