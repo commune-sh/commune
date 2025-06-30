@@ -12,14 +12,14 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('activate', (event) => {
-
-    async function deleteOldCaches() {
+    async function activate() {
         for (const key of await caches.keys()) {
             if (key !== CACHE) await caches.delete(key);
         }
+        await self.clients.claim();
     }
-
-    event.waitUntil(deleteOldCaches());
+    
+    event.waitUntil(activate());
 });
 
 self.addEventListener('fetch', (event) => {
@@ -31,11 +31,16 @@ self.addEventListener('fetch', (event) => {
         return
     }
 
+
     async function respond() {
         const cache = await caches.open(CACHE);
 
-        try {
+        const cachedResponse = await cache.match(event.request);
+        if (cachedResponse) {
+            return cachedResponse;
+        }
 
+        try {
             const response = await fetch(event.request);
 
             if (!(response instanceof Response)) {
@@ -48,12 +53,6 @@ self.addEventListener('fetch', (event) => {
 
             return response;
         } catch (err) {
-            const response = await cache.match(event.request);
-
-            if (response) {
-                return response;
-            }
-
             throw err;
         }
     }
