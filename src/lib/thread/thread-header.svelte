@@ -1,7 +1,7 @@
 <script>
 import { page } from '$app/state';
 import { goto } from '$app/navigation';
-import { close } from '$lib/assets/icons.js';
+import { close } from '$lib/assets/icons';
 
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()

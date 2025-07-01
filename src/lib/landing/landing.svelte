@@ -1,6 +1,6 @@
 <script>
 import { PUBLIC_BASE_URL, PUBLIC_HOMESERVER_URL } from '$env/static/public';
-import { logo } from '$lib/assets/logo.js';
+import { logo } from '$lib/assets/logo';
 
 import { env } from '$env/dynamic/public';
 

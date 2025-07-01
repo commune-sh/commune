@@ -1,10 +1,5 @@
 <script>
-import { logo } from '$lib/assets/logo.js';
 import UserLogo from '$lib/assets/logo-base.png';
-
-import { 
-    thumbnailURL,
-} from '$lib/utils/matrix'
 
 import { 
     getAvatarThumbnail,

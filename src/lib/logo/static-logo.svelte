@@ -1,5 +1,5 @@
 <script>
-import { logo } from '$lib/assets/logo.js';
+import { logo } from '$lib/assets/logo';
 import { page } from '$app/state';
 
 let active = $derived(page.url.pathname == '/')

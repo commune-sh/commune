@@ -1,6 +1,6 @@
 <script>
 import '../app.css'
-import { logo } from '$lib/assets/logo.js';
+import { logo } from '$lib/assets/logo';
 import { page } from '$app/state';
 
 let message = $derived.by(() => {
