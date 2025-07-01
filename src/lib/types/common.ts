@@ -9,6 +9,8 @@ export type Data = {
     HOMESERVER_NAME: string;
     READ_ONLY: boolean;
     APPSERVICE_IDENTITY: string;
+    supports_OIDC: boolean;
+    auth_metadata?: object | undefined;
     features?: Features;
     authenticated: boolean;
     session?: Session | undefined;

@@ -7,9 +7,8 @@ import {
     PUBLIC_HOMESERVER_NAME
 } from '$env/static/public';
 
-import { 
-    download_media,
-} from '$lib/appservice/requests.svelte'
+import { download_media } from '$lib/appservice/requests.svelte'
+import { getAuthMetadata } from '$lib/matrix/requests';
 
 import { matrixWellKnown, appserviceHealth } from '$lib/types/common'
 
@@ -72,10 +71,24 @@ export async function initializeAppData(
         HOMESERVER_URL: PUBLIC_HOMESERVER_URL,
         HOMESERVER_NAME: PUBLIC_HOMESERVER_NAME,
         APPSERVICE_IDENTITY: '',
+        supports_OIDC: false,
         READ_ONLY: env?.PUBLIC_READ_ONLY === 'true',
         authenticated: authenticated,
         oidc_client_id: oidc_client_id || null,
     };
+
+
+    // get oidc configuration
+    try {
+        let auth_metadata = await getAuthMetadata();
+        if(auth_metadata) {
+            data.auth_metadata = auth_metadata;
+            data.supports_OIDC = true;
+        }
+    } catch (err) {
+        console.error("Failed to fetch auth metadata:", err);
+    }
+
 
     if (authenticated && user_id && device_id) {
         data.session = {
