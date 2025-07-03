@@ -33,6 +33,13 @@ export const load: LayoutServerLoad = async ({ url, fetch, cookies, parent }) =>
     let state = url.searchParams.get('state')
     let code = url.searchParams.get('code')
 
+    let error = url.searchParams.get('error')
+
+    if (error) {
+        console.error('OIDC Error:', error);
+        redirect(302, '/logout');
+    }
+
     if(!loginToken && !state && !code) {
         redirect(302, '/login');
     }
