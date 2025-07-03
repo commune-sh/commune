@@ -57,10 +57,8 @@ let login_flows = $state(null);
 let register_flows = $state(null);
 let registration_disabled = $state(false);
 
-let homeserver = $derived(app.HOMESERVER_URL)
-
 let client: MatrixClient = $state(sdk.createClient({
-    baseUrl: homeserver,
+    baseUrl: app.HOMESERVER_URL as string,
 }));
 
 let session = $derived(session_store.session)
@@ -89,9 +87,9 @@ $effect.root(() => {
 async function setupClient() {
     console.log("Session is", session)
     console.log("Session is ready, set up Matrix client")
-    _access_token = session?.access_token
+    _access_token = session?.access_token as string
     client =  sdk.createClient({
-        baseUrl: homeserver,
+        baseUrl: app.HOMESERVER_URL as string,
         accessToken: session?.access_token,
         refreshToken: session?.refresh_token,
         userId: session?.user_id,
@@ -103,10 +101,10 @@ async function setupClient() {
 
 async function updateToken() {
     console.log("Updating access token.")
-    _access_token = session?.access_token
+    _access_token = session?.access_token as string
     client?.stopClient();
     client?.removeAllListeners();
-    client?.setAccessToken(session?.access_token);
+    client?.setAccessToken(session?.access_token as string);
     client?.startClient();
 }
 
@@ -335,7 +333,7 @@ export function createMatrixStore() {
     // temporary throaway client for single requests
     function newClient() {
         return sdk.createClient({
-            baseUrl: homeserver,
+            baseUrl: app.HOMESERVER_URL as string,
         });
     }
 
@@ -344,7 +342,7 @@ export function createMatrixStore() {
 
         console.log("Setting up Matrix client for:", credentials.user_id)
         client = sdk.createClient({
-            baseUrl: homeserver,
+            baseUrl: app.HOMESERVER_URL as string,
             accessToken: credentials.access_token,
             userId: credentials.user_id,
         });
@@ -478,7 +476,7 @@ export function createMatrixStore() {
         if(!room_id) return null;
 
         try {
-            let url = `${app.appservice}/_matrix/client/v1/rooms/${room_id}/hierarchy`
+            let url = `${app.APPSERVICE_URL}/_matrix/client/v1/rooms/${room_id}/hierarchy`
             let response = await fetch(url)   
             let data = await response.json()
             if(data?.rooms) {
@@ -567,7 +565,7 @@ export function createMatrixStore() {
                 lazy_load_members: true,
             }
 
-            const resp = await getRoomMessages(app.appservice, {
+            const resp = await getRoomMessages(app.APPSERVICE_URL, {
                 room_id: opts.room_id,
                 authenticated: authenticated,
                 start: start,
@@ -619,7 +617,7 @@ export function createMatrixStore() {
                 lazy_load_members: true,
             }
 
-            const resp = await getEventContext(app.appservice, {
+            const resp = await getEventContext(app.APPSERVICE_URL, {
                 room_id: opts.room_id,
                 event_id: opts.event_id,
                 authenticated: authenticated,
@@ -676,7 +674,7 @@ export function createMatrixStore() {
 
     async function fetchThreadEvents(opts) {
         try {
-            const resp = await getEventContext(app.appservice, {
+            const resp = await getEventContext(app.APPSERVICE_URL, {
                 room_id: opts.room_id,
                 event_id: opts.event_id,
             })
