@@ -1,22 +1,17 @@
 import { error } from '@sveltejs/kit';
 import { env } from '$env/dynamic/public';
-import {
-    PUBLIC_BASE_URL,
-    PUBLIC_APPSERVICE_URL,
-    PUBLIC_HOMESERVER_URL,
-    PUBLIC_HOMESERVER_NAME
-} from '$env/static/public';
 
 import { download_media } from '$lib/appservice/requests.svelte'
 import { getAuthMetadata } from '$lib/matrix/requests';
 
 import { matrixWellKnown, appserviceHealth } from '$lib/types/common'
 
-import type { Data } from '$lib/types/common'
+import type { ENV, Data } from '$lib/types/common'
 
 import { authenticate, type AuthCookies } from '$lib/server/auth';
 
 export async function initializeAppData(
+    ENV: ENV,
     cookies: any, 
     params: any,
     url: any
@@ -66,10 +61,10 @@ export async function initializeAppData(
 
 
     let data: Data = {
-        BASE_URL: PUBLIC_BASE_URL,
-        APPSERVICE_URL: PUBLIC_APPSERVICE_URL,
-        HOMESERVER_URL: PUBLIC_HOMESERVER_URL,
-        HOMESERVER_NAME: PUBLIC_HOMESERVER_NAME,
+        BASE_URL: ENV.PUBLIC_BASE_URL,
+        APPSERVICE_URL: ENV.PUBLIC_APPSERVICE_URL,
+        HOMESERVER_URL: ENV.PUBLIC_HOMESERVER_URL,
+        HOMESERVER_NAME: ENV.PUBLIC_HOMESERVER_NAME,
         APPSERVICE_IDENTITY: '',
         supports_OIDC: false,
         READ_ONLY: env?.PUBLIC_READ_ONLY === 'true',
@@ -130,7 +125,7 @@ export async function initializeAppData(
         });
     }
 
-    let endpoint = `https://${PUBLIC_HOMESERVER_NAME}/.well-known/matrix/client`;
+    let endpoint = `https://${ENV.PUBLIC_HOMESERVER_NAME}/.well-known/matrix/client`;
     try {
         const response = await fetch(endpoint);
         const resp = await response.json();

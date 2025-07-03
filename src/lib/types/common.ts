@@ -2,6 +2,13 @@ import { z } from "zod/v4";
 
 import type { Session } from '$lib/store/session.svelte'
 
+export type ENV = {
+    PUBLIC_BASE_URL: string;
+    PUBLIC_APPSERVICE_URL: string;
+    PUBLIC_HOMESERVER_URL: string;
+    PUBLIC_HOMESERVER_NAME: string;
+}
+
 export type Data = {
     BASE_URL: string;
     APPSERVICE_URL: string;
