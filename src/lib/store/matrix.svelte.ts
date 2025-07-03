@@ -4,14 +4,13 @@ import { MatrixClient } from 'matrix-js-sdk/src/client';
 
 import { page as _page } from '$app/state';
 
+import { app } from './app.svelte';
+
 import { createSessionStore } from './session.svelte';
 const session_store = createSessionStore();
 
 const authenticated = $derived(session_store.authenticated);
 
-import { 
-    PUBLIC_HOMESERVER_URL,
-} from '$env/static/public';
 
 import { browser } from '$app/environment';
 
@@ -51,8 +50,6 @@ import {
     getEventContext,
 } from '$lib/appservice/requests.svelte'
 
-import { createAppStore } from './app.svelte';
-const app = createAppStore();
 
 let oidc_issuer = $state(null);
 
@@ -60,7 +57,7 @@ let login_flows = $state(null);
 let register_flows = $state(null);
 let registration_disabled = $state(false);
 
-let homeserver = $derived(PUBLIC_HOMESERVER_URL)
+let homeserver = $derived(app.HOMESERVER_URL)
 
 let client: MatrixClient = $state(sdk.createClient({
     baseUrl: homeserver,
@@ -347,7 +344,7 @@ export function createMatrixStore() {
 
         console.log("Setting up Matrix client for:", credentials.user_id)
         client = sdk.createClient({
-            baseUrl: PUBLIC_HOMESERVER_URL,
+            baseUrl: homeserver,
             accessToken: credentials.access_token,
             userId: credentials.user_id,
         });
