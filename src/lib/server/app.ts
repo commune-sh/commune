@@ -8,7 +8,7 @@ import { matrixWellKnown, appserviceHealth } from '$lib/types/common'
 
 import type { ENV, Data } from '$lib/types/common'
 
-import { authenticate, type AuthCookies } from '$lib/server/auth';
+import { authenticate, type AuthData } from '$lib/server/auth';
 
 export async function initializeAppData(
     ENV: ENV,
@@ -34,12 +34,13 @@ export async function initializeAppData(
     if(auth_cookies) {
         try {
             let resp = await authenticate({
+                ENV,
                 oidc_client_id,
                 access_token,
                 refresh_token,
                 expires_in,
                 scope,
-            } as AuthCookies);
+            } as AuthData);
             console.log("Authentication successful?:", resp);
             authenticated = true
 

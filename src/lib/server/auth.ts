@@ -1,9 +1,11 @@
 import { z } from 'zod';
 
-import { PUBLIC_BASE_URL, PUBLIC_HOMESERVER_URL } from '$env/static/public';
+import type { ENV } from '$lib/types/common'
+
 import { exchangeForToken, whoami, refreshToken } from '$lib/matrix/requests';
 
-export type AuthCookies = {
+export type AuthData = {
+    ENV: ENV;
     oidc_client_id: string;
     access_token: string;
     refresh_token: string;
@@ -11,7 +13,7 @@ export type AuthCookies = {
     scope: string;
 }
 
-export type AuthData = {
+export type SessionData = {
     auth_metadata: any;
     oidc_client_id: string;
     oidc_code_verifier: string;
@@ -34,12 +36,12 @@ const WhoAmISchema = z.object({
 type WhoAmI = z.infer<typeof WhoAmISchema>;
 
 
-export async function authenticate(data: AuthCookies): Promise<WhoAmI> {
+export async function authenticate(data: AuthData): Promise<WhoAmI> {
     console.log("authenticating...")
 
     let auth_metadata;
 
-    let endpoint = `${PUBLIC_HOMESERVER_URL}/_matrix/client/unstable/org.matrix.msc2965/auth_metadata`
+    let endpoint = `${data.ENV.HOMESERVER_URL}/_matrix/client/unstable/org.matrix.msc2965/auth_metadata`
 
     try {
         const response = await fetch(endpoint)
@@ -71,7 +73,8 @@ export async function authenticate(data: AuthCookies): Promise<WhoAmI> {
 }
 
 export async function getAccessToken(
-    data: AuthData
+    data: SessionData,
+    ENV: ENV
 ) {
 
     console.log("Fetching access token.")
@@ -79,7 +82,7 @@ export async function getAccessToken(
     const params = new URLSearchParams();
     params.append('grant_type', 'authorization_code');
     params.append('code', data.code);
-    params.append('redirect_uri', `${PUBLIC_BASE_URL}/oidc/callback`);
+    params.append('redirect_uri', `${ENV.BASE_URL}/oidc/callback`);
     params.append('client_id', data.oidc_client_id);
     params.append('code_verifier', data.oidc_code_verifier);
 
