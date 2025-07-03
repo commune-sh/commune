@@ -3,19 +3,16 @@ import { z } from "zod/v4";
 import type { Session } from '$lib/store/session.svelte'
 
 export type ENV = {
-    PUBLIC_BASE_URL: string;
-    PUBLIC_APPSERVICE_URL: string;
-    PUBLIC_HOMESERVER_URL: string;
-    PUBLIC_HOMESERVER_NAME: string;
-}
-
-export type Data = {
     BASE_URL: string;
     APPSERVICE_URL: string;
     HOMESERVER_URL: string;
     HOMESERVER_NAME: string;
+}
+
+export type Data = {
+    ENV: ENV,
     READ_ONLY: boolean;
-    APPSERVICE_IDENTITY: string;
+    APPSERVICE_IDENTITY: string | undefined;
     supports_OIDC: boolean;
     auth_metadata?: object | undefined;
     features?: Features;

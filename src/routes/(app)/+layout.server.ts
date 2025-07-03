@@ -17,10 +17,10 @@ export const load: LayoutServerLoad = async ({ params, url, cookies } ) => {
     try {
         let data = await initializeAppData(
             {
-                PUBLIC_BASE_URL,
-                PUBLIC_APPSERVICE_URL,
-                PUBLIC_HOMESERVER_URL,
-                PUBLIC_HOMESERVER_NAME,
+                BASE_URL: PUBLIC_BASE_URL,
+                APPSERVICE_URL: PUBLIC_APPSERVICE_URL,
+                HOMESERVER_URL: PUBLIC_HOMESERVER_URL,
+                HOMESERVER_NAME: PUBLIC_HOMESERVER_NAME,
             } as ENV,
             cookies, 
             params, 

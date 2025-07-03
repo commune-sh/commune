@@ -61,11 +61,8 @@ export async function initializeAppData(
 
 
     let data: Data = {
-        BASE_URL: ENV.PUBLIC_BASE_URL,
-        APPSERVICE_URL: ENV.PUBLIC_APPSERVICE_URL,
-        HOMESERVER_URL: ENV.PUBLIC_HOMESERVER_URL,
-        HOMESERVER_NAME: ENV.PUBLIC_HOMESERVER_NAME,
-        APPSERVICE_IDENTITY: '',
+        ENV: ENV,
+        APPSERVICE_IDENTITY: undefined,
         supports_OIDC: false,
         READ_ONLY: env?.PUBLIC_READ_ONLY === 'true',
         authenticated: authenticated,
@@ -101,7 +98,7 @@ export async function initializeAppData(
     }
 
     // query public appservice health
-    let appservice_endpoint = `${data.APPSERVICE_URL}/health`;
+    let appservice_endpoint = `${ENV.APPSERVICE_URL}/health`;
 
     try {
         const appservice_response = await fetch(appservice_endpoint);
@@ -125,7 +122,7 @@ export async function initializeAppData(
         });
     }
 
-    let endpoint = `https://${ENV.PUBLIC_HOMESERVER_NAME}/.well-known/matrix/client`;
+    let endpoint = `https://${ENV.HOMESERVER_NAME}/.well-known/matrix/client`;
     try {
         const response = await fetch(endpoint);
         const resp = await response.json();
@@ -134,13 +131,13 @@ export async function initializeAppData(
 
         if(validation.success && !access_token && !client_id && params.space != undefined) {
 
-            let iurl = `${data.APPSERVICE_URL}/_matrix/client/v3/rooms/${params.space}/info`
+            let iurl = `${ENV.APPSERVICE_URL}/_matrix/client/v3/rooms/${params.space}/info`
             console.log(iurl)
             if(params.room != undefined) {
-                iurl = `${data.APPSERVICE_URL}/_matrix/client/v3/rooms/${params.space}/info?room=${params.room}`
+                iurl = `${ENV.APPSERVICE_URL}/_matrix/client/v3/rooms/${params.space}/info?room=${params.room}`
                 let event = url.searchParams.get('event');
                 if(event) {
-                    iurl = `${data.APPSERVICE_URL}/_matrix/client/v3/rooms/${params.space}/info?room=${params.room}&event=${event}`
+                    iurl = `${ENV.APPSERVICE_URL}/_matrix/client/v3/rooms/${params.space}/info?room=${params.room}&event=${event}`
                 }
             }
 
@@ -175,7 +172,7 @@ export async function initializeAppData(
 
             if(data?.metadata?.image) {
                 console.log("Downloading image from:", data.metadata.image)
-                let content_uri = await download_media(data?.metadata?.image, data.APPSERVICE_URL)
+                let content_uri = await download_media(data?.metadata?.image, ENV.APPSERVICE_URL)
                 if(content_uri) {
                     console.log("Image downloaded to:", content_uri)
                     data.metadata.image = content_uri;

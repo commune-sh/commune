@@ -2,13 +2,11 @@
 import { dev } from '$app/environment';
 import '../../app.css'
 
-import { 
-    PUBLIC_BASE_URL,
-} from '$env/static/public';
-
 import { env } from '$env/dynamic/public';
 
 import type { LayoutProps } from './$types';
+
+import type { Data } from '$lib/types/common';
 
 import { page } from '$app/state';
 
@@ -45,7 +43,10 @@ let session = $derived.by(() => {
 let { 
     data, 
     children
-}: LayoutProps = $props();
+}: {
+    data: Data,
+    children: Snippet
+} = $props();
 
 const room_id = $derived(store.matrix.active_room?.room_id)
 
@@ -102,7 +103,7 @@ $effect(() => {
     }
 })
 
-let APPSERVICE_URL = $derived(data?.APPSERVICE_URL)
+let APPSERVICE_URL = $derived(data?.ENV?.APPSERVICE_URL)
 
 async function setup() {
 
@@ -247,7 +248,7 @@ let synced = $derived.by(() => {
     <meta property="og:site_name" content="Commune">
 
     <meta property="og:type" content="website" />
-    <meta property="og:url" content={PUBLIC_BASE_URL} />
+    <meta property="og:url" content={data.ENV.BASE_URL} />
 
     {#if image}
         <meta property="og:image" content={image} />

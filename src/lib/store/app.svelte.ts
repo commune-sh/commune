@@ -1,5 +1,5 @@
 import { 
-  PUBLIC_HOMESERVER_URL,
+    PUBLIC_HOMESERVER_URL,
 } from '$env/static/public';
 
 import { browser } from '$app/environment';
@@ -14,18 +14,19 @@ let capabilities = $state(null);
 let homeserver_reachable = $state(true);
 let homeserver_versions = $state(null);
 
-let app = $state({
-  ready: false,
-  space: null,
+let app: {
+    ready: boolean;
+} = $state({
+    ready: false,
 });
 
 let theme: string | null = $state(null);
 
 if(browser) {
-  let stored = getCookie("theme");
-  if(stored) {
-    theme = stored;
-  }
+    let stored = getCookie("theme");
+    if(stored) {
+        theme = stored;
+    }
 }
 
 if(browser) {
@@ -37,91 +38,79 @@ let ready = $state(false);
 
 export function createAppStore() {
 
-  function isReady() {
-    ready = true
-  }
-
-  function updateSpace(space) {
-    app.space = space;
-  }
-
-  function updateCapabilities(data) {
-    console.log("Storing public server capabilities.")
-    capabilities = data;
-  }
-
-  function updateHomeserverStatus(data) {
-    console.log("Storing homeserver versions.")
-    homeserver_versions = data;
-  }
-
-  function homeserverUnreachable() {
-    console.warn("Setting homeserver as unreachable.")
-    homeserver_reachable = false;
-  }
-
-  function updateHomeserver(h) {
-    console.log("Updating homeserver to: ", h)
-    homeserver = h;
-  }
-
-  function updateAppservice(url) {
-    appservice = url;
-  }
-
-  function toggleTheme() {
-    if(!browser) return;
-    if (theme == 'dark') {
-      theme = 'light'
-      document.getElementsByTagName(`html`)[0].setAttribute(`class`, `light`)
-      localStorage.setItem('theme', 'light')
-      createCookie('theme', 'light')
-    } else {
-      theme = 'dark'
-      document.getElementsByTagName(`html`)[0].setAttribute(`class`, `dark`)
-      localStorage.setItem('theme', 'dark')
-      createCookie('theme', 'dark')
+    function isReady() {
+        ready = true
     }
-  }
 
-  return {
+    function updateCapabilities(data: any) {
+        console.log("Storing public server capabilities.")
+        capabilities = data;
+    }
 
-    get homeserver() {
-      return homeserver;
-    },
+    function updateHomeserverStatus(data: any) {
+        console.log("Storing homeserver versions.")
+        homeserver_versions = data;
+    }
 
-    get appservice() {
-      return appservice;
-    },
+    function homeserverUnreachable() {
+        console.warn("Setting homeserver as unreachable.")
+        homeserver_reachable = false;
+    }
 
-    get ready() {
-      return ready;
-    },
+    function updateAppservice(url: string) {
+        appservice = url;
+    }
 
-    get space() {
-      return app.space;
-    },
+    function toggleTheme() {
+        if(!browser) return;
+        if (theme == 'dark') {
+            theme = 'light'
+            document.getElementsByTagName(`html`)[0].setAttribute(`class`, `light`)
+            localStorage.setItem('theme', 'light')
+            createCookie('theme', 'light')
+        } else {
+            theme = 'dark'
+            document.getElementsByTagName(`html`)[0].setAttribute(`class`, `dark`)
+            localStorage.setItem('theme', 'dark')
+            createCookie('theme', 'dark')
+        }
+    }
 
-    get capabilities() {
-      return capabilities;
-    },
+    return {
 
-    get homeserver_reachable() {
-      return homeserver_reachable;
-    },
+        get homeserver() {
+            return homeserver;
+        },
 
-    get theme() {
-      return theme;
-    },
+        get appservice() {
+            return appservice;
+        },
 
+        get ready() {
+            return ready;
+        },
 
-    updateHomeserver,
-    updateAppservice,
-    isReady,
-    updateSpace,
-    updateCapabilities,
-    updateHomeserverStatus,
-    homeserverUnreachable,
-    toggleTheme
+        get space() {
+            return app.space;
+        },
+
+        get capabilities() {
+            return capabilities;
+        },
+
+        get homeserver_reachable() {
+            return homeserver_reachable;
+        },
+
+        get theme() {
+            return theme;
+        },
+
+        updateAppservice,
+        isReady,
+        updateCapabilities,
+        updateHomeserverStatus,
+        homeserverUnreachable,
+        toggleTheme
     };
 }
