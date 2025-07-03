@@ -1,23 +1,10 @@
 <script>
-import { PUBLIC_BASE_URL, PUBLIC_HOMESERVER_URL } from '$env/static/public';
 import { logo } from '$lib/assets/logo';
-
 import { env } from '$env/dynamic/public';
 
 const read_only = $derived.by(() => {
     return env?.PUBLIC_READ_ONLY === 'true'
 })
-
-let login_link = $derived.by(() => {
-    let base = `${PUBLIC_BASE_URL}/oidc/callback`
-    let redirect = encodeURIComponent(base)
-    return `${PUBLIC_HOMESERVER_URL}/_matrix/client/v3/login/sso/redirect?redirectUrl=${redirect}`
-})
-
-function sso_login() {
-    window.location.href = login_link
-}
-
 </script>
 
 <div class="landing bg-view">
