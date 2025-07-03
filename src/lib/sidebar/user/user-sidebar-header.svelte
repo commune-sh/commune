@@ -1,4 +1,12 @@
-<script>
+<script lang="ts">
+import type { Data } from '$lib/types/common'
+
+let {
+    data,
+}: {
+    data: Data,
+} = $props();
+
 </script>
 
 <div class="sidebar-header grid 

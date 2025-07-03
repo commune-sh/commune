@@ -102,11 +102,11 @@ const show_dragger = $derived.by(() => {
 
 
     {#if non_space_room}
-        <RoomsSidebarHeader />
+        <RoomsSidebarHeader {data} />
     {:else if (is_space || is_space_child_room)}
-        <RoomSidebarHeader />
+        <RoomSidebarHeader {data} />
     {:else if is_home}
-        <UserSidebarHeader />
+        <UserSidebarHeader {data} />
     {/if}
 
     <div class="sidebar-content overflow-hidden">
@@ -114,9 +114,9 @@ const show_dragger = $derived.by(() => {
             oncontextmenu={showContextMenu}
         >
             {#if is_space || is_space_child_room || non_space_room}
-                <RoomSidebar />
+                <RoomSidebar {data} />
             {:else if is_home}
-                <UserSidebar />
+                <UserSidebar {data} />
             {/if}
         </div>
     </div>

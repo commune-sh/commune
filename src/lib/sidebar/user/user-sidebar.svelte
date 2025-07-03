@@ -1,4 +1,13 @@
-<script>
+<script lang="ts">
+import type { Data } from '$lib/types/common'
+
+let {
+    data,
+}: {
+    data: Data,
+} = $props();
+
+
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 

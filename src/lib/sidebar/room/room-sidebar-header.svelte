@@ -8,6 +8,15 @@ import {
     getImageThumbnail,
 } from '$lib/appservice/requests.svelte'
 
+import type { Data } from '$lib/types/common'
+
+let {
+    data,
+}: {
+    data: Data,
+} = $props();
+
+
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 

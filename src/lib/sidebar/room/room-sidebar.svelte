@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 import { page } from '$app/state';
 import { naiveRoomIDCheck, canonical_alias } from '$lib/utils/matrix'
 import { 
@@ -7,6 +7,14 @@ import {
 } from '$lib/utils/matrix'
 
 import RoomItems from '$lib/sidebar/room/room-items.svelte'
+
+import type { Data } from '$lib/types/common'
+
+let {
+    data,
+}: {
+    data: Data,
+} = $props();
 
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
