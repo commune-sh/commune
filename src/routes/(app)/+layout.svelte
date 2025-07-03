@@ -85,6 +85,10 @@ $effect(() => {
 
     console.log("DATA is", data)
 
+    if(data.ENV) {
+        store.app.init(data.ENV)
+    }
+
     if(room_param && room_id && !context_event) {
         const events = store.matrix.events[room_id]
         if(!events) {

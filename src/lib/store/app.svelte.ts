@@ -2,6 +2,8 @@ import {
     PUBLIC_HOMESERVER_URL,
 } from '$env/static/public';
 
+import type { ENV } from '$lib/types/common';
+
 import { browser } from '$app/environment';
 import { getCookie, createCookie } from '$lib/utils/cookie'
 
@@ -14,8 +16,12 @@ let capabilities = $state(null);
 let homeserver_reachable = $state(true);
 let homeserver_versions = $state(null);
 
-let app: {
+export let app: {
     ready: boolean;
+    BASE_URL?: string;
+    APPSERVICE_URL?: string;
+    HOMESERVER_URL?: string;
+    HOMESERVER_NAME?: string;
 } = $state({
     ready: false,
 });
@@ -37,6 +43,15 @@ let ready = $state(false);
 
 
 export function createAppStore() {
+
+    function init(env: ENV) {
+        app.BASE_URL = env.BASE_URL;
+        app.APPSERVICE_URL = env.APPSERVICE_URL;
+        app.HOMESERVER_URL = env.HOMESERVER_URL;
+        app.HOMESERVER_NAME = env.HOMESERVER_NAME;
+        console.log("Initializing app store with environment variables:", env);
+    }
+
 
     function isReady() {
         ready = true
@@ -106,6 +121,7 @@ export function createAppStore() {
             return theme;
         },
 
+        init,
         updateAppservice,
         isReady,
         updateCapabilities,
