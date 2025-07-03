@@ -6,6 +6,16 @@ import { buildSpaces, strayRooms } from '$lib/utils/matrix'
 
 import MoreRooms from '$lib/switcher/more-rooms.svelte'
 
+
+import type { Data } from '$lib/types/common'
+
+let {
+    data,
+}: {
+    data: Data,
+} = $props();
+
+
 // app store
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
@@ -73,7 +83,7 @@ function showContextMenu(e) {
         oncontextmenu={showContextMenu}>
         {#if items}
             {#each Object.values(items) as space, index (space?.room_id)}
-                <Item {space} {dragged_over} {dragged} {index} {clientY}
+                <Item {data} {space} {dragged_over} {dragged} {index} {clientY}
                 move={move} 
                 over={over} 
                 start={start} 

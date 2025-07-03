@@ -18,7 +18,6 @@ const alert_active = $derived(store.ui.alert?.active)
 import type { Data } from '$lib/types/common'
 import type { Snippet } from 'svelte';
 
-
 let {
     data,
     content,
@@ -85,7 +84,7 @@ const menu_active = $derived(store.ui.menu_active)
     class:menu-active={menu_active}
     bind:this={root}>
     <div class="switcher bg-switcher grid">
-        <Switcher />
+        <Switcher {data} />
     </div>
 
     <div class="content-container grid h-full relative">

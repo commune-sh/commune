@@ -77,7 +77,7 @@ const _space_rooms = $derived.by(() => {
 
 <div class="sidebar-container">
 
-    <RoomItems {items} />
+    <RoomItems {data} {items} />
 
 </div>
 

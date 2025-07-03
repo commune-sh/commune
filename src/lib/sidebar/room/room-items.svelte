@@ -1,7 +1,14 @@
-<script>
+<script lang="ts">
 import RoomItem from '$lib/sidebar/room/room-item.svelte'
+
+import type { Data } from '$lib/types/common'
+
 let {
+    data,
     items
+}: {
+    data: Data,
+    items: any[]
 } = $props();
 
 const sorted = $derived.by(() => {
@@ -24,7 +31,7 @@ $effect(() => {
 {#if processed}
     <div class="room-items mt-2">
         {#each processed as item (item.room_id)}
-            <RoomItem {item} />
+            <RoomItem {data} {item} />
         {/each}
     </div>
 {/if}

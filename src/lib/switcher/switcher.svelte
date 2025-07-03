@@ -3,6 +3,14 @@ import Logo from '$lib/logo/logo.svelte'
 import Items from './items.svelte'
 import Profile from '$lib/profile/profile.svelte'
 
+import type { Data } from '$lib/types/common'
+
+let {
+    data,
+}: {
+    data: Data,
+} = $props();
+
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
@@ -12,10 +20,10 @@ const authenticated = $derived(store.session.authenticated)
 
 <div class="switcher grid grid-rows-[62px_auto_1fr_auto] h-full select-none 
     border-solid border-r border-switcher-border">
-    <Logo />
+    <Logo is_static={false} loading={false} />
     <div class="sep">
     </div>
-    <Items />
+    <Items {data} />
     <div class="grid grid-rows">
         {#if authenticated}
             <Profile />

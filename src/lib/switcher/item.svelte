@@ -6,6 +6,9 @@ import { createInitials } from '$lib/utils/string';
 
 import { tooltip } from '$lib/tooltip/tooltip'
 
+import type { Data } from '$lib/types/common'
+
+
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
@@ -20,7 +23,9 @@ import {
 } from '$lib/appservice/requests.svelte'
 
 
-let { space, 
+let { 
+    data,
+    space, 
     index,
     move,
     start, 
@@ -30,6 +35,18 @@ let { space,
     end, 
     update, 
     clientY
+}: {
+    data: Data,
+    space: any,
+    index: number,
+    move: (from: number, to: number) => void,
+    start: (index: number) => void,
+    dragged: number | null,
+    over: (index: number) => void,
+    dragged_over: number | null,
+    end: () => void,
+    update: (cy: number) => void,
+    clientY: number
 } = $props();
 
 
@@ -237,6 +254,12 @@ function goToSpace() {
     goto(`/${location}`)
 }
 
+function handleEnter(e: KeyboardEvent) {
+    if(e.key === 'Enter') {
+        goToSpace()
+    }
+}
+
 
 let avatar: string | undefined = $state(undefined)
 
@@ -289,6 +312,8 @@ const fontSize = $derived.by(() => {
 </script>
 
 <div bind:this={item} 
+    role="button"
+    tabindex="0"
     onmousedown={fetchState}
     oncontextmenu={logItem}
     ondrop={drop}
@@ -296,7 +321,10 @@ const fontSize = $derived.by(() => {
     class="grid relative place-items-center mb-[10px]">
 
     <div class:dragging={dragging} 
+        role="button"
+        tabindex="0"
         onclick={goToSpace}
+        onkeypress={handleEnter}
         use:tooltip={options}
         class:bg-cmn-7={active && !avatar}
         class:active={active}

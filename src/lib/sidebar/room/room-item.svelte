@@ -16,6 +16,8 @@ import {
     ellipsis
 } from '$lib/assets/icons'
 
+import type { Data } from '$lib/types/common'
+
 import { debounce } from '$lib/utils/utils'
 
 import { createStore } from '$lib/store/store.svelte'
@@ -26,8 +28,10 @@ const authenticated = $derived(store.session.authenticated)
 const menu_active = $derived(store.ui.menu_active)
 
 let {
+    data,
     item
 }: {
+    data: Data,
     item: any
 } = $props();
 
@@ -90,6 +94,13 @@ function goToRoom() {
     const location = non_space_room ? 'rooms' : page.params.space
     store.ui.updateRoute(location, path)
     if(menu_active) store.ui.toggleMenu()
+}
+
+function handleEnterRoom(e: KeyboardEvent) {
+    if(e.key === 'Enter') {
+        e.preventDefault()
+        goToRoom()
+    }
 }
 
 const active_room = $derived(store.matrix.active_room)
@@ -179,9 +190,16 @@ const show_domain = $derived.by(() => {
     return !is_local && non_space_room
 })
 
-function openMenu(e) {
+function openMenu(e: MouseEvent | KeyboardEvent) {
     e.stopPropagation()
     console.log("opening menu")
+}
+
+function openMenuEnter(e: KeyboardEvent) {
+    if(e.key === 'Enter') {
+        e.preventDefault()
+        openMenu(e)
+    }
 }
 
 const room_state = $derived.by(() => {
@@ -232,9 +250,15 @@ const slug = $derived.by(() => {
 <div class="room-item cursor-pointer text-light hover:text-text
     mx-2 my-[2px]"
     class:active={active}
+    role="button"
+    tabindex="0"
     onmouseover={startHover}
+    onfocus={startHover}
     onmouseout={stopHover}
-    onclick={goToRoom} oncontextmenu={log}>
+    onblur={stopHover}
+    onclick={goToRoom} 
+    onkeypress={handleEnterRoom} 
+    oncontextmenu={log}>
     <div class="item grid grid-cols-[auto_1fr_auto]">
         <div class="pl-2">
             <div class="r-i h-[16px] w-[16px] h-full grid items-center">
@@ -246,7 +270,10 @@ const slug = $derived.by(() => {
         </div>
 
         <div class="menu mx-2 grid items-center"
-                onclick={openMenu}>
+                role="button"
+                tabindex="0"
+                onclick={openMenu}
+                onkeypress={openMenuEnter}>
             <div class="r-i h-[20px] w-[20px]">
                 {@html ellipsis}
             </div>
