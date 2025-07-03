@@ -1,3 +1,12 @@
+import {
+    PUBLIC_BASE_URL,
+    PUBLIC_APPSERVICE_URL,
+    PUBLIC_HOMESERVER_URL,
+    PUBLIC_HOMESERVER_NAME
+} from '$env/static/public';
+
+import type { ENV } from '$lib/types/common'
+
 import { env } from '$env/dynamic/public';
 import { redirect } from "@sveltejs/kit";
 import type { LayoutServerLoad } from './$types';
@@ -40,6 +49,10 @@ export const load: LayoutServerLoad = async ({ cookies, url, fetch }) => {
     }
 
     return {
+        PUBLIC_BASE_URL,
+        PUBLIC_APPSERVICE_URL,
+        PUBLIC_HOMESERVER_URL,
+        PUBLIC_HOMESERVER_NAME,
         metadata,
         oidc_client_id
     }

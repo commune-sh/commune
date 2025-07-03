@@ -1,16 +1,22 @@
-<script>
+<script lang="ts">
 import { env } from '$env/dynamic/public';
 
 import '../../app.css'
 
+import type { LayoutProps } from './types';
+
 import { page } from '$app/state';
-let { data, children } = $props()
 import Logo from '$lib/logo/logo.svelte'
 import { onMount } from 'svelte'
 import { goto } from '$app/navigation'
 
 import Listeners from '$lib/listeners/listeners.svelte'
 import HomeserverDown from '$lib/alert/homeserver-down.svelte'
+
+let {
+    data, 
+    children
+}: LayoutProps = $props()
 
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()

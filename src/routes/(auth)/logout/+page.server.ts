@@ -1,5 +1,3 @@
-import { PUBLIC_BASE_URL } from '$env/static/public';
-
 import type { PageServerLoad } from './$types';
 import { redirect } from "@sveltejs/kit";
 import { logout, revokeToken } from '$lib/matrix/requests'

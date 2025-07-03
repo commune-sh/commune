@@ -1,6 +1,4 @@
 <script lang="ts">
-import { page } from '$app/state';
-import { PUBLIC_BASE_URL } from '$env/static/public';
 import { exchangeForToken, whoami } from '$lib/matrix/requests';
 import { goto } from '$app/navigation';
 
@@ -24,7 +22,7 @@ const redirect_to = $derived.by(() => {
     if(data?.redirect_to) {
         return decodeURIComponent(data.redirect_to)
     }
-    return `${PUBLIC_BASE_URL}`
+    return `${data.PUBLIC_BASE_URL}`
 })
 
 
@@ -45,7 +43,7 @@ async function getAccessToken() {
     const params = new URLSearchParams();
     params.append('grant_type', 'authorization_code');
     params.append('code', callback_code);
-    params.append('redirect_uri', `${PUBLIC_BASE_URL}/oidc/callback`);
+    params.append('redirect_uri', `${data.PUBLIC_BASE_URL}/oidc/callback`);
     params.append('client_id', data.oidc_client_id);
     params.append('code_verifier', data.oidc_code_verifier);
 

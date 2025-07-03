@@ -1,9 +1,10 @@
 import { redirect } from "@sveltejs/kit";
-import { PUBLIC_HOMESERVER_URL } from '$env/static/public';
 
 import type { LayoutServerLoad } from './$types';
 
-export const load: LayoutServerLoad = async ({ url, fetch, cookies }) => {
+export const load: LayoutServerLoad = async ({ url, fetch, cookies, parent }) => {
+
+    let data = await parent();
 
     let oidc_client_id = cookies.get('oidc_client_id');
     let oidc_code_verifier = cookies.get('oidc_code_verifier');
@@ -15,7 +16,7 @@ export const load: LayoutServerLoad = async ({ url, fetch, cookies }) => {
 
     let auth_metadata;
 
-    let endpoint = `${PUBLIC_HOMESERVER_URL}/_matrix/client/unstable/org.matrix.msc2965/auth_metadata`
+    let endpoint = `${data.PUBLIC_HOMESERVER_URL}/_matrix/client/unstable/org.matrix.msc2965/auth_metadata`
 
     try {
         const response = await fetch(endpoint)
@@ -37,6 +38,7 @@ export const load: LayoutServerLoad = async ({ url, fetch, cookies }) => {
     }
 
     return {
+        data,
         auth_metadata,
         oidc_client_id,
         oidc_code_verifier,
