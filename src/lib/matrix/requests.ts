@@ -75,8 +75,8 @@ export const register = async (body) => {
     }
 }
 
-export const logout = async (access_token: string) => {
-    const url = `${MATRIX_BASE_URL}/logout`;
+export const logout = async (homeserver: string, access_token: string) => {
+    const url = `${homeserver}/_matrix/client/v3/logout`;
 
     let options: RequestInit = {
         method: 'POST',

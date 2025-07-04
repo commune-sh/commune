@@ -19,7 +19,7 @@ export const load: PageServerLoad = async ({ cookies, parent }) => {
 
     if(access_token && !refresh_token) {
         console.log("Compat mode, logout using access token.")
-        await logout(access_token);
+        await logout(data.PUBLIC_HOMESERVER_URL, access_token);
         redirect(302, `/`);
     }
 
