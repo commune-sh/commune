@@ -48,11 +48,21 @@ export const features = z.object({
 
 export type Features = z.infer<typeof features>;
 
-export const appserviceHealth = z.object({
+export const appserviceHealthSuccess = z.object({
     status: z.string(),
     user_id: z.string(),
     features: features,
 });
+
+const appserviceHealthError = z.object({
+    error: z.string(),
+});
+
+export const appserviceHealth = z.union([
+    appserviceHealthSuccess,
+    appserviceHealthError
+]);
+
 
 export type AppserviceHealth = z.infer<typeof appserviceHealth>;
 

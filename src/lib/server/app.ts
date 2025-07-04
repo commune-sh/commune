@@ -108,8 +108,14 @@ export async function initializeAppData(
         let validated = appserviceHealth.safeParse(resp);
 
         if (validated.success) {
-            data.APPSERVICE_IDENTITY = validated.data.user_id;
-            data.features = validated.data.features;
+            if ('error' in validated.data) {
+                console.error("Appservice health check failed:", validated.data.error);
+                throw new Error(validated.data.error);
+
+            } else {
+                data.APPSERVICE_IDENTITY = validated.data.user_id;
+                data.features = validated.data.features;
+            }
         } else {
             console.error("Appservice health validation failed:", validated.error);
             error(500, {
@@ -117,9 +123,9 @@ export async function initializeAppData(
             });
         }
 
-    } catch (err) {
+    } catch (err: any) {
         error(500, {
-            message: "Failed to connect to appservice."
+            message: err.message,
         });
     }
 
