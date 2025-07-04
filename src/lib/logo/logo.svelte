@@ -9,12 +9,17 @@ let { is_static, loading } = $props();
 
 let active = $derived(page.url.pathname == '/')
 
-$effect(() => {
-})
+import { createStore } from '$lib/store/store.svelte'
+const store = createStore()
+
+const menu_active = $derived(store.ui.menu_active)
 
 function goHome() {
     if(is_static) {
         return
+    }
+    if(menu_active) {
+        store.ui.toggleMenu()
     }
     goto(`/`)
 }

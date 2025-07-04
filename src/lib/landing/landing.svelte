@@ -2,12 +2,33 @@
 import { logo } from '$lib/assets/logo';
 import { env } from '$env/dynamic/public';
 
+import { hamburger } from '$lib/assets/icons'
+
 const read_only = $derived.by(() => {
     return env?.PUBLIC_READ_ONLY === 'true'
 })
+
+import { createStore } from '$lib/store/store.svelte'
+const store = createStore()
+
+function toggleMenu() {
+    store.ui.toggleMenu()
+}
+
+const menu_active = $derived(store.ui.menu_active)
+
 </script>
 
 <div class="landing bg-view">
+
+    {#if !menu_active}
+    <div class="menu grid cursor-pointer ml-2 mt-2" 
+        onclick={toggleMenu}>
+        <div class="icon h-[30px] w-[30px] opacity-70 hover:opacity-100">
+            {@html hamburger}
+        </div>
+    </div>
+    {/if}
 
     <div class="mt-mid flex flex-col items-center">
 
@@ -96,6 +117,10 @@ button:hover {
     padding: 0 2rem;
 }
 
+.menu {
+    display: none;
+}
+
 @media (max-width: 1024px) {
     .name {
         font-size: 2.8rem;
@@ -117,6 +142,9 @@ button:hover {
     }
     .meta {
         font-size: 1.2rem;
+    }
+    .menu {
+        display: grid;
     }
 }
 
