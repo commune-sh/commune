@@ -22,9 +22,9 @@ const menu_active = $derived(store.ui.menu_active)
 <div class="landing bg-view">
 
     {#if !menu_active}
-    <div class="menu grid cursor-pointer ml-2 mt-2" 
+    <div class="menu grid cursor-pointer ml-3 mt-3" 
         onclick={toggleMenu}>
-        <div class="icon h-[30px] w-[30px] opacity-70 hover:opacity-100">
+        <div class="icon h-8 w-8 opacity-70 hover:opacity-100">
             {@html hamburger}
         </div>
     </div>
