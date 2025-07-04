@@ -103,7 +103,16 @@ export async function initializeAppData(
 
     try {
         const appservice_response = await fetch(appservice_endpoint);
+        if (!appservice_response.ok) {
+            console.error("Appservice health check failed with status:", appservice_response.status);
+            throw new Error("Failed to fetch appservice health.");
+        }
+
         const resp = await appservice_response.json();
+        if (!resp) {
+            console.error("Appservice health response is empty.");
+            throw new Error("Empty appservice health response.");
+        }
 
         let validated = appserviceHealth.safeParse(resp);
 
