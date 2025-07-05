@@ -7,7 +7,8 @@ const dev = process.env.NODE_ENV !== 'production';
 const config = {
   kit: {
     adapter: adapter(),
-    csrf: { checkOrigin: !dev }
+    csrf: { checkOrigin: !dev },
+    outDir: '../../.svelte-kit'
   },
   preprocess: vitePreprocess()
 };
