@@ -5,6 +5,7 @@
     "scripts": {
         "dev": "npm run dev --workspace=web",
         "build": "npm run build --workspace=web",
+        "desktop": "npm run dev --workspace=desktop",
         "preview": "npm run build --workspace=web"
     },
     "engines": {
