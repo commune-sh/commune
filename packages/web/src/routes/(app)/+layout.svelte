@@ -1,6 +1,6 @@
 <script lang="ts">
 import { dev } from '$app/environment';
-import '../../app.css'
+import '$common/app.css'
 
 import { env } from '$env/dynamic/public';
 

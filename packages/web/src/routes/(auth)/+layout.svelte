@@ -1,7 +1,7 @@
 <script lang="ts">
 import { env } from '$env/dynamic/public';
 
-import '../../app.css'
+import '$common/app.css'
 
 import type { LayoutProps } from './types';
 

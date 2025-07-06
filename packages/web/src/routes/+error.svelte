@@ -1,5 +1,5 @@
 <script>
-import '../app.css'
+import '$common/app.css'
 import { logo } from '$lib/assets/logo';
 import { page } from '$app/state';
 
