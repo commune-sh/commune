@@ -1,11 +1,17 @@
-<script>
+<script lang="ts">
 import Reaction from '$lib/room/common/m.reaction.svelte'
 
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
+import type { Data } from '$lib/types/common'
+
 let {
+    data,
     reactions,
+}: {
+    data: Data,
+    reactions: any[],
 } = $props();
 
 function process(reactionEvents) {

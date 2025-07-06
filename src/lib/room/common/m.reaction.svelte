@@ -1,4 +1,6 @@
 <script lang="ts">
+import type { Data } from '$lib/types/common'
+
 import { 
     thumbnailURL,
 } from '$lib/utils/matrix'
@@ -10,15 +12,15 @@ import {
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
-interface Props {
-    key: string,
-    events: any,
-}
-
 let {
+    data,
     key,
     events,
-}: Props = $props();
+}: {
+    data: Data,
+    key: string,
+    events: any,
+} = $props();
 
 const is_custom = $derived.by(() => {
     return key.startsWith('mxc://')

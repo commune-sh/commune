@@ -1,12 +1,19 @@
-<script>
+<script lang="ts">
 import { pin } from '$lib/assets/icons'
+
+import type { Data } from '$lib/types/common'
 
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 let {
+    data,
     event,
     event_user
+}: {
+    data: Data,
+    event: any,
+    event_user: any
 } = $props();
 
 

@@ -1,14 +1,21 @@
-<script>
+<script lang="ts">
+
 import { page } from '$app/state';
 import { goto } from '$app/navigation';
 
 import { right } from '$lib/assets/icons'
 
+import type { Data } from '$lib/types/common'
+
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 let {
+    data,
     event,
+}: {
+    data: Data,
+    event: any, 
 } = $props();
 
 const replies = $derived.by(() => {

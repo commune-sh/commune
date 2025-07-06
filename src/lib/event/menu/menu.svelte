@@ -1,14 +1,21 @@
-<script>
+<script lang="ts">
 import More from '$lib/event/menu/more/more.svelte'
 import Actions from '$lib/event/menu/more/actions.svelte'
 import Download from '$lib/event/menu/download/download.svelte'
+
+import type { Data } from '$lib/types/common'
 
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 let {
+    data,
     event,
     killHover,
+}: {
+    data: Data,
+    event: any,
+    killHover: () => void,
 } = $props();
 
 const m_file = $derived.by(() => {
