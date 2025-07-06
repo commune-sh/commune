@@ -4,11 +4,15 @@ const store = createStore()
 
 import { aliasFromSender } from '$lib/utils/matrix';
 
+import type { Data } from '$lib/types/common'
+
 let {
+    data,
     event,
     inline,
     prev_sender
 }: {
+    data: Data,
     event: any,
     inline?: boolean
     prev_sender?: boolean

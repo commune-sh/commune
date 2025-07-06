@@ -275,7 +275,7 @@ let flashed = $derived.by(() => {
         <div class="event-context grid justify-center">
             {#if showSender}
                 <div class="event-sender lg:mt-1">
-                    <Avatar {sender} />
+                    <Avatar {data} {sender} />
                 </div>
             {:else}
                 <div class="time text-3xs text-light justify-center opacity-0" 
@@ -290,7 +290,7 @@ let flashed = $derived.by(() => {
 
             {#if showSender }
                 <span class="event-sender">
-                    <Sender {event} />
+                    <Sender {data} {event} />
                     <span class="date text-2xs ml-1 text-light" title={formattedTS}>
                        <Date event={event} />
                     </span>
@@ -298,13 +298,13 @@ let flashed = $derived.by(() => {
             {/if}
 
             {#snippet event_user()}
-                <Avatar sender={event?.sender} small={true} inline={true} />
-                <Sender event={event} inline={true} />
+                <Avatar {data} sender={event?.sender} small={true} inline={true} />
+                <Sender {data} event={event} inline={true} />
             {/snippet}
 
             {#snippet inviter()}
-                <Avatar sender={event?.unsigned?.prev_sender} small={true} inline={true} />
-                <Sender event={event} inline={true} prev_sender={true} />
+                <Avatar {data} sender={event?.unsigned?.prev_sender} small={true} inline={true} />
+                <Sender {data} event={event} inline={true} prev_sender={true} />
             {/snippet}
 
 

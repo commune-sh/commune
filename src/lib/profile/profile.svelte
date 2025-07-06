@@ -1,8 +1,15 @@
 <script lang="ts">
-
 import { goto } from '$app/navigation';
 
 import { Popover, Separator, Toggle } from "bits-ui";
+
+import type { Data } from '$lib/types/common'
+
+let {
+    data,
+}: {
+    data: Data,
+} = $props();
 
 let width = $state(1024);
 let height = $state(768);

@@ -102,7 +102,7 @@ onMount(() => {
         <ThreadHeader />
 
         <div class="thread-content overflow-hidden">
-            <ViewPort {events} {room} thread_view={true} />
+            <ViewPort {data} {events} {room} thread_view={true} />
         </div>
 
     </div>

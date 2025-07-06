@@ -26,7 +26,7 @@ const authenticated = $derived(store.session.authenticated)
     <Items {data} />
     <div class="grid grid-rows">
         {#if authenticated}
-            <Profile />
+            <Profile {data}/>
         {/if}
     </div>
 </div>

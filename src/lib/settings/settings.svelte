@@ -3,6 +3,14 @@ import { onMount, onDestroy } from 'svelte'
 import { browser } from '$app/environment'
 import { close } from '$lib/assets/icons'
 
+import type { Data } from '$lib/types/common'
+
+let {
+    data,
+}: {
+    data: Data,
+} = $props();
+
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 

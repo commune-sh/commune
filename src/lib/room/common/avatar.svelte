@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 import UserLogo from '$lib/assets/logo-base.png';
 
 import { 
@@ -8,15 +8,23 @@ import {
 
 import { aliasFromSender } from '$lib/utils/matrix';
 
+import type { Data } from '$lib/types/common'
+
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
 let authenticated = $derived(store.session.authenticated)
 
 let {
+    data,
     sender,
     small,
     inline
+}: {
+    data: Data,
+    sender: string,
+    small?: boolean,
+    inline?: boolean
 } = $props();
 
 const room_state = $derived(store.matrix.room_state)

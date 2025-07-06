@@ -5,6 +5,14 @@ import { onMount, tick } from 'svelte'
 import Sidebar from '$lib/sidebar/sidebar.svelte'
 import Header from '$lib/header/header.svelte'
 
+import type { Data } from '$lib/types/common'
+
+let {
+    data,
+}: {
+    data: Data,
+} = $props();
+
 import { createStore } from '$lib/store/store.svelte'
 const store = createStore()
 
@@ -34,10 +42,10 @@ $effect(() => {
     bind:this={container}
 class:menu-active={menu_active}>
 
-    <Sidebar />
+    <Sidebar {data} />
 
     <div class="view bg-view grid grid-rows-[52px_1fr] h-full">
-        <Header />
+        <Header {data} />
         <section class="view select-text">
             home
         </section>
