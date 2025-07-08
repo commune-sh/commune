@@ -1,10 +1,7 @@
 <script lang="ts">
-import { dev } from '$app/environment';
 import '../../app.css'
 
 import { env } from '$env/dynamic/public';
-
-import type { LayoutProps } from './$types';
 
 import type { Data } from '$lib/types/common';
 
