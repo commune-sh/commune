@@ -6,7 +6,7 @@ export function GET() {
     'm.homeserver': {
       'base_url': PUBLIC_HOMESERVER_URL
     },
-    "commune.appservice": {
+    "public.appservice": {
       "url": PUBLIC_APPSERVICE_URL
     },
   }

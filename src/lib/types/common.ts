@@ -34,7 +34,7 @@ export const matrixWellKnown = z.object({
     "m.homeserver": z.object({
         base_url: z.string().url() 
     }),
-    "commune.appservice": z.object({
+    "public.appservice": z.object({
         url: z.string().url()
     })
 });
