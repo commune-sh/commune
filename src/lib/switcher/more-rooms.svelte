@@ -1,11 +1,11 @@
 <script>
-import { ellipsis } from '$lib/assets/icons'
+import { ellipsis } from '../assets/icons'
 import { goto } from '$app/navigation';
 import { page } from '$app/state';
 
-import { tooltip } from '$lib/tooltip/tooltip'
+import { tooltip } from '../tooltip/tooltip'
 
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../store/store.svelte'
 const store = createStore()
 
 let el;

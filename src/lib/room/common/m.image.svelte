@@ -1,18 +1,18 @@
 <script lang="ts">
 //import { decode } from "blurhash";
-import ExpandImage from '$lib/room/common/expand-image.svelte'
+import ExpandImage from '../common/expand-image.svelte'
 
 import { 
     thumbnailURL,
-} from '$lib/utils/matrix'
+} from '../../utils/matrix'
 
 import { 
     getImageThumbnail,
     downloadMedia
-} from '$lib/appservice/requests.svelte'
+} from '../../appservice/requests.svelte'
 
 
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../../store/store.svelte'
 const store = createStore()
 let authenticated = $derived(store.session.authenticated)
 

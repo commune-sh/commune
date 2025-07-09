@@ -1,5 +1,4 @@
 import { PUBLIC_HOMESERVER_URL, PUBLIC_BASE_URL } from '$env/static/public';
-import { fetchWithTimeout, fetchWithRetry } from '$lib/utils/fetch';
 
 import type { ValidatedAuthMetadata } from 'matrix-js-sdk/src/oidc/validate'
 

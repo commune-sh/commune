@@ -5,7 +5,7 @@ import {
 
 import emojiRegex from 'emoji-regex';
 
-import { processURL } from '$lib/utils/matrix'
+import { processURL } from './matrix';
 
 export const debounce = function () {
     var timeoutId = null;

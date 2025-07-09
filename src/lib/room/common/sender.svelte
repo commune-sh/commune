@@ -1,10 +1,10 @@
 <script lang="ts">
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../../store/store.svelte'
 const store = createStore()
 
-import { aliasFromSender } from '$lib/utils/matrix';
+import { aliasFromSender } from '../../utils/matrix';
 
-import type { Data } from '$lib/types/common'
+import type { Data } from '../../types/common'
 
 let {
     data,

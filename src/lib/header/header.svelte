@@ -1,5 +1,5 @@
 <script lang="ts">
-import { left, chatBubble, hash } from '$lib/assets/icons'
+import { left, chatBubble, hash } from '../assets/icons'
 import { env } from '$env/dynamic/public';
 import { page } from '$app/state';
 
@@ -8,12 +8,12 @@ const read_only = $derived.by(() => {
 })
 
 
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../store/store.svelte'
 const store = createStore()
 
 const authenticated = $derived(store.session.authenticated)
 
-import type { Data } from '$lib/types/common'
+import type { Data } from '../types/common'
 
 let {
     data,

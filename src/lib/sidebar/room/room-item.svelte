@@ -8,19 +8,19 @@ import {
     get_domain,
     processHash,
     aliasFromName
-} from '$lib/utils/matrix'
+} from '../../utils/matrix'
 
 import { 
     hash,
     chatBubble,
     ellipsis
-} from '$lib/assets/icons'
+} from '../../assets/icons'
 
-import type { Data } from '$lib/types/common'
+import type { Data } from '../../types/common'
 
-import { debounce } from '$lib/utils/utils'
+import { debounce } from '../../utils/utils'
 
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../../store/store.svelte'
 const store = createStore()
 
 const authenticated = $derived(store.session.authenticated)

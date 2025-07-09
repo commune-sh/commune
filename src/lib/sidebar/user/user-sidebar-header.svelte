@@ -1,5 +1,5 @@
 <script lang="ts">
-import type { Data } from '$lib/types/common'
+import type { Data } from '../../types/common'
 
 let {
     data,

@@ -1,7 +1,7 @@
 <script lang="ts">
 import { 
     downloadMedia
-} from '$lib/appservice/requests.svelte'
+} from '../../appservice/requests.svelte'
 
 let {
     event,

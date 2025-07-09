@@ -1,13 +1,13 @@
 <script>
-import { trash } from '$lib/assets/icons'
-import { justEmoji, processBody } from '$lib/utils/utils'
+import { trash } from '../../../assets/icons'
+import { justEmoji, processBody } from '../../../utils/utils'
 
-import Image from '$lib/room/common/m.image.svelte'
-import Audio from '$lib/room/common/m.audio.svelte'
-import Video from '$lib/room/common/m.video.svelte'
-import File from '$lib/room/common/m.file.svelte'
+import Image from '../../../room/common/m.image.svelte'
+import Audio from '../../../room/common/m.audio.svelte'
+import Video from '../../../room/common/m.video.svelte'
+import File from '../../../room/common/m.file.svelte'
 
-import ThreadSummary from '$lib/room/chat/events/thread-summary.svelte';
+import ThreadSummary from '../../../room/chat/events/thread-summary.svelte';
 
 const components = $state([
     {msgtype: 'm.image', component: Image },
@@ -20,7 +20,7 @@ const component = $derived.by(() => {
     return components.find(c => c.msgtype == event?.content?.msgtype)?.component
 })
 
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../../../store/store.svelte'
 const store = createStore()
 
 const authenticated = $derived(store.session.authenticated)

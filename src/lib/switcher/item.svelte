@@ -1,26 +1,26 @@
 <script lang="ts">
-import { isInViewport } from '$lib/utils/ui';
+import { isInViewport } from '../utils/ui';
 import { goto } from '$app/navigation';
 import { page } from '$app/state';
-import { createInitials } from '$lib/utils/string';
+import { createInitials } from '../utils/string';
 
-import { tooltip } from '$lib/tooltip/tooltip'
+import { tooltip } from '../tooltip/tooltip'
 
-import type { Data } from '$lib/types/common'
+import type { Data } from '../types/common'
 
 
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../store/store.svelte'
 const store = createStore()
 
 import { 
     room_alias_from_ID, 
     is_local_room,
     processHash
-} from '$lib/utils/matrix'
+} from '../utils/matrix'
 
 import { 
     getImageThumbnail,
-} from '$lib/appservice/requests.svelte'
+} from '../appservice/requests.svelte'
 
 
 let { 

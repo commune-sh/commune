@@ -1,13 +1,13 @@
 <script lang="ts">
 import Item from './item.svelte'
 import { onMount } from 'svelte'
-import SkeletonItems from '$lib/skeleton/switcher-items.svelte'
-import { buildSpaces, strayRooms } from '$lib/utils/matrix'
+import SkeletonItems from '../skeleton/switcher-items.svelte'
+import { buildSpaces, strayRooms } from '../utils/matrix'
 
-import MoreRooms from '$lib/switcher/more-rooms.svelte'
+import MoreRooms from './more-rooms.svelte'
 
 
-import type { Data } from '$lib/types/common'
+import type { Data } from '../types/common'
 
 let {
     data,
@@ -17,7 +17,7 @@ let {
 
 
 // app store
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../store/store.svelte'
 const store = createStore()
 
 const homeserver_reachable = $derived(store.app.homeserver_reachable)

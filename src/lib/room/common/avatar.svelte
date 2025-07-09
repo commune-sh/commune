@@ -1,16 +1,16 @@
 <script lang="ts">
-import UserLogo from '$lib/assets/logo-base.png';
+import UserLogo from '../../assets/logo-base.png';
 
 import { 
     getAvatarThumbnail,
-} from '$lib/appservice/requests.svelte'
+} from '../../appservice/requests.svelte'
 
 
-import { aliasFromSender } from '$lib/utils/matrix';
+import { aliasFromSender } from '../../utils/matrix';
 
-import type { Data } from '$lib/types/common'
+import type { Data } from '../../types/common'
 
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../../store/store.svelte'
 const store = createStore()
 
 let authenticated = $derived(store.session.authenticated)

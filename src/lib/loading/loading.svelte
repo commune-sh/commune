@@ -1,5 +1,5 @@
 <script>
-import Logo from '$lib/logo/logo.svelte'
+import Logo from '../logo/logo.svelte'
 </script>
 
 

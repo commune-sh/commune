@@ -1,15 +1,15 @@
 <script lang="ts">
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../../../store/store.svelte'
 const store = createStore()
 
 import { 
     thumbnailURL,
-} from '$lib/utils/matrix'
+} from '../../../utils/matrix'
 
 import { 
     getImageThumbnail,
     downloadMedia
-} from '$lib/appservice/requests.svelte'
+} from '../../../appservice/requests.svelte'
 
 let authenticated = $derived(store.session.authenticated)
 

@@ -1,14 +1,14 @@
 <script>
-import { logo } from '$lib/assets/logo';
+import { logo } from '../assets/logo';
 import { env } from '$env/dynamic/public';
 
-import { hamburger } from '$lib/assets/icons'
+import { hamburger } from '../assets/icons'
 
 const read_only = $derived.by(() => {
     return env?.PUBLIC_READ_ONLY === 'true'
 })
 
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../store/store.svelte'
 const store = createStore()
 
 function toggleMenu() {

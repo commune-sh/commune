@@ -1,8 +1,8 @@
 import { z } from 'zod';
 
-import type { ENV } from '$lib/types/common'
+import type { ENV } from '../types/common'
 
-import { exchangeForToken, whoami, refreshToken } from '$lib/matrix/requests';
+import { exchangeForToken, whoami, refreshToken } from '../matrix/requests';
 
 export type AuthData = {
     ENV: ENV;

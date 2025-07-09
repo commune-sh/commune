@@ -2,15 +2,13 @@
 import { page } from '$app/state';
 import { onMount, tick } from 'svelte'
 
-import ViewPort from '$lib/room/chat/chat-viewport.svelte'
+import ViewPort from '../chat/chat-viewport.svelte'
 
-import Composer from '$lib/composer/composer.svelte'
+import Composer from '../../composer/composer.svelte'
 
-import Event from '$lib/room/chat/events/event.svelte'
+import SkeletonChatEvents from '../../skeleton/chat-events.svelte'
 
-import SkeletonChatEvents from '$lib/skeleton/chat-events.svelte'
-
-import type { Data } from '$lib/types/common'
+import type { Data } from '../../types/common'
 
 let {
     data,
@@ -18,7 +16,7 @@ let {
     data: Data
 } = $props();
 
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../../store/store.svelte'
 const store = createStore()
 
 

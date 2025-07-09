@@ -1,9 +1,9 @@
 <script>
-import { settings as settingsIcon } from '$lib/assets/icons'
+import { settings as settingsIcon } from '../assets/icons'
 
-import { tooltip } from '$lib/tooltip/tooltip'
+import { tooltip } from '../tooltip/tooltip'
 
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../store/store.svelte'
 const store = createStore()
 
 

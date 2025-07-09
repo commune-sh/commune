@@ -1,9 +1,9 @@
 <script lang="ts">
 import { onMount, onDestroy } from 'svelte'
 import { browser } from '$app/environment'
-import { close } from '$lib/assets/icons'
+import { close } from '../assets/icons'
 
-import type { Data } from '$lib/types/common'
+import type { Data } from '../types/common'
 
 let {
     data,
@@ -11,7 +11,7 @@ let {
     data: Data,
 } = $props();
 
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../store/store.svelte'
 const store = createStore()
 
 const unsaved_changes = $derived(store.settings.unsaved_changes)

@@ -1,15 +1,15 @@
 <script lang="ts">
-import type { Data } from '$lib/types/common'
+import type { Data } from '../../types/common'
 
 import { 
     thumbnailURL,
-} from '$lib/utils/matrix'
+} from '../../utils/matrix'
 
 import { 
     getAvatarThumbnail,
-} from '$lib/appservice/requests.svelte'
+} from '../../appservice/requests.svelte'
 
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../../store/store.svelte'
 const store = createStore()
 
 let {

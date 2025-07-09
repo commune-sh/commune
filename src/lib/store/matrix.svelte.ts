@@ -15,9 +15,9 @@ const authenticated = $derived(session_store.authenticated);
 import { browser } from '$app/environment';
 
 
-import { type PublicSpace } from '$lib/types/common';
+import { type PublicSpace } from '../types/common';
 
-import { get_local_part } from '$lib/utils/matrix';
+import { get_local_part } from '../utils/matrix';
 
 import { 
     aliasFromName,
@@ -27,20 +27,20 @@ import {
     buildPublicSpaces, 
     buildSpacesHierarchy ,
     processHash
-} from '$lib/utils/matrix';
+} from '../utils/matrix';
 
 import { 
     syncGuest,
-} from '$lib/matrix/requests';
+} from '../matrix/requests';
 
 import { 
     naiveRoomIDCheck,
     canonical_alias,
-} from '$lib/utils/matrix'
+} from '../utils/matrix'
 
 import {
     processSpaceRooms
-} from '$lib/store/process.svelte'
+} from '../store/process.svelte'
 
 import { 
     getPublicSpaces,
@@ -48,7 +48,7 @@ import {
     getRoomState,
     getRoomMessages,
     getEventContext,
-} from '$lib/appservice/requests.svelte'
+} from '../appservice/requests.svelte'
 
 
 let oidc_issuer = $state(null);

@@ -8,11 +8,11 @@ import { v4 as uuidv4 } from 'uuid';
 import { 
     naiveRoomIDCheck,
     naiveOSTCheck
-} from '$lib/utils/matrix'
+} from '../utils/matrix'
 
-import type { Data } from '$lib/types/common'
+import type { Data } from '../types/common'
 
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../store/store.svelte'
 const store = createStore()
 
 const client = $derived(store.matrix.client)

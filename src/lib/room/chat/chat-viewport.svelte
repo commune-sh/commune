@@ -1,17 +1,17 @@
 <script lang="ts">
 import { page } from '$app/state';
 
-import Event from '$lib/room/chat/events/event.svelte'
+import Event from '../chat/events/event.svelte'
 
-import { debounce } from '$lib/utils/utils'
+import { debounce } from '../../utils/utils'
 import { onMount, tick } from 'svelte'
 
-import ScrollToBottom from '$lib/room/chat/components/scroll-to-bottom.svelte'
+import ScrollToBottom from '../chat/components/scroll-to-bottom.svelte'
 
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../../store/store.svelte'
 const store = createStore()
 
-import type { Data } from '$lib/types/common'
+import type { Data } from '../../types/common'
 
 let {
     data,

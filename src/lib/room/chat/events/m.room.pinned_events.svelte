@@ -1,9 +1,9 @@
 <script lang="ts">
-import { pin } from '$lib/assets/icons'
+import { pin } from '../../../assets/icons'
 
-import type { Data } from '$lib/types/common'
+import type { Data } from '../../../types/common'
 
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../../../store/store.svelte'
 const store = createStore()
 
 let {

@@ -2,7 +2,7 @@
 import { onMount } from 'svelte'
 import { browser } from '$app/environment'
 
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../store/store.svelte'
 const store = createStore()
 
 const theme = $derived(store.app.theme)

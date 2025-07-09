@@ -1,13 +1,13 @@
 <script lang="ts">
 import { 
     downloadMedia
-} from '$lib/appservice/requests.svelte'
+} from '../../appservice/requests.svelte'
 
 import { 
     formatBytes,
-} from '$lib/utils/utils'
+} from '../../utils/utils'
 
-import { paperclip } from '$lib/assets/icons'
+import { paperclip } from '../../assets/icons'
 
 let {
     event,

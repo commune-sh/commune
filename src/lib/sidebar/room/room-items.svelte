@@ -1,7 +1,7 @@
 <script lang="ts">
-import RoomItem from '$lib/sidebar/room/room-item.svelte'
+import RoomItem from './room-item.svelte'
 
-import type { Data } from '$lib/types/common'
+import type { Data } from '../../types/common'
 
 let {
     data,

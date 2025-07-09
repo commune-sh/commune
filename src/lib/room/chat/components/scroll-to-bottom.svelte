@@ -1,5 +1,5 @@
 <script>
-import { down } from '$lib/assets/icons'
+import { down } from '../../../assets/icons'
 
 let {
     scrollToBottom

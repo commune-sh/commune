@@ -1,5 +1,5 @@
 <script lang="ts">
-import type { Data } from '$lib/types/common'
+import type { Data } from '../../types/common'
 
 let {
     data,
@@ -8,7 +8,7 @@ let {
 } = $props();
 
 
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../../store/store.svelte'
 const store = createStore()
 
 const rooms = $derived.by(() => {

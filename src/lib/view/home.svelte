@@ -1,11 +1,11 @@
 <script lang="ts">
-import Toggle from '$lib/theme/toggle.svelte'
+import Toggle from '../theme/toggle.svelte'
 import { onMount, tick } from 'svelte'
 
-import Sidebar from '$lib/sidebar/sidebar.svelte'
-import Header from '$lib/header/header.svelte'
+import Sidebar from '../sidebar/sidebar.svelte'
+import Header from '../header/header.svelte'
 
-import type { Data } from '$lib/types/common'
+import type { Data } from '../types/common'
 
 let {
     data,
@@ -13,7 +13,7 @@ let {
     data: Data,
 } = $props();
 
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../store/store.svelte'
 const store = createStore()
 
 const client = $derived(store.matrix.client)

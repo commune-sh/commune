@@ -1,9 +1,9 @@
 <script>
-import { sun, moon } from '$lib/assets/icons'
+import { sun, moon } from '../assets/icons'
 import { browser } from '$app/environment';
-import { getCookie, createCookie } from '$lib/utils/cookie'
+import { getCookie, createCookie } from '../utils/cookie'
 
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../store/store.svelte'
 
 const store = createStore()
 

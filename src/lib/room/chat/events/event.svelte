@@ -1,34 +1,33 @@
 <script lang="ts">
 import { page } from '$app/state';
-import { dayOfMonth, formatTS } from '$lib/utils/time'
-import Time from '$lib/room/common/time.svelte'
-import Date from '$lib/room/common/date.svelte'
+import { dayOfMonth, formatTS } from '../../../utils/time'
+import Time from '../../common/time.svelte'
+import Date from '../../common/date.svelte'
 
-import Reactions from '$lib/room/common/reactions.svelte'
+import Reactions from '../../common/reactions.svelte'
 
-import Avatar from '$lib/room/common/avatar.svelte'
-import Sender from '$lib/room/common/sender.svelte'
+import Avatar from '../../common/avatar.svelte'
+import Sender from '../../common/sender.svelte'
 
-import NewDay from '$lib/room/chat/components/new-day.svelte'
-import RoomCreated from '$lib/room/chat/components/room-created.svelte'
+import NewDay from '../../chat/components/new-day.svelte'
+import RoomCreated from '../../chat/components/room-created.svelte'
 
-import ReplyToEvent from '$lib/room/chat/events/reply-to-event.svelte'
+import ReplyToEvent from '../../chat/events/reply-to-event.svelte'
 
-import RoomCreateEvent from '$lib/room/chat/events/m.room.create.svelte'
-import RoomNameEvent from '$lib/room/chat/events/m.room.name.svelte'
-import MessageEvent from '$lib/room/chat/events/m.room.message.svelte'
-import MembershipEvent from '$lib/room/chat/events/m.room.member.svelte'
-import TopicEvent from '$lib/room/chat/events/m.room.topic.svelte'
-import AvatarEvent from '$lib/room/chat/events/m.room.avatar.svelte'
-import PowerLevelsEvent from '$lib/room/chat/events/m.room.power_levels.svelte'
-import PinnedEvent from '$lib/room/chat/events/m.room.pinned_events.svelte'
+import RoomCreateEvent from '../../chat/events/m.room.create.svelte'
+import RoomNameEvent from '../../chat/events/m.room.name.svelte'
+import MessageEvent from '../../chat/events/m.room.message.svelte'
+import MembershipEvent from '../../chat/events/m.room.member.svelte'
+import TopicEvent from '../../chat/events/m.room.topic.svelte'
+import AvatarEvent from '../../chat/events/m.room.avatar.svelte'
+import PowerLevelsEvent from '../../chat/events/m.room.power_levels.svelte'
+import PinnedEvent from '../../chat/events/m.room.pinned_events.svelte'
 
-import Menu from '$lib/event/menu/menu.svelte'
+import Menu from '../../../event/menu/menu.svelte'
 
-import type { Data } from '$lib/types/common'
+import type { Data } from '../../../types/common'
 
-
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../../../store/store.svelte'
 const store = createStore()
 
 const authenticated = $derived(store.session.authenticated)

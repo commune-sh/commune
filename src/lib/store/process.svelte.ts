@@ -1,12 +1,12 @@
 import { 
     getRoomState,
     getRoomHierarchy
-} from '$lib/appservice/requests.svelte'
+} from '../appservice/requests.svelte'
 
 
 import { 
     store
-} from '$lib/store/matrix.svelte'
+} from '../store/matrix.svelte'
 
 export async function processSpaceRooms(space: string) {
     if(!space) return;

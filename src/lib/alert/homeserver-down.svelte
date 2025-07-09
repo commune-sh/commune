@@ -1,7 +1,7 @@
 <script>
 import { page } from '$app/state';
 
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../store/store.svelte'
 const store = createStore()
 
 const down = $derived(store.app.homeserver_reachable == false)

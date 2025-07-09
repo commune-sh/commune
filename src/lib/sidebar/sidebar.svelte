@@ -1,16 +1,16 @@
 <script lang="ts">
-import { getSetting, updateSetting } from '$lib/utils/localstorage';
-import User from '$lib/sidebar/user/user.svelte'
+import { getSetting, updateSetting } from '../utils/localstorage';
+import User from './user/user.svelte';
 
-import RoomSidebarHeader from '$lib/sidebar/room/room-sidebar-header.svelte'
-import UserSidebarHeader from '$lib/sidebar/user/user-sidebar-header.svelte'
-import RoomsSidebarHeader from '$lib/sidebar/rooms/rooms-sidebar-header.svelte'
-import RoomSidebar from '$lib/sidebar/room/room-sidebar.svelte'
-import UserSidebar from '$lib/sidebar/user/user-sidebar.svelte'
+import RoomSidebarHeader from './room/room-sidebar-header.svelte'
+import UserSidebarHeader from './user/user-sidebar-header.svelte'
+import RoomsSidebarHeader from './rooms/rooms-sidebar-header.svelte'
+import RoomSidebar from './room/room-sidebar.svelte'
+import UserSidebar from './user/user-sidebar.svelte'
 
 import { page } from '$app/state';
 
-import type { Data } from '$lib/types/common'
+import type { Data } from '../types/common'
 
 let {
     data,
@@ -27,7 +27,7 @@ let {
 
 let is_home = $derived(page.route.id == '/(app)')
 
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../store/store.svelte'
 const store = createStore()
 
 const rooms = $derived.by(() => {

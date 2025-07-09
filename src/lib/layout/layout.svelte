@@ -5,17 +5,17 @@ import { page } from '$app/state';
 
 import { 
     processHash
-} from '$lib/utils/matrix'
+} from '../utils/matrix'
 
-import View from '$lib/view/view.svelte'
-import Alert from '$lib/alert/alert.svelte'
-import Switcher from '$lib/switcher/switcher.svelte'
+import View from '../view/view.svelte'
+import Alert from '../alert/alert.svelte'
+import Switcher from '../switcher/switcher.svelte'
 
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../store/store.svelte'
 const store = createStore()
 const alert_active = $derived(store.ui.alert?.active)
 
-import type { Data } from '$lib/types/common'
+import type { Data } from '../types/common'
 import type { Snippet } from 'svelte';
 
 let {

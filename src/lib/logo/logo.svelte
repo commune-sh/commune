@@ -1,15 +1,15 @@
 <script>
-import { logo } from '$lib/assets/logo';
+import { logo } from '../assets/logo';
 import { goto } from '$app/navigation';
 import { page } from '$app/state';
 
-import { tooltip } from '$lib/tooltip/tooltip'
+import { tooltip } from '../tooltip/tooltip'
 
 let { is_static, loading } = $props();
 
 let active = $derived(page.url.pathname == '/')
 
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../store/store.svelte'
 const store = createStore()
 
 const menu_active = $derived(store.ui.menu_active)

@@ -1,14 +1,14 @@
 import { error } from '@sveltejs/kit';
 import { env } from '$env/dynamic/public';
 
-import { download_media } from '$lib/appservice/requests.svelte'
-import { getAuthMetadata } from '$lib/matrix/requests';
+import { download_media } from '../appservice/requests.svelte'
+import { getAuthMetadata } from '../matrix/requests';
 
-import { matrixWellKnown, appserviceHealth } from '$lib/types/common'
+import { matrixWellKnown, appserviceHealth } from '../types/common'
 
-import type { ENV, Data } from '$lib/types/common'
+import type { ENV, Data } from '../types/common'
 
-import { authenticate, type AuthData } from '$lib/server/auth';
+import { authenticate, type AuthData } from '../server/auth';
 
 export async function initializeAppData(
     ENV: ENV,

@@ -33,7 +33,7 @@ function setupStorageListener() {
 }
 
 
-import { whoami, refreshToken } from '$lib/matrix/requests'
+import { whoami, refreshToken } from '../matrix/requests'
 
 import { createOIDCStore } from './oidc.svelte'
 const oidc_store = createOIDCStore()

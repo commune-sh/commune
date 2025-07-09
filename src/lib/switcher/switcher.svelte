@@ -1,9 +1,9 @@
 <script lang="ts">
-import Logo from '$lib/logo/logo.svelte'
+import Logo from '../logo/logo.svelte'
 import Items from './items.svelte'
-import Profile from '$lib/profile/profile.svelte'
+import Profile from '../profile/profile.svelte'
 
-import type { Data } from '$lib/types/common'
+import type { Data } from '../types/common'
 
 let {
     data,
@@ -11,7 +11,7 @@ let {
     data: Data,
 } = $props();
 
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../store/store.svelte'
 const store = createStore()
 
 const authenticated = $derived(store.session.authenticated)

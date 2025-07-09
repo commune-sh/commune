@@ -1,14 +1,14 @@
 <script lang="ts">
 import { page } from '$app/state';
-import { naiveRoomIDCheck, canonical_alias } from '$lib/utils/matrix'
+import { naiveRoomIDCheck, canonical_alias } from '../../utils/matrix'
 import { 
     strayRooms,
     processHash
-} from '$lib/utils/matrix'
+} from '../../utils/matrix'
 
-import RoomItems from '$lib/sidebar/room/room-items.svelte'
+import RoomItems from '../room/room-items.svelte'
 
-import type { Data } from '$lib/types/common'
+import type { Data } from '../../types/common'
 
 let {
     data,
@@ -16,7 +16,7 @@ let {
     data: Data,
 } = $props();
 
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../../store/store.svelte'
 const store = createStore()
 
 const rooms = $derived.by(() => {

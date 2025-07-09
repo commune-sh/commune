@@ -1,11 +1,11 @@
 <script lang="ts">
-import More from '$lib/event/menu/more/more.svelte'
-import Actions from '$lib/event/menu/more/actions.svelte'
-import Download from '$lib/event/menu/download/download.svelte'
+import More from '../menu/more/more.svelte'
+import Actions from '../menu/more/actions.svelte'
+import Download from '../menu/download/download.svelte'
 
-import type { Data } from '$lib/types/common'
+import type { Data } from '../../types/common'
 
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../../store/store.svelte'
 const store = createStore()
 
 let {

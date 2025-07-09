@@ -8,9 +8,9 @@ import { page } from '$app/state';
 import { 
     code, 
     link,
-} from "$lib/assets/icons";
+} from "../../../assets/icons";
 
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../../../store/store.svelte'
 const store = createStore()
 
 let {

@@ -1,9 +1,9 @@
 <script>
 import { page } from '$app/state';
 import { goto } from '$app/navigation';
-import { close } from '$lib/assets/icons';
+import { close } from '../assets/icons';
 
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../store/store.svelte'
 const store = createStore()
 
 let non_space_room = $derived(page.route.id?.includes('/(app)/rooms'))

@@ -2,7 +2,7 @@
 import { onMount } from 'svelte'
 import { page } from '$app/state';
 
-import type { Data } from '$lib/types/common'
+import type { Data } from '../types/common'
 
 let {
     data
@@ -10,19 +10,18 @@ let {
     data: Data
 } = $props();
 
-import ThreadHeader from '$lib/thread/thread-header.svelte'
-import ThreadContent from '$lib/thread/thread-content.svelte'
+import ThreadHeader from './thread-header.svelte'
 
-import ViewPort from '$lib/room/chat/chat-viewport.svelte'
+import ViewPort from '../room/chat/chat-viewport.svelte'
 
-import { getSetting, updateSetting } from '$lib/utils/localstorage';
+import { getSetting, updateSetting } from '../utils/localstorage';
 
 
 let saved_width = $derived.by(() => {
     return getSetting('thread_width');
 });
 
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../store/store.svelte'
 const store = createStore()
 
 let width = $state(saved_width || 300);

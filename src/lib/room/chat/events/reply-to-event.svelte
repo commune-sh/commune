@@ -1,16 +1,16 @@
 <script>
 import { onMount } from 'svelte'
-import { getEvent } from '$lib/appservice/requests.svelte'
-import { getFirstLine } from '$lib/utils/string'
+import { getEvent } from '../../../appservice/requests.svelte'
+import { getFirstLine } from '../../../utils/string'
 
-import Avatar from '$lib/room/common/avatar.svelte'
-import Sender from '$lib/room/common/sender.svelte'
+import Avatar from '../../../room/common/avatar.svelte'
+import Sender from '../../../room/common/sender.svelte'
 
-import SkeletonSpan from '$lib/skeleton/span.svelte'
+import SkeletonSpan from '../../../skeleton/span.svelte'
 
-import { processBody, textContent } from '$lib/utils/utils'
+import { processBody, textContent } from '../../../utils/utils'
 
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../../../store/store.svelte'
 const store = createStore()
 
 let {

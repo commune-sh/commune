@@ -1,20 +1,20 @@
 <script lang="ts">
 import { marked } from 'marked'
-import { createInitials } from '$lib/utils/string';
+import { createInitials } from '../../utils/string';
 
 import { 
     get_local_part,
-} from '$lib/utils/matrix'
+} from '../../utils/matrix'
 
 import { 
     getImageThumbnail,
-} from '$lib/appservice/requests.svelte'
+} from '../../appservice/requests.svelte'
 
 
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../../store/store.svelte'
 const store = createStore()
 
-import type { Data } from '$lib/types/common'
+import type { Data } from '../../types/common'
 
 let {
     data,

@@ -1,8 +1,8 @@
 <script>
-import { ellipsis } from "$lib/assets/icons";
-import { clickOutside } from '$lib/utils/utils'
+import { ellipsis } from "../../../assets/icons";
+import { clickOutside } from '../../../utils/utils'
 
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../../../store/store.svelte'
 const store = createStore()
 
 let {

@@ -2,10 +2,10 @@ import {
     PUBLIC_HOMESERVER_URL,
 } from '$env/static/public';
 
-import type { ENV } from '$lib/types/common';
+import type { ENV } from '../types/common';
 
 import { browser } from '$app/environment';
-import { getCookie, createCookie } from '$lib/utils/cookie'
+import { getCookie, createCookie } from '../utils/cookie'
 
 let homeserver = $state(PUBLIC_HOMESERVER_URL);
 

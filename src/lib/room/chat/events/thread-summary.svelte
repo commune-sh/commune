@@ -3,11 +3,11 @@
 import { page } from '$app/state';
 import { goto } from '$app/navigation';
 
-import { right } from '$lib/assets/icons'
+import { right } from '../../../assets/icons'
 
-import type { Data } from '$lib/types/common'
+import type { Data } from '../../../types/common'
 
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../../../store/store.svelte'
 const store = createStore()
 
 let {

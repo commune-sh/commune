@@ -1,6 +1,6 @@
 import { z } from "zod/v4";
 
-import type { Session } from '$lib/store/session.svelte'
+import type { Session } from '../store/session.svelte'
 
 export type ENV = {
     BASE_URL: string;

@@ -1,14 +1,14 @@
 <script lang="ts">
 import { page } from '$app/state';
 
-import ChatView from '$lib/room/chat/chat.svelte'
-import ForumView from '$lib/room/forum/forum.svelte'
-import RoomOverView from '$lib/room/overview/overview.svelte'
+import ChatView from './chat/chat.svelte'
+import ForumView from './forum/forum.svelte'
+import RoomOverView from './overview/overview.svelte'
 
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../store/store.svelte'
 const store = createStore()
 
-import type { Data } from '$lib/types/common'
+import type { Data } from '../types/common'
 
 let {
     data,

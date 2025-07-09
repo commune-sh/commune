@@ -2,25 +2,25 @@
 import { page } from '$app/state';
 import { onMount } from 'svelte'
 
-import Room from '$lib/room/room.svelte'
+import Room from '../room/room.svelte'
 
-import Loading from '$lib/loading/loading.svelte'
-import Sidebar from '$lib/sidebar/sidebar.svelte'
-import Header from '$lib/header/header.svelte'
-import Thread from '$lib/thread/thread.svelte'
+import Loading from '../loading/loading.svelte'
+import Sidebar from '../sidebar/sidebar.svelte'
+import Header from '../header/header.svelte'
+import Thread from '../thread/thread.svelte'
 
-import NotFound from '$lib/errors/not-found.svelte'
+import NotFound from '../errors/not-found.svelte'
 
 import { 
     canonical_alias,
     naiveRoomIDCheck,
-} from '$lib/utils/matrix'
+} from '../utils/matrix'
 
 // app store
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../store/store.svelte'
 const store = createStore()
 
-import type { Data } from '$lib/types/common'
+import type { Data } from '../types/common'
 import type { Snippet } from 'svelte';
 
 

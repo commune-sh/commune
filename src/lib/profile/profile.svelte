@@ -3,7 +3,7 @@ import { goto } from '$app/navigation';
 
 import { Popover, Separator, Toggle } from "bits-ui";
 
-import type { Data } from '$lib/types/common'
+import type { Data } from '../types/common'
 
 let {
     data,
@@ -14,16 +14,16 @@ let {
 let width = $state(1024);
 let height = $state(768);
 
-import { createInitials } from '$lib/utils/string';
+import { createInitials } from '../utils/string';
 import { 
     getAvatarThumbnail,
-} from '$lib/appservice/requests.svelte'
+} from '../appservice/requests.svelte'
 
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../store/store.svelte'
 const store = createStore()
 
 
-import { createMatrixStore } from '$lib/store/matrix.svelte'
+import { createMatrixStore } from '../store/matrix.svelte'
 const matrix_store = createMatrixStore()
 
 let user_id = $derived.by(() => {

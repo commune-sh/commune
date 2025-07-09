@@ -1,6 +1,6 @@
 <script lang="ts">
 import { tick, onMount } from 'svelte'
-import type { Data } from '$lib/types/common'
+import type { Data } from '../types/common'
 
 let {
     data,
@@ -8,7 +8,7 @@ let {
     data: Data
 } = $props();
 
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../store/store.svelte'
 const store = createStore()
 
 const authenticated = $derived(store.session.authenticated)

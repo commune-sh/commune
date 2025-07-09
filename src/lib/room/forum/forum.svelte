@@ -1,12 +1,12 @@
 <script lang="ts">
 import { page } from '$app/state';
-import type { Data } from '$lib/types/common'
+import type { Data } from '../../types/common'
 
-import Loading from '$lib/loading/loading.svelte'
+import Loading from '../../loading/loading.svelte'
 
 import { 
     naiveRoomIDCheck
-} from '$lib/utils/matrix'
+} from '../../utils/matrix'
 
 let {
     data,
@@ -14,7 +14,7 @@ let {
     data: Data
 } = $props();
 
-import { createStore } from '$lib/store/store.svelte'
+import { createStore } from '../../store/store.svelte'
 const store = createStore()
 
 const rooms = $derived(store.matrix.rooms)

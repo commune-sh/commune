@@ -1,5 +1,5 @@
 import { PUBLIC_HOMESERVER_URL, PUBLIC_APPSERVICE_URL } from '$env/static/public';
-import { getCookie } from '$lib/utils/cookie'
+import { getCookie } from '../utils/cookie'
 
 let appservice_url = $derived.by(() => {
     return PUBLIC_APPSERVICE_URL

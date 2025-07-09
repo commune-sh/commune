@@ -1,6 +1,6 @@
 import type { ValidatedAuthMetadata } from 'matrix-js-sdk/src/oidc/validate'
 
-import { getAuthMetadata, registerOauthClient } from '$lib/matrix/requests'
+import { getAuthMetadata, registerOauthClient } from '../matrix/requests'
 
 export let config: {
     metadata: ValidatedAuthMetadata | null;
