@@ -178,7 +178,7 @@ $effect.root(() => {
     $effect(() => {
         if(_space != space) {
             _space = space;
-            processSpaceRooms(_space);
+            //processSpaceRooms(_space);
         }
         if(_room != room) {
             _room = room;
