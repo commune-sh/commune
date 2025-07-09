@@ -7,6 +7,7 @@
         "build": "npm run build --workspace=web",
         "desktop": "npm run dev --workspace=desktop",
         "tauri": "npm run tauri:dev --workspace=desktop",
+        "tauri:build": "NO_STRIP=true npm run tauri:build --workspace=desktop",
         "preview": "npm run build --workspace=web"
     },
     "engines": {
