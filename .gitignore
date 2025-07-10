@@ -2,8 +2,11 @@
 node_modules
 /build
 /.svelte-kit
+/.turbo
 /package
-/packages
+/packages/web
+/packages/desktop
+/apps
 .env
 .env.*
 !.env.example
