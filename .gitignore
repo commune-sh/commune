@@ -4,6 +4,8 @@ node_modules
 /.svelte-kit
 /package
 /packages
+/apps
+/.turbo
 .env
 .env.*
 !.env.example
