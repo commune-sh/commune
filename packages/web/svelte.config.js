@@ -8,7 +8,7 @@ const config = {
   kit: {
     adapter: adapter(),
     csrf: { checkOrigin: !dev },
-    outDir: '../../.svelte-kit',
+    //outDir: '../../.svelte-kit',
     files: {
       assets: '../static'
     },
