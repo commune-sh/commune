@@ -199,8 +199,8 @@ let PUBLIC_META_IMAGE = $derived.by(() => {
 })
 
 let image = $derived.by(() => {
-    if(data?.loaded?.metadata?.image) {
-        return data.loaded.metadata.image
+    if(data?.metadata?.image) {
+        return data?.metadata.image
     }
     return PUBLIC_META_IMAGE
 })
