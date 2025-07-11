@@ -117,7 +117,7 @@ async function setup() {
     }
 
     try {
-        const resp = await getVersions();
+        const resp = await getVersions(data.ENV.HOMESERVER_URL);
         if(resp?.versions) {
             store.app.updateHomeserverStatus(resp)
         }
@@ -132,7 +132,7 @@ let session_data = $derived.by(() => {
 onMount(async() => {
 
     if(data?.session && !session) {
-        store.session.update(data.session, data.oidc_client_id)
+        store.session.update(data.ENV.HOMESERVER_URL, data.session, data.oidc_client_id)
     }
 
     store.app.isReady()

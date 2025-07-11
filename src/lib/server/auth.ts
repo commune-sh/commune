@@ -54,7 +54,7 @@ export async function authenticate(data: AuthData): Promise<WhoAmI> {
     }
 
     try {
-        let user = await whoami(data.access_token);
+        let user = await whoami(data.ENV.HOMESERVER_URL, data.access_token);
         console.log(user)
 
         let validated = WhoAmISchema.safeParse(user);
@@ -91,7 +91,7 @@ export async function getAccessToken(
         console.log(resp)
         if(resp?.access_token && resp?.refresh_token) {
 
-            let user = await whoami(resp.access_token) 
+            let user = await whoami(ENV.HOMESERVER_URL, resp.access_token) 
 
             let expires_in = Date.now() + (resp.expires_in * 1000)
 

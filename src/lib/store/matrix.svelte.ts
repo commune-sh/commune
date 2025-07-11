@@ -30,10 +30,6 @@ import {
 } from '../utils/matrix';
 
 import { 
-    syncGuest,
-} from '../matrix/requests';
-
-import { 
     naiveRoomIDCheck,
     canonical_alias,
 } from '../utils/matrix'
@@ -381,12 +377,6 @@ export function createMatrixStore() {
         });
 
     }
-
-    async function setupGuest(credentials) {
-        console.log("Setting up Matrix guest client for:", credentials.user_id)
-        syncGuest(credentials.access_token)
-    }
-
 
     function watchRoomEvents() {
         client.on(sdk.RoomEvent.Timeline, (event, room, toStartOfTimeline) => {
@@ -788,7 +778,6 @@ export function createMatrixStore() {
 
         newClient,
         setup,
-        setupGuest,
         addRoom,
         addSpace,
         updateTheme,

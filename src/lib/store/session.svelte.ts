@@ -163,7 +163,7 @@ export function is_authenticated() {
 
 export function createSessionStore() {
 
-    async function update(data: Session, oidc_client_id: string) {
+    async function update(homeserver_url: string, data: Session, oidc_client_id: string) {
 
         if(!data.refresh_token) {
             compat_sso = true;
@@ -190,7 +190,8 @@ export function createSessionStore() {
         */
 
         try {
-            let user = await whoami(data.access_token);
+            let user = await whoami(homeserver_url, data.access_token);
+            console.log("Fetched user data", user)
             if(user?.errcode == "M_UNKNOWN_TOKEN") {
                 console.error("Invalid access token.")
                 return
