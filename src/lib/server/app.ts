@@ -68,6 +68,13 @@ export async function initializeAppData(
         READ_ONLY: env?.PUBLIC_READ_ONLY === 'true',
         authenticated: authenticated,
         oidc_client_id: oidc_client_id || null,
+        metadata: {
+            space: null,
+            room: null,
+            event: null,
+            sender: null,
+            image: null, 
+        },
     };
 
 
@@ -159,6 +166,7 @@ export async function initializeAppData(
 
             const r = await fetch(iurl)
             const info = await r.json()
+            console.log("uil", info)
             if(info?.info && data?.metadata) {
                 data.metadata.space = info.info
                 if(data.metadata?.space?.avatar_url) {
@@ -184,16 +192,16 @@ export async function initializeAppData(
                 }
             }
 
-            console.log("Metadata gathered:", data.metadata);
 
             if(data?.metadata?.image) {
                 console.log("Downloading image from:", data.metadata.image)
-                let content_uri = await download_media(data?.metadata?.image, ENV.APPSERVICE_URL)
+                let content_uri = await download_media(ENV.APPSERVICE_URL, data?.metadata?.image)
                 if(content_uri) {
                     console.log("Image downloaded to:", content_uri)
                     data.metadata.image = content_uri;
                 }
             } 
+            console.log("Metadata gathered:", data.metadata);
 
         }
 

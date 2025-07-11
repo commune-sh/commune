@@ -1,4 +1,6 @@
-<script>
+<script lang="ts">
+import type { Data } from '../../../types/common'
+
 import { trash } from '../../../assets/icons'
 import { justEmoji, processBody } from '../../../utils/utils'
 
@@ -26,8 +28,13 @@ const store = createStore()
 const authenticated = $derived(store.session.authenticated)
 
 let {
+    data,
     event,
     thread_view
+}: {
+    data: Data,
+    event: any,
+    thread_view?: boolean
 } = $props();
 
 const new_content = $derived.by(() => {
@@ -100,7 +107,7 @@ const redacted = $derived.by(() => {
     {/if}
 
     {#if !m_text}
-        <svelte:component this={component} {event} />
+        <svelte:component this={component} {data} {event} />
     {/if}
 
 </div>

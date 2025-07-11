@@ -61,7 +61,7 @@ $effect(() => {
 let avatar_url = $state(null);
 async function getAvatar() {
     if(!user?.content?.avatar_url) return
-    let content_uri = await getAvatarThumbnail({
+    let content_uri = await getAvatarThumbnail(data.ENV.APPSERVICE_URL, {
         mxcid: user.content.avatar_url,
         width: 32,
         height: 32,

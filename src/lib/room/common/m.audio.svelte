@@ -1,10 +1,16 @@
 <script lang="ts">
+import type { Data } from '../../types/common'
+
 import { 
     downloadMedia
 } from '../../appservice/requests.svelte'
 
 let {
+    data,
     event,
+}: {
+    data: Data,
+    event: any,
 } = $props();
 
 let audio;
@@ -18,7 +24,7 @@ const alt = $derived(event?.content?.body)
 let src: string | undefined = $state(undefined)
 
 async function getSrc() {
-    let content_uri = await downloadMedia(url)
+    let content_uri = await downloadMedia(data.ENV.APPSERVICE_URL, url)
     if(content_uri) {
         src = content_uri
     }

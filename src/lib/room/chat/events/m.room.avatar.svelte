@@ -1,21 +1,23 @@
 <script lang="ts">
+import type { Data } from '../../../types/common'
+
 import { createStore } from '../../../store/store.svelte'
 const store = createStore()
 
 import { 
-    thumbnailURL,
-} from '../../../utils/matrix'
-
-import { 
     getImageThumbnail,
-    downloadMedia
 } from '../../../appservice/requests.svelte'
 
 let authenticated = $derived(store.session.authenticated)
 
 let {
+    data,
     event,
     event_user,
+}: {
+    data: Data,
+    event: any,
+    event_user: any,
 } = $props();
 
 const sender = $derived(event?.sender)
@@ -34,7 +36,7 @@ async function getImage() {
     let w = 320
     let h = 240
 
-    let content_uri = await getImageThumbnail({
+    let content_uri = await getImageThumbnail(data.ENV.APPSERVICE_URL, {
         mxcid: event.content.url,
         width: w,
         height: h,
