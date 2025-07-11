@@ -313,7 +313,7 @@ let flashed = $derived.by(() => {
 
                 {#if showReactions && reactions?.length > 0 }
                     <div class="reactions mt-1">
-                        <Reactions {reactions} {event} />
+                        <Reactions {data} {reactions} {event} />
                     </div>
                 {/if}
         </div>
