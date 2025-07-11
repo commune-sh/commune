@@ -1,4 +1,4 @@
-import { PUBLIC_HOMESERVER_URL, PUBLIC_HOMESERVER_NAME } from '$env/static/public';
+import { PUBLIC_HOMESERVER_URL } from '$env/static/public';
 
 export function convertFromMXC(url) {
     let stripped = url.replace('mxc://', '');
@@ -38,13 +38,13 @@ export function get_local_part(room_id_or_alias: string) {
     return room_id_or_alias.replace(/^[\#!](.*?):.*$/, '$1');
 }
 
-export function canonical_alias(room_alias: string) {
+export function canonical_alias(room_alias: string, homeserver_name: string) {
     if(!room_alias) return false
     const is_already_alias = isRoomAlias(room_alias)
     if(is_already_alias) {
         return room_alias
     }
-    return `#${room_alias}:${PUBLIC_HOMESERVER_NAME}`;
+    return `#${room_alias}:${homeserver_name}`;
 }
 
 export function cleanDisplayname(name: string) {
@@ -53,10 +53,10 @@ export function cleanDisplayname(name: string) {
     }
 }
 
-export function is_local_room(room_id: string) {
-    if(!room_id) return false;
+export function is_local_room(room_id: string, homeserver_name: string): boolean {
+    if(!room_id || !homeserver_name) return false;
     const domain = get_domain(room_id);
-    return domain === PUBLIC_HOMESERVER_NAME;
+    return domain === homeserver_name;
 }
 
 export function get_domain(id_or_alias: string) {

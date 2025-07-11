@@ -229,8 +229,8 @@ const active_room = $derived.by(() => {
 })
 
 const active_space = $derived.by(() => {
+    if(!app?.HOMESERVER_NAME) return null
     if(!page?.params?.space && page?.url?.hash == null) return
-
 
     let space_param;
 
@@ -249,7 +249,7 @@ const active_space = $derived.by(() => {
 
     const is_room_id = naiveRoomIDCheck(space_param)
     const key = is_room_id ? `room_id` : `canonical_alias`
-    const val = is_room_id ? space_param : canonical_alias(space_param)
+    const val = is_room_id ? space_param : canonical_alias(space_param, app.HOMESERVER_NAME as string)
 
     return rooms?.filter(r => r[key] == val)[0]
 })

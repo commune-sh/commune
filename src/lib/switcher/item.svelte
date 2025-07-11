@@ -57,7 +57,7 @@ const alias = $derived.by(() => {
 })
 
 const is_local = $derived.by(() => {
-    return is_local_room(space?.canonical_alias)
+    return is_local_room(space?.canonical_alias, data.ENV.HOMESERVER_NAME)
 })
 
 const hash_params = $derived.by(() => {

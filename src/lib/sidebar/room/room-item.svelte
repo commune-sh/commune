@@ -36,7 +36,7 @@ let {
 } = $props();
 
 const is_local = $derived.by(() => {
-    return is_local_room(item?.room_id)
+    return is_local_room(item?.room_id, data.ENV.HOMESERVER_NAME)
 })
 
 const alias_or_id = $derived(item?.commune_alias ? item?.commune_alias :

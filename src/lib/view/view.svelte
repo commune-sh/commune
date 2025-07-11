@@ -45,12 +45,15 @@ const rooms = $derived.by(() => {
 let ready = $state(false);
 
 let not_found = $derived.by(() => {
+    if(!data.ENV.HOMESERVER_NAME || !page.params.space) {
+        return false
+    }
     const is_room_id = naiveRoomIDCheck(page.params.space)
     if(is_room_id) {
         return rooms?.length > 0 && 
             rooms?.filter(r => r.room_id == page.params.space)[0] == null
     }
-    const alias =  canonical_alias(page.params.space)
+    const alias =  canonical_alias(page.params.space, data.ENV.HOMESERVER_NAME)
     return rooms?.length > 0 && 
         rooms?.filter(r => r.canonical_alias == alias)[0]  == null
 })
