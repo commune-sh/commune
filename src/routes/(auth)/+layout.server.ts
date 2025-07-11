@@ -20,7 +20,7 @@ export const load: LayoutServerLoad = async ({ cookies, url, fetch }) => {
 
     let oidc_client_id = cookies.get('oidc_client_id');
 
-    let metadata = await fetchAuthMetadata()
+    let metadata = await fetchAuthMetadata(PUBLIC_HOMESERVER_URL)
 
     if(!oidc_client_id && metadata?.registration_endpoint && metadata?.authorization_endpoint) {
 
@@ -53,9 +53,9 @@ export const load: LayoutServerLoad = async ({ cookies, url, fetch }) => {
 };
 
 
-async function fetchAuthMetadata() {
+async function fetchAuthMetadata(homeserver_url: string) {
     try {
-        const response = await getAuthMetadata()
+        const response = await getAuthMetadata(homeserver_url)
         console.log("OIDC metadata fetched.")
         if(response) {
             return response

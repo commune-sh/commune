@@ -80,7 +80,7 @@ export async function initializeAppData(
 
     // get oidc configuration
     try {
-        let auth_metadata = await getAuthMetadata();
+        let auth_metadata = await getAuthMetadata(ENV.HOMESERVER_URL);
         if(auth_metadata) {
             data.auth_metadata = auth_metadata;
             data.supports_OIDC = true;
