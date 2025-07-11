@@ -547,9 +547,9 @@ export function createMatrixStore() {
 
     }
 
-    async function fetchRoomMessages(opts) {
+    async function fetchRoomMessages(appservice_url: string, homeserver_url: string, opts: any) {
 
-        const stored = events[opts.room_id]
+        const stored = events[opts?.room_id]
 
         const items = stored?.events
         const start = stored?.start
@@ -565,7 +565,7 @@ export function createMatrixStore() {
                 lazy_load_members: true,
             }
 
-            const resp = await getRoomMessages(app.APPSERVICE_URL, {
+            const resp = await getRoomMessages(appservice_url, homeserver_url, {
                 room_id: opts.room_id,
                 authenticated: authenticated,
                 start: start,
@@ -610,14 +610,14 @@ export function createMatrixStore() {
 
     }
 
-    async function fetchEventContext(opts) {
+    async function fetchEventContext(appservice_url: string, homeserver_url: string, opts: any) {
 
         try {
             const filter = {
                 lazy_load_members: true,
             }
 
-            const resp = await getEventContext(app.APPSERVICE_URL, {
+            const resp = await getEventContext(appservice_url, homeserver_url, {
                 room_id: opts.room_id,
                 event_id: opts.event_id,
                 authenticated: authenticated,

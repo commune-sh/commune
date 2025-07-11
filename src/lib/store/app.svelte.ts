@@ -1,15 +1,7 @@
-import { 
-    PUBLIC_HOMESERVER_URL,
-} from '$env/static/public';
-
 import type { ENV } from '../types/common';
 
 import { browser } from '$app/environment';
 import { getCookie, createCookie } from '../utils/cookie'
-
-let homeserver = $state(PUBLIC_HOMESERVER_URL);
-
-let appservice: string | null = $state(null);
 
 let capabilities = $state(null);
 
@@ -25,6 +17,8 @@ export let app: {
 } = $state({
     ready: false,
 });
+
+let appservice = $derived(app.APPSERVICE_URL);
 
 let theme: string | null = $state(null);
 
@@ -93,20 +87,12 @@ export function createAppStore() {
 
     return {
 
-        get homeserver() {
-            return homeserver;
-        },
-
         get appservice() {
             return appservice;
         },
 
         get ready() {
             return ready;
-        },
-
-        get space() {
-            return app.space;
         },
 
         get capabilities() {

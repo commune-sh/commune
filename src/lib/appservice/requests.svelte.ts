@@ -1,4 +1,3 @@
-import { PUBLIC_HOMESERVER_URL } from '$env/static/public';
 import { getCookie } from '../utils/cookie'
 
 export const getPublicSpaces = async (appservice_url: string) => {
@@ -78,11 +77,17 @@ export const getRoomState = async (room_id: string, appservice_url: string): Pro
     }
 }
 
-export const getRoomMessages = async (appservice_url: string, opts: object) => {
-    if(!opts.room_id) return
+export const getRoomMessages = async (
+    appservice_url: string, 
+    homeserver_url: string, 
+    opts: any
+) => {
+
+    if(!appservice_url || !homeserver_url || !opts.room_id) return
+
     let base = appservice_url
     if(opts.authenticated) {
-        base = PUBLIC_HOMESERVER_URL
+        base = homeserver_url
     }
 
     let dir = `b`
@@ -120,12 +125,16 @@ export const getRoomMessages = async (appservice_url: string, opts: object) => {
     }
 }
 
-export const getEventContext = async (appservice_url: string, opts: object) => {
+export const getEventContext = async (
+    appservice_url: string, 
+    homeserver_url: string,
+    opts: object
+) => {
     if(!opts.room_id || !opts.event_id) return
     let base = appservice_url
 
     if(opts.authenticated) {
-        base = PUBLIC_HOMESERVER_URL
+        base = homeserver_url
     }
 
     let url = `${base}/_matrix/client/v3/rooms/${opts.room_id}/context/${opts.event_id}?limit=100`;

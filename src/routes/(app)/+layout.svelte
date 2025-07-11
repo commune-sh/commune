@@ -90,14 +90,16 @@ $effect(() => {
         const events = store.matrix.events[room_id]
         if(!events) {
             console.log("Fetching room events...")
-            store.matrix.fetchRoomMessages({
+            store.matrix.fetchRoomMessages(data.ENV.APPSERVICE_URL,
+                data.ENV.HOMESERVER_URL, {
                 room_id: room_id,
             })
         }
     }
     if(room_param && room_id && context_event) {
         console.log("Fetching context event...")
-        store.matrix.fetchEventContext({
+        store.matrix.fetchEventContext(data.ENV.APPSERVICE_URL,
+            data.ENV.HOMESERVER_URL, {
             room_id: room_id,
             event_id: context_event,
         })
