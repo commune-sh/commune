@@ -39,6 +39,27 @@ export const whoami = async (homeserver_url: string, access_token: string) => {
 
 }
 
+export const logout = async (homeserver_url: string, access_token: string) => {
+    const url = `${homeserver_url}/_matrix/client/v3/logout`;
+
+    let options: RequestInit = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${access_token}`
+        },
+    }
+
+    try {
+        const response = await fetch(url, options)
+        return response;
+    } catch (error) {
+        throw error
+    }
+
+}
+
+
 export const getVersions = async (homeserver_url: string) => {
     const url = `${homeserver_url}/_matrix/client/versions`;
 
