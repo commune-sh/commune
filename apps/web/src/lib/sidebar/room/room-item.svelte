@@ -36,7 +36,7 @@ let {
 } = $props();
 
 const is_local = $derived.by(() => {
-    return is_local_room(item?.room_id)
+    return is_local_room(item?.room_id, data.ENV.HOMESERVER_NAME)
 })
 
 const alias_or_id = $derived(item?.commune_alias ? item?.commune_alias :
@@ -116,8 +116,8 @@ function log(e) {
 
 
 $effect(() => {
-    if(active && item?.room_id && !authenticated) {
-        store.matrix.fetchRoomState(item.room_id)
+    if(active && item?.room_id && !authenticated && data.ENV.APPSERVICE_URL) {
+        store.matrix.fetchRoomState(item.room_id, data.ENV.APPSERVICE_URL)
     }
     if(active) {
         const stored = localStorage.getItem('navigation')
@@ -136,8 +136,8 @@ $effect(() => {
 })
 
 function getState() {
-    if(item?.room_id && !authenticated) {
-        store.matrix.fetchRoomState(item.room_id)
+    if(item?.room_id && !authenticated && data.ENV.APPSERVICE_URL) {
+        store.matrix.fetchRoomState(item.room_id, data.ENV.APPSERVICE_URL)
     }
 }
 

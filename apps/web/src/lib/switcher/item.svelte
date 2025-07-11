@@ -57,7 +57,7 @@ const alias = $derived.by(() => {
 })
 
 const is_local = $derived.by(() => {
-    return is_local_room(space?.canonical_alias)
+    return is_local_room(space?.canonical_alias, data.ENV.HOMESERVER_NAME)
 })
 
 const hash_params = $derived.by(() => {
@@ -220,7 +220,7 @@ $effect(() => {
 })
 
 function fetchState() {
-    store.matrix.fetchRoomState(space.room_id)
+    store.matrix.fetchRoomState(space.room_id, data.ENV.APPSERVICE_URL)
 }
 
 
@@ -268,7 +268,7 @@ let avatar_url = $derived.by(() => {
 })
 
 async function getAvatar() {
-    let content_uri = await getImageThumbnail({
+    let content_uri = await getImageThumbnail(data.ENV.APPSERVICE_URL, {
         mxcid: avatar_url,
         width: 96,
         height: 96,

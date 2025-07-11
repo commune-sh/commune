@@ -176,7 +176,7 @@ const hideEvent = $derived.by(() => {
 
 const is_reply = $derived.by(() => {
     return event?.content?.['m.relates_to']?.['m.in_reply_to']?.event_id !=
-        undefined && event?.content?.formatted_body?.includes(`mx-reply`)
+        undefined 
 })
 
 const showSender = $derived.by(() => {
@@ -257,7 +257,7 @@ let flashed = $derived.by(() => {
     class:mt-2={showSender}>
 
     {#if hovered || menu_active}
-        <Menu {event} killHover={killHover} />
+        <Menu {data} {event} killHover={killHover} />
     {/if}
 
 
@@ -265,7 +265,7 @@ let flashed = $derived.by(() => {
         <div class="reply-to-event grid grid-pad">
             <div class="spine">
             </div>
-            <ReplyToEvent {event} />
+            <ReplyToEvent {data} {event} />
         </div>
     {/if}
 
@@ -313,7 +313,7 @@ let flashed = $derived.by(() => {
 
                 {#if showReactions && reactions?.length > 0 }
                     <div class="reactions mt-1">
-                        <Reactions {reactions} {event} />
+                        <Reactions {data} {reactions} {event} />
                     </div>
                 {/if}
         </div>

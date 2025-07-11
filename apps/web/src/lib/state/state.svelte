@@ -34,8 +34,8 @@ let public_spaces_fetched = $state(false)
 
 $effect(() => {
     if(!data.authenticated) {
-        store.matrix.fetchPublicSpaces();
-        store.matrix.fetchPublicRooms()
+        store.matrix.fetchPublicSpaces(data.ENV.APPSERVICE_URL);
+        store.matrix.fetchPublicRooms(data.ENV.APPSERVICE_URL);
     }
 })
 
@@ -46,20 +46,20 @@ const active_room = $derived(store.matrix.active_room)
 let _active_room = $state(null);
 
 $effect(() =>{
-    if(active_space && !_active_space) {
+    if(active_space && !_active_space && data.ENV.APPSERVICE_URL) {
         _active_space = active_space.room_id
 
-        store.matrix.fetchRoomState(active_space.room_id)
+        store.matrix.fetchRoomState(active_space.room_id, data.ENV.APPSERVICE_URL)
     }
     if(active_space && !active_room) {
     }
 
-    if(active_space && (_active_space != active_space.room_id)) {
+    if(active_space && (_active_space != active_space.room_id) && data.ENV.APPSERVICE_URL) {
         // do things here when active space changes
         console.log("space changed")
         _active_space = active_space.room_id
 
-        store.matrix.fetchRoomState(active_space.room_id)
+        store.matrix.fetchRoomState(active_space.room_id, data.ENV.APPSERVICE_URL)
     }
 
     if(active_room && !_active_room) {

@@ -6,7 +6,7 @@ import {
 } from '../../utils/matrix'
 
 import { 
-    getAvatarThumbnail,
+    getImageThumbnail,
 } from '../../appservice/requests.svelte'
 
 import { createStore } from '../../store/store.svelte'
@@ -33,7 +33,12 @@ const reaction = $derived.by(() => {
 let reaction_url: string | null = $state(null);
 async function getReaction() {
     if(!is_custom) return
-    let content_uri = await getAvatarThumbnail(key)
+    let content_uri = await getImageThumbnail(data.ENV.APPSERVICE_URL, {
+        mxcid: key,
+        width: 32,
+        height: 32,
+        method: 'crop'
+    })
     if(content_uri) {
         reaction_url = content_uri
     }

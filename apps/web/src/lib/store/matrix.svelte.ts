@@ -30,10 +30,6 @@ import {
 } from '../utils/matrix';
 
 import { 
-    syncGuest,
-} from '../matrix/requests';
-
-import { 
     naiveRoomIDCheck,
     canonical_alias,
 } from '../utils/matrix'
@@ -176,9 +172,9 @@ let _room: string | undefined = $state(undefined);
 
 $effect.root(() => {
     $effect(() => {
-        if(_space != space) {
+        if(_space != space && app.APPSERVICE_URL) {
             _space = space;
-            //processSpaceRooms(_space);
+            //processSpaceRooms(_space, app.APPSERVICE_URL);
         }
         if(_room != room) {
             _room = room;
@@ -229,8 +225,8 @@ const active_room = $derived.by(() => {
 })
 
 const active_space = $derived.by(() => {
+    if(!app?.HOMESERVER_NAME) return null
     if(!page?.params?.space && page?.url?.hash == null) return
-
 
     let space_param;
 
@@ -249,7 +245,7 @@ const active_space = $derived.by(() => {
 
     const is_room_id = naiveRoomIDCheck(space_param)
     const key = is_room_id ? `room_id` : `canonical_alias`
-    const val = is_room_id ? space_param : canonical_alias(space_param)
+    const val = is_room_id ? space_param : canonical_alias(space_param, app.HOMESERVER_NAME as string)
 
     return rooms?.filter(r => r[key] == val)[0]
 })
@@ -382,12 +378,6 @@ export function createMatrixStore() {
 
     }
 
-    async function setupGuest(credentials) {
-        console.log("Setting up Matrix guest client for:", credentials.user_id)
-        syncGuest(credentials.access_token)
-    }
-
-
     function watchRoomEvents() {
         client.on(sdk.RoomEvent.Timeline, (event, room, toStartOfTimeline) => {
 
@@ -494,8 +484,8 @@ export function createMatrixStore() {
         }
     }
 
-    async function fetchPublicRooms() {
-        const resp = await getPublicRooms()
+    async function fetchPublicRooms(appservice_url: string) {
+        const resp = await getPublicRooms(appservice_url)
         if(resp?.rooms) {
 
             resp.rooms.forEach(room => {
@@ -534,12 +524,12 @@ export function createMatrixStore() {
         }
     }
 
-    async function fetchRoomState(room_id) {
+    async function fetchRoomState(room_id: string, appservice_url: string) {
         const state = room_state[room_id]
         if(state) {
             return
         }
-        const resp = await getRoomState(room_id)
+        const resp = await getRoomState(room_id, appservice_url)
         if(resp) {
             room_state[room_id] = resp
             console.log("Stored room state for:", room_id)
@@ -547,9 +537,9 @@ export function createMatrixStore() {
 
     }
 
-    async function fetchRoomMessages(opts) {
+    async function fetchRoomMessages(appservice_url: string, homeserver_url: string, opts: any) {
 
-        const stored = events[opts.room_id]
+        const stored = events[opts?.room_id]
 
         const items = stored?.events
         const start = stored?.start
@@ -565,7 +555,7 @@ export function createMatrixStore() {
                 lazy_load_members: true,
             }
 
-            const resp = await getRoomMessages(app.APPSERVICE_URL, {
+            const resp = await getRoomMessages(appservice_url, homeserver_url, {
                 room_id: opts.room_id,
                 authenticated: authenticated,
                 start: start,
@@ -610,14 +600,14 @@ export function createMatrixStore() {
 
     }
 
-    async function fetchEventContext(opts) {
+    async function fetchEventContext(appservice_url: string, homeserver_url: string, opts: any) {
 
         try {
             const filter = {
                 lazy_load_members: true,
             }
 
-            const resp = await getEventContext(app.APPSERVICE_URL, {
+            const resp = await getEventContext(appservice_url, homeserver_url, {
                 room_id: opts.room_id,
                 event_id: opts.event_id,
                 authenticated: authenticated,
@@ -699,9 +689,9 @@ export function createMatrixStore() {
         oidc_issuer = issuer
     }
 
-    async function fetchPublicSpaces() {
+    async function fetchPublicSpaces(appservice_url: string) {
         try {
-            let res = await getPublicSpaces();
+            let res = await getPublicSpaces(appservice_url);
             if(res) {
                 res.forEach((space: PublicSpace) => {
                     let local_part = get_local_part(space.canonical_alias)
@@ -788,7 +778,6 @@ export function createMatrixStore() {
 
         newClient,
         setup,
-        setupGuest,
         addRoom,
         addSpace,
         updateTheme,

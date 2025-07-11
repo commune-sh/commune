@@ -68,7 +68,7 @@ let avatar: string | null = $state(null);
 
 async function fetchAvatar() {
     if(!avatar_url) return
-    let content_uri = await getAvatarThumbnail({
+    let content_uri = await getAvatarThumbnail(data.ENV.APPSERVICE_URL, {
         mxcid: avatar_url,
         width: 96,
         height: 96,

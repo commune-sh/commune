@@ -1,5 +1,5 @@
 <script lang="ts">
-import { exchangeForToken, whoami } from '$lib/matrix/requests';
+import { exchangeForToken } from '$lib/matrix/requests';
 import { goto } from '$app/navigation';
 
 import { onMount } from 'svelte';

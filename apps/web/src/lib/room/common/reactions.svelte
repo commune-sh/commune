@@ -45,6 +45,6 @@ const processed = $derived.by(() => {
 
 <div class="flex flex-cols mb-1">
     {#each Object.entries(processed) as [key, events]}
-        <Reaction {key} {events} />
+        <Reaction {data} {key} {events} />
     {/each}
 </div>

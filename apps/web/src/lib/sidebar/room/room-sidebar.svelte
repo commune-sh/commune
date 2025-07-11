@@ -43,8 +43,11 @@ const is_alias = $derived.by(() => {
 let non_space_room = $derived(page.route.id?.includes('/(app)/rooms'))
 
 const space_rooms = $derived.by(() => {
+    if(!data.ENV.HOMESERVER_NAME || !page.params.space) {
+        return null
+    }
     let key = is_alias ? 'canonical_alias' : 'room_id'
-    let val = is_alias ? canonical_alias(space_param) : space_param
+    let val = is_alias ? canonical_alias(space_param, data.ENV.HOMESERVER_NAME) : space_param
 
     let i = rooms?.filter(room => room[key] == val)[0]
     if(i?.children?.length > 0) {

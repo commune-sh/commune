@@ -1,11 +1,6 @@
-import { PUBLIC_HOMESERVER_URL, PUBLIC_APPSERVICE_URL } from '$env/static/public';
 import { getCookie } from '../utils/cookie'
 
-let appservice_url = $derived.by(() => {
-    return PUBLIC_APPSERVICE_URL
-})
-
-export const getPublicSpaces = async () => {
+export const getPublicSpaces = async (appservice_url: string) => {
 
     if(!appservice_url) return
 
@@ -26,7 +21,7 @@ export const getPublicSpaces = async () => {
 
 }
 
-export const getPublicRooms = async () => {
+export const getPublicRooms = async (appservice_url: string) => {
 
     if(!appservice_url) return
 
@@ -47,7 +42,8 @@ export const getPublicRooms = async () => {
 
 }
 
-export const getRoomHierarchy = async (room_id: string) => {
+export const getRoomHierarchy = async (room_id: string, appservice_url: string) => {
+    if(!appservice_url || !room_id) return
     const url = `${appservice_url}/_matrix/client/v1/rooms/${room_id}/hierarchy`;
     let options = {
         headers: {
@@ -62,7 +58,7 @@ export const getRoomHierarchy = async (room_id: string) => {
     }
 }
 
-export const getRoomState = async (room_id: string): Promise <any> => {
+export const getRoomState = async (room_id: string, appservice_url: string): Promise <any> => {
 
     if(!appservice_url) return
 
@@ -81,11 +77,17 @@ export const getRoomState = async (room_id: string): Promise <any> => {
     }
 }
 
-export const getRoomMessages = async (appservice_url, opts) => {
-    if(!opts.room_id) return
+export const getRoomMessages = async (
+    appservice_url: string, 
+    homeserver_url: string, 
+    opts: any
+) => {
+
+    if(!appservice_url || !homeserver_url || !opts.room_id) return
+
     let base = appservice_url
     if(opts.authenticated) {
-        base = PUBLIC_HOMESERVER_URL
+        base = homeserver_url
     }
 
     let dir = `b`
@@ -123,12 +125,16 @@ export const getRoomMessages = async (appservice_url, opts) => {
     }
 }
 
-export const getEventContext = async (appservice_url, opts) => {
+export const getEventContext = async (
+    appservice_url: string, 
+    homeserver_url: string,
+    opts: object
+) => {
     if(!opts.room_id || !opts.event_id) return
     let base = appservice_url
 
     if(opts.authenticated) {
-        base = PUBLIC_HOMESERVER_URL
+        base = homeserver_url
     }
 
     let url = `${base}/_matrix/client/v3/rooms/${opts.room_id}/context/${opts.event_id}?limit=100`;
@@ -158,8 +164,8 @@ export const getEventContext = async (appservice_url, opts) => {
 }
 
 
-export const getEvent = async (appservice_url, opts) => {
-    if(!opts.room_id || !opts.event_id) return
+export const getEvent = async (appservice_url: string, opts: object) => {
+    if(!appservice_url || !opts.room_id || !opts.event_id) return
     let { room_id, event_id } = opts
     const url = `${appservice_url}/_matrix/client/v3/rooms/${room_id}/event/${event_id}`;
     let options = {
@@ -175,7 +181,7 @@ export const getEvent = async (appservice_url, opts) => {
     }
 }
 
-export const getThreadEvents = async (appservice_url, opts) => {
+export const getThreadEvents = async (appservice_url: string, opts: object) => {
     if(!opts.room_id || !opts.event_id) return
     let { room_id, event_id } = opts
 
@@ -200,7 +206,7 @@ interface AvatarRequest {
     method: string;
 }
 
-export const getAvatarThumbnail = async (opts: AvatarRequest ): Promise<string | undefined> => {
+export const getAvatarThumbnail = async (appservice_url: string, opts: AvatarRequest ): Promise<string | undefined> => {
 
     if(!appservice_url || !opts.mxcid) return
 
@@ -234,7 +240,7 @@ interface MediaThumbnailOpts {
     method: string;
 }
 
-export const getImageThumbnail = async (opts: MediaThumbnailOpts): Promise<string | undefined> => {
+export const getImageThumbnail = async (appservice_url: string, opts: MediaThumbnailOpts): Promise<string | undefined> => {
 
     if(!appservice_url || !opts.mxcid) return
 
@@ -256,7 +262,7 @@ export const getImageThumbnail = async (opts: MediaThumbnailOpts): Promise<strin
     }
 }
 
-export const downloadMedia = async (mxcid: string): Promise<string | undefined> => {
+export const downloadMedia = async (appservice_url: string, mxcid: string): Promise<string | undefined> => {
 
     if(!appservice_url || !mxcid) return
 
@@ -278,13 +284,13 @@ export const downloadMedia = async (mxcid: string): Promise<string | undefined> 
     }
 }
 
-export const download_media = async (mxcid: string, appservice: string): Promise<string | undefined> => {
+export const download_media = async (appservice_url: string, mxcid: string): Promise<string | undefined> => {
 
-    if(!appservice || !mxcid) return
+    if(!appservice_url || !mxcid) return
 
     const stripped = mxcid.replace('mxc://', '');
 
-    const url = `${appservice}/_matrix/client/v1/media/download/${stripped}`;
+    const url = `${appservice_url}/_matrix/client/v1/media/download/${stripped}`;
 
     const options: RequestInit = {
         headers: {

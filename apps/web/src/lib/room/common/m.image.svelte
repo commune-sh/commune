@@ -1,4 +1,6 @@
 <script lang="ts">
+import type { Data } from '../../types/common'
+
 //import { decode } from "blurhash";
 import ExpandImage from '../common/expand-image.svelte'
 
@@ -17,7 +19,11 @@ const store = createStore()
 let authenticated = $derived(store.session.authenticated)
 
 let {
+    data,
     event,
+}: {
+    data: Data,
+    event: any,
 } = $props();
 
 const img_info = $derived.by(() => {
@@ -122,7 +128,7 @@ async function getImage() {
         h = 480
     }
 
-    let content_uri = await getImageThumbnail({
+    let content_uri = await getImageThumbnail(data.ENV.APPSERVICE_URL, {
         mxcid: event.content.url,
         width: w,
         height: h,
@@ -138,7 +144,7 @@ let full_src: string | null = $state(null);
 
 async function download() {
     if(!event?.content?.url) return
-    let content_uri = await downloadMedia(event.content.url)
+    let content_uri = await downloadMedia(data.ENV.APPSERVICE_URL, event.content.url)
     if(content_uri) {
         full_src = content_uri
     }

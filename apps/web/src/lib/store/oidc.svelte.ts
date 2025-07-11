@@ -1,6 +1,6 @@
 import type { ValidatedAuthMetadata } from 'matrix-js-sdk/src/oidc/validate'
 
-import { getAuthMetadata, registerOauthClient } from '../matrix/requests'
+import { getAuthMetadata } from '../matrix/requests'
 
 export let config: {
     metadata: ValidatedAuthMetadata | null;
@@ -20,9 +20,9 @@ $effect.root(() => {
     })
 })
 
-async function fetchAuthMetadata() {
+async function fetchAuthMetadata(homserver_url: string) {
     try {
-        const response = await getAuthMetadata()
+        const response = await getAuthMetadata(homserver_url)
         if(response) {
             config.metadata = response
         }
@@ -33,8 +33,8 @@ async function fetchAuthMetadata() {
 
 export function createOIDCStore() {
 
-    async function init() {
-        await fetchAuthMetadata()
+    async function init(homserver_url: string) {
+        await fetchAuthMetadata(homserver_url);
     }
 
     return {

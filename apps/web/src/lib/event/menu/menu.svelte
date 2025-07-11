@@ -43,7 +43,7 @@ onclick={click}>
     <More {event}/>
 
     {#if more_active}
-        <Actions {event} />
+        <Actions {data} {event} />
     {/if}
 
 </div>

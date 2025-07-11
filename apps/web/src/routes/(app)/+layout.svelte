@@ -90,14 +90,16 @@ $effect(() => {
         const events = store.matrix.events[room_id]
         if(!events) {
             console.log("Fetching room events...")
-            store.matrix.fetchRoomMessages({
+            store.matrix.fetchRoomMessages(data.ENV.APPSERVICE_URL,
+                data.ENV.HOMESERVER_URL, {
                 room_id: room_id,
             })
         }
     }
     if(room_param && room_id && context_event) {
         console.log("Fetching context event...")
-        store.matrix.fetchEventContext({
+        store.matrix.fetchEventContext(data.ENV.APPSERVICE_URL,
+            data.ENV.HOMESERVER_URL, {
             room_id: room_id,
             event_id: context_event,
         })
@@ -115,7 +117,7 @@ async function setup() {
     }
 
     try {
-        const resp = await getVersions();
+        const resp = await getVersions(data.ENV.HOMESERVER_URL);
         if(resp?.versions) {
             store.app.updateHomeserverStatus(resp)
         }
@@ -130,7 +132,7 @@ let session_data = $derived.by(() => {
 onMount(async() => {
 
     if(data?.session && !session) {
-        store.session.update(data.session, data.oidc_client_id)
+        store.session.update(data.ENV.HOMESERVER_URL, data.session, data.oidc_client_id)
     }
 
     store.app.isReady()
@@ -199,8 +201,8 @@ let PUBLIC_META_IMAGE = $derived.by(() => {
 })
 
 let image = $derived.by(() => {
-    if(data?.loaded?.metadata?.image) {
-        return data.loaded.metadata.image
+    if(data?.metadata?.image) {
+        return data?.metadata.image
     }
     return PUBLIC_META_IMAGE
 })
@@ -288,7 +290,7 @@ let synced = $derived.by(() => {
 
 <State {data} />
 
-<EventSource />
+<EventSource {data} />
 
 {#snippet content()}
     {@render children()}
