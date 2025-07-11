@@ -1,4 +1,6 @@
-<script>
+<script lang="ts">
+import type { Data } from '../../../types/common'
+
 import { onMount } from 'svelte'
 import { getEvent } from '../../../appservice/requests.svelte'
 import { getFirstLine } from '../../../utils/string'
@@ -14,7 +16,11 @@ import { createStore } from '../../../store/store.svelte'
 const store = createStore()
 
 let {
+    data, 
     event,
+}: {
+    data: Data,
+    event: any,
 } = $props();
 
 let _event = $state(null);
@@ -78,8 +84,8 @@ function goToEvent() {
 <div onclick={goToEvent}
     class="content-body content-center text-2xs
     truncate text-light mr-10 cursor-pointer">
-    <Avatar {sender} small={true} inline={true} />
-    <Sender event={reply_to_event} inline={true} />
+    <Avatar {data} {sender} small={true} inline={true} />
+    <Sender {data} event={reply_to_event} inline={true} />
     {#if content}
         <span class="reply-content">
             {@html content}

@@ -176,7 +176,7 @@ const hideEvent = $derived.by(() => {
 
 const is_reply = $derived.by(() => {
     return event?.content?.['m.relates_to']?.['m.in_reply_to']?.event_id !=
-        undefined && event?.content?.formatted_body?.includes(`mx-reply`)
+        undefined 
 })
 
 const showSender = $derived.by(() => {
@@ -265,7 +265,7 @@ let flashed = $derived.by(() => {
         <div class="reply-to-event grid grid-pad">
             <div class="spine">
             </div>
-            <ReplyToEvent {event} />
+            <ReplyToEvent {data} {event} />
         </div>
     {/if}
 
