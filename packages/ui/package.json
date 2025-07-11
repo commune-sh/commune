@@ -28,6 +28,7 @@
 		}
 	},
 	"peerDependencies": {
+		"@sveltejs/kit": "^2.16.0",
 		"svelte": "^5.0.0"
 	},
 	"devDependencies": {
