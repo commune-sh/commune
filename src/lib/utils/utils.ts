@@ -55,7 +55,7 @@ function cleanID(id: string, homeserver_name: string) {
     return id
 }
 
-function processCustomEmoji(body) {
+function processCustomEmoji(body: any, homeserver_url: string) {
     if(!body) return
 
     const parser = new DOMParser();
@@ -75,7 +75,7 @@ function processCustomEmoji(body) {
     images.forEach((img) => {
         const src = img.getAttribute('src');
         if(src) {
-            const newSrc = processURL(src);
+            const newSrc = processURL(src, homeserver_url);
             if(!singleImg) {
                 img.className = `mx-emoticon`
             }

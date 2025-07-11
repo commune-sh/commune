@@ -220,7 +220,7 @@ $effect(() => {
 })
 
 function fetchState() {
-    store.matrix.fetchRoomState(space.room_id)
+    store.matrix.fetchRoomState(space.room_id, data.ENV.APPSERVICE_URL)
 }
 
 

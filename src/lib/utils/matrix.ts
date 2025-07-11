@@ -1,14 +1,12 @@
-import { PUBLIC_HOMESERVER_URL } from '$env/static/public';
-
-export function convertFromMXC(url) {
+export function convertFromMXC(url: string, homeserver_url: string) {
     let stripped = url.replace('mxc://', '');
-    return `${PUBLIC_HOMESERVER_URL}/_matrix/media/r0/download/${stripped}`;
+    return `${homeserver_url}/_matrix/media/r0/download/${stripped}`;
 }
 
-export function processURL(url) {
+export function processURL(url: string, homeserver_url: string) {
     if(!url) return
     if(url.startsWith('mxc://')) {
-        return convertFromMXC(url)
+        return convertFromMXC(url, homeserver_url)
     }
     if(url.startsWith('https://') || url.startsWith('http://')) {
         return url

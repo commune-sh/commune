@@ -5,7 +5,7 @@ let appservice_url = $derived.by(() => {
     return PUBLIC_APPSERVICE_URL
 })
 
-export const getPublicSpaces = async () => {
+export const getPublicSpaces = async (appservice_url: string) => {
 
     if(!appservice_url) return
 
@@ -26,7 +26,7 @@ export const getPublicSpaces = async () => {
 
 }
 
-export const getPublicRooms = async () => {
+export const getPublicRooms = async (appservice_url: string) => {
 
     if(!appservice_url) return
 
@@ -47,7 +47,8 @@ export const getPublicRooms = async () => {
 
 }
 
-export const getRoomHierarchy = async (room_id: string) => {
+export const getRoomHierarchy = async (room_id: string, appservice_url: string) => {
+    if(!appservice_url || !room_id) return
     const url = `${appservice_url}/_matrix/client/v1/rooms/${room_id}/hierarchy`;
     let options = {
         headers: {
@@ -62,7 +63,7 @@ export const getRoomHierarchy = async (room_id: string) => {
     }
 }
 
-export const getRoomState = async (room_id: string): Promise <any> => {
+export const getRoomState = async (room_id: string, appservice_url: string): Promise <any> => {
 
     if(!appservice_url) return
 
@@ -81,7 +82,7 @@ export const getRoomState = async (room_id: string): Promise <any> => {
     }
 }
 
-export const getRoomMessages = async (appservice_url, opts) => {
+export const getRoomMessages = async (appservice_url: string, opts: object) => {
     if(!opts.room_id) return
     let base = appservice_url
     if(opts.authenticated) {
@@ -123,7 +124,7 @@ export const getRoomMessages = async (appservice_url, opts) => {
     }
 }
 
-export const getEventContext = async (appservice_url, opts) => {
+export const getEventContext = async (appservice_url: string, opts: object) => {
     if(!opts.room_id || !opts.event_id) return
     let base = appservice_url
 
@@ -158,7 +159,7 @@ export const getEventContext = async (appservice_url, opts) => {
 }
 
 
-export const getEvent = async (appservice_url, opts) => {
+export const getEvent = async (appservice_url: string, opts: object) => {
     if(!opts.room_id || !opts.event_id) return
     let { room_id, event_id } = opts
     const url = `${appservice_url}/_matrix/client/v3/rooms/${room_id}/event/${event_id}`;
@@ -175,7 +176,7 @@ export const getEvent = async (appservice_url, opts) => {
     }
 }
 
-export const getThreadEvents = async (appservice_url, opts) => {
+export const getThreadEvents = async (appservice_url: string, opts: object) => {
     if(!opts.room_id || !opts.event_id) return
     let { room_id, event_id } = opts
 

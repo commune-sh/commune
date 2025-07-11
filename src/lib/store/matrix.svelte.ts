@@ -176,9 +176,9 @@ let _room: string | undefined = $state(undefined);
 
 $effect.root(() => {
     $effect(() => {
-        if(_space != space) {
+        if(_space != space && app.APPSERVICE_URL) {
             _space = space;
-            //processSpaceRooms(_space);
+            //processSpaceRooms(_space, app.APPSERVICE_URL);
         }
         if(_room != room) {
             _room = room;
@@ -494,8 +494,8 @@ export function createMatrixStore() {
         }
     }
 
-    async function fetchPublicRooms() {
-        const resp = await getPublicRooms()
+    async function fetchPublicRooms(appservice_url: string) {
+        const resp = await getPublicRooms(appservice_url)
         if(resp?.rooms) {
 
             resp.rooms.forEach(room => {
@@ -534,12 +534,12 @@ export function createMatrixStore() {
         }
     }
 
-    async function fetchRoomState(room_id) {
+    async function fetchRoomState(room_id: string, appservice_url: string) {
         const state = room_state[room_id]
         if(state) {
             return
         }
-        const resp = await getRoomState(room_id)
+        const resp = await getRoomState(room_id, appservice_url)
         if(resp) {
             room_state[room_id] = resp
             console.log("Stored room state for:", room_id)
@@ -699,9 +699,9 @@ export function createMatrixStore() {
         oidc_issuer = issuer
     }
 
-    async function fetchPublicSpaces() {
+    async function fetchPublicSpaces(appservice_url: string) {
         try {
-            let res = await getPublicSpaces();
+            let res = await getPublicSpaces(appservice_url);
             if(res) {
                 res.forEach((space: PublicSpace) => {
                     let local_part = get_local_part(space.canonical_alias)
