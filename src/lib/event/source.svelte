@@ -1,9 +1,17 @@
-<script>
+<script lang="ts">
 import hljs from 'highlight.js/lib/core';
 import 'highlight.js/styles/base16/atelier-dune.css';
 
 import json from 'highlight.js/lib/languages/json';
 hljs.registerLanguage('json', json);
+
+import type { Data } from '../types/common'
+
+let {
+    data,
+}: {
+    data: Data,
+} = $props();
 
 import { createStore } from '../store/store.svelte'
 const store = createStore()

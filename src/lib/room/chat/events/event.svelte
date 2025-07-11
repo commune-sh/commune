@@ -257,7 +257,7 @@ let flashed = $derived.by(() => {
     class:mt-2={showSender}>
 
     {#if hovered || menu_active}
-        <Menu {event} killHover={killHover} />
+        <Menu {data} {event} killHover={killHover} />
     {/if}
 
 

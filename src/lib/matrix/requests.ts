@@ -1,4 +1,4 @@
-import { PUBLIC_HOMESERVER_URL, PUBLIC_BASE_URL } from '$env/static/public';
+import { PUBLIC_HOMESERVER_URL } from '$env/static/public';
 
 import type { ValidatedAuthMetadata } from 'matrix-js-sdk/src/oidc/validate'
 
@@ -262,7 +262,10 @@ export const openidConfig = async (issuer) => {
     }
 }
 
-export const registerOauthClient = async (registration_endpoint: string) => {
+export const registerOauthClient = async (
+    registration_endpoint: string,
+    base_url: string
+) => {
 
     if(!registration_endpoint) {
         throw new Error('Missing token endpoint')
@@ -271,11 +274,11 @@ export const registerOauthClient = async (registration_endpoint: string) => {
     let body = {
         application_type: "web",
         client_name: "Commune",
-        client_uri: `${PUBLIC_BASE_URL}`,
+        client_uri: `${base_url}`,
         logo_uri: "https://static.commune.sh/logo.png",
         token_endpoint_auth_method: "none",
         redirect_uris: [
-            `${PUBLIC_BASE_URL}/oidc/callback`
+            `${base_url}/oidc/callback`
         ],
         response_types: [
             "code"

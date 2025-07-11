@@ -70,7 +70,7 @@ async function newClient(
     authorization_endpoint: string
 ) {
     try {
-        const response = await registerOauthClient(registration_endpoint)
+        const response = await registerOauthClient(registration_endpoint, PUBLIC_BASE_URL)
         console.log("Client registered?:", response)
         console.log(registration_endpoint, authorization_endpoint)
 

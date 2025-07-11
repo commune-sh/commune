@@ -288,7 +288,7 @@ let synced = $derived.by(() => {
 
 <State {data} />
 
-<EventSource />
+<EventSource {data} />
 
 {#snippet content()}
     {@render children()}

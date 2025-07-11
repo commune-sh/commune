@@ -1,9 +1,7 @@
-<script>
-import { 
-  PUBLIC_BASE_URL,
-} from '$env/static/public';
-
+<script lang="ts">
 import { page } from '$app/state';
+
+import type { Data } from '../../../types/common'
 
 import { 
     code, 
@@ -14,7 +12,11 @@ import { createStore } from '../../../store/store.svelte'
 const store = createStore()
 
 let {
+    data,
     event,
+}: {
+    data: Data,
+    event: any,
 } = $props();
 
 
@@ -25,7 +27,7 @@ function logEvent() {
 function copyLink() {
     const space = page.params.space
     const room = page.params.room
-    const url = `${PUBLIC_BASE_URL}/${space}/${room}?event=${event.event_id}`
+    const url = `${data.ENV.BASE_URL}/${space}/${room}?event=${event.event_id}`
     navigator.clipboard.writeText(url)
 }
 

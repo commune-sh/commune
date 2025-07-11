@@ -1,8 +1,3 @@
-import { 
-    PUBLIC_BASE_URL,
-    PUBLIC_HOMESERVER_NAME
-} from '$env/static/public';
-
 import emojiRegex from 'emoji-regex';
 
 import { processURL } from './matrix';
@@ -50,12 +45,12 @@ function processEmoji(body) {
     return body?.replace(regex, '<span class="emoji">$&</span>');
 }
 
-function cleanID(id) {
+function cleanID(id: string, homeserver_name: string) {
     if(id.startsWith('@_ooye_')) {
         id = id.replace('@_ooye_', '@')
     }
-    if(id.includes(PUBLIC_HOMESERVER_NAME)) {
-        return id.split(`:${PUBLIC_HOMESERVER_NAME}`)[0]
+    if(id.includes(homeserver_name)) {
+        return id.split(`:${homeserver_name}`)[0]
     }
     return id
 }
@@ -92,7 +87,7 @@ function processCustomEmoji(body) {
     return doc.body.innerHTML;
 }
 
-function processLinks(formatted_body) {
+function processLinks(formatted_body: string, base_url: string)  {
     const tempElement = document.createElement('div');
     tempElement.innerHTML = formatted_body;
 
@@ -108,11 +103,11 @@ function processLinks(formatted_body) {
             const part = href.split('/#/')[1];
 
             if (part.startsWith('@')) {
-                newHref = `${PUBLIC_BASE_URL}/user/${part}`;
+                newHref = `${base_url}/user/${part}`;
                 newText = `${cleanID(part)}`;
                 link.setAttribute('data-type', 'user');
             } else if (part.startsWith('#')) {
-                newHref = `${PUBLIC_BASE_URL}/room/${part}`;
+                newHref = `${base_url}/room/${part}`;
                 newText = `${cleanID(part)}`;
                 link.setAttribute('data-type', 'room');
             }
