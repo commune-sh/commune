@@ -1,11 +1,12 @@
 .DS_Store
 node_modules
 /build
-/.svelte-kit
+dist
+.svelte-kit
+.turbo
 /package
-/packages
-/apps
-/.turbo
+/packages/web
+/packages/desktop
 .env
 .env.*
 !.env.example
