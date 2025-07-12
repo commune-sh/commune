@@ -7,7 +7,6 @@ dist
 /package
 /packages/web
 /packages/desktop
-/apps
 .env
 .env.*
 !.env.example
