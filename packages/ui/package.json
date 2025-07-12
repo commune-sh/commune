@@ -25,7 +25,8 @@
 		".": {
 			"types": "./dist/index.d.ts",
 			"svelte": "./dist/index.js"
-		}
+		},
+        "./app.css": "./src/app.css"
 	},
 	"peerDependencies": {
 		"@sveltejs/kit": "^2.22.5",
