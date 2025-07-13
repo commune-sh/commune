@@ -9,7 +9,7 @@ import { error } from '@sveltejs/kit';
 
 import type { LayoutServerLoad } from './$types';
 
-import { getAuthMetadata, registerOauthClient } from '$lib/matrix/requests'
+import { getAuthMetadata, getOpenidConfig, registerOauthClient } from '$lib/matrix/requests'
 
 export const load: LayoutServerLoad = async ({ cookies, url, fetch }) => {
 
@@ -59,12 +59,28 @@ async function fetchAuthMetadata(homeserver_url: string) {
     try {
         const response = await getAuthMetadata(homeserver_url)
         console.log("OIDC metadata fetched.")
-        if(response) {
-            return response
+
+        if(!response?.issuer) {
+            throw new Error("Invalid OIDC metadata: Missing issuer");
         }
+
+        try {
+            const openidConfig = await getOpenidConfig(response.issuer);
+            console.log("OpenID configuration fetched:", openidConfig);
+
+            if(openidConfig) {
+                return openidConfig
+            }
+
+        } catch (err: any) {
+            console.error("Failed to fetch OpenID configuration from MAS:", err);
+            throw new Error("Failed to fetch OpenID configuration from MAS");
+        }
+
+
     } catch (err: any) {
         error(500, {
-            message: "Failed to fetch OIDC metadata"
+            message: err.message || "Failed to fetch OIDC metadata"
         });
     }
 }

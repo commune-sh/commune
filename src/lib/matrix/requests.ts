@@ -141,6 +141,26 @@ export const getAuthMetadata = async (homeserver_url: string): Promise<Validated
     }
 }
 
+export const getOpenidConfig = async (issuer: string): Promise<ValidatedAuthMetadata | undefined> => {
+
+    const url = `${issuer}.well-known/openid-configuration`;
+
+    console.log("url is", url)
+
+    const options: RequestInit = {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    }
+
+    try {
+        const response = await fetch(url, options)
+        return response.json();
+    } catch (error) {
+        throw error
+    }
+}
+
 
 export const exchangeForToken = async (url: string, params: any) => {
 
