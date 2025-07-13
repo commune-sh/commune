@@ -5,6 +5,8 @@ import {
 
 import { env } from '$env/dynamic/public';
 import { redirect } from "@sveltejs/kit";
+import { error } from '@sveltejs/kit';
+
 import type { LayoutServerLoad } from './$types';
 
 import { getAuthMetadata, registerOauthClient } from '$lib/matrix/requests'
@@ -60,8 +62,10 @@ async function fetchAuthMetadata(homeserver_url: string) {
         if(response) {
             return response
         }
-    } catch (error) {
-        console.error(error)
+    } catch (err: any) {
+        error(500, {
+            message: "Failed to fetch OIDC metadata"
+        });
     }
 }
 
@@ -78,8 +82,10 @@ async function newClient(
             return response.client_id
         }
 
-    } catch (error) {
-        console.error(error)
+    } catch (err: any) {
+        error(500, {
+            message: "Failed to register OIDC client"
+        });
     }
 }
 
