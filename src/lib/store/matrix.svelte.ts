@@ -229,9 +229,9 @@ let space_prefixed = $derived.by(() => {
     return `#${page.params.space}`;
 })
 
-const is_local_space = $derived.by(() => {
-    if(!app?.HOMESERVER_NAME || !page || !space_prefixed) return null
-    return is_local_room(space_prefixed, app.HOMESERVER_NAME)
+const not_local_space = $derived.by(() => {
+    if(!space) return null
+    return space.includes(':')
 })
 
 const active_space = $derived.by(() => {
@@ -240,7 +240,7 @@ const active_space = $derived.by(() => {
 
     let space_param = page.params.space;
 
-    if(!is_local_space) {
+    if(not_local_space) {
         return rooms?.filter(r => r['canonical_alias'] == space_prefixed)[0]
     }
 

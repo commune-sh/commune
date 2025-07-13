@@ -40,14 +40,27 @@ const is_alias = $derived.by(() => {
     return !naiveRoomIDCheck(space_param)
 })
 
+const not_local_space = $derived.by(() => {
+    if(!space_param) {
+        return false
+    }
+    return space_param.includes(':')
+})
+
 let non_space_room = $derived(page.route.id?.includes('/(app)/rooms'))
 
 const space_rooms = $derived.by(() => {
     if(!data.ENV.HOMESERVER_NAME || !page.params.space) {
         return null
     }
+
     let key = is_alias ? 'canonical_alias' : 'room_id'
     let val = is_alias ? canonical_alias(space_param, data.ENV.HOMESERVER_NAME) : space_param
+
+    if(not_local_space) {
+        key = `canonical_alias`
+        val = `#${space_param}`
+    }
 
     let i = rooms?.filter(room => room[key] == val)[0]
     if(i?.children?.length > 0) {
