@@ -35,7 +35,6 @@ const WhoAmISchema = z.object({
 
 type WhoAmI = z.infer<typeof WhoAmISchema>;
 
-
 export async function authenticate(data: AuthData): Promise<WhoAmI> {
     console.log("authenticating...")
 

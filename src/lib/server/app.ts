@@ -30,6 +30,7 @@ export async function initializeAppData(
     let auth_cookies = oidc_client_id && access_token && refresh_token && expires_in && scope;
 
     let authenticated = false;
+    let is_admin = false;
 
     if(auth_cookies) {
         try {
@@ -43,6 +44,14 @@ export async function initializeAppData(
             } as AuthData);
             console.log("Authentication successful?:", resp);
             authenticated = true
+
+            let has_admin_scope = scope.includes(`urn:mas:admin`) &&
+                scope.includes(`urn:synapse:admin:*`);
+
+            if(authenticated && has_admin_scope) {
+                is_admin = true;
+            }
+
 
             user_id = resp.user_id;
             device_id = resp.device_id;
@@ -67,6 +76,7 @@ export async function initializeAppData(
         supports_OIDC: false,
         READ_ONLY: env?.PUBLIC_READ_ONLY === 'true',
         authenticated: authenticated,
+        is_admin: is_admin,
         oidc_client_id: oidc_client_id || null,
         metadata: {
             space: null,

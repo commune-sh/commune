@@ -17,6 +17,7 @@ export type Data = {
     auth_metadata?: object | undefined;
     features?: Features;
     authenticated: boolean;
+    is_admin: boolean;
     session?: Session | undefined;
     oidc_client_id?: string;
     metadata?: RequestMetadata;
