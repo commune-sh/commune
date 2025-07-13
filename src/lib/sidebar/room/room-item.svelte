@@ -6,7 +6,6 @@ import {
     is_local_room, 
     get_local_part,
     get_domain,
-    processHash,
     aliasFromName
 } from '../../utils/matrix'
 
@@ -42,27 +41,9 @@ const is_local = $derived.by(() => {
 const alias_or_id = $derived(item?.commune_alias ? item?.commune_alias :
     item?.room_id)
 
-const hash_params = $derived.by(() => {
-    return processHash(page.url.hash)
-})
+const space_param = $derived(page.params.space);
+const room_param = $derived(page.params.room);
 
-const space_param = $derived.by(() => {
-    if(page?.params?.space) {
-        return page.params.space
-    }
-    if(page?.url?.hash) {
-        return hash_params?.space
-    }
-})
-
-const room_param = $derived.by(() => {
-    if(page?.params?.room) {
-        return page.params.room
-    }
-    if(page?.url?.hash) {
-        return hash_params?.room
-    }
-})
 
 //const path = $derived(`/${page.params.space}/${alias_or_id}`)
 const path = $derived.by(() => {

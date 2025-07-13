@@ -14,7 +14,6 @@ import { getVersions } from '$lib/matrix/requests'
 import { 
     get_local_part,
     cleanDisplayname,
-    processHash
 } from '$lib/utils/matrix'
 
 import Listeners from '$lib/listeners/listeners.svelte'
@@ -55,28 +54,8 @@ let metadata = $derived.by(() => {
     return data?.metadata
 })
 
-const hash_params = $derived.by(() => {
-    return processHash(page.url.hash)
-})
-
-const space_param = $derived.by(() => {
-    if(page?.params?.space) {
-        return page.params.space
-    }
-    if(page?.url?.hash) {
-        return hash_params?.space
-    }
-})
-
-const room_param = $derived.by(() => {
-    if(page?.params?.room) {
-        return page.params.room
-    }
-    if(page?.url?.hash) {
-        return hash_params?.room
-    }
-})
-
+const space_param = $derived(page.params.space);
+const room_param = $derived(page.params.room);
 
 $effect(() => {
 

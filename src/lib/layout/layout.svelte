@@ -3,10 +3,6 @@ import { browser } from '$app/environment'
 
 import { page } from '$app/state';
 
-import { 
-    processHash
-} from '../utils/matrix'
-
 import View from '../view/view.svelte'
 import Alert from '../alert/alert.svelte'
 import Switcher from '../switcher/switcher.svelte'
@@ -28,33 +24,15 @@ let {
 
 let is_home = $derived(page.route.id == '/(app)')
 
-const hash_params = $derived.by(() => {
-    return processHash(page.url.hash)
-})
-
 const no_hash = $derived.by(() => {
     if(browser) {
         return location.hash == ""
     }
 })
 
-const space_param = $derived.by(() => {
-    if(page?.params?.space) {
-        return page.params.space
-    }
-    if(page?.url?.hash) {
-        return hash_params?.space
-    }
-})
+const space_param = $derived(page.params.space);
 
-const room_param = $derived.by(() => {
-    if(page?.params?.room) {
-        return page.params.room
-    }
-    if(page?.url?.hash) {
-        return hash_params?.room
-    }
-})
+const room_param = $derived(page.params.room);
 
 
 let is_space = $derived(space_param != undefined)

@@ -16,7 +16,6 @@ import {
     room_alias_from_ID, 
     is_local_room,
     strip_hash,
-    processHash
 } from '../utils/matrix'
 
 import { 
@@ -61,19 +60,7 @@ const is_local = $derived.by(() => {
     return is_local_room(space?.canonical_alias, data.ENV.HOMESERVER_NAME)
 })
 
-const hash_params = $derived.by(() => {
-    return processHash(page.url.hash)
-})
-
-const space_param = $derived.by(() => {
-    if(page?.params?.space) {
-        return page.params.space
-    }
-    if(page?.url?.hash) {
-        return hash_params?.space
-    }
-})
-
+const space_param = $derived(page.params.space);
 
 let active = $derived.by(() => {
     if(!is_local) {

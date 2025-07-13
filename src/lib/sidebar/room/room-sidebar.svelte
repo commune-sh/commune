@@ -3,7 +3,6 @@ import { page } from '$app/state';
 import { naiveRoomIDCheck, canonical_alias } from '../../utils/matrix'
 import { 
     strayRooms,
-    processHash
 } from '../../utils/matrix'
 
 import RoomItems from '../room/room-items.svelte'
@@ -23,18 +22,7 @@ const rooms = $derived.by(() => {
     return store.matrix.rooms
 })
 
-const hash_params = $derived.by(() => {
-    return processHash(page.url.hash)
-})
-
-const space_param = $derived.by(() => {
-    if(page?.params?.space) {
-        return page.params.space
-    }
-    if(page?.url?.hash) {
-        return hash_params?.space
-    }
-})
+const space_param = $derived(page.params.space);
 
 const is_alias = $derived.by(() => {
     return !naiveRoomIDCheck(space_param)
