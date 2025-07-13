@@ -15,6 +15,7 @@ const store = createStore()
 import { 
     room_alias_from_ID, 
     is_local_room,
+    strip_hash,
     processHash
 } from '../utils/matrix'
 
@@ -76,7 +77,7 @@ const space_param = $derived.by(() => {
 
 let active = $derived.by(() => {
     if(!is_local) {
-        return space_param === space.canonical_alias
+        return space_param === stripped
     }
     if(space_param == space.room_id) {
         return true
@@ -223,6 +224,9 @@ function fetchState() {
     store.matrix.fetchRoomState(space.room_id, data.ENV.APPSERVICE_URL)
 }
 
+let stripped = $derived.by(() => {
+    return strip_hash(space.canonical_alias)
+})
 
 function goToSpace() {
 
@@ -233,7 +237,7 @@ function goToSpace() {
     */
 
     if(!is_local) {
-        goto(`/${space.canonical_alias}`)
+        goto(`/${stripped}`)
         return
     }
 

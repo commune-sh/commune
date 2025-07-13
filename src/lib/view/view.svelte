@@ -48,7 +48,8 @@ let not_found = $derived.by(() => {
     if(!data.ENV.HOMESERVER_NAME || !page.params.space) {
         return false
     }
-    const is_room_id = naiveRoomIDCheck(page.params.space)
+    const prefixed = `#${page.params.space}:`
+    const is_room_id = naiveRoomIDCheck(prefixed)
     if(is_room_id) {
         return rooms?.length > 0 && 
             rooms?.filter(r => r.room_id == page.params.space)[0] == null

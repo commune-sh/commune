@@ -32,6 +32,12 @@ export function room_alias_from_ID(room_id: string) {
     }
 }
 
+export function strip_hash(room_id_or_alias: string) {
+    if(!room_id_or_alias) return
+    return room_id_or_alias.replace(/^[\#!]/, '');
+}
+
+
 export function get_local_part(room_id_or_alias: string) {
     return room_id_or_alias.replace(/^[\#!](.*?):.*$/, '$1');
 }
