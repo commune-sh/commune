@@ -17,7 +17,7 @@ import { browser } from '$app/environment';
 
 import { type PublicSpace } from '../types/common';
 
-import { get_local_part } from '../utils/matrix';
+import { get_local_part, is_local_room } from '../utils/matrix';
 
 import { 
     aliasFromName,
@@ -224,19 +224,24 @@ const active_room = $derived.by(() => {
     return rooms?.filter(r => r[key] == room_param && !r.parent)[0]
 })
 
+let space_prefixed = $derived.by(() => {
+    if(!page?.params?.space) return null
+    return `#${page.params.space}`;
+})
+
+const is_local_space = $derived.by(() => {
+    if(!app?.HOMESERVER_NAME || !page || !space_prefixed) return null
+    return is_local_room(space_prefixed, app.HOMESERVER_NAME)
+})
+
 const active_space = $derived.by(() => {
-    if(!app?.HOMESERVER_NAME) return null
+    if(!app?.HOMESERVER_NAME || !space_prefixed) return null
     if(!page?.params?.space && page?.url?.hash == null) return
 
-    let space_param;
+    let space_param = page.params.space;
 
-    if(page?.url?.hash) {
-        const params = processHash(page.url.hash)
-        if(params?.space) {
-            space_param = params.space
-        }
-    } else if(page?.params?.space) {
-        space_param = page.params.space
+    if(!is_local_space) {
+        return rooms?.filter(r => r['canonical_alias'] == space_prefixed)[0]
     }
 
     if(!space_param) {

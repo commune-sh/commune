@@ -14,6 +14,7 @@ import NotFound from '../errors/not-found.svelte'
 import { 
     canonical_alias,
     naiveRoomIDCheck,
+    isRoomAlias
 } from '../utils/matrix'
 
 // app store
@@ -48,11 +49,11 @@ let not_found = $derived.by(() => {
     if(!data.ENV.HOMESERVER_NAME || !page.params.space) {
         return false
     }
-    const prefixed = `#${page.params.space}:`
-    const is_room_id = naiveRoomIDCheck(prefixed)
-    if(is_room_id) {
+    const prefixed = `#${page.params.space}`
+    const is_room_alias = isRoomAlias(prefixed)
+    if(is_room_alias) {
         return rooms?.length > 0 && 
-            rooms?.filter(r => r.room_id == page.params.space)[0] == null
+            rooms?.filter(r => r.canonical_alias == prefixed)[0] == null
     }
     const alias =  canonical_alias(page.params.space, data.ENV.HOMESERVER_NAME)
     return rooms?.length > 0 && 
@@ -115,7 +116,6 @@ function clickThrough() {
         <Loading />
     </div>
 {/if}
-
 
 {#if not_found && is_space}
     <NotFound />
