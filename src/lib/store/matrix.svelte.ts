@@ -26,7 +26,8 @@ import {
     processSpaces, 
     buildPublicSpaces, 
     buildSpacesHierarchy ,
-    processHash
+    processHash,
+    strip_hash
 } from '../utils/matrix';
 
 import { 
@@ -161,7 +162,7 @@ let space_room_id = $derived.by(() => {
 })
 
 let space_state = $derived.by(() => {
-    if(!space_room_id) return null;
+    return store.room_state.get(space_room_id);
 })
 
 let room = $derived.by(() => {
@@ -696,12 +697,16 @@ export function createMatrixStore() {
         oidc_issuer = issuer
     }
 
-    async function fetchPublicSpaces(appservice_url: string) {
+    async function fetchPublicSpaces(appservice_url: string, homeserver_name: string) {
         try {
             let res = await getPublicSpaces(appservice_url);
             if(res) {
                 res.forEach((space: PublicSpace) => {
                     let local_part = get_local_part(space.canonical_alias)
+                    let is_local = is_local_room(space.room_id, homeserver_name)
+                    if(!is_local) {
+                        local_part = strip_hash(space.canonical_alias)
+                    }
                     store.spaces.set(local_part, space)
                 })
                 console.log("Fetched public spaces:", store.spaces)
@@ -774,6 +779,10 @@ export function createMatrixStore() {
 
         get space_rooms() {
             return space_rooms;
+        },
+
+        get space_state() {
+            return space_state;
         },
 
         get oidc_issuer() {

@@ -82,8 +82,9 @@ function showContextMenu(e) {
 
 
 const active_space = $derived(store.matrix.active_space)
+
 const space_state = $derived.by(() => {
-    return store.matrix.room_state[active_space?.room_id]
+    return store.matrix.space_state;
 })
 
 const show_dragger = $derived.by(() => {
@@ -99,7 +100,6 @@ const show_dragger = $derived.by(() => {
 <div class="sidebar grid grid-rows-[auto_1fr_auto_70px]
     border-solid border-r border-sidebar-border h-dvh"
     style="width: {width}px">
-
 
     {#if non_space_room}
         <RoomsSidebarHeader {data} />

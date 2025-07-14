@@ -34,7 +34,7 @@ let public_spaces_fetched = $state(false)
 
 $effect(() => {
     if(!data.authenticated) {
-        store.matrix.fetchPublicSpaces(data.ENV.APPSERVICE_URL);
+        store.matrix.fetchPublicSpaces(data.ENV.APPSERVICE_URL, data.ENV.HOMESERVER_NAME);
         store.matrix.fetchPublicRooms(data.ENV.APPSERVICE_URL);
     }
 })
