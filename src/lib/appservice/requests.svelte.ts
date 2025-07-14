@@ -58,6 +58,22 @@ export const getRoomHierarchy = async (room_id: string, appservice_url: string) 
     }
 }
 
+export const getSpaceRooms = async (space: string, appservice_url: string) => {
+    if(!appservice_url || !space) return
+    const url = `${appservice_url}/spaces/${space}/rooms`;
+    let options = {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    }
+    try {
+        const response = await fetch(url, options)
+        return response.json();
+    } catch (error) {
+        throw error
+    }
+}
+
 export const getRoomState = async (room_id: string, appservice_url: string): Promise <any> => {
 
     if(!appservice_url) return
