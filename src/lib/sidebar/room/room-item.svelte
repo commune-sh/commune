@@ -41,11 +41,7 @@ const is_local = $derived.by(() => {
 const alias_or_id = $derived(item?.commune_alias ? item?.commune_alias :
     item?.room_id)
 
-const space_param = $derived(page.params.space);
-const room_param = $derived(page.params.room);
 
-
-//const path = $derived(`/${page.params.space}/${alias_or_id}`)
 const path = $derived.by(() => {
     // non space rooms
 
@@ -61,10 +57,10 @@ const path = $derived.by(() => {
     let is_event = page.url.searchParams.get('event') != null
 
     if(page.url.search != '' && !is_event) {
-        return `/${space_param}/${alias_or_id}${page.url.search}`
+        return `/${page.params.space}/${alias_or_id}${page.url.search}`
     }
 
-    return `/${space_param}/${alias_or_id}`
+    return `/${page.params.space}/${alias_or_id}`
 })
 
 let non_space_room = $derived(page.route.id?.includes('/(app)/rooms'))
@@ -87,7 +83,7 @@ function handleEnterRoom(e: KeyboardEvent) {
 const active_room = $derived(store.matrix.active_room)
 
 const active = $derived.by(() => {
-    return room_param && active_room && item?.room_id == active_room?.room_id
+    return page.params.room && active_room && item?.room_id == active_room?.room_id
 })
 
 function log(e) {
@@ -104,13 +100,13 @@ $effect(() => {
         const stored = localStorage.getItem('navigation')
         if(!stored) {
             const nav = new Map()
-            nav.set(space_param, path)
+            nav.set(page.params.space, path)
             const s = Array.from(nav.entries());
             localStorage.setItem('navigation', JSON.stringify(s))
         } else {
             const s = JSON.parse(localStorage.getItem('navigation'));
             const nav = new Map(s);
-            nav.set(space_param, path)
+            nav.set(page.params.space, path)
             localStorage.setItem('navigation', JSON.stringify(Array.from(nav.entries())))
         }
     }
@@ -138,7 +134,7 @@ function stopHover() {
 
 onMount(() => {
     if(active) {
-        store.ui.updateRoute(space_param, path)
+        store.ui.updateRoute(page.params.space, path)
     }
 })
 

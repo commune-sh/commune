@@ -60,19 +60,17 @@ const is_local = $derived.by(() => {
     return is_local_room(space?.canonical_alias, data.ENV.HOMESERVER_NAME)
 })
 
-const space_param = $derived(page.params.space);
-
 let active = $derived.by(() => {
     if(!is_local) {
-        return space_param === stripped
+        return page.params.space === stripped
     }
-    if(space_param == space.room_id) {
+    if(page.params.space == space.room_id) {
         return true
     }
     if(alias) {
-        return space_param === alias
+        return page.params.space === alias
     } else if(space?.room_id) {
-        return space_param === space.room_id
+        return page.params.space === space.room_id
     }
 })
 

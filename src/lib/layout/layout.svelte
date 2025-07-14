@@ -30,13 +30,8 @@ const no_hash = $derived.by(() => {
     }
 })
 
-const space_param = $derived(page.params.space);
-
-const room_param = $derived(page.params.room);
-
-
-let is_space = $derived(space_param != undefined)
-let is_space_child_room = $derived(room_param != undefined)
+let is_space = $derived(page.params.space != undefined)
+let is_space_child_room = $derived(page.params.room != undefined)
 
 let non_space_room = $derived(page.route.id?.includes('/(app)/rooms'))
 

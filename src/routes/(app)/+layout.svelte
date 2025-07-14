@@ -54,9 +54,6 @@ let metadata = $derived.by(() => {
     return data?.metadata
 })
 
-const space_param = $derived(page.params.space);
-const room_param = $derived(page.params.room);
-
 $effect(() => {
 
     console.log("DATA is", data)
@@ -65,7 +62,7 @@ $effect(() => {
         store.app.init(data.ENV)
     }
 
-    if(room_param && room_id && !context_event) {
+    if(page.params.room && room_id && !context_event) {
         const events = store.matrix.events[room_id]
         if(!events) {
             console.log("Fetching room events...")
@@ -75,7 +72,7 @@ $effect(() => {
             })
         }
     }
-    if(room_param && room_id && context_event) {
+    if(page.params.room && room_id && context_event) {
         console.log("Fetching context event...")
         store.matrix.fetchEventContext(data.ENV.APPSERVICE_URL,
             data.ENV.HOMESERVER_URL, {
