@@ -1,3 +1,4 @@
+import { SvelteMap } from 'svelte/reactivity';
 import { 
     getRoomState,
     getRoomHierarchy
@@ -69,3 +70,18 @@ export async function processSpaceRooms(space: string, appservice_url: string) {
     }
 }
 
+export async function processRoomState(room_id: string, state_events: any) {
+    let _state_events = new SvelteMap<string, any>();
+
+    if(!state_events || state_events.length == 0) {
+        console.warn("No state events provided for room:", room_id);
+        return;
+    }
+
+    state_events.forEach((event: any) => {
+        let key = event.type + (event.state_key ? `:${event.state_key}` : '');
+        _state_events.set(key, event);
+    })
+
+    store.room_state.set(room_id, _state_events);
+}

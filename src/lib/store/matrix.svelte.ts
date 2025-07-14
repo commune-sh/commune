@@ -35,7 +35,8 @@ import {
 } from '../utils/matrix'
 
 import {
-    processSpaceRooms
+    processSpaceRooms,
+    processRoomState,
 } from '../store/process.svelte'
 
 import { 
@@ -133,7 +134,7 @@ export let store: {
     spaces: SvelteMap<string, any>;
     space_rooms: SvelteMap<string, any>;
     rooms: SvelteMap<string, any>;
-    room_state: SvelteMap<string, any>;
+    room_state: SvelteMap<string, SvelteMap<string, any>>;
     messages: SvelteMap<string, any>;
     hierarchy: SvelteMap<string, any>;
     events: SvelteMap<string, any>;
@@ -536,9 +537,9 @@ export function createMatrixStore() {
         }
         const resp = await getRoomState(room_id, appservice_url)
         if(resp) {
-            store.room_state.set(room_id, resp)
+            processRoomState(room_id, resp)
+            console.log("Processed state events for room:", room_id, store.room_state.get(room_id));
             room_state[room_id] = resp
-            console.log("Stored room state for:", room_id)
         }
 
     }
