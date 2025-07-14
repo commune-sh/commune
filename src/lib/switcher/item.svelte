@@ -50,15 +50,23 @@ let {
 } = $props();
 
 
+const is_local = $derived.by(() => {
+    return is_local_room(space?.canonical_alias, data.ENV.HOMESERVER_NAME)
+})
+
+let stripped = $derived.by(() => {
+    return strip_hash(space.canonical_alias)
+})
+
 const alias = $derived.by(() => {
+    if(!is_local) {
+        return stripped
+    }
     if(space?.canonical_alias) {
         return room_alias_from_ID(space.canonical_alias)
     }
 })
 
-const is_local = $derived.by(() => {
-    return is_local_room(space?.canonical_alias, data.ENV.HOMESERVER_NAME)
-})
 
 let active = $derived.by(() => {
     if(!is_local) {
@@ -209,22 +217,7 @@ function fetchState() {
     store.matrix.fetchRoomState(space.room_id, data.ENV.APPSERVICE_URL)
 }
 
-let stripped = $derived.by(() => {
-    return strip_hash(space.canonical_alias)
-})
-
 function goToSpace() {
-
-    /*
-    if(name) {
-        document.title = name
-    }
-    */
-
-    if(!is_local) {
-        goto(`/${stripped}`)
-        return
-    }
 
     let location = alias ? alias : space.room_id
 
@@ -237,6 +230,11 @@ function goToSpace() {
 
     if(route) {
         goto(route)
+        return
+    }
+
+    if(!is_local) {
+        goto(`/${stripped}`)
         return
     }
 
