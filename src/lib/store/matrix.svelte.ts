@@ -536,6 +536,7 @@ export function createMatrixStore() {
         }
         const resp = await getRoomState(room_id, appservice_url)
         if(resp) {
+            store.room_state.set(room_id, resp)
             room_state[room_id] = resp
             console.log("Stored room state for:", room_id)
         }
@@ -725,6 +726,7 @@ export function createMatrixStore() {
         get spaces() {
             return spaces;
         },
+
         get room_state() {
             return room_state;
         },
