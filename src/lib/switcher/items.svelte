@@ -91,7 +91,11 @@ function showContextMenu(e) {
                 end={end} />
             {/each}
 
-        {:else}
+            {#if stray_rooms?.length > 0}
+                <MoreRooms />
+            {/if}
+
+        {:else if homeserver_reachable}
             <SkeletonItems />
         {/if}
         </div>

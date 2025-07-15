@@ -115,6 +115,7 @@ export async function initializeAppData(
         data.oidc_client_id = oidc_client_id
     }
 
+    /*
     // get public spaces
     try {
         let spaces = await getPublicSpaces(ENV.APPSERVICE_URL);
@@ -124,6 +125,7 @@ export async function initializeAppData(
     } catch (err) {
         console.error("Failed to fetch public spaces:", err);
     }
+    */
 
     // query public appservice health
     let appservice_endpoint = `${ENV.APPSERVICE_URL}/health`;
