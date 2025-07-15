@@ -81,7 +81,7 @@ function showContextMenu(e) {
     <div class="items overflow-hidden">
         <div class="space-items overflow-y-auto h-full hide-scroll pt-[10px]"
         oncontextmenu={showContextMenu}>
-        {#if items}
+        {#if items.length > 0}
             {#each Object.values(items) as space, index (space?.room_id)}
                 <Item {data} {space} {dragged_over} {dragged} {index} {clientY}
                 move={move} 
@@ -91,11 +91,7 @@ function showContextMenu(e) {
                 end={end} />
             {/each}
 
-            {#if stray_rooms?.length > 0}
-                <MoreRooms />
-            {/if}
-
-        {:else if homeserver_reachable}
+        {:else}
             <SkeletonItems />
         {/if}
         </div>
