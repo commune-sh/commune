@@ -33,20 +33,20 @@ const name = $derived.by(() => {
 })
 
 const space_state = $derived.by(() => {
-    return store.matrix.room_state[space?.room_id]
+    return store.matrix.space_state;
 })
 
 let banner: string | undefined = $state(undefined)
 
 let banner_url = $derived.by(() => {
-    return space_state?.find(r => r.type == 'commune.room.banner')?.content?.url
+    return space_state?.get('commune.room.banner')?.content?.url
 })
 
 async function getBanner() {
     let content_uri = await getImageThumbnail(data.ENV.APPSERVICE_URL, {
         mxcid: banner_url,
-        width: 96,
-        height: 96,
+        width: 640,
+        height: 480,
         method: 'scale'
     })
     if(content_uri) {
