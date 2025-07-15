@@ -37,7 +37,7 @@ const active_space = $derived(store.matrix.active_space)
 const active_room = $derived(store.matrix.active_room)
 
 const space_state = $derived.by(() => {
-    return store.matrix.room_state[active_space?.room_id]
+    return store.matrix.space_state;
 })
 
 const room_state = $derived.by(() => {
@@ -63,10 +63,6 @@ const name = $derived.by(() => {
     if(is_space_child_room && !active_room?.name) {
         return `Untitled Room`
     }
-})
-
-const space_topic = $derived.by(() => {
-    return space_state?.find(r => r.type == 'm.room.topic')?.content?.topic
 })
 
 const room_topic = $derived.by(() => {

@@ -186,31 +186,8 @@ $effect(() => {
 
 })
 
-const authenticated = $derived(store.session.authenticated)
-
 const space_state = $derived.by(() => {
-    return store.matrix.room_state[store.matrix.active_space?.room_id]
-})
-
-$effect(() => {
-    // if no room is active, navigate to one
-    /*
-    if(active && space_state && !page.params.room) {
-        const space_rooms = $derived(store.matrix.space_rooms)
-        if(space_rooms[0]?.commune_alias) {
-            goto(`/${page.params.space}/${space_rooms[0].commune_alias}`)
-        }
-    }
-    */
-
-
-
-    /*
-    if(active && name) {
-        document.title = name
-    }
-    */
-
+    return store.matrix.space_state;
 })
 
 function fetchState() {

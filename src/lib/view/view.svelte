@@ -69,8 +69,9 @@ const active_space = $derived(store.matrix.active_space)
 const active_room = $derived(store.matrix.active_room)
 
 const events = $derived(store.matrix.events[active_room?.room_id]?.events)
+
 const space_state = $derived.by(() => {
-    return store.matrix.room_state[active_space?.room_id]
+    return store.matrix.space_state;
 })
 
 $effect(() => {

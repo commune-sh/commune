@@ -74,9 +74,6 @@ $effect(() => {
     } else {
         document.body.classList.remove('resize-cursor');
     }
-    if(space_state) {
-        console.log("FOUND SPACE STATE", space_state)
-    }
 })
 
 function showContextMenu(e) {
