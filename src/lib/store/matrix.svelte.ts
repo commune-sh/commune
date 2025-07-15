@@ -538,7 +538,7 @@ export function createMatrixStore() {
         }
         const resp = await getRoomState(room_id, appservice_url)
         if(resp) {
-            processRoomState(room_id, resp)
+            processRoomState(store, room_id, resp)
             console.log("Processed state events for room:", room_id, store.room_state.get(room_id));
             room_state[room_id] = resp
         }

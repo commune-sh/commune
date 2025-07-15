@@ -70,7 +70,11 @@ export async function processSpaceRooms(space: string, appservice_url: string) {
     }
 }
 
-export async function processRoomState(room_id: string, state_events: any) {
+export async function processRoomState(
+    store: any,
+    room_id: string, 
+    state_events: any
+) {
     let _state_events = new SvelteMap<string, any>();
 
     if(!state_events || state_events.length == 0) {
