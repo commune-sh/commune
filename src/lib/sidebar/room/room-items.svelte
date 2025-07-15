@@ -30,8 +30,8 @@ $effect(() => {
 
 {#if processed}
     <div class="room-items mt-2">
-        {#each processed as item (item.room_id)}
-            <RoomItem {data} {item} />
+        {#each processed as item, index (item.room_id)}
+            <RoomItem {data} {item} {index} />
         {/each}
     </div>
 {/if}

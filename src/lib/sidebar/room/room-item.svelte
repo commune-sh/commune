@@ -28,10 +28,12 @@ const menu_active = $derived(store.ui.menu_active)
 
 let {
     data,
-    item
+    item,
+    index
 }: {
     data: Data,
-    item: any
+    item: any,
+    index: number
 } = $props();
 
 const is_local = $derived.by(() => {
@@ -135,6 +137,10 @@ function stopHover() {
 onMount(() => {
     if(active) {
         store.ui.updateRoute(page.params.space, path)
+    }
+    if(index == 0 && !page.params.room) {
+        // if this is the first item and no room is active, go to this room
+        goToRoom()
     }
 })
 
