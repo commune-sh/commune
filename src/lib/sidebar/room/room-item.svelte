@@ -184,7 +184,7 @@ const room_state = $derived.by(() => {
 })
 
 const origin_server_ts = $derived.by(() => {
-    return room_state?.find((r: any) => r.type == 'm.room.create')?.origin_server_ts;
+    return room_state?.get('m.room.create')?.origin_server_ts;
 })
 
 // HAIRY code, fix this later
