@@ -2,7 +2,7 @@
 
 Commune is a matrix client that makes spaces and rooms publicly accessible on the web. Current development efforts are focused on the public read-only mode, with longterm goals for building out all expected chat client features.
 
-The optional [appservice](https://github.com/commune-sh/appservice) needs to be run separately only if you want Commune to display public rooms to guests. Without the appservice, Commune should work as a normal matrix client.
+The optional [appservice](https://github.com/commune-sh/public-appservice) needs to be run separately only if you want Commune to display public rooms to guests. Without the appservice, Commune should work as a normal matrix client.
 
 This project is under active development and the native client portion is not yet ready for production use. 
 
