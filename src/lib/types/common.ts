@@ -21,6 +21,7 @@ export type Data = {
     session?: Session | undefined;
     oidc_client_id?: string;
     metadata?: RequestMetadata;
+    public_spaces?: PublicSpace[];
 }
 
 type RequestMetadata = {

@@ -697,6 +697,25 @@ export function createMatrixStore() {
         oidc_issuer = issuer
     }
 
+    async function updatePublicSpaces(spaces: PublicSpace[], homeserver_name: string) {
+        try {
+            if(spaces?.length > 0) {
+                spaces.forEach((space: PublicSpace) => {
+                    let local_part = get_local_part(space.canonical_alias)
+                    let is_local = is_local_room(space.room_id, homeserver_name)
+                    if(!is_local) {
+                        local_part = strip_hash(space.canonical_alias)
+                    }
+                    store.spaces.set(local_part, space)
+                })
+                console.log("Updated public spaces:", store.spaces)
+            }
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
+
     async function fetchPublicSpaces(appservice_url: string, homeserver_name: string) {
         try {
             let res = await getPublicSpaces(appservice_url);
@@ -808,6 +827,7 @@ export function createMatrixStore() {
         updatePage,
         updateOIDCIssuer,
         fetchPublicSpaces,
+        updatePublicSpaces
     };
 
 }

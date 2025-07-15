@@ -26,7 +26,7 @@ const authenticated = $derived(store.session.authenticated)
 
 
 let items = $derived.by(() => {
-    return store.matrix.rooms ? buildSpaces(store.matrix.rooms) : null
+    return store.matrix.spaces;
 })
 
 let stray_rooms = $derived.by(() => {
@@ -91,11 +91,7 @@ function showContextMenu(e) {
                 end={end} />
             {/each}
 
-            {#if stray_rooms?.length > 0}
-                <MoreRooms />
-            {/if}
-
-        {:else if homeserver_reachable}
+        {:else}
             <SkeletonItems />
         {/if}
         </div>

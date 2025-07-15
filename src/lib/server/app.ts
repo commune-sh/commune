@@ -1,7 +1,7 @@
 import { error } from '@sveltejs/kit';
 import { env } from '$env/dynamic/public';
 
-import { download_media } from '../appservice/requests.svelte'
+import { download_media, getPublicSpaces } from '../appservice/requests.svelte'
 import { getAuthMetadata } from '../matrix/requests';
 
 import { matrixWellKnown, appserviceHealth } from '../types/common'
@@ -113,6 +113,16 @@ export async function initializeAppData(
 
     if(oidc_client_id) {
         data.oidc_client_id = oidc_client_id
+    }
+
+    // get public spaces
+    try {
+        let spaces = await getPublicSpaces(ENV.APPSERVICE_URL);
+        if(spaces) {
+            data.public_spaces = spaces;
+        }
+    } catch (err) {
+        console.error("Failed to fetch public spaces:", err);
     }
 
     // query public appservice health
