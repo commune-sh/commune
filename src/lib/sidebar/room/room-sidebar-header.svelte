@@ -42,7 +42,8 @@ let banner_url = $derived.by(() => {
     return space_state?.get('commune.room.banner')?.content?.url
 })
 
-async function getBanner() {
+async function getBanner(space_state) {
+    if(!space_state) return
     let content_uri = await getImageThumbnail(data.ENV.APPSERVICE_URL, {
         mxcid: banner_url,
         width: 640,
@@ -56,7 +57,10 @@ async function getBanner() {
 
 $effect(() => {
     if(!banner && banner_url) {
-        getBanner()
+        getBanner(space_state)
+    }
+    if(banner && !banner_url) {
+        banner = undefined
     }
 })
 
