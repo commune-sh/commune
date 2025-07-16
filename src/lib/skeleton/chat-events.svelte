@@ -24,10 +24,10 @@ $effect(() => {
 })
 </script>
 
-<section class="skeleton-events h-full" class:h={embed}>
+<section class="skeleton-events h-full animate-pulse" class:h={embed}>
     <div class="co overflow-y-auto" bind:this={el}>
     {#each Array(num) as _, i}
-        <div class="event p-3">
+        <div class="event p-3 ml-3">
             <div class="img "></div>
             <div class="ml-3 fl-co">
                 <div class="title " style="width:20%"></div>
@@ -77,8 +77,8 @@ $effect(() => {
 .img {
     background: var(--cmn-2);
     border-radius: 50%;
-    height: 30px;
-    width: 30px;
+    height: 32px;
+    width: 32px;
 }
 </style>
 
