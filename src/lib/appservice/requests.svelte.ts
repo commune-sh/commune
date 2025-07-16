@@ -1,4 +1,5 @@
 import { getCookie } from '../utils/cookie'
+import { SvelteMap } from 'svelte/reactivity'
 
 export const getPublicSpaces = async (appservice_url: string) => {
 
@@ -222,32 +223,65 @@ interface AvatarRequest {
     method: string;
 }
 
-export const getAvatarThumbnail = async (appservice_url: string, opts: AvatarRequest ): Promise<string | undefined> => {
+const cache = $state(new SvelteMap<string, string>()); 
+const pendingRequests = $state(new SvelteMap<string, Promise<string | undefined>>());
 
-    if(!appservice_url || !opts.mxcid) return
+function createCacheKey(opts: AvatarRequest): string {
+    return `${opts.mxcid}:${opts.width}:${opts.height}:${opts.method}`;
+}
+
+async function fetchAvatarThumbnail(appservice_url: string, opts: AvatarRequest): Promise<string | undefined> {
+    if (!appservice_url || !opts.mxcid) return;
 
     const stripped = opts.mxcid.replace('mxc://', '');
-
     const url = `${appservice_url}/_matrix/client/v1/media/thumbnail/${stripped}?height=${opts.height}&width=${opts.width}&method=${opts.method}`;
 
     const options: RequestInit = {
         headers: {
             'Content-Type': 'application/json',
         },
-    }
+    };
 
     try {
-        const response = await fetch(url, options)
+        const response = await fetch(url, options);
 
         if (!response.ok) {
             throw new Error(`Failed to fetch avatar thumbnail: ${response.status} ${response.statusText}`);
         }
 
-        return response.url;
+        const blob = await response.blob();
+        return URL.createObjectURL(blob);
     } catch (error) {
-        throw error
+        throw error;
     }
 }
+
+export const getAvatarThumbnail = async (appservice_url: string, opts: AvatarRequest): Promise<string | undefined> => {
+    const cacheKey = createCacheKey(opts);
+
+    if (cache.has(cacheKey)) {
+        return cache.get(cacheKey);
+    }
+
+    if (pendingRequests.has(cacheKey)) {
+        return pendingRequests.get(cacheKey);
+    }
+
+    const promise = fetchAvatarThumbnail(appservice_url, opts);
+    pendingRequests.set(cacheKey, promise);
+
+    try {
+        const result = await promise;
+        if (result) {
+            cache.set(cacheKey, result);
+        }
+        return result;
+    } catch (error) {
+        throw error;
+    } finally {
+        pendingRequests.delete(cacheKey);
+    }
+};
 
 interface MediaThumbnailOpts {
     mxcid: string;
