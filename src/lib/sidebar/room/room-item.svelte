@@ -68,7 +68,7 @@ const path = $derived.by(() => {
 let non_space_room = $derived(page.route.id?.includes('/(app)/rooms'))
 
 function goToRoom() {
-    getState()
+    //getState()
     goto(path)
     const location = non_space_room ? 'rooms' : page.params.space
     store.ui.updateRoute(location, path)
