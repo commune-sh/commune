@@ -138,7 +138,18 @@ onMount(() => {
     if(active) {
         store.ui.updateRoute(page.params.space, path)
     }
-    if(index == 0 && !page.params.room) {
+
+    let saved_route = store.ui.getSavedRoute(page.params.space)
+
+    if(saved_route && !page.params.room) {
+        let path = `/${page.params.space}/${item.commune_alias}`
+        if(path == saved_route) {
+            goToRoom()
+            return
+        }
+    }
+
+    if(index == 0 && !page.params.room && !saved_route) {
         // if this is the first item and no room is active, go to this room
         goToRoom()
     }
