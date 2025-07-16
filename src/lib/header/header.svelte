@@ -116,7 +116,7 @@ const login = $derived.by(() => {
     </div>
     <div class="header-content overflow-hidden flex items-center justify-items-start">
         {#if is_space_child_room}
-            <div class="hash h-[20px] w-[20px] mr-2">
+            <div class="hash min-h-[20px] min-w-[20px] mr-2">
                 {@html room_icon}
             </div>
             <div class="font-semibold text-sm">
