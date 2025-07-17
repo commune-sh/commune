@@ -110,10 +110,10 @@ let image = $derived.by(() => {
 let image_url: string | null = $state(null);
 
 $effect(() => {
-    if(store.app.appservice && !authenticated && !image_url) {
+    if(data.ENV.APPSERVICE_URL && !data.authenticated && !image_url) {
         getImage()
     }
-    if(store.app.appservice && !authenticated && !full_src) {
+    if(data.ENV.APPSERVICE_URL && !data.authenticated && !full_src) {
         download()
     }
 })
@@ -162,9 +162,9 @@ function kill(e) {
 
 </script>
 
-<div bind:this={el} class="image relative mb-1 bg-img"
+<div bind:this={el} class="image relative mb-1 bg-img bg-cmn-1"
 style="background-image: url({blurhash_url}); --width: {width}; --height: {height}">
-    {#if image || image_url}
+    {#if image_url}
     <img 
         onclick={expand}
         src={authenticated ? image : image_url} 
