@@ -81,6 +81,11 @@ export function createUIStore() {
             parsed[key] = val;
             localStorage.setItem("routes", JSON.stringify(parsed));
         }
+        if(!_routes) {
+            let newRoutes = {};
+            newRoutes[key] = val;
+            localStorage.setItem("routes", JSON.stringify(newRoutes));
+        }
     }
 
     function getSavedRoute(space) {
