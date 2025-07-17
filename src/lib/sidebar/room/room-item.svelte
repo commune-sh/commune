@@ -98,20 +98,6 @@ $effect(() => {
     if(active && item?.room_id && !authenticated && data.ENV.APPSERVICE_URL) {
         store.matrix.fetchRoomState(item.room_id, data.ENV.APPSERVICE_URL)
     }
-    if(active) {
-        const stored = localStorage.getItem('navigation')
-        if(!stored) {
-            const nav = new Map()
-            nav.set(page.params.space, path)
-            const s = Array.from(nav.entries());
-            localStorage.setItem('navigation', JSON.stringify(s))
-        } else {
-            const s = JSON.parse(localStorage.getItem('navigation'));
-            const nav = new Map(s);
-            nav.set(page.params.space, path)
-            localStorage.setItem('navigation', JSON.stringify(Array.from(nav.entries())))
-        }
-    }
 })
 
 function getState() {
