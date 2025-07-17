@@ -164,6 +164,7 @@ function kill(e) {
 
 <div bind:this={el} class="image relative mb-1 bg-img"
 style="background-image: url({blurhash_url}); --width: {width}; --height: {height}">
+    {#if image || image_url}
     <img 
         onclick={expand}
         src={authenticated ? image : image_url} 
@@ -171,6 +172,7 @@ style="background-image: url({blurhash_url}); --width: {width}; --height: {heigh
         width={width} 
         height={height} 
         loading="lazy" />
+    {/if}
 </div>
 
 {#if expanded}
