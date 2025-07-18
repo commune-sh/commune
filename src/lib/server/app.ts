@@ -89,6 +89,7 @@ export async function initializeAppData(
 
 
     // get oidc configuration
+    /*
     try {
         let auth_metadata = await getAuthMetadata(ENV.HOMESERVER_URL);
         if(auth_metadata) {
@@ -98,6 +99,7 @@ export async function initializeAppData(
     } catch (err) {
         console.error("Failed to fetch auth metadata:", err);
     }
+    */
 
 
     if (authenticated && user_id && device_id) {
