@@ -125,7 +125,7 @@ export async function initializeAppData(
     } catch (err) {
         console.error("Failed to fetch public spaces:", err);
     }
-    */
+
 
     // query public appservice health
     let appservice_endpoint = `${ENV.APPSERVICE_URL}/health`;
@@ -166,6 +166,7 @@ export async function initializeAppData(
             message: err.message,
         });
     }
+    */
 
     let endpoint = `https://${ENV.HOMESERVER_NAME}/.well-known/matrix/client`;
     try {
