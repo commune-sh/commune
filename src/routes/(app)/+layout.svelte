@@ -11,6 +11,8 @@ import { onMount, type Snippet } from 'svelte'
 
 import { getVersions } from '$lib/matrix/requests'
 
+import { checkHealth } from '$lib/health/health'
+
 import { 
     get_local_part,
     cleanDisplayname,
@@ -106,6 +108,16 @@ let session_data = $derived.by(() => {
 })
 
 onMount(async() => {
+
+    try {
+        let health = await checkHealth(data.ENV.APPSERVICE_URL);
+        if(health.status == 'ok') {
+            data.features = health.features
+            data.APPSERVICE_IDENTITY = health.user_id
+        }
+    } catch(e) {
+        console.error("Error checking health:", e)
+    }
 
     if(data?.session && !session) {
         store.session.update(data.ENV.HOMESERVER_URL, data.session, data.oidc_client_id)
