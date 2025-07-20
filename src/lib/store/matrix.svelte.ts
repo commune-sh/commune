@@ -9,6 +9,9 @@ import { app } from './app.svelte';
 import { createSessionStore } from './session.svelte';
 const session_store = createSessionStore();
 
+import { createDBStore } from './db.svelte';
+const db_store = createDBStore();
+
 const authenticated = $derived(session_store.authenticated);
 
 
@@ -720,6 +723,7 @@ export function createMatrixStore() {
         try {
             let res = await getPublicSpaces(appservice_url);
             if(res) {
+                let _spaces = [];
                 res.forEach((space: PublicSpace) => {
                     let local_part = get_local_part(space.canonical_alias)
                     let is_local = is_local_room(space.room_id, homeserver_name)
@@ -727,6 +731,11 @@ export function createMatrixStore() {
                         local_part = strip_hash(space.canonical_alias)
                     }
                     store.spaces.set(local_part, space)
+                    _spaces.push({
+                        space: local_part,
+                        data: space
+                    });
+                    db_store.setSpaces(_spaces);
                 })
                 console.log("Fetched public spaces:", store.spaces)
             }
