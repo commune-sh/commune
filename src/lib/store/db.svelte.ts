@@ -4,12 +4,24 @@ const DB_NAME = 'CommuneDB';
 const DB_VERSION = 1;
 
 const STORES = {
+    SPACES: 'spaces',
     SPACE_ROOMS: 'spaceRooms',
     SPACE_HIERARCHY: 'spaceHierarchy',
     ROOM_STATES: 'roomStates',
 } as const;
 
 interface MatrixDBSchema extends DBSchema {
+    [STORES.SPACES]: {
+        key: string; 
+        value: {
+            space: any;
+            lastUpdated: number;
+        };
+        indexes: {
+            'lastUpdated': number;
+            'space': string;
+        };
+    };
     [STORES.SPACE_ROOMS]: {
         key: string; 
         value: {
@@ -71,6 +83,15 @@ export function createDBStore() {
         try {
             const database = await openDB<MatrixDBSchema>(DB_NAME, DB_VERSION, {
                 upgrade(db) {
+                    // Spaces
+                    if (!db.objectStoreNames.contains('spaces')) {
+                        const spaces = db.createObjectStore('spaces', {
+                            keyPath: 'space'
+                        });
+                        spaces.createIndex('lastUpdated', 'lastUpdated');
+                        spaces.createIndex('space', 'space');
+                    }
+
                     // Space rooms
                     if (!db.objectStoreNames.contains('spaceRooms')) {
                         const spaceRooms = db.createObjectStore('spaceRooms', {
@@ -132,6 +153,38 @@ export function createDBStore() {
         return dbState.db;
     }
 
+    async function setSpaces(spaces: Array<{ space: string; data: any }>) {
+        const database = await ensureReady();
+        const tx = database.transaction(STORES.SPACES, 'readwrite');
+        const store = tx.objectStore(STORES.SPACES);
+
+        const promises = spaces.map(({ space, data }) =>
+            store.put({
+                space,
+                lastUpdated: Date.now(),
+                ...data
+            })
+        );
+
+        await Promise.all(promises);
+        await tx.done;
+    }
+
+    async function getSpaces() {
+        const database = await ensureReady();
+        const tx = database.transaction(STORES.SPACES, 'readonly');
+        const store = tx.objectStore(STORES.SPACES);
+
+        const results = await store.getAll();
+        const spacesMap = new Map();
+
+        results.forEach(result => {
+            spacesMap.set(result.space, result);
+        });
+
+        return spacesMap;
+    }
+
     async function setRoomStates(roomStates: Array<{ room_id: string; state: any }>, space: string) {
         const database = await ensureReady();
         const tx = database.transaction(STORES.ROOM_STATES, 'readwrite');
@@ -174,6 +227,8 @@ export function createDBStore() {
     return {
         initDB,
         ensureReady,
+        setSpaces,
+        getSpaces,
         setRoomStates,
         getRoomState,
         getRoomStatesForSpace,
