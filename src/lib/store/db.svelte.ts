@@ -1,4 +1,5 @@
 import { openDB, type IDBPDatabase, type DBSchema } from 'idb';
+import { SvelteMap } from 'svelte/reactivity';
 
 const DB_NAME = 'CommuneDB';
 const DB_VERSION = 1;
@@ -176,7 +177,7 @@ export function createDBStore() {
         const store = tx.objectStore(STORES.SPACES);
 
         const results = await store.getAll();
-        const spacesMap = new Map();
+        const spacesMap = new SvelteMap();
 
         results.forEach(result => {
             spacesMap.set(result.space, result);

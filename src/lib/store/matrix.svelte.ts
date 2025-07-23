@@ -736,8 +736,10 @@ export function createMatrixStore() {
                         data: space
                     });
                     db_store.setSpaces(_spaces);
+
                 })
                 console.log("Fetched public spaces:", store.spaces)
+
             }
         } catch (err) {
             console.error(err)
