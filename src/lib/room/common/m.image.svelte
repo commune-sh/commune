@@ -110,10 +110,10 @@ let image = $derived.by(() => {
 let image_url: string | null = $state(null);
 
 $effect(() => {
-    if(data.ENV.APPSERVICE_URL && !data.authenticated && !image_url) {
+    if(data.ENV.PUBLIC_APPSERVICE_URL && !data.authenticated && !image_url) {
         getImage()
     }
-    if(data.ENV.APPSERVICE_URL && !data.authenticated && !full_src) {
+    if(data.ENV.PUBLIC_APPSERVICE_URL && !data.authenticated && !full_src) {
         download()
     }
 })
@@ -128,7 +128,7 @@ async function getImage() {
         h = 480
     }
 
-    let content_uri = await getImageThumbnail(data.ENV.APPSERVICE_URL, {
+    let content_uri = await getImageThumbnail(data.ENV.PUBLIC_APPSERVICE_URL, {
         mxcid: event.content.url,
         width: w,
         height: h,
@@ -144,7 +144,7 @@ let full_src: string | null = $state(null);
 
 async function download() {
     if(!event?.content?.url) return
-    let content_uri = await downloadMedia(data.ENV.APPSERVICE_URL, event.content.url)
+    let content_uri = await downloadMedia(data.ENV.PUBLIC_APPSERVICE_URL, event.content.url)
     if(content_uri) {
         full_src = content_uri
     }

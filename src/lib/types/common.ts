@@ -4,7 +4,7 @@ import type { Session } from '../store/session.svelte'
 
 export type ENV = {
     BASE_URL: string;
-    APPSERVICE_URL: string;
+    PUBLIC_APPSERVICE_URL: string;
     HOMESERVER_URL: string;
     HOMESERVER_NAME: string;
 }

@@ -1,8 +1,8 @@
 import { appserviceHealth, type AppserviceHealth } from '../types/common'
 import { error } from '@sveltejs/kit';
 
-export async function checkHealth(appservice_url: string): Promise<AppserviceHealth> {
-    let appservice_endpoint = `${appservice_url}/health`;
+export async function checkHealth(public_appservice_url: string): Promise<AppserviceHealth> {
+    let appservice_endpoint = `${public_appservice_url}/health`;
 
     try {
         const appservice_response = await fetch(appservice_endpoint);

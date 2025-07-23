@@ -24,7 +24,7 @@ const alt = $derived(event?.content?.body)
 let src: string | undefined = $state(undefined)
 
 async function getSrc() {
-    let content_uri = await downloadMedia(data.ENV.APPSERVICE_URL, url)
+    let content_uri = await downloadMedia(data.ENV.PUBLIC_APPSERVICE_URL, url)
     if(content_uri) {
         src = content_uri
     }

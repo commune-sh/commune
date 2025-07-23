@@ -36,7 +36,7 @@ async function getImage() {
     let w = 320
     let h = 240
 
-    let content_uri = await getImageThumbnail(data.ENV.APPSERVICE_URL, {
+    let content_uri = await getImageThumbnail(data.ENV.PUBLIC_APPSERVICE_URL, {
         mxcid: event.content.url,
         width: w,
         height: h,

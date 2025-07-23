@@ -119,7 +119,7 @@ async function fetchMore() {
     fetchingMore = false
 
     try {
-        const done = store.matrix.fetchRoomMessages(data.ENV.APPSERVICE_URL, data.ENV.HOMESERVER_URL, {
+        const done = store.matrix.fetchRoomMessages(data.ENV.PUBLIC_APPSERVICE_URL, data.ENV.HOMESERVER_URL, {
             room_id: room.room_id,
         })
 

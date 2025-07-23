@@ -181,7 +181,7 @@ function processPlainLinks(body) {
 export function processBody(body: any, env: ENV, authenticated: boolean) {
     if(!body || !env) return
 
-    let as_or_hs = authenticated ? env.HOMESERVER_URL : env.APPSERVICE_URL;
+    let as_or_hs = authenticated ? env.HOMESERVER_URL : env.PUBLIC_APPSERVICE_URL;
 
     body = processReplies(body);
     body = processEmoji(body);

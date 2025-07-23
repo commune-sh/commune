@@ -177,9 +177,9 @@ let _room: string | undefined = $state(undefined);
 
 $effect.root(() => {
     $effect(() => {
-        if(_space != space && app.APPSERVICE_URL) {
+        if(_space != space && app.PUBLIC_APPSERVICE_URL) {
             _space = space;
-            //processSpaceRooms(_space, app.APPSERVICE_URL);
+            //processSpaceRooms(_space, app.PUBLIC_APPSERVICE_URL);
         }
         if(_room != room) {
             _room = room;
@@ -476,7 +476,7 @@ export function createMatrixStore() {
         if(!room_id) return null;
 
         try {
-            let url = `${app.APPSERVICE_URL}/_matrix/client/v1/rooms/${room_id}/hierarchy`
+            let url = `${app.PUBLIC_APPSERVICE_URL}/_matrix/client/v1/rooms/${room_id}/hierarchy`
             let response = await fetch(url)   
             let data = await response.json()
             if(data?.rooms) {
@@ -494,8 +494,8 @@ export function createMatrixStore() {
         }
     }
 
-    async function fetchPublicRooms(appservice_url: string) {
-        const resp = await getPublicRooms(appservice_url)
+    async function fetchPublicRooms(public_appservice_url: string) {
+        const resp = await getPublicRooms(public_appservice_url)
         if(resp?.rooms) {
 
             resp.rooms.forEach(room => {
@@ -534,12 +534,12 @@ export function createMatrixStore() {
         }
     }
 
-    async function fetchRoomState(room_id: string, appservice_url: string) {
+    async function fetchRoomState(room_id: string, public_appservice_url: string) {
         const state = room_state[room_id]
         if(state) {
             return
         }
-        const resp = await getRoomState(room_id, appservice_url)
+        const resp = await getRoomState(room_id, public_appservice_url)
         if(resp) {
             processRoomState(store, room_id, resp)
             console.log("Processed state events for room:", room_id, store.room_state.get(room_id));
@@ -548,7 +548,7 @@ export function createMatrixStore() {
 
     }
 
-    async function fetchRoomMessages(appservice_url: string, homeserver_url: string, opts: any) {
+    async function fetchRoomMessages(public_appservice_url: string, homeserver_url: string, opts: any) {
 
         const stored = events[opts?.room_id]
 
@@ -566,7 +566,7 @@ export function createMatrixStore() {
                 lazy_load_members: true,
             }
 
-            const resp = await getRoomMessages(appservice_url, homeserver_url, {
+            const resp = await getRoomMessages(public_appservice_url, homeserver_url, {
                 room_id: opts.room_id,
                 authenticated: authenticated,
                 start: start,
@@ -611,14 +611,14 @@ export function createMatrixStore() {
 
     }
 
-    async function fetchEventContext(appservice_url: string, homeserver_url: string, opts: any) {
+    async function fetchEventContext(public_appservice_url: string, homeserver_url: string, opts: any) {
 
         try {
             const filter = {
                 lazy_load_members: true,
             }
 
-            const resp = await getEventContext(appservice_url, homeserver_url, {
+            const resp = await getEventContext(public_appservice_url, homeserver_url, {
                 room_id: opts.room_id,
                 event_id: opts.event_id,
                 authenticated: authenticated,
@@ -675,7 +675,7 @@ export function createMatrixStore() {
 
     async function fetchThreadEvents(opts) {
         try {
-            const resp = await getEventContext(app.APPSERVICE_URL, {
+            const resp = await getEventContext(app.PUBLIC_APPSERVICE_URL, {
                 room_id: opts.room_id,
                 event_id: opts.event_id,
             })
@@ -719,9 +719,9 @@ export function createMatrixStore() {
     }
 
 
-    async function fetchPublicSpaces(appservice_url: string, homeserver_name: string) {
+    async function fetchPublicSpaces(public_appservice_url: string, homeserver_name: string) {
         try {
-            let res = await getPublicSpaces(appservice_url);
+            let res = await getPublicSpaces(public_appservice_url);
             if(res) {
                 let _spaces = [];
                 res.forEach((space: PublicSpace) => {

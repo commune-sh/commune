@@ -11,14 +11,14 @@ let homeserver_versions = $state(null);
 export let app: {
     ready: boolean;
     BASE_URL?: string;
-    APPSERVICE_URL?: string;
+    PUBLIC_APPSERVICE_URL?: string;
     HOMESERVER_URL?: string;
     HOMESERVER_NAME?: string;
 } = $state({
     ready: false,
 });
 
-let appservice = $derived(app.APPSERVICE_URL);
+let appservice = $derived(app.PUBLIC_APPSERVICE_URL);
 
 let theme: string | null = $state(null);
 
@@ -40,7 +40,7 @@ export function createAppStore() {
 
     function init(env: ENV) {
         app.BASE_URL = env.BASE_URL;
-        app.APPSERVICE_URL = env.APPSERVICE_URL;
+        app.PUBLIC_APPSERVICE_URL = env.PUBLIC_APPSERVICE_URL;
         app.HOMESERVER_URL = env.HOMESERVER_URL;
         app.HOMESERVER_NAME = env.HOMESERVER_NAME;
         console.log("Initializing app store with environment variables:", env);

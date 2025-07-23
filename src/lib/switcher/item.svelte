@@ -191,7 +191,7 @@ const space_state = $derived.by(() => {
 })
 
 function fetchState() {
-    store.matrix.fetchRoomState(space.room_id, data.ENV.APPSERVICE_URL)
+    store.matrix.fetchRoomState(space.room_id, data.ENV.PUBLIC_APPSERVICE_URL)
 }
 
 function goToSpace() {
@@ -232,7 +232,7 @@ let avatar_url = $derived.by(() => {
 })
 
 async function getAvatar() {
-    let content_uri = await getImageThumbnail(data.ENV.APPSERVICE_URL, {
+    let content_uri = await getImageThumbnail(data.ENV.PUBLIC_APPSERVICE_URL, {
         mxcid: avatar_url,
         width: 96,
         height: 96,

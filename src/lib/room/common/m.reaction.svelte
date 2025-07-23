@@ -33,7 +33,7 @@ const reaction = $derived.by(() => {
 let reaction_url: string | null = $state(null);
 async function getReaction() {
     if(!is_custom) return
-    let content_uri = await getImageThumbnail(data.ENV.APPSERVICE_URL, {
+    let content_uri = await getImageThumbnail(data.ENV.PUBLIC_APPSERVICE_URL, {
         mxcid: key,
         width: 32,
         height: 32,

@@ -68,7 +68,7 @@ $effect(() => {
         const events = store.matrix.events[room_id]
         if(!events) {
             console.log("Fetching room events...")
-            store.matrix.fetchRoomMessages(data.ENV.APPSERVICE_URL,
+            store.matrix.fetchRoomMessages(data.ENV.PUBLIC_APPSERVICE_URL,
                 data.ENV.HOMESERVER_URL, {
                 room_id: room_id,
             })
@@ -76,7 +76,7 @@ $effect(() => {
     }
     if(page.params.room && room_id && context_event) {
         console.log("Fetching context event...")
-        store.matrix.fetchEventContext(data.ENV.APPSERVICE_URL,
+        store.matrix.fetchEventContext(data.ENV.PUBLIC_APPSERVICE_URL,
             data.ENV.HOMESERVER_URL, {
             room_id: room_id,
             event_id: context_event,
@@ -84,13 +84,13 @@ $effect(() => {
     }
 })
 
-let APPSERVICE_URL = $derived(data?.ENV?.APPSERVICE_URL)
+let PUBLIC_APPSERVICE_URL = $derived(data?.ENV?.PUBLIC_APPSERVICE_URL)
 
 async function setup() {
 
-    if(APPSERVICE_URL) {
-        store.app.updateAppservice(APPSERVICE_URL)
-        console.log("Found commune appservice:", APPSERVICE_URL)
+    if(PUBLIC_APPSERVICE_URL) {
+        store.app.updateAppservice(PUBLIC_APPSERVICE_URL)
+        console.log("Found commune appservice:", PUBLIC_APPSERVICE_URL)
         return
     }
 
@@ -110,7 +110,7 @@ let session_data = $derived.by(() => {
 onMount(async() => {
 
     try {
-        let health = await checkHealth(data.ENV.APPSERVICE_URL);
+        let health = await checkHealth(data.ENV.PUBLIC_APPSERVICE_URL);
         if(health.status == 'ok') {
             data.features = health.features
             data.APPSERVICE_IDENTITY = health.user_id

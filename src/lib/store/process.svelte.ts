@@ -9,7 +9,7 @@ import {
     store
 } from '../store/matrix.svelte'
 
-export async function processSpaceRooms(space: string, appservice_url: string) {
+export async function processSpaceRooms(space: string, public_appservice_url: string) {
     if(!space) return;
 
     // check if space rooms already exist, skip if fetched by other process
@@ -23,7 +23,7 @@ export async function processSpaceRooms(space: string, appservice_url: string) {
         return;
     }
     try {
-        let resp = await getRoomHierarchy(space, appservice_url);
+        let resp = await getRoomHierarchy(space, public_appservice_url);
         if(resp?.rooms) {
             store.hierarchy.set(space, resp.rooms);
 

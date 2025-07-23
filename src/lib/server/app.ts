@@ -120,7 +120,7 @@ export async function initializeAppData(
     /*
     // get public spaces
     try {
-        let spaces = await getPublicSpaces(ENV.APPSERVICE_URL);
+        let spaces = await getPublicSpaces(ENV.PUBLIC_APPSERVICE_URL);
         if(spaces) {
             data.public_spaces = spaces;
         }
@@ -130,7 +130,7 @@ export async function initializeAppData(
 
 
     // query public appservice health
-    let appservice_endpoint = `${ENV.APPSERVICE_URL}/health`;
+    let appservice_endpoint = `${ENV.PUBLIC_APPSERVICE_URL}/health`;
 
     try {
         const appservice_response = await fetch(appservice_endpoint);
@@ -179,13 +179,13 @@ export async function initializeAppData(
 
         if(validation.success && !access_token && !client_id && params.space != undefined) {
 
-            let iurl = `${ENV.APPSERVICE_URL}/_matrix/client/v3/rooms/${params.space}/info`
+            let iurl = `${ENV.PUBLIC_APPSERVICE_URL}/_matrix/client/v3/rooms/${params.space}/info`
             console.log(iurl)
             if(params.room != undefined) {
-                iurl = `${ENV.APPSERVICE_URL}/_matrix/client/v3/rooms/${params.space}/info?room=${params.room}`
+                iurl = `${ENV.PUBLIC_APPSERVICE_URL}/_matrix/client/v3/rooms/${params.space}/info?room=${params.room}`
                 let event = url.searchParams.get('event');
                 if(event) {
-                    iurl = `${ENV.APPSERVICE_URL}/_matrix/client/v3/rooms/${params.space}/info?room=${params.room}&event=${event}`
+                    iurl = `${ENV.PUBLIC_APPSERVICE_URL}/_matrix/client/v3/rooms/${params.space}/info?room=${params.room}&event=${event}`
                 }
             }
 
@@ -220,7 +220,7 @@ export async function initializeAppData(
 
             if(data?.metadata?.image) {
                 console.log("Downloading image from:", data.metadata.image)
-                let content_uri = await download_media(ENV.APPSERVICE_URL, data?.metadata?.image)
+                let content_uri = await download_media(ENV.PUBLIC_APPSERVICE_URL, data?.metadata?.image)
                 if(content_uri) {
                     console.log("Image downloaded to:", content_uri)
                     data.metadata.image = content_uri;

@@ -95,14 +95,14 @@ function log(e) {
 
 
 $effect(() => {
-    if(active && item?.room_id && !authenticated && data.ENV.APPSERVICE_URL) {
-        store.matrix.fetchRoomState(item.room_id, data.ENV.APPSERVICE_URL)
+    if(active && item?.room_id && !authenticated && data.ENV.PUBLIC_APPSERVICE_URL) {
+        store.matrix.fetchRoomState(item.room_id, data.ENV.PUBLIC_APPSERVICE_URL)
     }
 })
 
 function getState() {
-    if(item?.room_id && !authenticated && data.ENV.APPSERVICE_URL) {
-        store.matrix.fetchRoomState(item.room_id, data.ENV.APPSERVICE_URL)
+    if(item?.room_id && !authenticated && data.ENV.PUBLIC_APPSERVICE_URL) {
+        store.matrix.fetchRoomState(item.room_id, data.ENV.PUBLIC_APPSERVICE_URL)
     }
 }
 

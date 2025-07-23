@@ -44,7 +44,7 @@ let banner_url = $derived.by(() => {
 
 async function getBanner(space_state) {
     if(!space_state) return
-    let content_uri = await getImageThumbnail(data.ENV.APPSERVICE_URL, {
+    let content_uri = await getImageThumbnail(data.ENV.PUBLIC_APPSERVICE_URL, {
         mxcid: banner_url,
         width: 640,
         height: 480,
