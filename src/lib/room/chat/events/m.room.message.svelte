@@ -42,12 +42,12 @@ const new_content = $derived.by(() => {
 })
 
 const content = $derived.by(() => {
-    let data = event?.content?.formatted_body ? event?.content?.formatted_body : event?.content?.body
+    let _data = event?.content?.formatted_body ? event?.content?.formatted_body : event?.content?.body
 
     if(new_content) {
-        data = new_content?.formatted_body ? new_content?.formatted_body : new_content?.body
+        _data = new_content?.formatted_body ? new_content?.formatted_body : new_content?.body
     }
-    return processBody(data)
+    return processBody(_data, data.ENV, data.authenticated)
 })
 
 const has_thread = $derived.by(() => {

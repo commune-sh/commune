@@ -41,13 +41,13 @@ const new_content = $derived.by(() => {
 })
 
 const content = $derived.by(() => {
-    let data = reply_to_event?.content?.formatted_body ?
+    let _data = reply_to_event?.content?.formatted_body ?
         reply_to_event?.content?.formatted_body : reply_to_event?.content?.body
 
     if(new_content) {
-        data = new_content?.formatted_body ? new_content?.formatted_body : new_content?.body
+        _data = new_content?.formatted_body ? new_content?.formatted_body : new_content?.body
     }
-    const processed = processBody(data)
+    const processed = processBody(_data, data.ENV, data.authenticated)
     return textContent(processed)
     //return getFirstLine(processed)
 })

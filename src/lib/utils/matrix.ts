@@ -1,6 +1,6 @@
 export function convertFromMXC(url: string, homeserver_url: string) {
     let stripped = url.replace('mxc://', '');
-    return `${homeserver_url}/_matrix/media/r0/download/${stripped}`;
+    return `${homeserver_url}/_matrix/client/v1/media/download/${stripped}`;
 }
 
 export function processURL(url: string, homeserver_url: string) {

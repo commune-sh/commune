@@ -1,5 +1,7 @@
 import emojiRegex from 'emoji-regex';
 
+import { type ENV } from '../types/common'
+
 import { processURL } from './matrix';
 
 export const debounce = function () {
@@ -56,7 +58,7 @@ function cleanID(id: string, homeserver_name: string) {
 }
 
 function processCustomEmoji(body: any, homeserver_url: string) {
-    if(!body) return
+    if(!body || !homeserver_url) return
 
     const parser = new DOMParser();
     const doc = parser.parseFromString(body, 'text/html');
@@ -176,13 +178,15 @@ function processPlainLinks(body) {
 }
 
 
-export function processBody(body) {
-    if(!body) return
+export function processBody(body: any, env: ENV, authenticated: boolean) {
+    if(!body || !env) return
+
+    let as_or_hs = authenticated ? env.HOMESERVER_URL : env.APPSERVICE_URL;
 
     body = processReplies(body);
     body = processEmoji(body);
-    body = processCustomEmoji(body);
-    body = processLinks(body);
+    body = processCustomEmoji(body, as_or_hs);
+    body = processLinks(body, env.BASE_URL);
     body = processPlainLinks(body);
 
     return body;
