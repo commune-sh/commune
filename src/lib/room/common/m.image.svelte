@@ -52,6 +52,10 @@ const width = $derived.by(() => {
     return w
 })
 
+const is_avif = $derived.by(() => {
+    return event?.content?.info?.mimetype === 'image/avif'
+})
+
 
 const blurhash = $derived(img_info?.['xyz.amorgan.blurhash'])
 
@@ -111,7 +115,11 @@ let image_url: string | null = $state(null);
 
 $effect(() => {
     if(data.ENV.PUBLIC_APPSERVICE_URL && !data.authenticated && !image_url) {
-        getImage()
+        if(is_avif) {
+            download()
+        } else {
+            getImage()
+        }
     }
     if(data.ENV.PUBLIC_APPSERVICE_URL && !data.authenticated && !full_src) {
         download()
@@ -147,6 +155,9 @@ async function download() {
     let content_uri = await downloadMedia(data.ENV.PUBLIC_APPSERVICE_URL, event.content.url)
     if(content_uri) {
         full_src = content_uri
+        if(is_avif) {
+            image_url = content_uri
+        }
     }
 }
 
