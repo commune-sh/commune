@@ -9,6 +9,9 @@ const config = {
     adapter: adapter(),
     csrf: {
       trustedOrigins: dev ? ['*'] : []
+    },
+    files: {
+      assets: '../../packages/static'
     }
   },
   preprocess: vitePreprocess()
