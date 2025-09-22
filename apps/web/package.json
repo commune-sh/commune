@@ -1,5 +1,5 @@
 {
-	"name": "commune",
+	"name": "web",
 	"private": true,
 	"version": "0.0.1",
 	"type": "module",
@@ -36,6 +36,8 @@
 		"vite": "^7.1.7"
 	},
 	"dependencies": {
+        "@repo/ui": "*",
+        "@repo/common": "*",
 		"@tiptap/core": "^3.0.3",
 		"@tiptap/pm": "^3.0.3",
 		"@tiptap/starter-kit": "^3.0.3",
