@@ -36,6 +36,7 @@
 		"vite": "^7.1.7"
 	},
 	"dependencies": {
+        "ui": "*",
 		"@tiptap/core": "^3.0.3",
 		"@tiptap/pm": "^3.0.3",
 		"@tiptap/starter-kit": "^3.0.3",
