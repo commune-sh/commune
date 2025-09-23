@@ -1,5 +1,6 @@
 <script>
-import '../app.css'
+import 'ui/app.css'
+
 import { logo } from '$lib/assets/logo';
 import { page } from '$app/state';
 

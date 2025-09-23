@@ -1,5 +1,5 @@
 <script lang="ts">
-import '../../app.css'
+import 'ui/app.css'
 
 import { env } from '$env/dynamic/public';
 
